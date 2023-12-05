@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Ecological Modeling and Forecasting - 4&nbsp; Summary</title>
+<title>Ecological Modeling and Forecasting - 3&nbsp; Process model</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -64,8 +64,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./references.html" rel="next">
-<link href="./process-model.html" rel="prev">
+<link href="./summary.html" rel="next">
+<link href="./setting-the-stage.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -113,7 +113,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./summary.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Summary</span></a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./process-model.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Process model</span></a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -158,13 +158,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./process-model.html" class="sidebar-item-text sidebar-link">
+  <a href="./process-model.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Process model</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./summary.html" class="sidebar-item-text sidebar-link active">
+  <a href="./summary.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Summary</span></span></a>
   </div>
 </li>
@@ -187,7 +187,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Summary</span></h1>
+<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Process model</span></h1>
 </div>
 
 
@@ -202,12 +202,50 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-<p>In summary, this book has no content whatsoever.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">+</span> <span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 2</code></pre>
-</div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>SSEM.orig <span class="ot">&lt;-</span> <span class="cf">function</span>(X, params, inputs, <span class="at">timestep =</span> <span class="dv">3600</span>){</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  ne <span class="ot">&lt;-</span> <span class="fu">nrow</span>(X)  <span class="do">## ne = number of ensemble members</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="do">##Unit Converstion: umol/m2/sec to Mg/ha/timestep</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  k <span class="ot">&lt;-</span> <span class="fl">1e-6</span> <span class="sc">*</span> <span class="dv">12</span> <span class="sc">*</span> <span class="fl">1e-6</span> <span class="sc">*</span> <span class="dv">10000</span> <span class="sc">*</span> timestep <span class="co">#mol/umol*gC/mol*Mg/g*m2/ha*sec/timestep</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="do">## photosynthesis</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  LAI <span class="ot">&lt;-</span> X[, <span class="dv">1</span>] <span class="sc">*</span> params<span class="sc">$</span>SLA <span class="sc">*</span> <span class="fl">0.1</span>  <span class="co">#0.1 is conversion from Mg/ha to kg/m2</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  GPP <span class="ot">&lt;-</span> <span class="fu">pmax</span>(<span class="dv">0</span>, params<span class="sc">$</span>alpha <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">exp</span>(<span class="sc">-</span><span class="fl">0.5</span> <span class="sc">*</span> LAI)) <span class="sc">*</span> inputs<span class="sc">$</span>PAR)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  GPP[inputs<span class="sc">$</span>PAR <span class="sc">&lt;</span> <span class="fl">1e-20</span>] <span class="ot">=</span> <span class="dv">0</span> <span class="do">## night</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="do">## respiration &amp; allocation</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  NPP <span class="ot">&lt;-</span> GPP <span class="sc">*</span> params<span class="sc">$</span>Ra_frac</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  leaf_alloc <span class="ot">&lt;-</span> NPP <span class="sc">*</span> params<span class="sc">$</span>leaf_frac</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  wood_alloc <span class="ot">&lt;-</span> NPP <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> params<span class="sc">$</span>leaf_frac)</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  Rh <span class="ot">&lt;-</span> <span class="fu">pmax</span>(params<span class="sc">$</span>Rbasal <span class="sc">*</span> X[, <span class="dv">3</span>] <span class="sc">*</span> params<span class="sc">$</span>Q10 <span class="sc">^</span> (inputs<span class="sc">$</span>temp <span class="sc">/</span> <span class="dv">10</span>), <span class="dv">0</span>) <span class="do">## pmax ensures SOM never goes negative</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>  <span class="do">## turnover</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>  litterfall <span class="ot">&lt;-</span> X[, <span class="dv">1</span>] <span class="sc">*</span> params<span class="sc">$</span>litterfall</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>  mortality <span class="ot">&lt;-</span> X[, <span class="dv">2</span>] <span class="sc">*</span> params<span class="sc">$</span>mortality</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>  <span class="do">## update states</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>  leaves <span class="ot">&lt;-</span> <span class="fu">pmax</span>(<span class="fu">rnorm</span>(ne, X[, <span class="dv">1</span>] <span class="sc">+</span> leaf_alloc <span class="sc">*</span> k <span class="sc">-</span> litterfall, params<span class="sc">$</span>sigma.leaf), <span class="dv">0</span>)</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>  wood <span class="ot">&lt;-</span> <span class="fu">pmax</span>(<span class="fu">rnorm</span>(ne, X[, <span class="dv">2</span>] <span class="sc">+</span> wood_alloc <span class="sc">*</span> k <span class="sc">-</span> mortality, params<span class="sc">$</span>sigma.stem), <span class="dv">0</span>)</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>  SOM <span class="ot">&lt;-</span> <span class="fu">pmax</span>(<span class="fu">rnorm</span>(ne, X[, <span class="dv">3</span>] <span class="sc">+</span> litterfall <span class="sc">+</span> mortality <span class="sc">-</span> Rh <span class="sc">*</span> k, params<span class="sc">$</span>sigma.soil), <span class="dv">0</span>)</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">cbind</span>(<span class="at">X1 =</span> leaves, </span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>               <span class="at">X2 =</span> wood, </span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>               <span class="at">X3 =</span> SOM,</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>               <span class="at">LAI =</span> leaves <span class="sc">*</span> params<span class="sc">$</span>SLA <span class="sc">*</span> <span class="fl">0.1</span>,</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>               <span class="at">GPP =</span> GPP,</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>               <span class="at">NEP =</span> NPP <span class="sc">-</span> Rh,</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>               <span class="at">Ra =</span> GPP <span class="sc">-</span> NPP,</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>               <span class="at">NPPw =</span> wood_alloc,</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>               <span class="at">NPPl =</span> leaf_alloc,</span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>               <span class="at">Rh =</span> Rh,</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>               <span class="at">litterfall =</span> litterfall,</span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>               <span class="at">mortality =</span> mortality))</span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 
@@ -512,13 +550,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./process-model.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Process model</span></span>
+      <a href="./setting-the-stage.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Setting the stage</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./references.html" class="pagination-link">
-        <span class="nav-page-text">References</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./summary.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Summary</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

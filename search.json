@@ -2,7 +2,7 @@
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "eco-mode-forecasting",
+    "title": "Ecological Modeling and Forecasting",
     "section": "",
     "text": "Preface\nThis is a Quarto book.\nTo learn more about Quarto books visit https://quarto.org/docs/books.\n\n1 + 1\n\n[1] 2"
   },
@@ -14,9 +14,100 @@
     "text": "This is a book created from markdown and executable code.\nSee Knuth (1984) for additional discussion of literate programming.\n\n1 + 1\n\n[1] 2\n\n\n\n\n\n\nKnuth, Donald E. 1984. “Literate Programming.” Comput. J. 27 (2): 97–111. https://doi.org/10.1093/comjnl/27.2.97."
   },
   {
+    "objectID": "setting-the-stage.html#background-r-skills",
+    "href": "setting-the-stage.html#background-r-skills",
+    "title": "2  Setting the stage",
+    "section": "2.1 Background R skills",
+    "text": "2.1 Background R skills"
+  },
+  {
+    "objectID": "setting-the-stage.html#background-git-skills",
+    "href": "setting-the-stage.html#background-git-skills",
+    "title": "2  Setting the stage",
+    "section": "2.2 Background Git Skills",
+    "text": "2.2 Background Git Skills"
+  },
+  {
+    "objectID": "setting-the-stage.html#background-docker-skills",
+    "href": "setting-the-stage.html#background-docker-skills",
+    "title": "2  Setting the stage",
+    "section": "2.3 Background Docker Skills",
+    "text": "2.3 Background Docker Skills"
+  },
+  {
+    "objectID": "setting-the-stage.html#introduction-to-ecological-forecasting",
+    "href": "setting-the-stage.html#introduction-to-ecological-forecasting",
+    "title": "2  Setting the stage",
+    "section": "2.4 Introduction to Ecological Forecasting",
+    "text": "2.4 Introduction to Ecological Forecasting"
+  },
+  {
+    "objectID": "setting-the-stage.html#first-forecast-introduction-to-neon-ecological-forecasting-challenge",
+    "href": "setting-the-stage.html#first-forecast-introduction-to-neon-ecological-forecasting-challenge",
+    "title": "2  Setting the stage",
+    "section": "2.5 First forecast: Introduction to NEON Ecological Forecasting Challenge",
+    "text": "2.5 First forecast: Introduction to NEON Ecological Forecasting Challenge"
+  },
+  {
+    "objectID": "setting-the-stage.html#understanding-uncertainty-in-ecological-forecasts",
+    "href": "setting-the-stage.html#understanding-uncertainty-in-ecological-forecasts",
+    "title": "2  Setting the stage",
+    "section": "2.6 Understanding Uncertainty in Ecological Forecasts",
+    "text": "2.6 Understanding Uncertainty in Ecological Forecasts"
+  },
+  {
+    "objectID": "setting-the-stage.html#second-forecast-adding-uncertainty-to-first-forecast",
+    "href": "setting-the-stage.html#second-forecast-adding-uncertainty-to-first-forecast",
+    "title": "2  Setting the stage",
+    "section": "2.7 Second forecast: Adding uncertainty to first forecast",
+    "text": "2.7 Second forecast: Adding uncertainty to first forecast"
+  },
+  {
+    "objectID": "setting-the-stage.html#using-data-to-improve-ecological-forecasts",
+    "href": "setting-the-stage.html#using-data-to-improve-ecological-forecasts",
+    "title": "2  Setting the stage",
+    "section": "2.8 Using data to improve ecological forecasts",
+    "text": "2.8 Using data to improve ecological forecasts"
+  },
+  {
+    "objectID": "setting-the-stage.html#third-forecast-automatically-updating-second-forecast",
+    "href": "setting-the-stage.html#third-forecast-automatically-updating-second-forecast",
+    "title": "2  Setting the stage",
+    "section": "2.9 Third forecast: automatically updating second forecast",
+    "text": "2.9 Third forecast: automatically updating second forecast"
+  },
+  {
+    "objectID": "setting-the-stage.html#fourth-forecast-create-model-and-submit",
+    "href": "setting-the-stage.html#fourth-forecast-create-model-and-submit",
+    "title": "2  Setting the stage",
+    "section": "2.10 Fourth forecast: Create model and submit",
+    "text": "2.10 Fourth forecast: Create model and submit\n\n2.10.1 Intro to Tidymodels\n\n\n2.10.2 Intro to Fable Models"
+  },
+  {
+    "objectID": "setting-the-stage.html#using-ecological-foreccasts-to-guide-decision-making",
+    "href": "setting-the-stage.html#using-ecological-foreccasts-to-guide-decision-making",
+    "title": "2  Setting the stage",
+    "section": "2.11 Using Ecological Foreccasts to Guide Decision Making",
+    "text": "2.11 Using Ecological Foreccasts to Guide Decision Making"
+  },
+  {
+    "objectID": "setting-the-stage.html#visualizing-and-evaluating-forecasts",
+    "href": "setting-the-stage.html#visualizing-and-evaluating-forecasts",
+    "title": "2  Setting the stage",
+    "section": "2.12 Visualizing and evaluating forecasts",
+    "text": "2.12 Visualizing and evaluating forecasts"
+  },
+  {
+    "objectID": "process-model.html",
+    "href": "process-model.html",
+    "title": "3  Process model",
+    "section": "",
+    "text": "SSEM.orig &lt;- function(X, params, inputs, timestep = 3600){\n\n  ne &lt;- nrow(X)  ## ne = number of ensemble members\n\n  ##Unit Converstion: umol/m2/sec to Mg/ha/timestep\n  k &lt;- 1e-6 * 12 * 1e-6 * 10000 * timestep #mol/umol*gC/mol*Mg/g*m2/ha*sec/timestep\n\n  ## photosynthesis\n  LAI &lt;- X[, 1] * params$SLA * 0.1  #0.1 is conversion from Mg/ha to kg/m2\n  GPP &lt;- pmax(0, params$alpha * (1 - exp(-0.5 * LAI)) * inputs$PAR)\n  GPP[inputs$PAR &lt; 1e-20] = 0 ## night\n\n  ## respiration & allocation\n  NPP &lt;- GPP * params$Ra_frac\n\n  leaf_alloc &lt;- NPP * params$leaf_frac\n  wood_alloc &lt;- NPP * (1 - params$leaf_frac)\n\n  Rh &lt;- pmax(params$Rbasal * X[, 3] * params$Q10 ^ (inputs$temp / 10), 0) ## pmax ensures SOM never goes negative\n\n  ## turnover\n  litterfall &lt;- X[, 1] * params$litterfall\n  mortality &lt;- X[, 2] * params$mortality\n\n  ## update states\n  leaves &lt;- pmax(rnorm(ne, X[, 1] + leaf_alloc * k - litterfall, params$sigma.leaf), 0)\n  wood &lt;- pmax(rnorm(ne, X[, 2] + wood_alloc * k - mortality, params$sigma.stem), 0)\n  SOM &lt;- pmax(rnorm(ne, X[, 3] + litterfall + mortality - Rh * k, params$sigma.soil), 0)\n\n  return(cbind(X1 = leaves, \n               X2 = wood, \n               X3 = SOM,\n               LAI = leaves * params$SLA * 0.1,\n               GPP = GPP,\n               NEP = NPP - Rh,\n               Ra = GPP - NPP,\n               NPPw = wood_alloc,\n               NPPl = leaf_alloc,\n               Rh = Rh,\n               litterfall = litterfall,\n               mortality = mortality))\n\n}"
+  },
+  {
     "objectID": "summary.html",
     "href": "summary.html",
-    "title": "2  Summary",
+    "title": "4  Summary",
     "section": "",
     "text": "In summary, this book has no content whatsoever.\n\n1 + 1\n\n[1] 2"
   },
