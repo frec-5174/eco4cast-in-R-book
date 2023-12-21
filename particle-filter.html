@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.479">
+<meta name="generator" content="quarto-1.4.146">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Ecological Modeling and Forecasting - 19&nbsp; Data assimilation: particle filter</title>
+<title>A practical guide to ecological forecasting - 17&nbsp; Data assimilation: particle filter</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -22,7 +22,7 @@ ul.task-list li input[type="checkbox"] {
 }
 /* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -81,13 +81,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   "collapse-after": 3,
   "panel-placement": "start",
   "type": "textbox",
-  "limit": 50,
+  "limit": 20,
   "keyboard-shortcut": [
     "f",
     "/",
     "s"
   ],
-  "show-item-context": false,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -111,12 +110,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./advanced-forecasting.html">Advanced forecasting</a></li><li class="breadcrumb-item"><a href="./particle-filter.html"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Data assimilation: particle filter</span></a></li></ol></nav>
-        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
-        </a>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./advanced-forecasting.html">Advanced forecasting</a></li><li class="breadcrumb-item"><a href="./particle-filter.html"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Data assimilation: particle filter</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
@@ -126,10 +125,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">Ecological Modeling and Forecasting</a> 
+      <a href="./">A practical guide to ecological forecasting</a> 
     </div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
@@ -218,8 +217,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="./project1.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Project 1: Create model and submit</span></a>
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text">Project 1</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -227,14 +226,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./modeling-approaches.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Modeling approaches</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./submitting-forecasts.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Submissing forecasts</span></span></a>
+  <a href="./project1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Project 1: Create model and submit</span></span></a>
   </div>
 </li>
       </ul>
@@ -251,56 +244,50 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./process-model.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Process model</span></span></a>
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Process model</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./prop-uncertainty.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Propogating uncertainty</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./neon-data.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">NEON data</span></span></a>
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Propogating uncertainty</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./parameter-calibration1.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Parameter calibration: Intro to probablity and likelihood</span></span></a>
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Parameter calibration: Intro to probability and likelihood</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./parameter-calibration2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Parameter calibration: Intro to Bayesian statistics</span></span></a>
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Parameter calibration: Intro to Bayesian statistics</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./parameter-calibration3.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Parameter calibration: Applying to process model</span></span></a>
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Parameter calibration: Applying to process model</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./particle-filter.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Data assimilation: particle filter</span></span></a>
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Data assimilation: particle filter</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./pulling-together.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Putting it together: forecast - analysis cycle</span></span></a>
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Putting it together: forecast - analysis cycle</span></span></a>
   </div>
 </li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="./project2.html" class="sidebar-item-text sidebar-link">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">
  <span class="menu-text">Project 2</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
@@ -309,8 +296,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./project2-details.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Project 2 details</span></span></a>
+  <a href="./project2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Project 2</span></span></a>
   </div>
 </li>
       </ul>
@@ -318,7 +305,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./summary.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Summary</span></span></a>
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Summary</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -327,34 +314,51 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">References</span></a>
   </div>
 </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">
+ <span class="menu-text">Appendix</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./neon-data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">NEON data</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
     </ul>
     </div>
 </nav>
-<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#review-of-batch-vs-sequential-methods" id="toc-review-of-batch-vs-sequential-methods" class="nav-link active" data-scroll-target="#review-of-batch-vs-sequential-methods"><span class="header-section-number">19.1</span> Review of Batch vs Sequential Methods</a></li>
-  <li><a href="#introduction-to-particle-filter" id="toc-introduction-to-particle-filter" class="nav-link" data-scroll-target="#introduction-to-particle-filter"><span class="header-section-number">19.2</span> Introduction to Particle Filter</a></li>
-  <li><a href="#example-of-particle-filter" id="toc-example-of-particle-filter" class="nav-link" data-scroll-target="#example-of-particle-filter"><span class="header-section-number">19.3</span> Example of Particle Filter</a>
+  <li><a href="#review-of-batch-vs-sequential-methods" id="toc-review-of-batch-vs-sequential-methods" class="nav-link active" data-scroll-target="#review-of-batch-vs-sequential-methods"><span class="header-section-number">17.1</span> Review of Batch vs Sequential Methods</a></li>
+  <li><a href="#introduction-to-particle-filter" id="toc-introduction-to-particle-filter" class="nav-link" data-scroll-target="#introduction-to-particle-filter"><span class="header-section-number">17.2</span> Introduction to Particle Filter</a></li>
+  <li><a href="#example-of-particle-filter" id="toc-example-of-particle-filter" class="nav-link" data-scroll-target="#example-of-particle-filter"><span class="header-section-number">17.3</span> Example of Particle Filter</a>
   <ul class="collapse">
-  <li><a href="#pf-with-no-observations" id="toc-pf-with-no-observations" class="nav-link" data-scroll-target="#pf-with-no-observations"><span class="header-section-number">19.3.1</span> PF with no-observations</a></li>
-  <li><a href="#pf-with-observations" id="toc-pf-with-observations" class="nav-link" data-scroll-target="#pf-with-observations"><span class="header-section-number">19.3.2</span> PF with observations</a></li>
-  <li><a href="#pf-with-parameter-estimation" id="toc-pf-with-parameter-estimation" class="nav-link" data-scroll-target="#pf-with-parameter-estimation"><span class="header-section-number">19.3.3</span> PF with parameter estimation</a></li>
-  <li><a href="#senstivity-to-number-of-particles" id="toc-senstivity-to-number-of-particles" class="nav-link" data-scroll-target="#senstivity-to-number-of-particles"><span class="header-section-number">19.3.4</span> Senstivity to number of particles</a></li>
-  <li><a href="#senstivity-to-observation-uncertainity" id="toc-senstivity-to-observation-uncertainity" class="nav-link" data-scroll-target="#senstivity-to-observation-uncertainity"><span class="header-section-number">19.3.5</span> Senstivity to observation uncertainity</a></li>
+  <li><a href="#pf-with-no-observations" id="toc-pf-with-no-observations" class="nav-link" data-scroll-target="#pf-with-no-observations"><span class="header-section-number">17.3.1</span> PF with no-observations</a></li>
+  <li><a href="#pf-with-observations" id="toc-pf-with-observations" class="nav-link" data-scroll-target="#pf-with-observations"><span class="header-section-number">17.3.2</span> PF with observations</a></li>
+  <li><a href="#pf-with-parameter-estimation" id="toc-pf-with-parameter-estimation" class="nav-link" data-scroll-target="#pf-with-parameter-estimation"><span class="header-section-number">17.3.3</span> PF with parameter estimation</a></li>
+  <li><a href="#sensitivity-to-number-of-particles" id="toc-sensitivity-to-number-of-particles" class="nav-link" data-scroll-target="#sensitivity-to-number-of-particles"><span class="header-section-number">17.3.4</span> Sensitivity to number of particles</a></li>
+  <li><a href="#senstivity-to-observation-uncertainity" id="toc-senstivity-to-observation-uncertainity" class="nav-link" data-scroll-target="#senstivity-to-observation-uncertainity"><span class="header-section-number">17.3.5</span> Senstivity to observation uncertainity</a></li>
   </ul></li>
-  <li><a href="#problem-set" id="toc-problem-set" class="nav-link" data-scroll-target="#problem-set"><span class="header-section-number">19.4</span> Problem set</a>
+  <li><a href="#problem-set" id="toc-problem-set" class="nav-link" data-scroll-target="#problem-set"><span class="header-section-number">17.4</span> Problem set</a>
   <ul class="collapse">
-  <li><a href="#overview" id="toc-overview" class="nav-link" data-scroll-target="#overview"><span class="header-section-number">19.4.1</span> Overview</a></li>
-  <li><a href="#part-1-fit-model-to-historical-data-already-done-for-you" id="toc-part-1-fit-model-to-historical-data-already-done-for-you" class="nav-link" data-scroll-target="#part-1-fit-model-to-historical-data-already-done-for-you"><span class="header-section-number">19.4.2</span> Part 1: Fit model to historical data (Already done for you!)</a></li>
-  <li><a href="#part-2-forecast-using-pf" id="toc-part-2-forecast-using-pf" class="nav-link" data-scroll-target="#part-2-forecast-using-pf"><span class="header-section-number">19.4.3</span> Part 2: Forecast using PF</a></li>
-  <li><a href="#part-3" id="toc-part-3" class="nav-link" data-scroll-target="#part-3"><span class="header-section-number">19.4.4</span> Part 3:</a></li>
-  <li><a href="#part-4" id="toc-part-4" class="nav-link" data-scroll-target="#part-4"><span class="header-section-number">19.4.5</span> Part 4:</a></li>
-  <li><a href="#part-5" id="toc-part-5" class="nav-link" data-scroll-target="#part-5"><span class="header-section-number">19.4.6</span> Part 5:</a></li>
+  <li><a href="#overview" id="toc-overview" class="nav-link" data-scroll-target="#overview"><span class="header-section-number">17.4.1</span> Overview</a></li>
+  <li><a href="#part-1-fit-model-to-historical-data-already-done-for-you" id="toc-part-1-fit-model-to-historical-data-already-done-for-you" class="nav-link" data-scroll-target="#part-1-fit-model-to-historical-data-already-done-for-you"><span class="header-section-number">17.4.2</span> Part 1: Fit model to historical data (Already done for you!)</a></li>
+  <li><a href="#part-2-forecast-using-pf" id="toc-part-2-forecast-using-pf" class="nav-link" data-scroll-target="#part-2-forecast-using-pf"><span class="header-section-number">17.4.3</span> Part 2: Forecast using PF</a></li>
+  <li><a href="#part-3" id="toc-part-3" class="nav-link" data-scroll-target="#part-3"><span class="header-section-number">17.4.4</span> Part 3:</a></li>
+  <li><a href="#part-4" id="toc-part-4" class="nav-link" data-scroll-target="#part-4"><span class="header-section-number">17.4.5</span> Part 4:</a></li>
+  <li><a href="#part-5" id="toc-part-5" class="nav-link" data-scroll-target="#part-5"><span class="header-section-number">17.4.6</span> Part 5:</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -362,9 +366,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./advanced-forecasting.html">Advanced forecasting</a></li><li class="breadcrumb-item"><a href="./particle-filter.html"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Data assimilation: particle filter</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Data assimilation: particle filter</span></h1>
+<h1 class="title"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Data assimilation: particle filter</span></h1>
 </div>
 
 
@@ -377,12 +381,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </div>
   
 
-
 </header>
 
-
-<section id="review-of-batch-vs-sequential-methods" class="level2" data-number="19.1">
-<h2 data-number="19.1" class="anchored" data-anchor-id="review-of-batch-vs-sequential-methods"><span class="header-section-number">19.1</span> Review of Batch vs Sequential Methods</h2>
+<section id="review-of-batch-vs-sequential-methods" class="level2" data-number="17.1">
+<h2 data-number="17.1" class="anchored" data-anchor-id="review-of-batch-vs-sequential-methods"><span class="header-section-number">17.1</span> Review of Batch vs Sequential Methods</h2>
 <p>Before beginning the introduction of the particle filter it is important to revisit the MCMC-MH approach that we used to estimate the parameters of a Bayesian model. Here is the general algorithm again:</p>
 <pre><code>for(i in 1:num_iterations){
 
@@ -420,13 +422,15 @@ for(t in 1:length_of_time_series){
     
     Compare particle to data (likelihood or other technique)
 
-    Adjust particles based on the comparsion to the data
+    Weight particles based on the comparsion to the data
+    
+    Adjust particles based on weights
 
 }</code></pre>
 <p>In the sequential method we can restart at any time point, as long as we have the values for the states and parameters that are associated with each particle. When doing an iterative forecast, these values are what you would save to wait for new data to arrive.</p>
 </section>
-<section id="introduction-to-particle-filter" class="level2" data-number="19.2">
-<h2 data-number="19.2" class="anchored" data-anchor-id="introduction-to-particle-filter"><span class="header-section-number">19.2</span> Introduction to Particle Filter</h2>
+<section id="introduction-to-particle-filter" class="level2" data-number="17.2">
+<h2 data-number="17.2" class="anchored" data-anchor-id="introduction-to-particle-filter"><span class="header-section-number">17.2</span> Introduction to Particle Filter</h2>
 <p>There are many sequential data assimilation methods that make different assumptions about data and model distributions in order to simplify the analysis. Many of the methods emerged before the our massive computational resources or were developed for <strong>HUGE</strong> problems like assimilating terabytes of data into a global weather model that simulates the physics of the atmosphere at 25 km vertical resolution. Examples include the Kalman Filter, Extending Kalman Filter, Ensemble Kalman Filter, and 4D-var. These methods all heavily use matrix algebra which I have not introduced in this class. Since these methods commonly assume that the data and model errors are normally distributed, the numerical version (Ensemble Kalman Filter) can run fewer particles (in this case: ensemble members) because it doesn’t take as many samples to estimate the mean and variance of a distribution than it does to estimate the full distribution</p>
 <p>Here I introduce the Particle Filter. The particle filter is a sequential method that is familiar to folks that have learned the Bayesian methods that we have covered in the class. It has the concept of a likelihood, of which you are well versed. The particle filter does not assume a specific distribution of the data and model error so it requires more particles to estimate the full distributions. As a result, it is more appropriate for “smaller” problems like the ones we are tackling in this class.</p>
 <p>The particle filter is quite simple</p>
@@ -439,11 +443,14 @@ for(t in 1:length_of_time_series){
 <pre><code>  ## calculate likelihood (weight) for one state with an observation at that time-step
   ## The dimensiosn of x
   wt &lt;- dnorm(y[t], mean = x[t, ], sd = sd_data)
-    
+  
+  # Normalize the weights
+  wt_norm &lt;- wt / sum(wt)
+  
   ## resample ensemble members in proportion to their weight.  
   ## Since the total number of samples = the number of particles then you will preserve the 
   ## Same number of particles
-  resample_index &lt;- sample(1:num_particles, num_particles, replace = TRUE, prob = wt) 
+  resample_index &lt;- sample(1:num_particles, num_particles, replace = TRUE, prob = wt_norm) 
   
   ##Use the index to resample
   x[t, ] &lt;- x[t, resample_index]</code></pre>
@@ -453,15 +460,15 @@ for(t in 1:length_of_time_series){
 <p>Fundamentally, the particle filter depends on two concepts that you have already been exposed to: likelihood and sampling from a set of particles (you sampled iterations from MCMC in previous exercises).</p>
 <p>Specifically we refer to the particle filter described above as a bootstrap particle filter</p>
 </section>
-<section id="example-of-particle-filter" class="level2" data-number="19.3">
-<h2 data-number="19.3" class="anchored" data-anchor-id="example-of-particle-filter"><span class="header-section-number">19.3</span> Example of Particle Filter</h2>
+<section id="example-of-particle-filter" class="level2" data-number="17.3">
+<h2 data-number="17.3" class="anchored" data-anchor-id="example-of-particle-filter"><span class="header-section-number">17.3</span> Example of Particle Filter</h2>
 <p>Here is an example of the particle filter applied to the google flu data</p>
 <p>First load in data. We are only going to focus on the first 15 weeks of the data so that you can see the particles more easily</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-✔ dplyr     1.1.3     ✔ readr     2.1.4
+✔ dplyr     1.1.4     ✔ readr     2.1.4
 ✔ forcats   1.0.0     ✔ stringr   1.5.1
 ✔ ggplot2   3.4.4     ✔ tibble    3.2.1
 ✔ lubridate 1.9.3     ✔ tidyr     1.3.0
@@ -471,8 +478,9 @@ for(t in 1:length_of_time_series){
 ✖ dplyr::lag()    masks stats::lag()
 ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>gflu <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/gflu_data.txt"</span>, <span class="at">skip =</span> <span class="dv">11</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Date, Virginia)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">100</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>gflu <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/gflu_data.txt"</span>, <span class="at">skip =</span> <span class="dv">11</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Date, Virginia)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Rows: 620 Columns: 160
 ── Column specification ────────────────────────────────────────────────────────
@@ -493,8 +501,8 @@ date   (1): Date
 <p><img src="particle-filter_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<section id="pf-with-no-observations" class="level3" data-number="19.3.1">
-<h3 data-number="19.3.1" class="anchored" data-anchor-id="pf-with-no-observations"><span class="header-section-number">19.3.1</span> PF with no-observations</h3>
+<section id="pf-with-no-observations" class="level3" data-number="17.3.1">
+<h3 data-number="17.3.1" class="anchored" data-anchor-id="pf-with-no-observations"><span class="header-section-number">17.3.1</span> PF with no-observations</h3>
 <p>First we are going to run the particle filter with all data missing. This is equal to the random walk.</p>
 <p>The <code>sd_add</code> would have been determined from a state-space Bayesian MCMC chain that used previously available data.</p>
 <p>The <code>sd_obs</code> is the observation uncertainty.</p>
@@ -533,12 +541,14 @@ date   (1): Date
 <span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a>      <span class="do">## calculate Likelihood (weights)</span></span>
 <span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a>      wt <span class="ot">&lt;-</span> <span class="fu">dnorm</span>(y[t], <span class="at">mean =</span> x[t, ], <span class="at">sd =</span> sd_obs)    <span class="do">## calculate likelihood (weight)</span></span>
 <span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a>      </span>
-<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a>      <span class="do">## resample ensemble members in proportion to their weight</span></span>
-<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a>      resample_index <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span>num_particles, num_particles, <span class="at">replace =</span> <span class="cn">TRUE</span>, <span class="at">prob =</span> wt) </span>
-<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a>      </span>
-<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a>      x[t, ] <span class="ot">&lt;-</span> x[t, resample_index]  <span class="do">## update state</span></span>
-<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a>      wt_norm <span class="ot">&lt;-</span> wt <span class="sc">/</span> <span class="fu">sum</span>(wt)</span>
+<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a>      <span class="do">## resample ensemble members in proportion to their weight</span></span>
+<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a>      resample_index <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span>num_particles, num_particles, <span class="at">replace =</span> <span class="cn">TRUE</span>, <span class="at">prob =</span> wt_norm) </span>
+<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a>      x[t, ] <span class="ot">&lt;-</span> x[t, resample_index]  <span class="do">## update state</span></span>
+<span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now plot the particles individually</p>
 <div class="cell">
@@ -563,8 +573,8 @@ date   (1): Date
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>x_no_obs <span class="ot">&lt;-</span> x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="pf-with-observations" class="level3" data-number="19.3.2">
-<h3 data-number="19.3.2" class="anchored" data-anchor-id="pf-with-observations"><span class="header-section-number">19.3.2</span> PF with observations</h3>
+<section id="pf-with-observations" class="level3" data-number="17.3.2">
+<h3 data-number="17.3.2" class="anchored" data-anchor-id="pf-with-observations"><span class="header-section-number">17.3.2</span> PF with observations</h3>
 <p>Now we can examine how the PF uses observations to update the model and modify the trajectory. The following is the same as above except that there are data at week 1, 5, and 10.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>num_particles <span class="ot">&lt;-</span> <span class="dv">25</span></span>
@@ -600,12 +610,14 @@ date   (1): Date
 <span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a>      <span class="do">## calculate Likelihood (weights)</span></span>
 <span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a>      wt <span class="ot">&lt;-</span> <span class="fu">dnorm</span>(y[t], <span class="at">mean =</span> x[t, ], <span class="at">sd =</span> sd_obs)    <span class="do">## calculate likelihood (weight)</span></span>
 <span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a>      </span>
-<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a>      <span class="do">## resample ensemble members in proportion to their weight</span></span>
-<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a>      resample_index <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span>num_particles, num_particles, <span class="at">replace =</span> <span class="cn">TRUE</span>, <span class="at">prob =</span> wt) </span>
-<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a>      </span>
-<span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a>      x[t, ] <span class="ot">&lt;-</span> x[t, resample_index]  <span class="do">## update state</span></span>
-<span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb13-39"><a href="#cb13-39" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a>      wt_norm <span class="ot">&lt;-</span> wt <span class="sc">/</span> <span class="fu">sum</span>(wt)</span>
+<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a>      <span class="do">## resample ensemble members in proportion to their weight</span></span>
+<span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a>      resample_index <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span>num_particles, num_particles, <span class="at">replace =</span> <span class="cn">TRUE</span>, <span class="at">prob =</span> wt_norm) </span>
+<span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb13-39"><a href="#cb13-39" aria-hidden="true" tabindex="-1"></a>      x[t, ] <span class="ot">&lt;-</span> x[t, resample_index]  <span class="do">## update state</span></span>
+<span id="cb13-40"><a href="#cb13-40" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb13-41"><a href="#cb13-41" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now plot the particles with the observations. You can see how the particles are adjusted when data are present.</p>
 <div class="cell">
@@ -666,8 +678,8 @@ date   (1): Date
 </div>
 </div>
 </section>
-<section id="pf-with-parameter-estimation" class="level3" data-number="19.3.3">
-<h3 data-number="19.3.3" class="anchored" data-anchor-id="pf-with-parameter-estimation"><span class="header-section-number">19.3.3</span> PF with parameter estimation</h3>
+<section id="pf-with-parameter-estimation" class="level3" data-number="17.3.3">
+<h3 data-number="17.3.3" class="anchored" data-anchor-id="pf-with-parameter-estimation"><span class="header-section-number">17.3.3</span> PF with parameter estimation</h3>
 <p>The estimate of parameters using PF is also straightforward. Here we will estimate the <code>b1</code> parameter in the Dynamic Linear Model from the state-space exercise. The DLM uses minimum temperature as a covariant</p>
 <p>First, create the observed data that includes the minimum temperature. (same as above and using the <code>daymetr</code> package from the previous exercise)</p>
 <div class="cell">
@@ -755,13 +767,15 @@ Done !</code></pre>
 <span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>    <span class="do">## calculate Likelihood (weights)</span></span>
 <span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>    wt <span class="ot">&lt;-</span> <span class="fu">dnorm</span>(y[t], <span class="at">mean =</span> x[t, ], <span class="at">sd =</span> sd_obs)    <span class="do">## calculate likelihood (weight)</span></span>
 <span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a>    <span class="do">## resample ensemble members in proportion to their weight</span></span>
-<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a>    resample_index <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span>num_particles, num_particles, <span class="at">replace =</span> <span class="cn">TRUE</span>, <span class="at">prob =</span> wt) </span>
-<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a>    x[t, ] <span class="ot">&lt;-</span> x[t, resample_index]  <span class="do">## update state</span></span>
-<span id="cb25-22"><a href="#cb25-22" aria-hidden="true" tabindex="-1"></a>    b1[t, ] <span class="ot">&lt;-</span> b1[t, resample_index] <span class="do">## Parameter update</span></span>
-<span id="cb25-23"><a href="#cb25-23" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb25-24"><a href="#cb25-24" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a>    wt_norm <span class="ot">&lt;-</span> wt <span class="sc">/</span> <span class="fu">sum</span>(wt)</span>
+<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a>    <span class="do">## resample ensemble members in proportion to their weight</span></span>
+<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a>    resample_index <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span>num_particles, num_particles, <span class="at">replace =</span> <span class="cn">TRUE</span>, <span class="at">prob =</span> wt_norm) </span>
+<span id="cb25-22"><a href="#cb25-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-23"><a href="#cb25-23" aria-hidden="true" tabindex="-1"></a>    x[t, ] <span class="ot">&lt;-</span> x[t, resample_index]  <span class="do">## update state</span></span>
+<span id="cb25-24"><a href="#cb25-24" aria-hidden="true" tabindex="-1"></a>    b1[t, ] <span class="ot">&lt;-</span> b1[t, resample_index] <span class="do">## Parameter update</span></span>
+<span id="cb25-25"><a href="#cb25-25" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb25-26"><a href="#cb25-26" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now visualize the states from the PF</p>
 <div class="cell">
@@ -799,8 +813,8 @@ Done !</code></pre>
 </div>
 </div>
 </section>
-<section id="senstivity-to-number-of-particles" class="level3" data-number="19.3.4">
-<h3 data-number="19.3.4" class="anchored" data-anchor-id="senstivity-to-number-of-particles"><span class="header-section-number">19.3.4</span> Senstivity to number of particles</h3>
+<section id="sensitivity-to-number-of-particles" class="level3" data-number="17.3.4">
+<h3 data-number="17.3.4" class="anchored" data-anchor-id="sensitivity-to-number-of-particles"><span class="header-section-number">17.3.4</span> Sensitivity to number of particles</h3>
 <p>The number of particles is a key decision when using a PF. To explore the sensitivity of the PF to the number of particles, here is a function that can be reused with different numbers of particles. It is the same as the DLM above and returns the x and b1 for the particles in a list</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>bootstrap_pf <span class="ot">&lt;-</span> <span class="cf">function</span>(num_particles, <span class="at">sd_add =</span> <span class="fl">0.2</span>, <span class="at">sd_obs =</span> <span class="fl">0.2</span>){</span>
@@ -846,15 +860,17 @@ Done !</code></pre>
 <span id="cb29-41"><a href="#cb29-41" aria-hidden="true" tabindex="-1"></a>      <span class="do">## calulate Likelihood (weights)</span></span>
 <span id="cb29-42"><a href="#cb29-42" aria-hidden="true" tabindex="-1"></a>      wt <span class="ot">&lt;-</span> <span class="fu">dnorm</span>(y[t], <span class="at">mean =</span> x[t, ], <span class="at">sd =</span> sd_obs)    <span class="do">## calculate likelihood (weight)</span></span>
 <span id="cb29-43"><a href="#cb29-43" aria-hidden="true" tabindex="-1"></a>      </span>
-<span id="cb29-44"><a href="#cb29-44" aria-hidden="true" tabindex="-1"></a>      <span class="do">## resample ensemble members in proportion to their weight</span></span>
-<span id="cb29-45"><a href="#cb29-45" aria-hidden="true" tabindex="-1"></a>      resample_index <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span>num_particles, num_particles, <span class="at">replace =</span> <span class="cn">TRUE</span>, <span class="at">prob =</span> wt) </span>
-<span id="cb29-46"><a href="#cb29-46" aria-hidden="true" tabindex="-1"></a>      </span>
-<span id="cb29-47"><a href="#cb29-47" aria-hidden="true" tabindex="-1"></a>      x[t, ] <span class="ot">&lt;-</span> x[t, resample_index]  <span class="do">## update state</span></span>
-<span id="cb29-48"><a href="#cb29-48" aria-hidden="true" tabindex="-1"></a>      b1[t, ] <span class="ot">&lt;-</span> b1[t, resample_index] <span class="do">## Parameter update</span></span>
-<span id="cb29-49"><a href="#cb29-49" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb29-50"><a href="#cb29-50" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb29-51"><a href="#cb29-51" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">list</span>(<span class="at">x =</span> x, <span class="at">b1 =</span> b1))</span>
-<span id="cb29-52"><a href="#cb29-52" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb29-44"><a href="#cb29-44" aria-hidden="true" tabindex="-1"></a>      wt_norm <span class="ot">&lt;-</span> wt <span class="sc">/</span> <span class="fu">sum</span>(wt)</span>
+<span id="cb29-45"><a href="#cb29-45" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb29-46"><a href="#cb29-46" aria-hidden="true" tabindex="-1"></a>      <span class="do">## resample ensemble members in proportion to their weight</span></span>
+<span id="cb29-47"><a href="#cb29-47" aria-hidden="true" tabindex="-1"></a>      resample_index <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span>num_particles, num_particles, <span class="at">replace =</span> <span class="cn">TRUE</span>, <span class="at">prob =</span> wt_norm) </span>
+<span id="cb29-48"><a href="#cb29-48" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb29-49"><a href="#cb29-49" aria-hidden="true" tabindex="-1"></a>      x[t, ] <span class="ot">&lt;-</span> x[t, resample_index]  <span class="do">## update state</span></span>
+<span id="cb29-50"><a href="#cb29-50" aria-hidden="true" tabindex="-1"></a>      b1[t, ] <span class="ot">&lt;-</span> b1[t, resample_index] <span class="do">## Parameter update</span></span>
+<span id="cb29-51"><a href="#cb29-51" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb29-52"><a href="#cb29-52" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb29-53"><a href="#cb29-53" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">list</span>(<span class="at">x =</span> x, <span class="at">b1 =</span> b1))</span>
+<span id="cb29-54"><a href="#cb29-54" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>First, run the PF using 10, 100, 1000, and 10000 particles</p>
 <div class="cell">
@@ -907,8 +923,8 @@ Done !</code></pre>
 </div>
 </div>
 </section>
-<section id="senstivity-to-observation-uncertainity" class="level3" data-number="19.3.5">
-<h3 data-number="19.3.5" class="anchored" data-anchor-id="senstivity-to-observation-uncertainity"><span class="header-section-number">19.3.5</span> Senstivity to observation uncertainity</h3>
+<section id="senstivity-to-observation-uncertainity" class="level3" data-number="17.3.5">
+<h3 data-number="17.3.5" class="anchored" data-anchor-id="senstivity-to-observation-uncertainity"><span class="header-section-number">17.3.5</span> Senstivity to observation uncertainity</h3>
 <p>We can also explore the sensitivity of the PF updating to our observation uncertainty. Intuitively, we should have stronger update (i.e., the particles are adjusted to be closer to the observation) when there is less uncertainty in the observations. The code below explores whether this intuition is correct.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>pf_low_obs <span class="ot">&lt;-</span> <span class="fu">bootstrap_pf</span>(<span class="dv">5000</span>, <span class="at">sd_obs =</span> <span class="fl">0.1</span>)</span>
@@ -948,10 +964,15 @@ Done !</code></pre>
 </div>
 </section>
 </section>
-<section id="problem-set" class="level2" data-number="19.4">
-<h2 data-number="19.4" class="anchored" data-anchor-id="problem-set"><span class="header-section-number">19.4</span> Problem set</h2>
-<section id="overview" class="level3" data-number="19.4.1">
-<h3 data-number="19.4.1" class="anchored" data-anchor-id="overview"><span class="header-section-number">19.4.1</span> Overview</h3>
+<section id="problem-set" class="level2" data-number="17.4">
+<h2 data-number="17.4" class="anchored" data-anchor-id="problem-set"><span class="header-section-number">17.4</span> Problem set</h2>
+<p>You will need the following packages</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="overview" class="level3" data-number="17.4.1">
+<h3 data-number="17.4.1" class="anchored" data-anchor-id="overview"><span class="header-section-number">17.4.1</span> Overview</h3>
 <p>This exercise involves the following objectives</p>
 <ol type="1">
 <li>Modify the particle filter examples to apply to a new model. The model is defined as NIMBLE code so you have to convert to a particle filter.</li>
@@ -960,173 +981,169 @@ Done !</code></pre>
 <li>Run the particle filter to assimilate new observations and forecast</li>
 <li>Evaluate how the forecast depends on data assimilation</li>
 </ol>
-<section id="data" class="level4" data-number="19.4.1.1">
-<h4 data-number="19.4.1.1" class="anchored" data-anchor-id="data"><span class="header-section-number">19.4.1.1</span> Data</h4>
+<section id="data" class="level4" data-number="17.4.1.1">
+<h4 data-number="17.4.1.1" class="anchored" data-anchor-id="data"><span class="header-section-number">17.4.1.1</span> Data</h4>
 <p>The data for this exercise is above biomass vs.&nbsp;age for a single forest plot. The data has two columns: age (in years) and biomass (in gC/m2)</p>
 </section>
-<section id="model" class="level4" data-number="19.4.1.2">
-<h4 data-number="19.4.1.2" class="anchored" data-anchor-id="model"><span class="header-section-number">19.4.1.2</span> Model</h4>
+<section id="model" class="level4" data-number="17.4.1.2">
+<h4 data-number="17.4.1.2" class="anchored" data-anchor-id="model"><span class="header-section-number">17.4.1.2</span> Model</h4>
 <p>We are predicting the aboveground biomass using the following model</p>
 <p>biomass = previous biomass + constant growth - mortality rate * previous biomass</p>
 <p>The constant growth is the parameter <code>g</code> below (in units of gC/m2/yr) and mortality rate is the parameter <code>u</code>below (proportion of biomass per year). We fit the model as a state-space model.</p>
 </section>
 </section>
-<section id="part-1-fit-model-to-historical-data-already-done-for-you" class="level3" data-number="19.4.2">
-<h3 data-number="19.4.2" class="anchored" data-anchor-id="part-1-fit-model-to-historical-data-already-done-for-you"><span class="header-section-number">19.4.2</span> Part 1: Fit model to historical data (Already done for you!)</h3>
+<section id="part-1-fit-model-to-historical-data-already-done-for-you" class="level3" data-number="17.4.2">
+<h3 data-number="17.4.2" class="anchored" data-anchor-id="part-1-fit-model-to-historical-data-already-done-for-you"><span class="header-section-number">17.4.2</span> Part 1: Fit model to historical data (Already done for you!)</h3>
 <p>This step is already done for you.</p>
-<p>Here is the data for ages 1 through 50 for the plot. It was measured every 5 years.</p>
+<p>Here is the data for ages 1 through 50 for the plot (starting in 1950-01-01). It was measured every 5 years.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>plot_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/PF_data1.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>plot_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/PF_data1.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Rows: 50 Columns: 2
+<pre><code>Rows: 50 Columns: 3
 ── Column specification ────────────────────────────────────────────────────────
 Delimiter: ","
-dbl (2): age, biomass
+dbl  (2): age, biomass
+date (1): datetime
 
 ℹ Use `spec()` to retrieve the full column specification for this data.
 ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(plot_data, <span class="fu">aes</span>(<span class="at">x =</span> age, <span class="at">y =</span> biomass)) <span class="sc">+</span></span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"age"</span>, <span class="at">y =</span> <span class="st">"aboveground biomass (gC/m2)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(plot_data, <span class="fu">aes</span>(<span class="at">x =</span> datetime, <span class="at">y =</span> biomass)) <span class="sc">+</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"age"</span>, <span class="at">y =</span> <span class="st">"aboveground biomass (gC/m2)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: Removed 40 rows containing missing values (`geom_point()`).</code></pre>
 </div>
 <div class="cell-output-display">
-<p><img src="particle-filter_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid" width="672"></p>
+<p><img src="particle-filter_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>The following model was used to estimate the posterior distributions of the parameters using a Bayesian state-space framework. <code>sd_data</code> is defined in the constants</p>
-<pre><code>state_space &lt;- nimbleCode({
-  
-  #Priors
-  g ~ dunif(300, 1000)
-  u ~ dunif(0, 1)
-  sd_add ~ dunif(0, 800)
-  
-  biomass_latent[1] &lt;- biomass_init
-  y[1] ~ dnorm(biomass_latent[1], sd = sd_data)  
-  
-  for(i in 2:n){
-    pred[i] &lt;- biomass_latent[i - 1] + g - u * biomass_latent[i - 1]
-    biomass_latent[i] ~ dnorm(pred[i], sd = sd_add)        ## process model
-    y[i]  ~ dnorm(biomass_latent[i], sd = sd_data)       ## data model
-  }
-})
+<p>The following model was used to estimate the posterior distributions of the parameters using a Bayesian framework.</p>
+<pre><code>sim_dates &lt;- seq(as_date("1950-01-01"), length.out = 50, by = "1 year)
+biomass[1, ] &lt;- 0
 
-constants &lt;- list(n = length(plot_data$biomass),
-                  biomass_init = plot_data$biomass[1],
-                  sd_data = 200)</code></pre>
-<p>The NIMBLE run produces an MCMC object. The MCMC output with the burn-in removed is in the following R data.</p>
-<p>The MCMC chain (<code>nimble_burn</code>) has posterior distributions for the parameters (<code>g</code>, <code>u</code>, <code>sd_add</code>) and latent states (<code>biomass_latent</code>)</p>
+for(t in 2:length(sim_dates)){
+
+  for(i in 1:num_particles){
+
+    biomass_predicted &lt;- biomass[t+1, i] + param$g - param$u
+
+    biomass[t, i] &lt;- rnorm(1, mean = biomass_predicted , sd = param$sd_add)
+  }
+}</code></pre>
+<p>The MCMC chain has posterior distributions for the parameters (<code>g</code>, <code>u</code>, <code>sd_add</code>) and biomass at age 50 (<code>age50_biomass</code>)</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">"data/PF_MCMC.Rdata"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-<section id="part-2-forecast-using-pf" class="level3" data-number="19.4.3">
-<h3 data-number="19.4.3" class="anchored" data-anchor-id="part-2-forecast-using-pf"><span class="header-section-number">19.4.3</span> Part 2: Forecast using PF</h3>
-<p>Now you will use the <code>nimble_burn</code> MCMC to determine the mean parameter values and the initial condition at age 50 for the particle filter.</p>
-<p>Using the lecture material create a particle filter that uses the forest growth model to simulate the aboveground biomass of the forest for age 50 through 70.</p>
-<section id="step-1-set-up-pf" class="level4" data-number="19.4.3.1">
-<h4 data-number="19.4.3.1" class="anchored" data-anchor-id="step-1-set-up-pf"><span class="header-section-number">19.4.3.1</span> Step 1: Set up PF</h4>
-<p>Following the code in the PF lecture set up the particle filter.</p>
-<p>Instead of using data from a file you will use the following for your data: <code>y &lt;- rep(NA, 21)</code></p>
-<p>Be sure to:</p>
-<ul>
-<li>use the mean values for <code>g</code>, <code>u</code>, and <code>sd_add</code> from the MCMC chain as the parameter values</li>
-<li>use the distribution of the latent state from age 50 in the MCMC chain as your initial state for the PF</li>
-</ul>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="dv">21</span>) <span class="co">#number of years from age 50 to 70</span></span>
-<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>sd_data <span class="ot">&lt;-</span> <span class="dv">200</span></span>
-<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="co">#ADD CODE TO SET UP PF HERE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-<section id="step-2-run-particle-filter" class="level4" data-number="19.4.3.2">
-<h4 data-number="19.4.3.2" class="anchored" data-anchor-id="step-2-run-particle-filter"><span class="header-section-number">19.4.3.2</span> Step 2: Run particle filter</h4>
-<p>Write the code and run the particle filter based on the examples from the lecture. You will need to include the process model that is in the NIMBLE code above.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co">#ADD PF CODE HERE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-<section id="step-3-visualize-particle-filter-output" class="level4" data-number="19.4.3.3">
-<h4 data-number="19.4.3.3" class="anchored" data-anchor-id="step-3-visualize-particle-filter-output"><span class="header-section-number">19.4.3.3</span> Step 3: Visualize particle filter output</h4>
-<p>Generate a plot that visualizes the output of the PF (see examples from the lecture). Your plot must have age on the x-axis and biomass on the y-axis with different lines for the particles.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ADD VISUALIZATION CODE HERE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-<section id="step-4-save-pf-output" class="level4" data-number="19.4.3.4">
-<h4 data-number="19.4.3.4" class="anchored" data-anchor-id="step-4-save-pf-output"><span class="header-section-number">19.4.3.4</span> Step 4: Save PF output</h4>
-<p>use this code to save your PF output as the object <code>initial_forecast</code></p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>initial_forecast <span class="ot">&lt;-</span> x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-</section>
-<section id="part-3" class="level3" data-number="19.4.4">
-<h3 data-number="19.4.4" class="anchored" data-anchor-id="part-3"><span class="header-section-number">19.4.4</span> Part 3:</h3>
-<p>Now we have new data!</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>new_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/PF_data2.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/PF_MCMC.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Rows: 21 Columns: 2
+<pre><code>Rows: 27003 Columns: 5
 ── Column specification ────────────────────────────────────────────────────────
 Delimiter: ","
-dbl (2): age, biomass
+dbl (5): g, u, sd_add, age50_biomass, .draw
 
 ℹ Use `spec()` to retrieve the full column specification for this data.
 ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(new_data, <span class="fu">aes</span>(<span class="at">x =</span> age, <span class="at">y =</span> biomass)) <span class="sc">+</span></span>
-<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"age"</span>, <span class="at">y =</span> <span class="st">"aboveground biomass (gC/m2)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="part-2-forecast-using-pf" class="level3" data-number="17.4.3">
+<h3 data-number="17.4.3" class="anchored" data-anchor-id="part-2-forecast-using-pf"><span class="header-section-number">17.4.3</span> Part 2: Forecast using PF</h3>
+<p>Now you will use the MCMC chain to determine the mean parameter values and the initial condition at age 50 for the particle filter.</p>
+<p>Using the lecture material create a particle filter that uses the forest growth model to simulate the aboveground biomass of the forest for age 50 through 70.</p>
+<section id="step-1-set-up-pf" class="level4" data-number="17.4.3.1">
+<h4 data-number="17.4.3.1" class="anchored" data-anchor-id="step-1-set-up-pf"><span class="header-section-number">17.4.3.1</span> Step 1: Set up PF</h4>
+<p>Following the code in the PF lecture set up the particle filter.</p>
+<p>Instead of using data from a file you will use the following for your data: <code>obs &lt;- NULL</code></p>
+<p>Be sure to:</p>
+<ul>
+<li>use the mean values for <code>g</code>, <code>u</code>, and <code>sd_add</code> from the MCMC chain as the parameter values</li>
+<li>use the distribution of the biomass at age 50 in the MCMC chain as your initial state for the PF</li>
+<li>The standard deviation for the obseravtions (<code>sd_data</code>) is 200.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co">#ADD CODE TO SET UP PF HERE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="step-2-run-particle-filter" class="level4" data-number="17.4.3.2">
+<h4 data-number="17.4.3.2" class="anchored" data-anchor-id="step-2-run-particle-filter"><span class="header-section-number">17.4.3.2</span> Step 2: Run particle filter</h4>
+<p>Write the code and run the particle filter based on the examples from the lecture. You will need to include the process model that is in the NIMBLE code above.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co">#ADD PF CODE HERE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="step-3-visualize-particle-filter-output" class="level4" data-number="17.4.3.3">
+<h4 data-number="17.4.3.3" class="anchored" data-anchor-id="step-3-visualize-particle-filter-output"><span class="header-section-number">17.4.3.3</span> Step 3: Visualize particle filter output</h4>
+<p>Generate a plot that visualizes the output of the PF (see examples from the lecture). Your plot must have age on the x-axis and biomass on the y-axis with different lines for the particles.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ADD VISUALIZATION CODE HERE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="step-4-save-pf-output" class="level4" data-number="17.4.3.4">
+<h4 data-number="17.4.3.4" class="anchored" data-anchor-id="step-4-save-pf-output"><span class="header-section-number">17.4.3.4</span> Step 4: Save PF output</h4>
+<p>use this code to save your PF output as the object <code>initial_forecast</code></p>
+</section>
+</section>
+<section id="part-3" class="level3" data-number="17.4.4">
+<h3 data-number="17.4.4" class="anchored" data-anchor-id="part-3"><span class="header-section-number">17.4.4</span> Part 3:</h3>
+<p>Now we have new data!</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>new_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/PF_data2.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 21 Columns: 3
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+dbl  (2): age, biomass
+date (1): datetime
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(new_data, <span class="fu">aes</span>(<span class="at">x =</span> datetime, <span class="at">y =</span> biomass)) <span class="sc">+</span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"age"</span>, <span class="at">y =</span> <span class="st">"aboveground biomass (gC/m2)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: Removed 19 rows containing missing values (`geom_point()`).</code></pre>
 </div>
 <div class="cell-output-display">
-<p><img src="particle-filter_files/figure-html/unnamed-chunk-24-1.png" class="img-fluid" width="672"></p>
+<p><img src="particle-filter_files/figure-html/unnamed-chunk-25-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<section id="step-1-repeat-the-pf-setup" class="level4" data-number="19.4.4.1">
-<h4 data-number="19.4.4.1" class="anchored" data-anchor-id="step-1-repeat-the-pf-setup"><span class="header-section-number">19.4.4.1</span> Step 1: Repeat the PF setup</h4>
-<p>Using the new data as y, repeat the PF set up in Part 2 Step 1. You will be starting at age 50 just like above.</p>
+<section id="step-1-repeat-the-pf-setup" class="level4" data-number="17.4.4.1">
+<h4 data-number="17.4.4.1" class="anchored" data-anchor-id="step-1-repeat-the-pf-setup"><span class="header-section-number">17.4.4.1</span> Step 1: Repeat the PF setup</h4>
+<p>Using the new data, repeat the PF set up in Part 2 Step 1. You will be starting at age 50 just like above.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> new_data<span class="sc">$</span>biomass</span>
-<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>sd_data <span class="ot">&lt;-</span> <span class="dv">200</span></span>
-<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a><span class="co">#ADD CODE TO SET UP PF HERE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="co">#ADD CODE TO SET UP PF HERE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="step-2-run-particle-filter-using-the-new-data" class="level4" data-number="19.4.4.2">
-<h4 data-number="19.4.4.2" class="anchored" data-anchor-id="step-2-run-particle-filter-using-the-new-data"><span class="header-section-number">19.4.4.2</span> Step 2: Run particle filter using the new data</h4>
-<p>Using the new data as y, run the the PF again. This will be the same code as in Part 2 Step 2 (just copy and paste)</p>
+<section id="step-2-run-particle-filter-using-the-new-data" class="level4" data-number="17.4.4.2">
+<h4 data-number="17.4.4.2" class="anchored" data-anchor-id="step-2-run-particle-filter-using-the-new-data"><span class="header-section-number">17.4.4.2</span> Step 2: Run particle filter using the new data</h4>
+<p>Using the new data, run the the PF again. This will be the same code as in Part 2 Step 2 (just copy and paste)</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="co">#COPY AND PASTE PF CODE FROM ABOVE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="co">#COPY AND PASTE PF CODE FROM ABOVE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="step-3-visualize-pf-output" class="level4" data-number="19.4.4.3">
-<h4 data-number="19.4.4.3" class="anchored" data-anchor-id="step-3-visualize-pf-output"><span class="header-section-number">19.4.4.3</span> Step 3: Visualize PF output</h4>
+<section id="step-3-visualize-pf-output" class="level4" data-number="17.4.4.3">
+<h4 data-number="17.4.4.3" class="anchored" data-anchor-id="step-3-visualize-pf-output"><span class="header-section-number">17.4.4.3</span> Step 3: Visualize PF output</h4>
 <p>Generate a plot that visualizes the output of the PF (see examples from the lecture). Your plot must have age on the x-axis and biomass on the y-axis with different lines for the particles. Your observations from the new data must be on the plot.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="co">#ADD VISUALIZATION CODE HERE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="co">#ADD VISUALIZATION CODE HERE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="step-4-save-output" class="level4" data-number="19.4.4.4">
-<h4 data-number="19.4.4.4" class="anchored" data-anchor-id="step-4-save-output"><span class="header-section-number">19.4.4.4</span> Step 4: Save output</h4>
+<section id="step-4-save-output" class="level4" data-number="17.4.4.4">
+<h4 data-number="17.4.4.4" class="anchored" data-anchor-id="step-4-save-output"><span class="header-section-number">17.4.4.4</span> Step 4: Save output</h4>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>assimilated_forecast <span class="ot">&lt;-</span> x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>assimilated_forecast <span class="ot">&lt;-</span> x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
-<section id="part-4" class="level3" data-number="19.4.5">
-<h3 data-number="19.4.5" class="anchored" data-anchor-id="part-4"><span class="header-section-number">19.4.5</span> Part 4:</h3>
-<p>Combine the two PF forecast and evaluate how data assimilation influence the forecast of the last 10 years (age 60 to 70). Produce a plot with the mean and 95% CI for the initial_forecast and assimilated_forecast on the same plot. Include the observations from the new data set.</p>
+<section id="part-4" class="level3" data-number="17.4.5">
+<h3 data-number="17.4.5" class="anchored" data-anchor-id="part-4"><span class="header-section-number">17.4.5</span> Part 4:</h3>
+<p>Combine the two PF forecast and evaluate how data assimilation influence the forecast of the last 10 years (age 60 to 70). Produce a plot with the mean and 90% CI for the initial_forecast and assimilated_forecast on the same plot. Include the observations from the new data set.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="co">#ADD CODE TO COMPARE THE TWO PF OUTPUTS</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="co">#ADD CODE TO COMPARE THE TWO PF OUTPUTS</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="part-5" class="level3" data-number="19.4.6">
-<h3 data-number="19.4.6" class="anchored" data-anchor-id="part-5"><span class="header-section-number">19.4.6</span> Part 5:</h3>
+<section id="part-5" class="level3" data-number="17.4.6">
+<h3 data-number="17.4.6" class="anchored" data-anchor-id="part-5"><span class="header-section-number">17.4.6</span> Part 5:</h3>
 <p>Answer the follow question</p>
 <p>How did assimilating data influence your forecast for ages 60 to 70? Consider both the mean and uncertainty in your answer.</p>
 
@@ -1253,57 +1270,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
   const xrefs = window.document.querySelectorAll('a.quarto-xref');
   const processXRef = (id, note) => {
-    // Strip column container classes
-    const stripColumnClz = (el) => {
-      el.classList.remove("page-full", "page-columns");
-      if (el.children) {
-        for (const child of el.children) {
-          stripColumnClz(child);
-        }
-      }
-    }
-    stripColumnClz(note)
-    const typesetMath = (el) => {
-      if (window.MathJax) {
-        // MathJax Typeset
-        window.MathJax.typeset([el]);
-      } else if (window.katex) {
-        // KaTeX Render
-        var mathElements = el.getElementsByClassName("math");
-        var macros = [];
-        for (var i = 0; i < mathElements.length; i++) {
-          var texText = mathElements[i].firstChild;
-          if (mathElements[i].tagName == "SPAN") {
-            window.katex.render(texText.data, mathElements[i], {
-              displayMode: mathElements[i].classList.contains('display'),
-              throwOnError: false,
-              macros: macros,
-              fleqn: false
-            });
-          }
-        }
-      }
-    }
-    if (id === null || id.startsWith('sec-')) {
+    if (id.startsWith('sec-')) {
       // Special case sections, only their first couple elements
       const container = document.createElement("div");
       if (note.children && note.children.length > 2) {
         for (let i = 0; i < 2; i++) {
           container.appendChild(note.children[i].cloneNode(true));
         }
-        typesetMath(container);
         return container.innerHTML
       } else {
-        typesetMath(note);
         return note.innerHTML;
       }
     } else {
-      // Remove any anchor links if they are present
-      const anchorLink = note.querySelector('a.anchorjs-link');
-      if (anchorLink) {
-        anchorLink.remove();
-      }
-      typesetMath(note);
       return note.innerHTML;
     }
   }
@@ -1313,56 +1291,28 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       instance.disable();
       let url = xref.getAttribute('href');
       let hash = undefined; 
-      if (url.startsWith('#')) {
-        hash = url;
-      } else {
-        try { hash = new URL(url).hash; } catch {}
-      }
-      if (hash) {
-        const id = hash.replace(/^#\/?/, "");
-        const note = window.document.getElementById(id);
-        if (note !== null) {
-          try {
-            const html = processXRef(id, note.cloneNode(true));
-            instance.setContent(html);
-          } finally {
-            instance.enable();
-            instance.show();
-          }
-        } else {
-          // See if we can fetch this
-          fetch(url.split('#')[0])
-          .then(res => res.text())
-          .then(html => {
-            const parser = new DOMParser();
-            const htmlDoc = parser.parseFromString(html, "text/html");
-            const note = htmlDoc.getElementById(id);
-            if (note !== null) {
-              const html = processXRef(id, note);
-              instance.setContent(html);
-            } 
-          }).finally(() => {
-            instance.enable();
-            instance.show();
-          });
+      try { hash = new URL(url).hash; } catch {}
+      const id = hash.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note !== null) {
+        try {
+          const html = processXRef(id, note);
+          instance.setContent(html);
+        } finally {
+          instance.enable();
+          instance.show();
         }
       } else {
-        // See if we can fetch a full url (with no hash to target)
-        // This is a special case and we should probably do some content thinning / targeting
-        fetch(url)
+        // See if we can fetch this
+        fetch(url.split('#')[0])
         .then(res => res.text())
         .then(html => {
           const parser = new DOMParser();
           const htmlDoc = parser.parseFromString(html, "text/html");
-          const note = htmlDoc.querySelector('main.content');
+          const note = htmlDoc.getElementById(id);
+          console.log(htmlDoc.body.innerHTML);
           if (note !== null) {
-            // This should only happen for chapter cross references
-            // (since there is no id in the URL)
-            // remove the first header
-            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
-              note.children[0].remove();
-            }
-            const html = processXRef(null, note);
+            const html = processXRef(id, note);
             instance.setContent(html);
           } 
         }).finally(() => {
@@ -1440,32 +1390,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
-        // Handle positioning of the toggle
-    window.addEventListener(
-      "resize",
-      throttle(() => {
-        elRect = undefined;
-        if (selectedAnnoteEl) {
-          selectCodeLines(selectedAnnoteEl);
-        }
-      }, 10)
-    );
-    function throttle(fn, ms) {
-    let throttle = false;
-    let timer;
-      return (...args) => {
-        if(!throttle) { // first call gets through
-            fn.apply(this, args);
-            throttle = true;
-        } else { // all the others get throttled
-            if(timer) clearTimeout(timer); // cancel #2
-            timer = setTimeout(() => {
-              fn.apply(this, args);
-              timer = throttle = false;
-            }, ms);
-        }
-      };
-    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -1527,13 +1451,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./parameter-calibration3.html" class="pagination-link  aria-label=" &lt;span="" calibration:="" applying="" to="" process="" model&lt;="" span&gt;"="">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Parameter calibration: Applying to process model</span></span>
+      <a href="./parameter-calibration3.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Parameter calibration: Applying to process model</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./pulling-together.html" class="pagination-link" aria-label="<span class='chapter-number'>20</span>&nbsp; <span class='chapter-title'>Putting it together: forecast - analysis cycle</span>">
-        <span class="nav-page-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Putting it together: forecast - analysis cycle</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./pulling-together.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Putting it together: forecast - analysis cycle</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
