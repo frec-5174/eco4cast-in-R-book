@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>A practical guide to ecological forecasting - 2&nbsp; Background skills</title>
+<title>A practical guide to ecological forecasting - 22&nbsp; Accessing weather drivers</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -30,8 +64,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./setting-the-stage.html" rel="next">
-<link href="./intro.html" rel="prev">
+<link href="./neon-data.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -79,7 +112,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./background-skills.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Background skills</span></a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./neon-data.html">Appendix</a></li><li class="breadcrumb-item"><a href="./weather-drivers.html"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Accessing weather drivers</span></a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -118,7 +151,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./background-skills.html" class="sidebar-item-text sidebar-link active">
+  <a href="./background-skills.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Background skills</span></span></a>
   </div>
 </li>
@@ -297,7 +330,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./weather-drivers.html" class="sidebar-item-text sidebar-link">
+  <a href="./weather-drivers.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Accessing weather drivers</span></span></a>
   </div>
 </li>
@@ -313,10 +346,8 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#r-skills" id="toc-r-skills" class="nav-link active" data-scroll-target="#r-skills"><span class="header-section-number">2.1</span> R skills</a></li>
-  <li><a href="#sec-github" id="toc-sec-github" class="nav-link" data-scroll-target="#sec-github"><span class="header-section-number">2.2</span> Git Skills</a></li>
-  <li><a href="#docker-skills" id="toc-docker-skills" class="nav-link" data-scroll-target="#docker-skills"><span class="header-section-number">2.3</span> Docker Skills</a></li>
-  <li><a href="#running-a-docker-container" id="toc-running-a-docker-container" class="nav-link" data-scroll-target="#running-a-docker-container"><span class="header-section-number">2.4</span> Running a docker container</a></li>
+  <li><a href="#historical-weather" id="toc-historical-weather" class="nav-link active" data-scroll-target="#historical-weather"><span class="header-section-number">22.1</span> “Historical weather”</a></li>
+  <li><a href="#forecasts" id="toc-forecasts" class="nav-link" data-scroll-target="#forecasts"><span class="header-section-number">22.2</span> Forecasts</a></li>
   </ul>
 </nav>
     </div>
@@ -325,7 +356,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Background skills</span></h1>
+<h1 class="title"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Accessing weather drivers</span></h1>
 </div>
 
 
@@ -340,73 +371,95 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<section id="r-skills" class="level2" data-number="2.1">
-<h2 data-number="2.1" class="anchored" data-anchor-id="r-skills"><span class="header-section-number">2.1</span> R skills</h2>
-<p>The book uses R as the focal programming language and generate uses the Tidyverse approach when working with and visualizing data. The following functions are commonly used: <code>read_csv</code>, <code>write_csv</code>, <code>mutate</code>, <code>filter</code>, <code>group_by</code>, <code>summarize</code>, <code>ggplot</code>, <code>select</code>, pipes (<code>|&gt;</code> or <code>%&gt;</code>), <code>pivot_wider</code>, <code>pivot_longer</code>, <code>arrange</code>, <code>left_join</code>). If you are new R and Tidyverse there are many great materials on the internet. The Data Carpentry “Data Analysis and Visualization in R for Ecologists” is an excellent starting point for learning. The <a href="https://r4ds.hadley.nz%5D">R for Data Science book</a> is an especially useful reference for learning the Tidyverse commands. Finally, I have created an <a href="https://github.com/frec-3044/tidyvere-intro-template">introductory to tidyverse module</a> for my undergraduate Environmental Data Science class. You can use the module as a “test” of your Tidyverse skills</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.1.4     ✔ readr     2.1.4
+✔ forcats   1.0.0     ✔ stringr   1.5.1
+✔ ggplot2   3.4.4     ✔ tibble    3.2.1
+✔ lubridate 1.9.3     ✔ tidyr     1.3.0
+✔ purrr     1.0.2     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"R/helpers.R"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="historical-weather" class="level2" data-number="22.1">
+<h2 data-number="22.1" class="anchored" data-anchor-id="historical-weather"><span class="header-section-number">22.1</span> “Historical weather”</h2>
+<p>Our goal is to generate genuine forecasts of the future. Therefore we need to use weather forecasts as driver inputs into our model.</p>
+<p>This opens a critical issue when calibrating a model that is then used for forecasting. A model could be calibrated using observed weather from a weather station as inputs. As a result the parameters are tuned to the weather from the station. However, the bias and statistics of the observed weather may be different from the forecasted weather since weather forecasts are for a larger grid (e.g., the weather forecast may be consistently warmer by 2 degrees C). This offset in the meteorology used to calibrate and forecast could result in the forecast being biased. The issue can be fixed by either adjusting the weather forecast to be more consistent with the observed weather or calibrating the model using weather inputs from the weather forecast model. In this book we use the later.</p>
+<p>The get_historical_met function gets the first day of all the weather forecasts generated since September 2020. The first day of each forecast is the closest to what was observed because it directly follows data assimilation. Combing the first days together gives a complete time series of weather until the present day.</p>
+<p>The function is print out here so that you can modify if you want to add variables or process in a different way.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>get_historical_met</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>function (site, sim_dates, use_mean = TRUE) 
+{
+    if (use_mean) {
+        groups &lt;- c("datetime", "variable")
+    }
+    else {
+        groups &lt;- c("datetime", "variable", "parameter")
+    }
+    site &lt;- "TALL"
+    met_s3 &lt;- arrow::s3_bucket(paste0("bio230014-bucket01/neon4cast-drivers/noaa/gefs-v12/stage3/site_id=", 
+        site), endpoint_override = "sdsc.osn.xsede.org", anonymous = TRUE)
+    inputs_all &lt;- collect(filter(mutate(summarise(mutate(mutate(filter(arrow::open_dataset(met_s3), 
+        variable %in% c("air_temperature", "surface_downwelling_shortwave_flux_in_air")), 
+        datetime = as_date(datetime)), prediction = ifelse(variable == 
+        "surface_downwelling_shortwave_flux_in_air", prediction/0.486, 
+        prediction), variable = ifelse(variable == "surface_downwelling_shortwave_flux_in_air", 
+        "PAR", variable), prediction = ifelse(variable == "air_temperature", 
+        prediction - 273.15, prediction), variable = ifelse(variable == 
+        "air_temperature", "temp", variable)), prediction = mean(prediction, 
+        na.rm = TRUE), .by = all_of(groups)), doy = yday(datetime)), 
+        datetime %in% sim_dates))
+    if (use_mean) {
+        inputs_all &lt;- mutate(inputs_all, parameter = "mean")
+    }
+    return(inputs_all)
+}</code></pre>
+</div>
+</div>
 </section>
-<section id="sec-github" class="level2" data-number="2.2">
-<h2 data-number="2.2" class="anchored" data-anchor-id="sec-github"><span class="header-section-number">2.2</span> Git Skills</h2>
-<p>You will be required to use Git and GitHub to complete the assignments in the book. In particular, Git and GitHub are uses for the generation and submission of forecasts to the NEON Ecological Forecasting Challenge. Below are instructions for setting up Git and GitHub on your computer.</p>
-<ol type="1">
-<li><p>Create a GitHub user account at <a href="https://github.com" class="uri">https://github.com</a>, if you don’t already have one. <a href="https://happygitwithr.com/github-acct.html#username-advice">Here is advice about choosing a user name</a>, because choosing a good user name is critical.</p></li>
-<li><p>Go to Rstudio and install the <code>usethis</code> package.</p></li>
-</ol>
-<pre><code>install.packages("usethis")</code></pre>
-<ol start="3" type="1">
-<li>Run the following command where you replace the user.email and user.name with the email used for GitHub and your GitHub user name. You can learn more about the command <a href="https://happygitwithr.com/hello-git.html#hello-git">here</a></li>
-</ol>
-<pre><code>library(usethis)
-use_git_config(user.name = "Jane Doe", user.email = "jane@example.org")</code></pre>
-<p>If you get an error at this step it is likely due to your computer not having Git. Follow the instructions <a href="https://happygitwithr.com/install-git.html">here</a> about installing Git</p>
-<ol start="4" type="1">
-<li><p>Set up your GitHub credentials on your computer. Follow the instructions <a href="https://happygitwithr.com/https-pat.html#tldr">here</a> about using <code>usethis::create_github_token()</code> and <code>gitcreds::gitcreds_set()</code> functions. Also, save your GitHub PAT to a password manager so that you can find it in the future (in case you need to interact with GitHub from a different computer).</p></li>
-<li><p>Go to Canvas and get the link to accept the assignment. Copy and paste the link in a web browser. Accept the assignment.</p></li>
-<li><p>Go to your assignment at <a href="https://github.com/frec-3044-Spring2024" class="uri">https://github.com/frec-3044-Spring2024</a>. Click on repository.</p></li>
-<li><p>Under the green “Code” button, select the local tab, and copy the https link.</p></li>
-<li><p>Open Rstudio on your computer and create a new project. First, File -&gt; New Project -&gt; Version Control -&gt; Git. Paste the URL from you repo in the first box, hit tab to fill in the repo name in the second, and then use Browse to select where you want the project on your computer (I recommend having a directory on your computer where you keep all repositories we use in the class).</p></li>
-<li><p>Your project will load. Then go to File -&gt; New -&gt; New File -&gt; Quarto Document</p></li>
-<li><p>In the prompt use Title = “Assignment 1” and Author = [Your name]</p></li>
-<li><p>Save file as “assignment1.qmd” in the <strong>assignment subdirectory</strong> of the Project.</p></li>
-<li><p>Commit your <code>assignment1.qmd</code> file using the Git tab at the top right pane using a useful commit message. You will need to check the box for the files that you want to commit. A useful message helps you broadly remember what you did to the files that are included in the commit. The Git tab may not be in the top right panel if you have moved the panels around.</p></li>
-<li><p>Find the Sources / Visual buttons right above the document. Select Source (which is the code view).</p></li>
-<li><p>Copy the code chunk on lines 21-24 and paste at end of document. Change to <code>echo: TRUE</code>.</p></li>
-<li><p>Find the following code at the top</p></li>
-</ol>
-<pre><code>format: html:</code></pre>
-<p>and change to so that all the necessary files are saved in a single html file.</p>
-<pre><code>format:   
-  html:
-    embed-resources: true</code></pre>
-<ol start="16" type="1">
-<li>Find the Render (found above the document) button and click it to render the document a to an html document. You will see a file named “assignment1.html” appear. The html is like webpage version of your code. If your have a directory called <code>assignment1_files</code> then you did not do step 15 correctly.</li>
-<li>Click on the “assignment1.html” in your “Files” pane and select “View in Web Browser”. Confirm that it looks as expected.</li>
-<li>Commit the updated <code>.qmd</code> and new <code>.html</code> files to git.</li>
-<li>Push to your repository on GitHub.</li>
-<li>Go to <a href="https://github.com/frec-3044-Spring2024" class="uri">https://github.com/frec-3044-Spring2024</a> and click on your repository. You should also see three commits: 2 were committed by you and 1 was committed by the github classroom bot. The Github classroom bot commit is the automatic commit that occurred when you accepted the assignment.</li>
-<li>Go to the course on Canvas and upload the .html file to the assignment.</li>
-</ol>
-<p>If you are having issues (i.e., your computer does not seem to have Git installed), <a href="https://happygitwithr.com/index.html">here</a> is an excellent resource to help you debug your git + Rstudio issues.</p>
-</section>
-<section id="docker-skills" class="level2" data-number="2.3">
-<h2 data-number="2.3" class="anchored" data-anchor-id="docker-skills"><span class="header-section-number">2.3</span> Docker Skills</h2>
-<p>Docker is tool that the activities in the book use for improving the reproduciblity and automation of data analysis and forecasting workflows. Below are the instructions for setting up and interacting with a Docker container (instructions are from Freya Olsson’s workshop)</p>
-<p>Go to <a href="https://docs.docker.com/get-docker/" class="uri">https://docs.docker.com/get-docker/</a> to install the relevant install for your platform (available for PC, Mac and Linux). Also see <a href="https://docs.docker.com/desktop/" class="uri">https://docs.docker.com/desktop/</a>.</p>
-<p>NOTE: * If you’re running Windows, you will need WSL (Windows Subsystem for Linux) * If you’re running a Linux distribution, you may have to enable Viritualization on your computer (see <a href="https://stackoverflow.com/questions/76646465/unable-to-launch-docker-desktop-on-ubuntu/76655270#76655270">here</a>)</p>
-</section>
-<section id="running-a-docker-container" class="level2" data-number="2.4">
-<h2 data-number="2.4" class="anchored" data-anchor-id="running-a-docker-container"><span class="header-section-number">2.4</span> Running a docker container</h2>
-<ol type="1">
-<li>Launch Docker Desktop (either from the Command Line or by starting the GUI)</li>
-<li>At the command line run the following command which tells docker to <code>run</code> the container with the name <code>eco4cast/rocker-neon4cast</code> that has all the packages and libraries installed already. The <code>PASSWORD=yourpassword</code> sets a simple password that you will use to open the container. The <code>-ti</code> option starts both a terminal and an interactive session.</li>
-</ol>
-<pre><code>docker run --rm -ti -e PASSWORD=yourpassword -p 8787:8787 eco4cast/rocker-neon4cast</code></pre>
-<p>This can take a few minutes to download and install. It will be quicker the next time you launch it.</p>
-<ol start="3" type="1">
-<li>Open up a web browser and navigate to <code>http://localhost:8787/</code></li>
-<li>Enter the username: <code>rstudio</code> and password: <code>yourpassword</code></li>
-<li>You should see a R Studio interface with all the packages etc. pre-installed and ready to go.</li>
-</ol>
-<p>You can close this localhost window (and then come back to it) but if you close the container from Docker (turn off your computer etc.) any changes will be lost unless you push them to Github or exported to your local environment.</p>
+<section id="forecasts" class="level2" data-number="22.2">
+<h2 data-number="22.2" class="anchored" data-anchor-id="forecasts"><span class="header-section-number">22.2</span> Forecasts</h2>
+<p>An individual forecast can be accessed using the <code>get_forecast_met</code> function. This provides the full horizon (35-days ahead) for a forecast that was generated on a specific day (<code>reference_datetime</code>).</p>
+<p>The function is print out here so that you can modify if you want to add variables or process in a different way.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>get_forecast_met</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>function (site, sim_dates, use_mean = TRUE) 
+{
+    if (use_mean) {
+        groups &lt;- c("datetime", "variable")
+    }
+    else {
+        groups &lt;- c("datetime", "variable", "parameter")
+    }
+    met_s3 &lt;- arrow::s3_bucket(paste0("bio230014-bucket01/neon4cast-drivers/noaa/gefs-v12/stage2/reference_datetime=", 
+        sim_dates[1], "/site_id=", site), endpoint_override = "sdsc.osn.xsede.org", 
+        anonymous = TRUE)
+    inputs_all &lt;- collect(filter(mutate(summarise(mutate(mutate(filter(arrow::open_dataset(met_s3), 
+        variable %in% c("air_temperature", "surface_downwelling_shortwave_flux_in_air")), 
+        datetime = as_date(datetime)), prediction = ifelse(variable == 
+        "surface_downwelling_shortwave_flux_in_air", prediction/0.486, 
+        prediction), variable = ifelse(variable == "surface_downwelling_shortwave_flux_in_air", 
+        "PAR", variable), prediction = ifelse(variable == "air_temperature", 
+        prediction - 273.15, prediction), variable = ifelse(variable == 
+        "air_temperature", "temp", variable)), prediction = mean(prediction, 
+        na.rm = TRUE), .by = all_of(groups)), doy = yday(datetime)), 
+        datetime %in% sim_dates))
+    if (use_mean) {
+        inputs_all &lt;- mutate(inputs_all, parameter = "mean")
+    }
+    return(inputs_all)
+}</code></pre>
+</div>
+</div>
 
 
 </section>
@@ -711,14 +764,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./intro.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span>
+      <a href="./neon-data.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">NEON data</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./setting-the-stage.html" class="pagination-link">
-        <span class="nav-page-text">Introduction to forecasting</span> <i class="bi bi-arrow-right-short"></i>
-      </a>
   </div>
 </nav>
 </div> <!-- /content -->
