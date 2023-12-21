@@ -372,7 +372,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#|message = FALSE</span></span>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#|echo: FALSE</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
@@ -395,35 +395,37 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>The get_historical_met function gets the first day of all the weather forecasts generated since September 2020. The first day of each forecast is the closest to what was observed because it directly follows data assimilation. Combing the first days together gives a complete time series of weather until the present day.</p>
 <p>The function is print out here so that you can modify if you want to add variables or process in a different way.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>get_historical_met</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>function (site, sim_dates, use_mean = TRUE) 
-{
-    if (use_mean) {
-        groups &lt;- c("datetime", "variable")
-    }
-    else {
-        groups &lt;- c("datetime", "variable", "parameter")
-    }
-    site &lt;- "TALL"
-    met_s3 &lt;- arrow::s3_bucket(paste0("bio230014-bucket01/neon4cast-drivers/noaa/gefs-v12/stage3/site_id=", 
-        site), endpoint_override = "sdsc.osn.xsede.org", anonymous = TRUE)
-    inputs_all &lt;- collect(filter(mutate(summarise(mutate(mutate(filter(arrow::open_dataset(met_s3), 
-        variable %in% c("air_temperature", "surface_downwelling_shortwave_flux_in_air")), 
-        datetime = as_date(datetime)), prediction = ifelse(variable == 
-        "surface_downwelling_shortwave_flux_in_air", prediction/0.486, 
-        prediction), variable = ifelse(variable == "surface_downwelling_shortwave_flux_in_air", 
-        "PAR", variable), prediction = ifelse(variable == "air_temperature", 
-        prediction - 273.15, prediction), variable = ifelse(variable == 
-        "air_temperature", "temp", variable)), prediction = mean(prediction, 
-        na.rm = TRUE), .by = all_of(groups)), doy = yday(datetime)), 
-        datetime %in% sim_dates))
-    if (use_mean) {
-        inputs_all &lt;- mutate(inputs_all, parameter = "mean")
-    }
-    return(inputs_all)
-}</code></pre>
-</div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>get_historical_met <span class="ot">&lt;-</span> <span class="cf">function</span>(site, sim_dates, <span class="at">use_mean =</span> <span class="cn">TRUE</span>){</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(use_mean){</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    groups <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"datetime"</span>, <span class="st">"variable"</span>)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  }<span class="cf">else</span>{</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    groups <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"datetime"</span>, <span class="st">"variable"</span>,<span class="st">"parameter"</span>)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  site <span class="ot">&lt;-</span> <span class="st">"TALL"</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  met_s3 <span class="ot">&lt;-</span> arrow<span class="sc">::</span><span class="fu">s3_bucket</span>(<span class="fu">paste0</span>(<span class="st">"bio230014-bucket01/neon4cast-drivers/noaa/gefs-v12/stage3/site_id="</span>, site),</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>                             <span class="at">endpoint_override =</span> <span class="st">"sdsc.osn.xsede.org"</span>,</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>                             <span class="at">anonymous =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  inputs_all <span class="ot">&lt;-</span> arrow<span class="sc">::</span><span class="fu">open_dataset</span>(met_s3) <span class="sc">|&gt;</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(variable <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"air_temperature"</span>, <span class="st">"surface_downwelling_shortwave_flux_in_air"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">datetime =</span> <span class="fu">as_date</span>(datetime)) <span class="sc">|&gt;</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">prediction =</span> <span class="fu">ifelse</span>(variable <span class="sc">==</span> <span class="st">"surface_downwelling_shortwave_flux_in_air"</span>, prediction<span class="sc">/</span><span class="fl">0.486</span>, prediction),</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>           <span class="at">variable =</span> <span class="fu">ifelse</span>(variable <span class="sc">==</span> <span class="st">"surface_downwelling_shortwave_flux_in_air"</span>, <span class="st">"PAR"</span>, variable),</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>           <span class="at">prediction =</span> <span class="fu">ifelse</span>(variable <span class="sc">==</span> <span class="st">"air_temperature"</span>, prediction <span class="sc">-</span> <span class="fl">273.15</span>, prediction),</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>           <span class="at">variable =</span> <span class="fu">ifelse</span>(variable <span class="sc">==</span> <span class="st">"air_temperature"</span>, <span class="st">"temp"</span>, variable)) <span class="sc">|&gt;</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">prediction =</span> <span class="fu">mean</span>(prediction, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">.by =</span>  <span class="fu">all_of</span>(groups)) <span class="sc">|&gt;</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">doy =</span> <span class="fu">yday</span>(datetime)) <span class="sc">|&gt;</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(datetime <span class="sc">%in%</span> sim_dates) <span class="sc">|&gt;</span></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>    <span class="fu">collect</span>()</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(use_mean){</span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>    inputs_all <span class="ot">&lt;-</span> inputs_all <span class="sc">|&gt;</span></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>      <span class="fu">mutate</span>(<span class="at">parameter =</span> <span class="st">"mean"</span>)</span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(inputs_all)</span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="forecasts" class="level2" data-number="22.2">
@@ -431,35 +433,37 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>An individual forecast can be accessed using the <code>get_forecast_met</code> function. This provides the full horizon (35-days ahead) for a forecast that was generated on a specific day (<code>reference_datetime</code>).</p>
 <p>The function is print out here so that you can modify if you want to add variables or process in a different way.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>get_forecast_met</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>function (site, sim_dates, use_mean = TRUE) 
-{
-    if (use_mean) {
-        groups &lt;- c("datetime", "variable")
-    }
-    else {
-        groups &lt;- c("datetime", "variable", "parameter")
-    }
-    met_s3 &lt;- arrow::s3_bucket(paste0("bio230014-bucket01/neon4cast-drivers/noaa/gefs-v12/stage2/reference_datetime=", 
-        sim_dates[1], "/site_id=", site), endpoint_override = "sdsc.osn.xsede.org", 
-        anonymous = TRUE)
-    inputs_all &lt;- collect(filter(mutate(summarise(mutate(mutate(filter(arrow::open_dataset(met_s3), 
-        variable %in% c("air_temperature", "surface_downwelling_shortwave_flux_in_air")), 
-        datetime = as_date(datetime)), prediction = ifelse(variable == 
-        "surface_downwelling_shortwave_flux_in_air", prediction/0.486, 
-        prediction), variable = ifelse(variable == "surface_downwelling_shortwave_flux_in_air", 
-        "PAR", variable), prediction = ifelse(variable == "air_temperature", 
-        prediction - 273.15, prediction), variable = ifelse(variable == 
-        "air_temperature", "temp", variable)), prediction = mean(prediction, 
-        na.rm = TRUE), .by = all_of(groups)), doy = yday(datetime)), 
-        datetime %in% sim_dates))
-    if (use_mean) {
-        inputs_all &lt;- mutate(inputs_all, parameter = "mean")
-    }
-    return(inputs_all)
-}</code></pre>
-</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>get_forecast_met <span class="ot">&lt;-</span> <span class="cf">function</span>(site, sim_dates, <span class="at">use_mean =</span> <span class="cn">TRUE</span>){</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(use_mean){</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    groups <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"datetime"</span>, <span class="st">"variable"</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  }<span class="cf">else</span>{</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    groups <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"datetime"</span>, <span class="st">"variable"</span>,<span class="st">"parameter"</span>)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  met_s3 <span class="ot">&lt;-</span> arrow<span class="sc">::</span><span class="fu">s3_bucket</span>(<span class="fu">paste0</span>(<span class="st">"bio230014-bucket01/neon4cast-drivers/noaa/gefs-v12/stage2/reference_datetime="</span>,sim_dates[<span class="dv">1</span>],<span class="st">"/site_id="</span>,site),</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>                             <span class="at">endpoint_override =</span> <span class="st">"sdsc.osn.xsede.org"</span>,</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>                             <span class="at">anonymous =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  inputs_all <span class="ot">&lt;-</span> arrow<span class="sc">::</span><span class="fu">open_dataset</span>(met_s3) <span class="sc">|&gt;</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(variable <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"air_temperature"</span>, <span class="st">"surface_downwelling_shortwave_flux_in_air"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">datetime =</span> <span class="fu">as_date</span>(datetime)) <span class="sc">|&gt;</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">prediction =</span> <span class="fu">ifelse</span>(variable <span class="sc">==</span> <span class="st">"surface_downwelling_shortwave_flux_in_air"</span>, prediction<span class="sc">/</span><span class="fl">0.486</span>, prediction),</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>           <span class="at">variable =</span> <span class="fu">ifelse</span>(variable <span class="sc">==</span> <span class="st">"surface_downwelling_shortwave_flux_in_air"</span>, <span class="st">"PAR"</span>, variable),</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>           <span class="at">prediction =</span> <span class="fu">ifelse</span>(variable <span class="sc">==</span> <span class="st">"air_temperature"</span>, prediction<span class="sc">-</span> <span class="fl">273.15</span>, prediction),</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>           <span class="at">variable =</span> <span class="fu">ifelse</span>(variable <span class="sc">==</span> <span class="st">"air_temperature"</span>, <span class="st">"temp"</span>, variable)) <span class="sc">|&gt;</span></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">prediction =</span> <span class="fu">mean</span>(prediction, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">.by =</span> <span class="fu">all_of</span>(groups)) <span class="sc">|&gt;</span></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">doy =</span> <span class="fu">yday</span>(datetime)) <span class="sc">|&gt;</span></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(datetime <span class="sc">%in%</span> sim_dates) <span class="sc">|&gt;</span></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>    <span class="fu">collect</span>()</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(use_mean){</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>    inputs_all <span class="ot">&lt;-</span> inputs_all <span class="sc">|&gt;</span></span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>      <span class="fu">mutate</span>(<span class="at">parameter =</span> <span class="st">"mean"</span>)</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(inputs_all)</span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 

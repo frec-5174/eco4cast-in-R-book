@@ -969,71 +969,12 @@ NaNs produced</code></pre>
 <span id="cb113-6"><a href="#cb113-6" aria-hidden="true" tabindex="-1"></a>  <span class="sc">-</span><span class="fu">sum</span>(<span class="fu">dnorm</span>(y, <span class="at">mean =</span> mu, <span class="at">sd =</span> par3, <span class="at">log =</span> <span class="cn">TRUE</span>))</span>
 <span id="cb113-7"><a href="#cb113-7" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb113-8"><a href="#cb113-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stats4)</span>
-<span id="cb113-9"><a href="#cb113-9" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">mle</span>(<span class="at">minuslogl =</span> LL_fn, <span class="at">start =</span> <span class="fu">list</span>(<span class="at">par1 =</span> <span class="fl">0.2</span>, <span class="at">par2 =</span> <span class="fl">1.5</span>, <span class="at">par3 =</span> <span class="dv">1</span>), <span class="at">method =</span> <span class="st">"BFGS"</span>, <span class="at">nobs =</span> <span class="fu">length</span>(y)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb115"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb115-1"><a href="#cb115-1" aria-hidden="true" tabindex="-1"></a><span class="fu">AIC</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb113-9"><a href="#cb113-9" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">mle</span>(<span class="at">minuslogl =</span> LL_fn, <span class="at">start =</span> <span class="fu">list</span>(<span class="at">par1 =</span> <span class="fl">0.2</span>, <span class="at">par2 =</span> <span class="fl">1.5</span>, <span class="at">par3 =</span> <span class="dv">1</span>), <span class="at">method =</span> <span class="st">"BFGS"</span>, <span class="at">nobs =</span> <span class="fu">length</span>(y)) </span>
+<span id="cb113-10"><a href="#cb113-10" aria-hidden="true" tabindex="-1"></a><span class="fu">AIC</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] -170.8059</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb117"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb117-1"><a href="#cb117-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb115"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb115-1"><a href="#cb115-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Maximum likelihood estimation
 
@@ -1049,222 +990,13 @@ par3 0.09996482 0.007065724
 
 -2 log L: -176.8059 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb119"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb119-1"><a href="#cb119-1" aria-hidden="true" tabindex="-1"></a><span class="fu">logLik</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb117"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb117-1"><a href="#cb117-1" aria-hidden="true" tabindex="-1"></a><span class="fu">logLik</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>'log Lik.' 88.40293 (df=3)</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb121"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb121-1"><a href="#cb121-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb119"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb119-1"><a href="#cb119-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Profiling...</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced
-
-Warning in dnorm(y, mean = mu, sd = par3, log = TRUE): NaNs produced</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>          2.5 %    97.5 %
@@ -1279,91 +1011,80 @@ par3 0.08755983 0.1155966</code></pre>
 <h2 data-number="14.1" class="anchored" data-anchor-id="problem-set"><span class="header-section-number">14.1</span> Problem set</h2>
 <p>Copy the text and code below into an .Rmd or .qmd document and complete the assignment. You will be asked submit (via Canvas) your rendered (or knitted) html document</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb125"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb125-1"><a href="#cb125-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb122"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb122-1"><a href="#cb122-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="part-1" class="level3" data-number="14.1.1">
 <h3 data-number="14.1.1" class="anchored" data-anchor-id="part-1"><span class="header-section-number">14.1.1</span> Part 1</h3>
 <p>Load dataset</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb126"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb126-1"><a href="#cb126-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="at">file =</span> <span class="st">"https://data.ecoforecast.org/neon4cast-targets/phenology/phenology-targets.csv.gz"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 270908 Columns: 4
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr  (2): site_id, variable
-dbl  (1): observation
-date (1): datetime
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
+<div class="sourceCode cell-code" id="cb123"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb123-1"><a href="#cb123-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="at">file =</span> <span class="st">"https://data.ecoforecast.org/neon4cast-targets/phenology/phenology-targets.csv.gz"</span>, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Filter the dataset to only include the site_id BART (Bartlett Experimental Forest in the White Mountains of New Hampshire) and the dates between 2019-01-01 and 2019-07-01. Convert the date to Day of Year (hint: use <code>lubridate:: yday()</code> function). Remove rows with gcc_90 equal to NA or gcc_sd equal to 0.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb128"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb128-1"><a href="#cb128-1" aria-hidden="true" tabindex="-1"></a>bart_2019 <span class="ot">&lt;-</span> d  <span class="sc">%&gt;%</span></span>
-<span id="cb128-2"><a href="#cb128-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(site_id <span class="sc">==</span> <span class="st">"BART"</span>,</span>
-<span id="cb128-3"><a href="#cb128-3" aria-hidden="true" tabindex="-1"></a>         datetime <span class="sc">&gt;</span> <span class="fu">as_date</span>(<span class="st">"2019-01-01"</span>),</span>
-<span id="cb128-4"><a href="#cb128-4" aria-hidden="true" tabindex="-1"></a>         datetime <span class="sc">&lt;</span> <span class="fu">as_date</span>(<span class="st">"2019-07-01"</span>),</span>
-<span id="cb128-5"><a href="#cb128-5" aria-hidden="true" tabindex="-1"></a>         variable <span class="sc">==</span> <span class="st">"gcc_90"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb128-6"><a href="#cb128-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">doy =</span> <span class="fu">yday</span>(datetime)) <span class="sc">%&gt;%</span> </span>
-<span id="cb128-7"><a href="#cb128-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(observation),</span>
-<span id="cb128-8"><a href="#cb128-8" aria-hidden="true" tabindex="-1"></a>         observation <span class="sc">&gt;</span> <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb124"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb124-1"><a href="#cb124-1" aria-hidden="true" tabindex="-1"></a>bart_2019 <span class="ot">&lt;-</span> d  <span class="sc">%&gt;%</span></span>
+<span id="cb124-2"><a href="#cb124-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(site_id <span class="sc">==</span> <span class="st">"BART"</span>,</span>
+<span id="cb124-3"><a href="#cb124-3" aria-hidden="true" tabindex="-1"></a>         datetime <span class="sc">&gt;</span> <span class="fu">as_date</span>(<span class="st">"2019-01-01"</span>),</span>
+<span id="cb124-4"><a href="#cb124-4" aria-hidden="true" tabindex="-1"></a>         datetime <span class="sc">&lt;</span> <span class="fu">as_date</span>(<span class="st">"2019-07-01"</span>),</span>
+<span id="cb124-5"><a href="#cb124-5" aria-hidden="true" tabindex="-1"></a>         variable <span class="sc">==</span> <span class="st">"gcc_90"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb124-6"><a href="#cb124-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">doy =</span> <span class="fu">yday</span>(datetime)) <span class="sc">%&gt;%</span> </span>
+<span id="cb124-7"><a href="#cb124-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(observation),</span>
+<span id="cb124-8"><a href="#cb124-8" aria-hidden="true" tabindex="-1"></a>         observation <span class="sc">&gt;</span> <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><strong>Question 1:</strong> How is gcc_90 related to day of year?</p>
 <p><strong>Answer 1:</strong></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb129"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb129-1"><a href="#cb129-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Add Answer</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb125"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb125-1"><a href="#cb125-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Add Answer</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><strong>Question 2:</strong> Use a histogram to examine the distribution of the gcc_90</p>
 <p><strong>Answer 2:</strong></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb130"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb130-1"><a href="#cb130-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Add Answer</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb126"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb126-1"><a href="#cb126-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Add Answer</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>First create a function called `pred_logistic’ that is your process model. The model is the the logistic curve which ish the equation <span class="math display">\[P_1 + P_2 {{exp(P_3 + P_4 x)}\over{1+exp(P_3 + P_4 x)}}\]</span> <strong>Question 3:</strong> Is this process model a dynamic model? Why or why not?</p>
 <p><strong>Answer 3:</strong></p>
 <p><strong>Question 4:</strong> Based on the equation above, write a function that predicts the gcc_90 as a function of the parameters (<span class="math inline">\(P\)</span>) and x where x is the DOY. Name that function “pred_logistic”</p>
 <p><strong>Answer 4:</strong></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb131"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb131-1"><a href="#cb131-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Add Answer</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb127"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb127-1"><a href="#cb127-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Add Answer</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><strong>Question 5:</strong> Write a function that calculates the negative log-likelihood of the data given a set of parameters governing the process and data models. Assume a normal distribution and be sure to estimate the sd in the data model.</p>
 <p><strong>Answer 5:</strong></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb132"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb132-1"><a href="#cb132-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Add Answer</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb128"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb128-1"><a href="#cb128-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Add Answer</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><strong>Question 6:</strong> Use the <code>optim</code> function to find the most likely parameter values. Use the following as starting values <code>par = c(0.34,0.11,-15,0.11, 1)</code> where the first four are the theta parameters from your process model and the fifth is the sd of your data model.</p>
 <p><strong>Answer 6:</strong></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb133"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb133-1"><a href="#cb133-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Add Answer</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb129"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb129-1"><a href="#cb129-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Add Answer</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><strong>Question 7:</strong> Use your optimal parameters in the <code>pred_logistic</code> function to predict the data. Save this as the object <code>predicted</code></p>
 <p><strong>Answer 7:</strong></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb134"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb134-1"><a href="#cb134-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Add Answer</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb130"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb130-1"><a href="#cb130-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Add Answer</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><strong>Question 8:</strong> Calculate the residuals and plot a histogram of the residuals</p>
 <p><strong>Answer 8:</strong></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb135"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb135-1"><a href="#cb135-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Add Answer</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb131"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb131-1"><a href="#cb131-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Add Answer</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><strong>Question 9:</strong> How does the distribution of the data (Question 2) compare to the distribution of the residuals?</p>
 <p><strong>Answer 9:</strong></p>
 <p><strong>Question 10:</strong> Predict 2020 using the process model parameters from the 2019 fit.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb136"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb136-1"><a href="#cb136-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Add Answer</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb132"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb132-1"><a href="#cb132-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Add Answer</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><strong>Answer 10:</strong></p>
 <p><strong>Question 11:</strong> Plot the forecast from Question 10 over the data from 2020 (I give the code for getting the 2020 data)</p>
 <p><strong>Answer 11:</strong></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb137"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb137-1"><a href="#cb137-1" aria-hidden="true" tabindex="-1"></a>bart_2020 <span class="ot">&lt;-</span> d  <span class="sc">%&gt;%</span></span>
-<span id="cb137-2"><a href="#cb137-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(site_id <span class="sc">==</span> <span class="st">"BART"</span>,</span>
-<span id="cb137-3"><a href="#cb137-3" aria-hidden="true" tabindex="-1"></a>         datetime <span class="sc">&gt;</span> <span class="fu">as_date</span>(<span class="st">"2020-01-01"</span>),</span>
-<span id="cb137-4"><a href="#cb137-4" aria-hidden="true" tabindex="-1"></a>         datetime <span class="sc">&lt;</span> <span class="fu">as_date</span>(<span class="st">"2020-07-01"</span>),</span>
-<span id="cb137-5"><a href="#cb137-5" aria-hidden="true" tabindex="-1"></a>         variable <span class="sc">==</span> <span class="st">"gcc_90"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb137-6"><a href="#cb137-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">doy =</span> <span class="fu">yday</span>(datetime)) <span class="sc">%&gt;%</span> </span>
-<span id="cb137-7"><a href="#cb137-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(observation),</span>
-<span id="cb137-8"><a href="#cb137-8" aria-hidden="true" tabindex="-1"></a>         observation <span class="sc">&gt;</span> <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb133"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb133-1"><a href="#cb133-1" aria-hidden="true" tabindex="-1"></a>bart_2020 <span class="ot">&lt;-</span> d  <span class="sc">%&gt;%</span></span>
+<span id="cb133-2"><a href="#cb133-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(site_id <span class="sc">==</span> <span class="st">"BART"</span>,</span>
+<span id="cb133-3"><a href="#cb133-3" aria-hidden="true" tabindex="-1"></a>         datetime <span class="sc">&gt;</span> <span class="fu">as_date</span>(<span class="st">"2020-01-01"</span>),</span>
+<span id="cb133-4"><a href="#cb133-4" aria-hidden="true" tabindex="-1"></a>         datetime <span class="sc">&lt;</span> <span class="fu">as_date</span>(<span class="st">"2020-07-01"</span>),</span>
+<span id="cb133-5"><a href="#cb133-5" aria-hidden="true" tabindex="-1"></a>         variable <span class="sc">==</span> <span class="st">"gcc_90"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb133-6"><a href="#cb133-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">doy =</span> <span class="fu">yday</span>(datetime)) <span class="sc">%&gt;%</span> </span>
+<span id="cb133-7"><a href="#cb133-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(observation),</span>
+<span id="cb133-8"><a href="#cb133-8" aria-hidden="true" tabindex="-1"></a>         observation <span class="sc">&gt;</span> <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><strong>Question 12:</strong> Do you think your model from 2019 is reasonable for predicting 2020?</p>
 <p><strong>Answer 12:</strong></p>
@@ -1372,7 +1093,7 @@ date (1): datetime
 <h3 data-number="14.1.2" class="anchored" data-anchor-id="part-2"><span class="header-section-number">14.1.2</span> Part 2</h3>
 <p>Using the following data</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb138"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb138-1"><a href="#cb138-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/soil_respiration_module_data.csv"</span>, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb134"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb134-1"><a href="#cb134-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/soil_respiration_module_data.csv"</span>, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>It is a dataset that reports soil respiration, soil temperature, and soil moisture over a year at the University of Michigan Biological Station (from Nave, L.E., N. Bader, and J.L. Klug)</p>
 <p>The columns correspond to the following</p>
