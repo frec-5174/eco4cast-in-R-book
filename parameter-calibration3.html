@@ -547,9 +547,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>parameter, <span class="at">scales =</span> <span class="st">"free"</span>)</span>
 <span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>p1 <span class="sc">/</span> p2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
-</div>
 <div class="cell-output-display">
 <p><img src="parameter-calibration3_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
 </div>
@@ -560,98 +557,92 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="simulation-with-prior-parameter-distributions" class="level3" data-number="16.2.1">
 <h3 data-number="16.2.1" class="anchored" data-anchor-id="simulation-with-prior-parameter-distributions"><span class="header-section-number">16.2.1</span> Simulation with prior parameter distributions</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>ens_members <span class="ot">&lt;-</span> <span class="dv">100</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>inputs_ensemble <span class="ot">&lt;-</span> <span class="fu">assign_met_ensembles</span>(inputs, ens_members)</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="co">#Set initial conditions</span></span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>output <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="cn">NA</span>, <span class="at">dim =</span> <span class="fu">c</span>(<span class="fu">length</span>(sim_dates), ens_members, <span class="dv">12</span>)) <span class="co">#12 is the number of outputs</span></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>output[<span class="dv">1</span>, , <span class="dv">1</span>] <span class="ot">&lt;-</span> state_init[<span class="dv">1</span>]</span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>output[<span class="dv">1</span>, , <span class="dv">2</span>] <span class="ot">&lt;-</span> state_init[<span class="dv">2</span>]</span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>output[<span class="dv">1</span>, , <span class="dv">3</span>] <span class="ot">&lt;-</span> state_init[<span class="dv">3</span>]</span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>params <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>alpha <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fl">0.02</span>, ens_members)</span>
-<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>SLA <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fl">4.74</span>, ens_members)</span>
-<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>leaf_frac <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fl">0.315</span>, ens_members)</span>
-<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>Ra_frac <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fl">0.5</span>, ens_members)</span>
-<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>Rbasal <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fl">0.002</span>, ens_members)</span>
-<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>Q10 <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fl">2.1</span>, ens_members)</span>
-<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>litterfall_rate <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">/</span>(<span class="fl">2.0</span><span class="sc">*</span><span class="dv">365</span>), ens_members) <span class="co">#Two year leaf lifespan</span></span>
-<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>litterfall_start <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">200</span>, ens_members)</span>
-<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>litterfall_length<span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">70</span>, ens_members)</span>
-<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>mortality <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fl">0.00015</span>, ens_members) <span class="co">#Wood lives about 18 years on average (all trees, branches, roots, course roots)</span></span>
-<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>sigma.leaf <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fl">0.0</span>, ens_members) <span class="co">#0.01 </span></span>
-<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>sigma.stem <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fl">0.0</span>, ens_members) <span class="co">#0.01 ## wood biomass</span></span>
-<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>sigma.soil <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fl">0.0</span>, ens_members)<span class="co"># 0.01</span></span>
-<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>params <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(params)</span>
-<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a><span class="co">#Replace parameters with prior distribution</span></span>
-<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>alpha <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(ens_members, <span class="at">mean =</span> prior_mean[<span class="dv">1</span>], <span class="at">sd =</span> prior_sd[<span class="dv">1</span>])</span>
-<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>Rbasal <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(ens_members, <span class="at">mean =</span> prior_mean[<span class="dv">2</span>], <span class="at">sd =</span> prior_sd[<span class="dv">2</span>])</span>
-<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>litterfall_start <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(ens_members, <span class="at">mean =</span> prior_mean[<span class="dv">3</span>], <span class="at">sd =</span> prior_sd[<span class="dv">3</span>])</span>
-<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(t <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="fu">length</span>(sim_dates)){</span>
-<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a>  output[t, , ]  <span class="ot">&lt;-</span> <span class="fu">forest_model</span>(t, </span>
-<span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">states =</span> <span class="fu">matrix</span>(output[t<span class="dv">-1</span> , , <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>], <span class="at">nrow =</span> ens_members) , </span>
-<span id="cb12-36"><a href="#cb12-36" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">parms =</span> params, </span>
-<span id="cb12-37"><a href="#cb12-37" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">inputs =</span> <span class="fu">matrix</span>(inputs_ensemble[t ,, ], <span class="at">nrow =</span> ens_members))</span>
-<span id="cb12-38"><a href="#cb12-38" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb12-39"><a href="#cb12-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-40"><a href="#cb12-40" aria-hidden="true" tabindex="-1"></a>output_df_no_optim <span class="ot">&lt;-</span> <span class="fu">output_to_df</span>(output, sim_dates, <span class="at">sim_name =</span> <span class="st">"no_optim"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>ens_members <span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>inputs_ensemble <span class="ot">&lt;-</span> <span class="fu">assign_met_ensembles</span>(inputs, ens_members)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="co">#Set initial conditions</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>output <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="cn">NA</span>, <span class="at">dim =</span> <span class="fu">c</span>(<span class="fu">length</span>(sim_dates), ens_members, <span class="dv">12</span>)) <span class="co">#12 is the number of outputs</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>output[<span class="dv">1</span>, , <span class="dv">1</span>] <span class="ot">&lt;-</span> state_init[<span class="dv">1</span>]</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>output[<span class="dv">1</span>, , <span class="dv">2</span>] <span class="ot">&lt;-</span> state_init[<span class="dv">2</span>]</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>output[<span class="dv">1</span>, , <span class="dv">3</span>] <span class="ot">&lt;-</span> state_init[<span class="dv">3</span>]</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>params <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>alpha <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fl">0.02</span>, ens_members)</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>SLA <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fl">4.74</span>, ens_members)</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>leaf_frac <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fl">0.315</span>, ens_members)</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>Ra_frac <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fl">0.5</span>, ens_members)</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>Rbasal <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fl">0.002</span>, ens_members)</span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>Q10 <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fl">2.1</span>, ens_members)</span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>litterfall_rate <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">/</span>(<span class="fl">2.0</span><span class="sc">*</span><span class="dv">365</span>), ens_members) <span class="co">#Two year leaf lifespan</span></span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>litterfall_start <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">200</span>, ens_members)</span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>litterfall_length<span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">70</span>, ens_members)</span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>mortality <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fl">0.00015</span>, ens_members) <span class="co">#Wood lives about 18 years on average (all trees, branches, roots, course roots)</span></span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>sigma.leaf <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fl">0.0</span>, ens_members) <span class="co">#0.01 </span></span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>sigma.stem <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fl">0.0</span>, ens_members) <span class="co">#0.01 ## wood biomass</span></span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>sigma.soil <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fl">0.0</span>, ens_members)<span class="co"># 0.01</span></span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>params <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(params)</span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a><span class="co">#Replace parameters with prior distribution</span></span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>alpha <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(ens_members, <span class="at">mean =</span> prior_mean[<span class="dv">1</span>], <span class="at">sd =</span> prior_sd[<span class="dv">1</span>])</span>
+<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>Rbasal <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(ens_members, <span class="at">mean =</span> prior_mean[<span class="dv">2</span>], <span class="at">sd =</span> prior_sd[<span class="dv">2</span>])</span>
+<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>litterfall_start <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(ens_members, <span class="at">mean =</span> prior_mean[<span class="dv">3</span>], <span class="at">sd =</span> prior_sd[<span class="dv">3</span>])</span>
+<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(t <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="fu">length</span>(sim_dates)){</span>
+<span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb11-34"><a href="#cb11-34" aria-hidden="true" tabindex="-1"></a>  output[t, , ]  <span class="ot">&lt;-</span> <span class="fu">forest_model</span>(t, </span>
+<span id="cb11-35"><a href="#cb11-35" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">states =</span> <span class="fu">matrix</span>(output[t<span class="dv">-1</span> , , <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>], <span class="at">nrow =</span> ens_members) , </span>
+<span id="cb11-36"><a href="#cb11-36" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">parms =</span> params, </span>
+<span id="cb11-37"><a href="#cb11-37" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">inputs =</span> <span class="fu">matrix</span>(inputs_ensemble[t ,, ], <span class="at">nrow =</span> ens_members))</span>
+<span id="cb11-38"><a href="#cb11-38" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb11-39"><a href="#cb11-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-40"><a href="#cb11-40" aria-hidden="true" tabindex="-1"></a>output_df_no_optim <span class="ot">&lt;-</span> <span class="fu">output_to_df</span>(output, sim_dates, <span class="at">sim_name =</span> <span class="st">"no_optim"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="simulation-with-posterior-parameter-distributions" class="level3" data-number="16.2.2">
 <h3 data-number="16.2.2" class="anchored" data-anchor-id="simulation-with-posterior-parameter-distributions"><span class="header-section-number">16.2.2</span> Simulation with posterior parameter distributions</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Set initial conditions</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>output <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="cn">NA</span>, <span class="at">dim =</span> <span class="fu">c</span>(<span class="fu">length</span>(sim_dates), ens_members, <span class="dv">12</span>)) <span class="co">#12 is the number of outputs</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>output[<span class="dv">1</span>, , <span class="dv">1</span>] <span class="ot">&lt;-</span> state_init[<span class="dv">1</span>]</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>output[<span class="dv">1</span>, , <span class="dv">2</span>] <span class="ot">&lt;-</span> state_init[<span class="dv">2</span>]</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>output[<span class="dv">1</span>, , <span class="dv">3</span>] <span class="ot">&lt;-</span> state_init[<span class="dv">3</span>]</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Sample from posterior distributions</span></span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>alpha <span class="ot">&lt;-</span> <span class="fu">sample</span>(fit_params[<span class="dv">1</span>, nburn<span class="sc">:</span>num_iter], ens_members, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>Rbasal <span class="ot">&lt;-</span> <span class="fu">sample</span>(fit_params[<span class="dv">2</span>, nburn<span class="sc">:</span>num_iter], ens_members, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>litterfall_start <span class="ot">&lt;-</span> <span class="fu">sample</span>(fit_params[<span class="dv">3</span>, nburn<span class="sc">:</span>num_iter], ens_members, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(t <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="fu">length</span>(sim_dates)){</span>
-<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>  output[t, , ]  <span class="ot">&lt;-</span> <span class="fu">forest_model</span>(t, </span>
-<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">states =</span> <span class="fu">matrix</span>(output[t<span class="dv">-1</span> , , <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>], <span class="at">nrow =</span> ens_members) , </span>
-<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">parms =</span> params, </span>
-<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">inputs =</span> <span class="fu">matrix</span>(inputs_ensemble[t ,, ], <span class="at">nrow =</span> ens_members))</span>
-<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>output_df_optim <span class="ot">&lt;-</span> <span class="fu">output_to_df</span>(output, sim_dates, <span class="at">sim_name =</span> <span class="st">"optimized"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Set initial conditions</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>output <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="cn">NA</span>, <span class="at">dim =</span> <span class="fu">c</span>(<span class="fu">length</span>(sim_dates), ens_members, <span class="dv">12</span>)) <span class="co">#12 is the number of outputs</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>output[<span class="dv">1</span>, , <span class="dv">1</span>] <span class="ot">&lt;-</span> state_init[<span class="dv">1</span>]</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>output[<span class="dv">1</span>, , <span class="dv">2</span>] <span class="ot">&lt;-</span> state_init[<span class="dv">2</span>]</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>output[<span class="dv">1</span>, , <span class="dv">3</span>] <span class="ot">&lt;-</span> state_init[<span class="dv">3</span>]</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Sample from posterior distributions</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>alpha <span class="ot">&lt;-</span> <span class="fu">sample</span>(fit_params[<span class="dv">1</span>, nburn<span class="sc">:</span>num_iter], ens_members, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>Rbasal <span class="ot">&lt;-</span> <span class="fu">sample</span>(fit_params[<span class="dv">2</span>, nburn<span class="sc">:</span>num_iter], ens_members, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>litterfall_start <span class="ot">&lt;-</span> <span class="fu">sample</span>(fit_params[<span class="dv">3</span>, nburn<span class="sc">:</span>num_iter], ens_members, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(t <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="fu">length</span>(sim_dates)){</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>  output[t, , ]  <span class="ot">&lt;-</span> <span class="fu">forest_model</span>(t, </span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">states =</span> <span class="fu">matrix</span>(output[t<span class="dv">-1</span> , , <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>], <span class="at">nrow =</span> ens_members) , </span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">parms =</span> params, </span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">inputs =</span> <span class="fu">matrix</span>(inputs_ensemble[t ,, ], <span class="at">nrow =</span> ens_members))</span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>output_df_optim <span class="ot">&lt;-</span> <span class="fu">output_to_df</span>(output, sim_dates, <span class="at">sim_name =</span> <span class="st">"optimized"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="visualize-influence-of-optimization" class="level3" data-number="16.2.3">
 <h3 data-number="16.2.3" class="anchored" data-anchor-id="visualize-influence-of-optimization"><span class="header-section-number">16.2.3</span> Visualize influence of optimization</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>obs_filtered <span class="ot">&lt;-</span> obs <span class="sc">|&gt;</span> </span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(datetime <span class="sc">&gt;</span> <span class="fu">min</span>(output_df_no_optim<span class="sc">$</span>datetime))</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="fu">bind_rows</span>(output_df_no_optim, output_df_optim) <span class="sc">|&gt;</span> </span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>   <span class="fu">summarise</span>(<span class="at">median =</span> <span class="fu">median</span>(prediction, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), </span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>            <span class="at">upper90 =</span> <span class="fu">quantile</span>(prediction, <span class="fl">0.95</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>            <span class="at">lower90 =</span> <span class="fu">quantile</span>(prediction, <span class="fl">0.05</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>            <span class="at">.by =</span> <span class="fu">c</span>(<span class="st">"datetime"</span>, <span class="st">"variable"</span>, <span class="st">"model_id"</span>)) <span class="sc">|&gt;</span> </span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(variable <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"lai"</span>, <span class="st">"wood"</span>, <span class="st">"som"</span>, <span class="st">"nee"</span>)) <span class="sc">|&gt;</span> </span>
-<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> datetime)) <span class="sc">+</span></span>
-<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> lower90, <span class="at">ymax =</span> upper90, <span class="at">fill =</span> model_id), <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
-<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> median, <span class="at">color =</span> model_id)) <span class="sc">+</span></span>
-<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> obs_filtered, <span class="fu">aes</span>(<span class="at">x =</span> datetime, <span class="at">y =</span> observation), <span class="at">color =</span> <span class="st">"blue"</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
-<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>variable, <span class="at">scale =</span> <span class="st">"free"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 2 rows containing missing values (`geom_line()`).</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 3 rows containing missing values (`geom_point()`).</code></pre>
-</div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>obs_filtered <span class="ot">&lt;-</span> obs <span class="sc">|&gt;</span> </span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(datetime <span class="sc">&gt;</span> <span class="fu">min</span>(output_df_no_optim<span class="sc">$</span>datetime))</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="fu">bind_rows</span>(output_df_no_optim, output_df_optim) <span class="sc">|&gt;</span> </span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>   <span class="fu">summarise</span>(<span class="at">median =</span> <span class="fu">median</span>(prediction, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), </span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>            <span class="at">upper90 =</span> <span class="fu">quantile</span>(prediction, <span class="fl">0.95</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>            <span class="at">lower90 =</span> <span class="fu">quantile</span>(prediction, <span class="fl">0.05</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>            <span class="at">.by =</span> <span class="fu">c</span>(<span class="st">"datetime"</span>, <span class="st">"variable"</span>, <span class="st">"model_id"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(variable <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"lai"</span>, <span class="st">"wood"</span>, <span class="st">"som"</span>, <span class="st">"nee"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> datetime)) <span class="sc">+</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> lower90, <span class="at">ymax =</span> upper90, <span class="at">fill =</span> model_id), <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> median, <span class="at">color =</span> model_id)) <span class="sc">+</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> obs_filtered, <span class="fu">aes</span>(<span class="at">x =</span> datetime, <span class="at">y =</span> observation), <span class="at">color =</span> <span class="st">"blue"</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>variable, <span class="at">scale =</span> <span class="st">"free"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="parameter-calibration3_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
 </div>
@@ -660,7 +651,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="save-posteriors-for-future-use" class="level3" data-number="16.2.4">
 <h3 data-number="16.2.4" class="anchored" data-anchor-id="save-posteriors-for-future-use"><span class="header-section-number">16.2.4</span> Save posteriors for future use</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>  <span class="fu">write_csv</span>(parameter_MCMC, <span class="st">"data/saved_parameter_chain.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>  <span class="fu">write_csv</span>(parameter_MCMC, <span class="st">"data/saved_parameter_chain.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 
