@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>A practical guide to ecological forecasting in R - 16&nbsp; Parameter calibration: Bayesian methods</title>
+<title>A Practical Guide to Ecological Forecasting in R - 16&nbsp; Parameter calibration: Bayesian methods</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -128,7 +128,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">A practical guide to ecological forecasting in R</a> 
+      <a href="./">A Practical Guide to Ecological Forecasting in R</a> 
     </div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
@@ -519,7 +519,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>area_under_curve <span class="ot">&lt;-</span> <span class="fu">sum</span>(prior_times_likelihood <span class="sc">*</span> delta_x)  <span class="co">#sum(Width * Height) = total probability of the data given all possible values of the parameter</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>normalized_posterior <span class="ot">&lt;-</span> prior_times_likelihood <span class="sc">/</span> area_under_curve</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>The probablity of the data is (i.e., area under likelihood x prior curve): 3.6667028^{-6}</p>
+<p>The probablity of the data is (i.e., area under likelihood x prior curve): 6.930673^{-6}</p>
 <p>Now we can visualize the rescaled likelihood (remember that the un-scaled likelihood was actually used in the calculations), the prior, and the normalized posterior.</p>
 <p><a href="#fig-prior-ll-post" class="quarto-xref">Figure&nbsp;<span>16.7</span></a> shows how the how the posterior is a blend of the prior and the likelihood.</p>
 <div class="cell">

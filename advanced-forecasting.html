@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>A practical guide to ecological forecasting in R - Advanced forecasting</title>
+<title>A Practical Guide to Ecological Forecasting in R - Advanced forecasting</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,7 +20,26 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -94,7 +113,7 @@ ul.task-list li input[type="checkbox"] {
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">A practical guide to ecological forecasting in R</a> 
+      <a href="./">A Practical Guide to Ecological Forecasting in R</a> 
     </div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
@@ -332,9 +351,14 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 <p>The advanced forecasting section applies the concepts of the first section to a process model. The topics include an introduction to process modeling (particularly dynamic models), model fitting through likelihood and Bayesian techniques, and data assimilation using the particular filter.</p>
-<p>Material in this section is partially dervived from the forecasting activities associated with Mike Dietze’s Ecological Modeling book (<a href="https://github.com/EcoForecast/EF_Activities" class="uri">https://github.com/EcoForecast/EF_Activities</a>) and his terrestrial forecasting tutorial that was created for the NEON Ecological Forecasting Challenge (<a href="https://github.com/mdietze/FluxCourseForecast" class="uri">https://github.com/mdietze/FluxCourseForecast</a>).</p>
+<p>Material in this section is partially derived from the <a href="https://github.com/EcoForecast/EF_Activities">forecasting activities</a> associated with Mike Dietze’s Ecological Modeling book (<span class="citation" data-cites="dietzeEcologicalForecasting2017">Dietze (<a href="references.html#ref-dietzeEcologicalForecasting2017" role="doc-biblioref">2017</a>)</span>) and his <a href="https://github.com/mdietze/FluxCourseForecast">terrestrial forecasting tutorial</a> that was created for the NEON Ecological Forecasting Challenge.</p>
 
 
+<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
+<div id="ref-dietzeEcologicalForecasting2017" class="csl-entry" role="listitem">
+Dietze, Michael C. 2017. <em>Ecological <span>Forecasting</span></em>. <span>Princeton</span>: <span>Princeton University Press</span>.
+</div>
+</div>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

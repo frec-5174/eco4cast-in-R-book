@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>A practical guide to ecological forecasting in R - 4&nbsp; First forecast: Introduction to NEON Ecological Forecasting Challenge</title>
+<title>A Practical Guide to Ecological Forecasting in R - 4&nbsp; First forecast: Introduction to NEON Ecological Forecasting Challenge</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,7 +20,26 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -94,7 +113,7 @@ ul.task-list li input[type="checkbox"] {
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">A practical guide to ecological forecasting in R</a> 
+      <a href="./">A Practical Guide to Ecological Forecasting in R</a> 
     </div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
@@ -332,14 +351,19 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 <p>This module was developed by Olsson, F., C. Boettiger, C.C. Carey, M.E. Lofton, and R.Q. Thomas</p>
-<p><a href="https://github.com/OlssonF/NEON-forecast-challenge-workshop">Tutorial</a></p>
-<p>This tutorial introduces participants to key concepts in ecological forecasting and provides hands-on materials for submitting forecasts to the Ecological Forecasting Initiative (EFI) - National Ecological Observatory Network (NEON) Forecasting Challenge (hereafter, Challenge). The tutorial has been developed and used with more than 300 participants in both classrooms and workshops and provides the ecological understanding, workflows, and tools to enable ecologists with minimal forecasting experience to participate in the Challenge via a hands-on code-based tutorial. This R-based tutorial introduces participants to a near-term, iterative forecasting workflow that includes obtaining observations from NEON, developing a simple forecasting model, generating a forecast, and submitting the forecast to the Challenge, as well as analyzing forecast performance once new observations become available for evaluation. The overarching aim of this tutorial is to lower the barrier to ecological forecasting and empower participants to continue to innovate and develop their own ecological forecasts for the Challenge into the future.</p>
+<p><a href="https://github.com/OlssonF/NEON-forecast-challenge-workshop"><strong>Tutorial</strong></a></p>
+<p>This tutorial introduces participants to key concepts in ecological forecasting and provides hands-on materials for submitting forecasts to the Ecological Forecasting Initiative (EFI) - National Ecological Observatory Network (NEON) Forecasting Challenge (hereafter, Challenge). You can learn more about the Challenge in <span class="citation" data-cites="thomasNEONEcologicalForecasting2023">Thomas et al. (<a href="references.html#ref-thomasNEONEcologicalForecasting2023" role="doc-biblioref">2023</a>)</span>. The tutorial has been developed and used with more than 300 participants in both classrooms and workshops and provides the ecological understanding, workflows, and tools to enable ecologists with minimal forecasting experience to participate in the Challenge via a hands-on code-based tutorial. This R-based tutorial introduces participants to a near-term, iterative forecasting workflow that includes obtaining observations from NEON, developing a simple forecasting model, generating a forecast, and submitting the forecast to the Challenge, as well as analyzing forecast performance once new observations become available for evaluation. The overarching aim of this tutorial is to lower the barrier to ecological forecasting and empower participants to continue to innovate and develop their own ecological forecasts for the Challenge into the future.</p>
 <p>The assignment will require you to create a GitHub repository with your completed code from the NEON Forecasting Challenge workshop. You will build on this repository throughout the rest of section 1 of the book. You can learn more about setting up Git and GitHub in <a href="background-skills.html#sec-github" class="quarto-xref"><span>Section&nbsp;2.2</span></a>.</p>
 <p>You will be generating forecasts of water temperature at NEON aquatics sites.</p>
 <p>Reference</p>
 <p>Olsson, F., C. Boettiger, C.C. Carey, M.E. Lofton, and R.Q. Thomas. Can you predict the future? A tutorial for the National Ecological Observatory Network Ecological Forecasting Challenge. In review at <em>Journal of Open Source Education</em>.</p>
 
 
+<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
+<div id="ref-thomasNEONEcologicalForecasting2023" class="csl-entry" role="listitem">
+Thomas, R Quinn, Carl Boettiger, Cayelan C Carey, Michael C Dietze, Leah R Johnson, Melissa A Kenney, Jason S McLachlan, et al. 2023. <span>“The <span>NEON Ecological Forecasting Challenge</span>.”</span> <em>Frontiers in Ecology and the Environment</em> 21 (3): 112–13. <a href="https://doi.org/10.1002/fee.2616">https://doi.org/10.1002/fee.2616</a>.
+</div>
+</div>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

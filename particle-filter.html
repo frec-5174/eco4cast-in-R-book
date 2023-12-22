@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>A practical guide to ecological forecasting in R - 18&nbsp; Data assimilation: particle filter</title>
+<title>A Practical Guide to Ecological Forecasting in R - 18&nbsp; Data assimilation: particle filter</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -128,7 +128,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">A practical guide to ecological forecasting in R</a> 
+      <a href="./">A Practical Guide to Ecological Forecasting in R</a> 
     </div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
@@ -543,7 +543,7 @@ for(t in 1:length_of_time_series){
 <span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a>    }</span>
 <span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p><span class="quarto-unresolved-ref">?fig-parts-alone</span> particles individually</p>
+<p><a href="#fig-parts-alone" class="quarto-xref">Figure&nbsp;<span>18.2</span></a> particles individually</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(<span class="at">time =</span> <span class="dv">1</span><span class="sc">:</span>nt,</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>       <span class="fu">as_tibble</span>(x)) <span class="sc">%&gt;%</span> </span>
@@ -554,9 +554,9 @@ for(t in 1:length_of_time_series){
 <span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Date"</span>, <span class="at">y =</span> <span class="st">"Flu cases"</span>, <span class="at">title =</span> <span class="st">"State of Virginia"</span>) <span class="sc">+</span></span>
 <span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-sim-prior-post" class="quarto-figure quarto-figure-center anchored">
+<div id="fig-parts-alone" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="particle-filter_files/figure-html/fig-sim-prior-post-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="particle-filter_files/figure-html/fig-parts-alone-1.png" class="img-fluid figure-img" width="672"></p>
 <figcaption class="figure-caption">Figure&nbsp;18.2: Results of the particle filter with each particle shown</figcaption>
 </figure>
 </div>
@@ -694,13 +694,7 @@ for(t in 1:length_of_time_series){
 <span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>Tmean <span class="ot">&lt;-</span> <span class="fu">mean</span>(df<span class="sc">$</span>tmin..deg.c.)</span>
 <span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>gflu<span class="sc">$</span>Tmin <span class="ot">=</span> df<span class="sc">$</span>tmin..deg.c.[<span class="fu">match</span>(gflu<span class="sc">$</span>Date,df<span class="sc">$</span>date)] <span class="sc">-</span> Tmean</span>
 <span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>gflu <span class="ot">&lt;-</span> gflu[<span class="dv">1</span><span class="sc">:</span><span class="dv">15</span>, ]</span>
-<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> gflu, <span class="fu">aes</span>(<span class="at">x =</span> Date, <span class="at">y =</span> <span class="fu">log</span>(Virginia))) <span class="sc">+</span></span>
-<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
-<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="particle-filter_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
-</div>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>gflu <span class="ot">&lt;-</span> gflu[<span class="dv">1</span><span class="sc">:</span><span class="dv">15</span>, ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now modify the PF with the DLM model instead of the random walk. This should be familiar to you.</p>
 <p>The values for <code>b0</code>, <code>b2</code>, and <code>sd_add</code> are the mean values from the MCMC chain in the previous assignment.</p>
