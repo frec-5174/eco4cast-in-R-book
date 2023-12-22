@@ -389,6 +389,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="overview-of-model" class="level2" data-number="12.1">
 <h2 data-number="12.1" class="anchored" data-anchor-id="overview-of-model"><span class="header-section-number">12.1</span> Overview of model</h2>
 <p>The model is a 0-D model (no horizontal and vertical dimensions) that runs at a 1 day timestep. It models carbon using MgC/ha.</p>
+<p><img src="img/model_diagram.png" class="img-fluid"></p>
 <p>Photosynthesis (gross primary productivityl; gpp) is modeled using a light-use efficiency approach. Photosynthetically Active Radiation (PAR) is converted to absorbed PAR by multiplying by the proportion absorbed by leaf area index (LAI). As LAI increases more light is absorbed. The absorbed PAR is multipled by a light use efficiency parameter (<code>alpha</code>). LAI is determined by multipling leave carbon by the specific leaf area parameter (<code>SLA</code>).</p>
 <p>Autotrophic respiration (<code>ra</code>) is modeled as a constant proportion of GPP using the <code>Ra_frac</code> parameter. Net primary productivty (<code>npp</code>) is the carbon that is not used for autotrophic respiration (<code>gpp - ra</code>).</p>
 <p>NPP is allocated to the two vegetation carbon states (<code>wood</code> and <code>leaves</code>) based on a constant proportion parameter. <code>leaf_frac</code> is the proportion that is allocated to leaves and <code>1-leaf_frac</code> is the allocation to wood.</p>
