@@ -541,14 +541,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">treeC_kgCm2 =</span> (tree_kgC)<span class="sc">/</span>(totalSampledAreaTrees)) <span class="sc">|&gt;</span> </span>
 <span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">plot_kgCm2 =</span> <span class="fu">sum</span>(treeC_kgCm2, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">.by =</span> <span class="fu">c</span>(<span class="st">"plotID"</span>, <span class="st">"measure_date"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Visualize the plot level biomass</p>
+<p><span class="quarto-unresolved-ref">?fig-plot-live-carbon</span> plot level carbon in living trees</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(plot_live_carbon, <span class="fu">aes</span>(<span class="at">x =</span> measure_date, <span class="at">y =</span> plot_kgCm2, <span class="at">color =</span> plotID)) <span class="sc">+</span> </span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="neon-data_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="fig-plot-live-carbon"><img src="neon-data_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></a></p>
+<figcaption class="figure-caption">Plot level carbon in living trees for the focal NEON site</figcaption>
+</figure>
+</div>
 </div>
 </div>
 <p>Determine the set of plots that are measured each year (a subset, n = 5) are measured each year, while all the plots are measured every 5 years.</p>
@@ -566,7 +571,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">mean_kgCperm2 =</span> <span class="fu">mean</span>(plot_kgCm2, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
 <span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>              <span class="at">sd_kgCperm2 =</span> <span class="fu">sd</span>(plot_kgCm2))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Plot the site level carbon</p>
+<p><span class="quarto-unresolved-ref">?fig-site-live-carbon</span> is the site level carbon calculated by taking the mean only the plots that were measured each year</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(site_live_carbon, <span class="fu">aes</span>(<span class="at">x =</span> measure_date, <span class="at">y =</span> mean_kgCperm2)) <span class="sc">+</span> </span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
@@ -574,7 +579,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">position=</span><span class="fu">position_dodge</span>(<span class="fl">0.05</span>)) <span class="sc">+</span></span>
 <span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="neon-data_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="fig-site-live-carbon"><img src="neon-data_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></a></p>
+<figcaption class="figure-caption">Site level carbon in living trees for the focal NEON site</figcaption>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -608,17 +618,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">treeC_kgCm2 =</span> (tree_kgC)<span class="sc">/</span>(totalSampledAreaTrees)) <span class="sc">|&gt;</span> </span>
 <span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">plot_kgCm2 =</span> <span class="fu">sum</span>(treeC_kgCm2, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">.by =</span> <span class="fu">c</span>(<span class="st">"plotID"</span>, <span class="st">"measure_date"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Visualize plot level carbon</p>
+<p><span class="quarto-unresolved-ref">?fig-plot-dead-carbon</span> plot level carbon in dead trees.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(plot_dead_carbon, <span class="fu">aes</span>(<span class="at">x =</span> measure_date, <span class="at">y =</span> plot_kgCm2, <span class="at">color =</span> plotID)) <span class="sc">+</span> </span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
 <span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="neon-data_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="fig-plot-dead-carbon"><img src="neon-data_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></a></p>
+<figcaption class="figure-caption">Plot level carbon in dead trees for the focal NEON site</figcaption>
+</figure>
 </div>
 </div>
-<p>Calculate site level carbon</p>
+</div>
+<p>Calculate site level carbon in dead trees from the plots measured each year.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a> site_dead_carbon <span class="ot">&lt;-</span> plot_dead_carbon <span class="sc">%&gt;%</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(plotID <span class="sc">%in%</span> last_plots) <span class="sc">|&gt;</span> </span>
@@ -626,14 +641,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">mean_kgCperm2 =</span> <span class="fu">mean</span>(plot_kgCm2, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
 <span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">sd_kgCperm2 =</span> <span class="fu">sd</span>(plot_kgCm2))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Visualize site level carbon</p>
+<p><span class="quarto-unresolved-ref">?fig-site-dead-carbon</span> is the site level carbon.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(site_dead_carbon, <span class="fu">aes</span>(<span class="at">x =</span> measure_date, <span class="at">y =</span> mean_kgCperm2)) <span class="sc">+</span> </span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
 <span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="neon-data_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid" width="672"></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="fig-site-dead-carbon"><img src="neon-data_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid figure-img" width="672"></a></p>
+<figcaption class="figure-caption">Site level carbon in dead trees for the focal NEON site</figcaption>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -695,146 +715,142 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a><span class="do">## table of coarse wood</span></span>
 <span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a>site_cwd_carbon <span class="ot">&lt;-</span> log_table_filter <span class="sc">%&gt;%</span></span>
 <span id="cb19-26"><a href="#cb19-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean_kgCperm2 =</span> .<span class="dv">5</span> <span class="sc">*</span> <span class="fu">sum</span>(gcm3, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">*</span> .<span class="dv">1</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb19-27"><a href="#cb19-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">year =</span> <span class="fu">unique</span>(log_table_filter<span class="sc">$</span>yearBoutBegan))</span>
-<span id="cb19-28"><a href="#cb19-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-29"><a href="#cb19-29" aria-hidden="true" tabindex="-1"></a>site_cwd_carbon</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 1 × 2
-  mean_kgCperm2  year
-          &lt;dbl&gt; &lt;dbl&gt;
-1          2.57  2018</code></pre>
-</div>
+<span id="cb19-27"><a href="#cb19-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">year =</span> <span class="fu">unique</span>(log_table_filter<span class="sc">$</span>yearBoutBegan))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="calculate-carbon-in-fine-roots" class="level2" data-number="14.6">
 <h2 data-number="14.6" class="anchored" data-anchor-id="calculate-carbon-in-fine-roots"><span class="header-section-number">14.6</span> Calculate carbon in fine roots</h2>
 <p>Here we are going to calculate the carbon stored in fine roots using the root chemistry data product. We will calculate the carbon in both dead and alive roots. Though we are interested mostly in live roots, at the time of writing this, there the 2021 NEON data for our site does not have <code>rootStatus</code> data available. Thus we will use historical data to compute an estimate of the ratio, so that we don’t have to throw away perfectly good information.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="do">## root chemistry data product</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>index <span class="ot">&lt;-</span>  neonstore<span class="sc">:::</span><span class="fu">neon_data</span>(<span class="at">product =</span> <span class="st">"DP1.10067.001"</span>,</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>                                <span class="at">site =</span> site,</span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>                                <span class="at">type=</span><span class="st">"basic"</span>)</span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>bbc_percore <span class="ot">&lt;-</span> index <span class="sc">|&gt;</span></span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">grepl</span>(<span class="st">"bbc_percore"</span>, name)) <span class="sc">|&gt;</span> </span>
-<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(url) <span class="sc">|&gt;</span></span>
-<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>  duckdbfs<span class="sc">::</span><span class="fu">open_dataset</span>(<span class="at">format=</span><span class="st">"csv"</span>, <span class="at">filename =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect</span>()</span>
-<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>rootmass <span class="ot">&lt;-</span> index <span class="sc">|&gt;</span></span>
-<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">grepl</span>(<span class="st">"bbc_rootmass"</span>, name)) <span class="sc">|&gt;</span> </span>
-<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(url) <span class="sc">|&gt;</span></span>
-<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>  duckdbfs<span class="sc">::</span><span class="fu">open_dataset</span>(<span class="at">format=</span><span class="st">"csv"</span>, <span class="at">filename =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="do">## root chemistry data product</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>index <span class="ot">&lt;-</span>  neonstore<span class="sc">:::</span><span class="fu">neon_data</span>(<span class="at">product =</span> <span class="st">"DP1.10067.001"</span>,</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>                                <span class="at">site =</span> site,</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>                                <span class="at">type=</span><span class="st">"basic"</span>)</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>bbc_percore <span class="ot">&lt;-</span> index <span class="sc">|&gt;</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">grepl</span>(<span class="st">"bbc_percore"</span>, name)) <span class="sc">|&gt;</span> </span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(url) <span class="sc">|&gt;</span></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>  duckdbfs<span class="sc">::</span><span class="fu">open_dataset</span>(<span class="at">format=</span><span class="st">"csv"</span>, <span class="at">filename =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect</span>()</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>rootmass <span class="ot">&lt;-</span> index <span class="sc">|&gt;</span></span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">grepl</span>(<span class="st">"bbc_rootmass"</span>, name)) <span class="sc">|&gt;</span> </span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(url) <span class="sc">|&gt;</span></span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>  duckdbfs<span class="sc">::</span><span class="fu">open_dataset</span>(<span class="at">format=</span><span class="st">"csv"</span>, <span class="at">filename =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>rootmass<span class="sc">$</span>year <span class="ot">=</span> <span class="fu">year</span>(rootmass<span class="sc">$</span>collectDate)</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="do">## set variables for liveDryMass, deadDryMass, unkDryMass, area</span></span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>rootmass<span class="sc">$</span>liveDryMass <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">0</span>, <span class="fu">nrow</span>(rootmass))</span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>rootmass<span class="sc">$</span>deadDryMass <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">0</span>, <span class="fu">nrow</span>(rootmass))</span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>rootmass<span class="sc">$</span>unkDryMass <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">0</span>, <span class="fu">nrow</span>(rootmass))</span>
-<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>rootmass<span class="sc">$</span>area <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="fu">nrow</span>(rootmass))</span>
-<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(rootmass)){</span>
-<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>  <span class="do">## match by sample ID</span></span>
-<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>  ind <span class="ot">&lt;-</span> <span class="fu">which</span>(bbc_percore<span class="sc">$</span>sampleID <span class="sc">==</span> rootmass<span class="sc">$</span>sampleID[i])</span>
-<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>  <span class="do">## extract core sample area</span></span>
-<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>  rootmass<span class="sc">$</span>area[i] <span class="ot">&lt;-</span> bbc_percore<span class="sc">$</span>rootSampleArea[ind]</span>
-<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>  <span class="do">## categorize mass as live, dead, or unknown</span></span>
-<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">is.na</span>(rootmass<span class="sc">$</span>rootStatus[i])){</span>
-<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>    rootmass<span class="sc">$</span>unkDryMass[i] <span class="ot">&lt;-</span> rootmass<span class="sc">$</span>dryMass[i]</span>
-<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> <span class="cf">if</span> (rootmass<span class="sc">$</span>rootStatus[i] <span class="sc">==</span> <span class="st">'live'</span>){</span>
-<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>    rootmass<span class="sc">$</span>liveDryMass[i] <span class="ot">&lt;-</span> rootmass<span class="sc">$</span>dryMass[i]</span>
-<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> <span class="cf">if</span> (rootmass<span class="sc">$</span>rootStatus[i] <span class="sc">==</span> <span class="st">'dead'</span>){</span>
-<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a>    rootmass<span class="sc">$</span>deadDryMass[i] <span class="ot">&lt;-</span> rootmass<span class="sc">$</span>dryMass[i]</span>
-<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span>{</span>
-<span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a>    rootmass<span class="sc">$</span>unkDryMass[i] <span class="ot">&lt;-</span> rootmass<span class="sc">$</span>dryMass[i]</span>
-<span id="cb22-23"><a href="#cb22-23" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb22-24"><a href="#cb22-24" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb22-25"><a href="#cb22-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-26"><a href="#cb22-26" aria-hidden="true" tabindex="-1"></a><span class="do">##</span></span>
-<span id="cb22-27"><a href="#cb22-27" aria-hidden="true" tabindex="-1"></a>site_roots <span class="ot">&lt;-</span> rootmass <span class="sc">%&gt;%</span></span>
-<span id="cb22-28"><a href="#cb22-28" aria-hidden="true" tabindex="-1"></a>  <span class="do">## filter plotID to only our plots of interest</span></span>
-<span id="cb22-29"><a href="#cb22-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(plotID <span class="sc">%in%</span> last_plots) <span class="sc">%&gt;%</span></span>
-<span id="cb22-30"><a href="#cb22-30" aria-hidden="true" tabindex="-1"></a>  <span class="do">## group by year</span></span>
-<span id="cb22-31"><a href="#cb22-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(year) <span class="sc">%&gt;%</span></span>
-<span id="cb22-32"><a href="#cb22-32" aria-hidden="true" tabindex="-1"></a>  <span class="do">## sum live, dead, unknown root masses. multiply by</span></span>
-<span id="cb22-33"><a href="#cb22-33" aria-hidden="true" tabindex="-1"></a>  <span class="do">## .5 for conversion to kgC/m^2</span></span>
-<span id="cb22-34"><a href="#cb22-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean_kgCperm2_live =</span> .<span class="dv">5</span><span class="sc">*</span><span class="fu">sum</span>(liveDryMass<span class="sc">/</span>area, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)<span class="sc">/</span><span class="dv">1000</span>,</span>
-<span id="cb22-35"><a href="#cb22-35" aria-hidden="true" tabindex="-1"></a>            <span class="at">mean_kgCperm2_dead =</span> .<span class="dv">5</span><span class="sc">*</span><span class="fu">sum</span>(deadDryMass<span class="sc">/</span>area, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)<span class="sc">/</span><span class="dv">1000</span>,</span>
-<span id="cb22-36"><a href="#cb22-36" aria-hidden="true" tabindex="-1"></a>            <span class="at">mean_kgCperm2_unk =</span> .<span class="dv">5</span><span class="sc">*</span><span class="fu">sum</span>(unkDryMass<span class="sc">/</span>area, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)<span class="sc">/</span><span class="dv">1000</span>,</span>
-<span id="cb22-37"><a href="#cb22-37" aria-hidden="true" tabindex="-1"></a>            <span class="at">year_total =</span> <span class="fu">sum</span>(<span class="fu">c</span>(mean_kgCperm2_dead, mean_kgCperm2_live, mean_kgCperm2_unk)) <span class="sc">/</span> <span class="fu">length</span>(<span class="fu">unique</span>(plotID)),</span>
-<span id="cb22-38"><a href="#cb22-38" aria-hidden="true" tabindex="-1"></a>            <span class="at">med_date =</span> <span class="fu">median</span>(collectDate)) <span class="sc">|&gt;</span> </span>
-<span id="cb22-39"><a href="#cb22-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">mean_kgCperm2 =</span> year_total) <span class="sc">|&gt;</span> </span>
-<span id="cb22-40"><a href="#cb22-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(year, mean_kgCperm2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>rootmass<span class="sc">$</span>year <span class="ot">=</span> <span class="fu">year</span>(rootmass<span class="sc">$</span>collectDate)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="do">## set variables for liveDryMass, deadDryMass, unkDryMass, area</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>rootmass<span class="sc">$</span>liveDryMass <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">0</span>, <span class="fu">nrow</span>(rootmass))</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>rootmass<span class="sc">$</span>deadDryMass <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">0</span>, <span class="fu">nrow</span>(rootmass))</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>rootmass<span class="sc">$</span>unkDryMass <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">0</span>, <span class="fu">nrow</span>(rootmass))</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>rootmass<span class="sc">$</span>area <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="fu">nrow</span>(rootmass))</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(rootmass)){</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>  <span class="do">## match by sample ID</span></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>  ind <span class="ot">&lt;-</span> <span class="fu">which</span>(bbc_percore<span class="sc">$</span>sampleID <span class="sc">==</span> rootmass<span class="sc">$</span>sampleID[i])</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>  <span class="do">## extract core sample area</span></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>  rootmass<span class="sc">$</span>area[i] <span class="ot">&lt;-</span> bbc_percore<span class="sc">$</span>rootSampleArea[ind]</span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>  <span class="do">## categorize mass as live, dead, or unknown</span></span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">is.na</span>(rootmass<span class="sc">$</span>rootStatus[i])){</span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>    rootmass<span class="sc">$</span>unkDryMass[i] <span class="ot">&lt;-</span> rootmass<span class="sc">$</span>dryMass[i]</span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> <span class="cf">if</span> (rootmass<span class="sc">$</span>rootStatus[i] <span class="sc">==</span> <span class="st">'live'</span>){</span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>    rootmass<span class="sc">$</span>liveDryMass[i] <span class="ot">&lt;-</span> rootmass<span class="sc">$</span>dryMass[i]</span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> <span class="cf">if</span> (rootmass<span class="sc">$</span>rootStatus[i] <span class="sc">==</span> <span class="st">'dead'</span>){</span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>    rootmass<span class="sc">$</span>deadDryMass[i] <span class="ot">&lt;-</span> rootmass<span class="sc">$</span>dryMass[i]</span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span>{</span>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a>    rootmass<span class="sc">$</span>unkDryMass[i] <span class="ot">&lt;-</span> rootmass<span class="sc">$</span>dryMass[i]</span>
+<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb21-25"><a href="#cb21-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-26"><a href="#cb21-26" aria-hidden="true" tabindex="-1"></a><span class="do">##</span></span>
+<span id="cb21-27"><a href="#cb21-27" aria-hidden="true" tabindex="-1"></a>site_roots <span class="ot">&lt;-</span> rootmass <span class="sc">%&gt;%</span></span>
+<span id="cb21-28"><a href="#cb21-28" aria-hidden="true" tabindex="-1"></a>  <span class="do">## filter plotID to only our plots of interest</span></span>
+<span id="cb21-29"><a href="#cb21-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(plotID <span class="sc">%in%</span> last_plots) <span class="sc">%&gt;%</span></span>
+<span id="cb21-30"><a href="#cb21-30" aria-hidden="true" tabindex="-1"></a>  <span class="do">## group by year</span></span>
+<span id="cb21-31"><a href="#cb21-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(year) <span class="sc">%&gt;%</span></span>
+<span id="cb21-32"><a href="#cb21-32" aria-hidden="true" tabindex="-1"></a>  <span class="do">## sum live, dead, unknown root masses. multiply by</span></span>
+<span id="cb21-33"><a href="#cb21-33" aria-hidden="true" tabindex="-1"></a>  <span class="do">## .5 for conversion to kgC/m^2</span></span>
+<span id="cb21-34"><a href="#cb21-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean_kgCperm2_live =</span> .<span class="dv">5</span><span class="sc">*</span><span class="fu">sum</span>(liveDryMass<span class="sc">/</span>area, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)<span class="sc">/</span><span class="dv">1000</span>,</span>
+<span id="cb21-35"><a href="#cb21-35" aria-hidden="true" tabindex="-1"></a>            <span class="at">mean_kgCperm2_dead =</span> .<span class="dv">5</span><span class="sc">*</span><span class="fu">sum</span>(deadDryMass<span class="sc">/</span>area, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)<span class="sc">/</span><span class="dv">1000</span>,</span>
+<span id="cb21-36"><a href="#cb21-36" aria-hidden="true" tabindex="-1"></a>            <span class="at">mean_kgCperm2_unk =</span> .<span class="dv">5</span><span class="sc">*</span><span class="fu">sum</span>(unkDryMass<span class="sc">/</span>area, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)<span class="sc">/</span><span class="dv">1000</span>,</span>
+<span id="cb21-37"><a href="#cb21-37" aria-hidden="true" tabindex="-1"></a>            <span class="at">year_total =</span> <span class="fu">sum</span>(<span class="fu">c</span>(mean_kgCperm2_dead, mean_kgCperm2_live, mean_kgCperm2_unk)) <span class="sc">/</span> <span class="fu">length</span>(<span class="fu">unique</span>(plotID)),</span>
+<span id="cb21-38"><a href="#cb21-38" aria-hidden="true" tabindex="-1"></a>            <span class="at">med_date =</span> <span class="fu">median</span>(collectDate)) <span class="sc">|&gt;</span> </span>
+<span id="cb21-39"><a href="#cb21-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">mean_kgCperm2 =</span> year_total) <span class="sc">|&gt;</span> </span>
+<span id="cb21-40"><a href="#cb21-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(year, mean_kgCperm2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="calculate-carbon-in-soils" class="level2" data-number="14.7">
 <h2 data-number="14.7" class="anchored" data-anchor-id="calculate-carbon-in-soils"><span class="header-section-number">14.7</span> Calculate carbon in soils</h2>
 <div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/khfIC5TpyPQ?si=f1ldTnTVpA8UWbb7" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Download bieogeochemistry soil data to get carbon concentration</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="co">#data_product1 &lt;- "DP1.00097.001"</span></span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="co">#Download physical soil data to get bulk density</span></span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>index <span class="ot">&lt;-</span>  neonstore<span class="sc">:::</span><span class="fu">neon_data</span>(<span class="at">product =</span> <span class="st">"DP1.00096.001"</span>,</span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>                                <span class="at">site =</span> site,</span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>                                <span class="at">type=</span><span class="st">"basic"</span>)</span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>mgc_perbiogeosample <span class="ot">&lt;-</span> index <span class="sc">|&gt;</span></span>
-<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">grepl</span>(<span class="st">"mgp_perbiogeosample"</span>, name)) <span class="sc">|&gt;</span> </span>
-<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(url) <span class="sc">|&gt;</span></span>
-<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>  duckdbfs<span class="sc">::</span><span class="fu">open_dataset</span>(<span class="at">format=</span><span class="st">"csv"</span>, <span class="at">filename =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect</span>()</span>
-<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>mgp_perbulksample <span class="ot">&lt;-</span> index <span class="sc">|&gt;</span></span>
-<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">grepl</span>(<span class="st">"mgp_perbulksample"</span>, name)) <span class="sc">|&gt;</span> </span>
-<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(url) <span class="sc">|&gt;</span></span>
-<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>  duckdbfs<span class="sc">::</span><span class="fu">open_dataset</span>(<span class="at">format=</span><span class="st">"csv"</span>, <span class="at">filename =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Download bieogeochemistry soil data to get carbon concentration</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="co">#data_product1 &lt;- "DP1.00097.001"</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="co">#Download physical soil data to get bulk density</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>index <span class="ot">&lt;-</span>  neonstore<span class="sc">:::</span><span class="fu">neon_data</span>(<span class="at">product =</span> <span class="st">"DP1.00096.001"</span>,</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>                                <span class="at">site =</span> site,</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>                                <span class="at">type=</span><span class="st">"basic"</span>)</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>mgc_perbiogeosample <span class="ot">&lt;-</span> index <span class="sc">|&gt;</span></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">grepl</span>(<span class="st">"mgp_perbiogeosample"</span>, name)) <span class="sc">|&gt;</span> </span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(url) <span class="sc">|&gt;</span></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>  duckdbfs<span class="sc">::</span><span class="fu">open_dataset</span>(<span class="at">format=</span><span class="st">"csv"</span>, <span class="at">filename =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect</span>()</span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>mgp_perbulksample <span class="ot">&lt;-</span> index <span class="sc">|&gt;</span></span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">grepl</span>(<span class="st">"mgp_perbulksample"</span>, name)) <span class="sc">|&gt;</span> </span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(url) <span class="sc">|&gt;</span></span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>  duckdbfs<span class="sc">::</span><span class="fu">open_dataset</span>(<span class="at">format=</span><span class="st">"csv"</span>, <span class="at">filename =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>bulk_density <span class="ot">&lt;-</span> mgp_perbulksample <span class="sc">%&gt;%</span> </span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(bulkDensSampleType <span class="sc">==</span> <span class="st">"Regular"</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(horizonName,bulkDensExclCoarseFrag) </span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  <span class="co">#gramsPerCubicCentimeter</span></span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>horizon_carbon <span class="ot">&lt;-</span> mgc_perbiogeosample <span class="sc">%&gt;%</span> </span>
-<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(biogeoSampleType <span class="sc">==</span> <span class="st">"Regular"</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(horizonName,biogeoTopDepth,biogeoBottomDepth,carbonTot) </span>
-<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>year <span class="ot">&lt;-</span> <span class="fu">year</span>(<span class="fu">as_date</span>(mgp_perbulksample<span class="sc">$</span>collectDate[<span class="dv">1</span>]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>bulk_density <span class="ot">&lt;-</span> mgp_perbulksample <span class="sc">%&gt;%</span> </span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(bulkDensSampleType <span class="sc">==</span> <span class="st">"Regular"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(horizonName,bulkDensExclCoarseFrag) </span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  <span class="co">#gramsPerCubicCentimeter</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>horizon_carbon <span class="ot">&lt;-</span> mgc_perbiogeosample <span class="sc">%&gt;%</span> </span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(biogeoSampleType <span class="sc">==</span> <span class="st">"Regular"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(horizonName,biogeoTopDepth,biogeoBottomDepth,carbonTot) </span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>year <span class="ot">&lt;-</span> <span class="fu">year</span>(<span class="fu">as_date</span>(mgp_perbulksample<span class="sc">$</span>collectDate[<span class="dv">1</span>]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">#Unit notes</span></span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">#bulkDensExclCoarseFrag = gramsPerCubicCentimeter</span></span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="co">#carbonTot = gramsPerKilogram</span></span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  <span class="co">#Combine and calculate the carbon of each horizon</span></span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>horizon_combined <span class="ot">&lt;-</span> <span class="fu">inner_join</span>(horizon_carbon,bulk_density, <span class="at">by =</span> <span class="st">"horizonName"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Convert volume in g per cm3 to mass per area in g per cm2 by multiplying by layer thickness</span></span>
-<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">horizon_soil_g_per_cm2 =</span> (biogeoBottomDepth <span class="sc">-</span> biogeoTopDepth) <span class="sc">*</span> bulkDensExclCoarseFrag) <span class="sc">%&gt;%</span> </span>
-<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Units of carbon are g per Kg soil but we have bulk density in g per cm2 so convert Kg soil to g soil</span></span>
-<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">CTot_g_per_g_soil =</span> carbonTot<span class="sc">*</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">1000</span>),  <span class="co">#Units are g C per g soil</span></span>
-<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>           <span class="at">horizon_C_g_percm2 =</span> CTot_g_per_g_soil<span class="sc">*</span>horizon_soil_g_per_cm2, <span class="co">#Units are g C per cm2</span></span>
-<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>           <span class="at">horizon_C_kg_per_m2 =</span> horizon_C_g_percm2 <span class="sc">*</span> <span class="dv">10000</span> <span class="sc">/</span> <span class="dv">1000</span>) <span class="sc">%&gt;%</span> <span class="co">#Units are g C per m2</span></span>
-<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(<span class="sc">-</span>CTot_g_per_g_soil,<span class="sc">-</span>horizon_C_g_percm2) <span class="sc">%&gt;%</span></span>
-<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(biogeoTopDepth)</span>
-<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>site_soil_carbon <span class="ot">&lt;-</span> horizon_combined <span class="sc">%&gt;%</span> </span>
-<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">soilC_gC_m2 =</span> <span class="fu">sum</span>(horizon_C_kg_per_m2)) <span class="sc">|&gt;</span> </span>
-<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">year =</span> year)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">#Unit notes</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">#bulkDensExclCoarseFrag = gramsPerCubicCentimeter</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="co">#carbonTot = gramsPerKilogram</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  <span class="co">#Combine and calculate the carbon of each horizon</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>horizon_combined <span class="ot">&lt;-</span> <span class="fu">inner_join</span>(horizon_carbon,bulk_density, <span class="at">by =</span> <span class="st">"horizonName"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Convert volume in g per cm3 to mass per area in g per cm2 by multiplying by layer thickness</span></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">horizon_soil_g_per_cm2 =</span> (biogeoBottomDepth <span class="sc">-</span> biogeoTopDepth) <span class="sc">*</span> bulkDensExclCoarseFrag) <span class="sc">%&gt;%</span> </span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Units of carbon are g per Kg soil but we have bulk density in g per cm2 so convert Kg soil to g soil</span></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">CTot_g_per_g_soil =</span> carbonTot<span class="sc">*</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">1000</span>),  <span class="co">#Units are g C per g soil</span></span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>           <span class="at">horizon_C_g_percm2 =</span> CTot_g_per_g_soil<span class="sc">*</span>horizon_soil_g_per_cm2, <span class="co">#Units are g C per cm2</span></span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>           <span class="at">horizon_C_kg_per_m2 =</span> horizon_C_g_percm2 <span class="sc">*</span> <span class="dv">10000</span> <span class="sc">/</span> <span class="dv">1000</span>) <span class="sc">%&gt;%</span> <span class="co">#Units are g C per m2</span></span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(<span class="sc">-</span>CTot_g_per_g_soil,<span class="sc">-</span>horizon_C_g_percm2) <span class="sc">%&gt;%</span></span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(biogeoTopDepth)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>The soil carbon can be visualized by depth <span class="quarto-unresolved-ref">?fig-som-horizon</span>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(horizon_combined, <span class="at">map =</span> <span class="fu">aes</span>(<span class="sc">-</span>biogeoTopDepth,horizon_C_kg_per_m2)) <span class="sc">+</span></span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">"Carbon"</span>, <span class="at">x =</span> <span class="st">"Depth"</span>, <span class="at">title =</span> <span class="st">"Soil carbon by depth"</span>) <span class="sc">+</span></span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>()  <span class="sc">+</span></span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co">#|fig-cap: Soil carbon by depth for the site from the megapit.</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="co">#|fig-link: fig-som-horizon</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(horizon_combined, <span class="at">map =</span> <span class="fu">aes</span>(<span class="sc">-</span>biogeoTopDepth,horizon_C_kg_per_m2)) <span class="sc">+</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">"Carbon"</span>, <span class="at">x =</span> <span class="st">"Depth"</span>, <span class="at">title =</span> <span class="st">"Soil carbon by depth"</span>) <span class="sc">+</span></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>()  <span class="sc">+</span></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="neon-data_files/figure-html/unnamed-chunk-25-1.png" class="img-fluid" width="672"></p>
 </div>
+</div>
+<p>Total soil carbon is the sum across the depths.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>site_soil_carbon <span class="ot">&lt;-</span> horizon_combined <span class="sc">%&gt;%</span> </span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">soilC_gC_m2 =</span> <span class="fu">sum</span>(horizon_C_kg_per_m2))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="combine-together" class="level2" data-number="14.8">
@@ -866,17 +882,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb27-24"><a href="#cb27-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">datetime =</span> <span class="fu">as_date</span>(<span class="fu">paste</span>(year, <span class="st">"01-01"</span>))) <span class="sc">|&gt;</span> </span>
 <span id="cb27-25"><a href="#cb27-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(datetime, variable, mean_kgCperm2)</span>
 <span id="cb27-26"><a href="#cb27-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-27"><a href="#cb27-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-28"><a href="#cb27-28" aria-hidden="true" tabindex="-1"></a>total_carbon_components <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(site_live_carbon, site_dead_carbon, site_cwd_carbon, site_roots, site_soil_carbon)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb27-27"><a href="#cb27-27" aria-hidden="true" tabindex="-1"></a>total_carbon_components <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(site_live_carbon, site_dead_carbon, site_cwd_carbon, site_roots, site_soil_carbon)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Plot the different pools of carbon</p>
+<p>The different pools of carbon can be plotted on the same figure to compare the magnitudes <span class="quarto-unresolved-ref">?fig-all-site-carbon</span>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>total_carbon_components <span class="sc">|&gt;</span> </span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> datetime, <span class="at">y =</span> mean_kgCperm2, <span class="at">color =</span> variable)) <span class="sc">+</span> </span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co">#|warning: false</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="co">#|fig-cap: Site-leve carbon stocks at the focal NEON site</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="co">#|fig-link: fig-all-site-carbon </span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>total_carbon_components <span class="sc">|&gt;</span> </span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> datetime, <span class="at">y =</span> mean_kgCperm2, <span class="at">color =</span> variable)) <span class="sc">+</span> </span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="neon-data_files/figure-html/unnamed-chunk-27-1.png" class="img-fluid" width="672"></p>
+<p><img src="neon-data_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Combine pools of carbon together to match the stocks used in our simple process model. This converts it to a long data format.</p>
@@ -892,8 +910,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="modis-lai" class="level2" data-number="14.9">
 <h2 data-number="14.9" class="anchored" data-anchor-id="modis-lai"><span class="header-section-number">14.9</span> MODIS LAI</h2>
+<p>We can use leaf area index (LAI) from the MODIS satellite sensor to constrain and evaluate LAI predictions. MODIS LAI product is a 8-day mean for a 500m grid cell.</p>
 <div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/n9t_ANefhjU?si=U4OYgoq83Uu2nu57" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
-<p>Download the leaf area index</p>
+<p>Download the leaf area index for the focal NEON site using the <code>MODISTools</code> package.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>lai <span class="ot">&lt;-</span> MODISTools<span class="sc">::</span><span class="fu">mt_subset</span>(<span class="at">product =</span> <span class="st">"MCD15A2H"</span>,</span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">lat =</span> latitude,</span>
@@ -917,7 +936,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb30-20"><a href="#cb30-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">variable =</span> <span class="st">"lai"</span>) <span class="sc">|&gt;</span> </span>
 <span id="cb30-21"><a href="#cb30-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(datetime, variable, observation)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Plot MODIS LAI</p>
+<p><span class="quarto-unresolved-ref">?fig-modis-lai</span> is the LAI for the focal NEON site.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>lai_cleaned <span class="sc">|&gt;</span> </span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> datetime, <span class="at">y =</span> observation)) <span class="sc">+</span></span>
@@ -925,7 +944,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">span =</span> <span class="fl">0.12</span>) <span class="sc">+</span></span>
 <span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="neon-data_files/figure-html/unnamed-chunk-30-1.png" class="img-fluid" width="672"></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="fig-modis-lai"><img src="neon-data_files/figure-html/unnamed-chunk-31-1.png" class="img-fluid figure-img" width="672"></a></p>
+<figcaption class="figure-caption">MODIS LAI for the 500m grid-cell that includes the flux tower</figcaption>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -942,14 +966,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">datetime =</span> <span class="fu">as_date</span>(datetime)) <span class="sc">|&gt;</span> </span>
 <span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(datetime, variable, observation)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p><span class="quarto-unresolved-ref">?fig-nee-obs</span> is the daily mean NEE for the focal NEON site.</p>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="neon-data_files/figure-html/unnamed-chunk-32-1.png" class="img-fluid" width="672"></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="fig-nee-obs"><img src="neon-data_files/figure-html/unnamed-chunk-33-1.png" class="img-fluid figure-img" width="672"></a></p>
+<figcaption class="figure-caption">Daily mean NEE from the flux tower at the focal NEON site</figcaption>
+</figure>
+</div>
 </div>
 </div>
 </section>
 <section id="combine-together-to-create-data-contraints" class="level2" data-number="14.11">
 <h2 data-number="14.11" class="anchored" data-anchor-id="combine-together-to-create-data-contraints"><span class="header-section-number">14.11</span> Combine together to create data contraints</h2>
+<p>The units of the carbon stocks and nee need to be converted to the units of the forest process model. The carbon stocks are converted from kgC/m2 to MgC/ha and nee is converted from gC/m2/day to MgC/ha/day.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>obs <span class="ot">&lt;-</span> total_carbon_simple <span class="sc">|&gt;</span> </span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_rows</span>(lai_cleaned, flux) <span class="sc">|&gt;</span> </span>
@@ -958,6 +989,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">observation =</span> <span class="fu">ifelse</span>(variable <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"wood"</span>, <span class="st">"som"</span>) , observation <span class="sc">*</span> <span class="dv">10</span>, observation),</span>
 <span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">observation =</span> <span class="fu">ifelse</span>(variable <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"nee"</span>) , observation <span class="sc">*</span> <span class="fl">0.01</span>, observation))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>The combined data with the variable names converted to the names used in the forest process model <span class="quarto-unresolved-ref">?fig-combined-all</span>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>obs <span class="sc">|&gt;</span> </span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> datetime, <span class="at">y =</span> observation)) <span class="sc">+</span> </span>
@@ -965,9 +997,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>variable, <span class="at">scale =</span> <span class="st">"free"</span>) <span class="sc">+</span></span>
 <span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="neon-data_files/figure-html/unnamed-chunk-34-1.png" class="img-fluid" width="672"></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="fig-combined-all"><img src="neon-data_files/figure-html/unnamed-chunk-35-1.png" class="img-fluid figure-img" width="672"></a></p>
+<figcaption class="figure-caption">The data avialable to constrain the forest process model.</figcaption>
+</figure>
 </div>
 </div>
+</div>
+<p>Save the observations to a csv file for use in later chapters.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(obs, <span class="st">"data/site_carbon_data.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
