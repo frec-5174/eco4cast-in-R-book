@@ -541,17 +541,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">treeC_kgCm2 =</span> (tree_kgC)<span class="sc">/</span>(totalSampledAreaTrees)) <span class="sc">|&gt;</span> </span>
 <span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">plot_kgCm2 =</span> <span class="fu">sum</span>(treeC_kgCm2, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">.by =</span> <span class="fu">c</span>(<span class="st">"plotID"</span>, <span class="st">"measure_date"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p><span class="quarto-unresolved-ref">?fig-plot-live-carbon</span> plot level carbon in living trees</p>
+<p><a href="#fig-plot-live-carbon" class="quarto-xref">Figure&nbsp;<span>14.1</span></a> plot level carbon in living trees</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(plot_live_carbon, <span class="fu">aes</span>(<span class="at">x =</span> measure_date, <span class="at">y =</span> plot_kgCm2, <span class="at">color =</span> plotID)) <span class="sc">+</span> </span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
+<div id="fig-plot-live-carbon" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><a href="fig-plot-live-carbon"><img src="neon-data_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></a></p>
-<figcaption class="figure-caption">Plot level carbon in living trees for the focal NEON site</figcaption>
+<p><img src="neon-data_files/figure-html/fig-plot-live-carbon-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;14.1: Plot level carbon in living trees for the focal NEON site</figcaption>
 </figure>
 </div>
 </div>
@@ -571,7 +571,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">mean_kgCperm2 =</span> <span class="fu">mean</span>(plot_kgCm2, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
 <span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>              <span class="at">sd_kgCperm2 =</span> <span class="fu">sd</span>(plot_kgCm2))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p><span class="quarto-unresolved-ref">?fig-site-live-carbon</span> is the site level carbon calculated by taking the mean only the plots that were measured each year</p>
+<p><a href="#fig-site-live-carbon" class="quarto-xref">Figure&nbsp;<span>14.2</span></a> is the site level carbon calculated by taking the mean only the plots that were measured each year</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(site_live_carbon, <span class="fu">aes</span>(<span class="at">x =</span> measure_date, <span class="at">y =</span> mean_kgCperm2)) <span class="sc">+</span> </span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
@@ -579,10 +579,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">position=</span><span class="fu">position_dodge</span>(<span class="fl">0.05</span>)) <span class="sc">+</span></span>
 <span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
+<div id="fig-site-live-carbon" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><a href="fig-site-live-carbon"><img src="neon-data_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></a></p>
-<figcaption class="figure-caption">Site level carbon in living trees for the focal NEON site</figcaption>
+<p><img src="neon-data_files/figure-html/fig-site-live-carbon-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;14.2: Site level carbon in living trees for the focal NEON site</figcaption>
 </figure>
 </div>
 </div>
@@ -618,17 +618,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">treeC_kgCm2 =</span> (tree_kgC)<span class="sc">/</span>(totalSampledAreaTrees)) <span class="sc">|&gt;</span> </span>
 <span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">plot_kgCm2 =</span> <span class="fu">sum</span>(treeC_kgCm2, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">.by =</span> <span class="fu">c</span>(<span class="st">"plotID"</span>, <span class="st">"measure_date"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p><span class="quarto-unresolved-ref">?fig-plot-dead-carbon</span> plot level carbon in dead trees.</p>
+<p><a href="#fig-plot-dead-carbon" class="quarto-xref">Figure&nbsp;<span>14.3</span></a> plot level carbon in dead trees.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(plot_dead_carbon, <span class="fu">aes</span>(<span class="at">x =</span> measure_date, <span class="at">y =</span> plot_kgCm2, <span class="at">color =</span> plotID)) <span class="sc">+</span> </span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
 <span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
+<div id="fig-plot-dead-carbon" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><a href="fig-plot-dead-carbon"><img src="neon-data_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></a></p>
-<figcaption class="figure-caption">Plot level carbon in dead trees for the focal NEON site</figcaption>
+<p><img src="neon-data_files/figure-html/fig-plot-dead-carbon-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;14.3: Plot level carbon in dead trees for the focal NEON site</figcaption>
 </figure>
 </div>
 </div>
@@ -641,17 +641,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">mean_kgCperm2 =</span> <span class="fu">mean</span>(plot_kgCm2, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
 <span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">sd_kgCperm2 =</span> <span class="fu">sd</span>(plot_kgCm2))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p><span class="quarto-unresolved-ref">?fig-site-dead-carbon</span> is the site level carbon.</p>
+<p><a href="#fig-site-dead-carbon" class="quarto-xref">Figure&nbsp;<span>14.4</span></a> is the site level carbon.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(site_dead_carbon, <span class="fu">aes</span>(<span class="at">x =</span> measure_date, <span class="at">y =</span> mean_kgCperm2)) <span class="sc">+</span> </span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
 <span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
+<div id="fig-site-dead-carbon" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><a href="fig-site-dead-carbon"><img src="neon-data_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid figure-img" width="672"></a></p>
-<figcaption class="figure-caption">Site level carbon in dead trees for the focal NEON site</figcaption>
+<p><img src="neon-data_files/figure-html/fig-site-dead-carbon-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;14.4: Site level carbon in dead trees for the focal NEON site</figcaption>
 </figure>
 </div>
 </div>
@@ -836,7 +836,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>The soil carbon can be visualized by depth <span class="quarto-unresolved-ref">?fig-som-horizon</span>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co">#|fig-cap: Soil carbon by depth for the site from the megapit.</span></span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="co">#|fig-link: fig-som-horizon</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="co">#|label: fig-som-horizon</span></span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(horizon_combined, <span class="at">map =</span> <span class="fu">aes</span>(<span class="sc">-</span>biogeoTopDepth,horizon_C_kg_per_m2)) <span class="sc">+</span></span>
 <span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
 <span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
@@ -888,7 +888,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co">#|warning: false</span></span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="co">#|fig-cap: Site-leve carbon stocks at the focal NEON site</span></span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="co">#|fig-link: fig-all-site-carbon </span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="co">#|label: fig-all-site-carbon </span></span>
 <span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>total_carbon_components <span class="sc">|&gt;</span> </span>
 <span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> datetime, <span class="at">y =</span> mean_kgCperm2, <span class="at">color =</span> variable)) <span class="sc">+</span> </span>
 <span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
@@ -936,7 +936,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb30-20"><a href="#cb30-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">variable =</span> <span class="st">"lai"</span>) <span class="sc">|&gt;</span> </span>
 <span id="cb30-21"><a href="#cb30-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(datetime, variable, observation)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p><span class="quarto-unresolved-ref">?fig-modis-lai</span> is the LAI for the focal NEON site.</p>
+<p><a href="#fig-modis-lai" class="quarto-xref">Figure&nbsp;<span>14.5</span></a> is the LAI for the focal NEON site.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>lai_cleaned <span class="sc">|&gt;</span> </span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> datetime, <span class="at">y =</span> observation)) <span class="sc">+</span></span>
@@ -944,10 +944,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">span =</span> <span class="fl">0.12</span>) <span class="sc">+</span></span>
 <span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
+<div id="fig-modis-lai" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><a href="fig-modis-lai"><img src="neon-data_files/figure-html/unnamed-chunk-31-1.png" class="img-fluid figure-img" width="672"></a></p>
-<figcaption class="figure-caption">MODIS LAI for the 500m grid-cell that includes the flux tower</figcaption>
+<p><img src="neon-data_files/figure-html/fig-modis-lai-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;14.5: MODIS LAI for the 500m grid-cell that includes the flux tower</figcaption>
 </figure>
 </div>
 </div>
@@ -966,13 +966,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">datetime =</span> <span class="fu">as_date</span>(datetime)) <span class="sc">|&gt;</span> </span>
 <span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(datetime, variable, observation)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p><span class="quarto-unresolved-ref">?fig-nee-obs</span> is the daily mean NEE for the focal NEON site.</p>
+<p><a href="#fig-nee-obs" class="quarto-xref">Figure&nbsp;<span>14.6</span></a> is the daily mean NEE for the focal NEON site.</p>
 <div class="cell">
 <div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
+<div id="fig-nee-obs" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><a href="fig-nee-obs"><img src="neon-data_files/figure-html/unnamed-chunk-33-1.png" class="img-fluid figure-img" width="672"></a></p>
-<figcaption class="figure-caption">Daily mean NEE from the flux tower at the focal NEON site</figcaption>
+<p><img src="neon-data_files/figure-html/fig-nee-obs-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;14.6: Daily mean NEE from the flux tower at the focal NEON site</figcaption>
 </figure>
 </div>
 </div>
@@ -989,7 +989,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">observation =</span> <span class="fu">ifelse</span>(variable <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"wood"</span>, <span class="st">"som"</span>) , observation <span class="sc">*</span> <span class="dv">10</span>, observation),</span>
 <span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">observation =</span> <span class="fu">ifelse</span>(variable <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"nee"</span>) , observation <span class="sc">*</span> <span class="fl">0.01</span>, observation))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>The combined data with the variable names converted to the names used in the forest process model <span class="quarto-unresolved-ref">?fig-combined-all</span>.</p>
+<p>The combined data with the variable names converted to the names used in the forest process model <a href="#fig-combined-all" class="quarto-xref">Figure&nbsp;<span>14.7</span></a>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>obs <span class="sc">|&gt;</span> </span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> datetime, <span class="at">y =</span> observation)) <span class="sc">+</span> </span>
@@ -997,10 +997,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>variable, <span class="at">scale =</span> <span class="st">"free"</span>) <span class="sc">+</span></span>
 <span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
+<div id="fig-combined-all" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><a href="fig-combined-all"><img src="neon-data_files/figure-html/unnamed-chunk-35-1.png" class="img-fluid figure-img" width="672"></a></p>
-<figcaption class="figure-caption">The data avialable to constrain the forest process model.</figcaption>
+<p><img src="neon-data_files/figure-html/fig-combined-all-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;14.7: The data avialable to constrain the forest process model.</figcaption>
 </figure>
 </div>
 </div>

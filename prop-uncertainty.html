@@ -470,13 +470,13 @@ div.csl-indent {
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>new_params <span class="ot">&lt;-</span> params</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>new_params<span class="sc">$</span>alpha <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(ens_members, params<span class="sc">$</span>alpha, <span class="at">sd =</span> <span class="fl">0.005</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>This results in <code>alpha</code> having the following distribution <span class="quarto-unresolved-ref">?fig-alpha</span>:</p>
+<p>This results in <code>alpha</code> having the following distribution <a href="#fig-alpha" class="quarto-xref">Figure&nbsp;<span>13.1</span></a>:</p>
 <div class="cell">
 <div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
+<div id="fig-alpha" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><a href="fig-alpha"><img src="prop-uncertainty_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></a></p>
-<figcaption class="figure-caption">Histogram showing the distribution of the parameter alpha</figcaption>
+<p><img src="prop-uncertainty_files/figure-html/fig-alpha-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;13.1: Histogram showing the distribution of the parameter alpha</figcaption>
 </figure>
 </div>
 </div>
@@ -493,7 +493,7 @@ div.csl-indent {
 <span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>parameter_df <span class="ot">&lt;-</span> <span class="fu">output_to_df</span>(output, sim_dates, <span class="at">sim_name =</span> <span class="st">"parameter_unc"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p><span class="quarto-unresolved-ref">?fig-parameter-unc</span> shows the forecast that only includes parameter uncertainty</p>
+<p><a href="#fig-parameter-unc" class="quarto-xref">Figure&nbsp;<span>13.2</span></a> shows the forecast that only includes parameter uncertainty</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>parameter_df <span class="sc">|&gt;</span> </span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(variable <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"lai"</span>, <span class="st">"wood"</span>, <span class="st">"som"</span>, <span class="st">"nee"</span>)) <span class="sc">|&gt;</span> </span>
@@ -507,10 +507,10 @@ div.csl-indent {
 <span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>variable, <span class="at">scale =</span> <span class="st">"free"</span>) <span class="sc">+</span></span>
 <span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
+<div id="fig-parameter-unc" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><a href="fig-parameter-unc"><img src="prop-uncertainty_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></a></p>
-<figcaption class="figure-caption">Forecast with parameter uncertainty</figcaption>
+<p><img src="prop-uncertainty_files/figure-html/fig-parameter-unc-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;13.2: Forecast with parameter uncertainty</figcaption>
 </figure>
 </div>
 </div>
@@ -526,13 +526,13 @@ div.csl-indent {
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>new_params<span class="sc">$</span>sigma.stem <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">1</span>, ens_members) <span class="co">#0.01 ## wood biomass</span></span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>new_params<span class="sc">$</span>sigma.soil <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">1</span>, ens_members)<span class="co"># 0.01</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>As an example <span class="quarto-unresolved-ref">?fig-process-unc</span> shows the distribution in the noise that is added the leaf state at each time step.</p>
+<p>As an example <a href="#fig-process-unc" class="quarto-xref">Figure&nbsp;<span>13.3</span></a> shows the distribution in the noise that is added the leaf state at each time step.</p>
 <div class="cell">
 <div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
+<div id="fig-process-unc" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><a href="fig-process-unc"><img src="prop-uncertainty_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></a></p>
-<figcaption class="figure-caption">Histogram of the distribution of process uncertainty added to leaf carbon</figcaption>
+<p><img src="prop-uncertainty_files/figure-html/fig-process-unc-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;13.3: Histogram of the distribution of process uncertainty added to leaf carbon</figcaption>
 </figure>
 </div>
 </div>
@@ -548,7 +548,7 @@ div.csl-indent {
 <span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>process_df <span class="ot">&lt;-</span> <span class="fu">output_to_df</span>(output, sim_dates, <span class="at">sim_name =</span> <span class="st">"process_unc"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p><span class="quarto-unresolved-ref">?fig-process-unc2</span> shows the forecast that only includes process uncertainty</p>
+<p><a href="#fig-process-unc2" class="quarto-xref">Figure&nbsp;<span>13.4</span></a> shows the forecast that only includes process uncertainty</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>process_df <span class="sc">|&gt;</span> </span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(variable <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"lai"</span>, <span class="st">"wood"</span>, <span class="st">"som"</span>, <span class="st">"nee"</span>)) <span class="sc">|&gt;</span> </span>
@@ -561,10 +561,10 @@ div.csl-indent {
 <span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> median)) <span class="sc">+</span></span>
 <span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>variable, <span class="at">scale =</span> <span class="st">"free"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
+<div id="fig-process-unc2" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><a href="fig-process-unc2"><img src="prop-uncertainty_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="672"></a></p>
-<figcaption class="figure-caption">Forecast with process uncertainty</figcaption>
+<p><img src="prop-uncertainty_files/figure-html/fig-process-unc2-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;13.4: Forecast with process uncertainty</figcaption>
 </figure>
 </div>
 </div>
@@ -580,13 +580,13 @@ div.csl-indent {
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>new_output[<span class="dv">1</span>, , <span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(ens_members, <span class="dv">140</span>, <span class="dv">10</span>)</span>
 <span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>new_output[<span class="dv">1</span>, , <span class="dv">3</span>] <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(ens_members, <span class="dv">140</span>, <span class="dv">20</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>As an example <span class="quarto-unresolved-ref">?fig-init-unc</span> shows the distribution in the noise that is added the initial leaf state.</p>
+<p>As an example <a href="#fig-init-unc" class="quarto-xref">Figure&nbsp;<span>13.5</span></a> shows the distribution in the noise that is added the initial leaf state.</p>
 <div class="cell">
 <div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
+<div id="fig-init-unc" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><a href="fig-init-unc"><img src="prop-uncertainty_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="672"></a></p>
-<figcaption class="figure-caption">Distribution of intial condition uncertainty for leaf carbon (Mg/ha)</figcaption>
+<p><img src="prop-uncertainty_files/figure-html/fig-init-unc-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;13.5: Distribution of intial condition uncertainty for leaf carbon (Mg/ha)</figcaption>
 </figure>
 </div>
 </div>
@@ -602,7 +602,7 @@ div.csl-indent {
 <span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>initial_conditions_df <span class="ot">&lt;-</span> <span class="fu">output_to_df</span>(new_output, sim_dates, <span class="at">sim_name =</span> <span class="st">"initial_unc"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p><span class="quarto-unresolved-ref">?fig-init-unc2</span> shows the forecast that only includes initial condition uncertainty</p>
+<p><a href="#fig-init-unc2" class="quarto-xref">Figure&nbsp;<span>13.6</span></a> shows the forecast that only includes initial condition uncertainty</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>initial_conditions_df <span class="sc">|&gt;</span> </span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(variable <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"lai"</span>, <span class="st">"wood"</span>, <span class="st">"som"</span>, <span class="st">"nee"</span>)) <span class="sc">|&gt;</span> </span>
@@ -616,10 +616,10 @@ div.csl-indent {
 <span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>variable, <span class="at">scale =</span> <span class="st">"free"</span>)  <span class="sc">+</span></span>
 <span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
+<div id="fig-init-unc2" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><a href="fig-init-unc2"><img src="prop-uncertainty_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid figure-img" width="672"></a></p>
-<figcaption class="figure-caption">Forecast with initial condition uncertainty</figcaption>
+<p><img src="prop-uncertainty_files/figure-html/fig-init-unc2-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;13.6: Forecast with initial condition uncertainty</figcaption>
 </figure>
 </div>
 </div>
@@ -632,13 +632,13 @@ div.csl-indent {
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>new_inputs <span class="ot">&lt;-</span> <span class="fu">get_forecast_met</span>(<span class="at">site =</span> site, sim_dates, <span class="at">use_mean =</span> <span class="cn">FALSE</span>)</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>new_inputs_ensemble <span class="ot">&lt;-</span> <span class="fu">assign_met_ensembles</span>(new_inputs, ens_members)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>As an example <span class="quarto-unresolved-ref">?fig-driver-unc</span> shows 31 ensemble members from single 35-day forecast generated by NOAA GEFS.</p>
+<p>As an example <a href="#fig-driver-unc" class="quarto-xref">Figure&nbsp;<span>13.7</span></a> shows 31 ensemble members from single 35-day forecast generated by NOAA GEFS.</p>
 <div class="cell">
 <div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
+<div id="fig-driver-unc" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><a href="fig-driver-unc"><img src="prop-uncertainty_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid figure-img" width="672"></a></p>
-<figcaption class="figure-caption">35-day ahead forecasts from NOAA GEFS of the two variables using by the process model.</figcaption>
+<p><img src="prop-uncertainty_files/figure-html/fig-driver-unc-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;13.7: 35-day ahead forecasts from NOAA GEFS of the two variables using by the process model.</figcaption>
 </figure>
 </div>
 </div>
@@ -654,7 +654,7 @@ div.csl-indent {
 <span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>drivers_df <span class="ot">&lt;-</span> <span class="fu">output_to_df</span>(output, sim_dates, <span class="at">sim_name =</span> <span class="st">"driver_unc"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p><span class="quarto-unresolved-ref">?fig-driver-unc2</span> shows the forecast that only includes driver uncertainty</p>
+<p><a href="#fig-driver-unc2" class="quarto-xref">Figure&nbsp;<span>13.8</span></a> shows the forecast that only includes driver uncertainty</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>drivers_df <span class="sc">|&gt;</span> </span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(variable <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"lai"</span>, <span class="st">"wood"</span>, <span class="st">"som"</span>, <span class="st">"nee"</span>)) <span class="sc">|&gt;</span> </span>
@@ -668,10 +668,10 @@ div.csl-indent {
 <span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>variable, <span class="at">scale =</span> <span class="st">"free"</span>) <span class="sc">+</span></span>
 <span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
+<div id="fig-driver-unc2" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><a href="fig-driver-unc2"><img src="prop-uncertainty_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid figure-img" width="672"></a></p>
-<figcaption class="figure-caption">Forecast with driver uncertainty</figcaption>
+<p><img src="prop-uncertainty_files/figure-html/fig-driver-unc2-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;13.8: Forecast with driver uncertainty</figcaption>
 </figure>
 </div>
 </div>
