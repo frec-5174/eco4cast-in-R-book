@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>A practical guide to ecological forecasting - 15&nbsp; Parameter calibration: Intro to probability and likelihood</title>
+<title>A practical guide to ecological forecasting - 15&nbsp; Parameter calibration: likelihood methods</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -115,7 +115,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./advanced-forecasting.html">Advanced forecasting</a></li><li class="breadcrumb-item"><a href="./parameter-calibration1.html"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Parameter calibration: Intro to probability and likelihood</span></a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./advanced-forecasting.html">Advanced forecasting</a></li><li class="breadcrumb-item"><a href="./parameter-calibration1.html"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Parameter calibration: likelihood methods</span></a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -264,13 +264,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./parameter-calibration1.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Parameter calibration: Intro to probability and likelihood</span></span></a>
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Parameter calibration: likelihood methods</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./parameter-calibration2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Parameter calibration: Intro to Bayesian statistics</span></span></a>
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Parameter calibration: Bayesian methods</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -349,10 +349,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#problem-set" id="toc-problem-set" class="nav-link active" data-scroll-target="#problem-set"><span class="header-section-number">15.1</span> Problem set</a>
+  <li><a href="#intro-to-probability-and-likelihood" id="toc-intro-to-probability-and-likelihood" class="nav-link active" data-scroll-target="#intro-to-probability-and-likelihood"><span class="header-section-number">15.1</span> Intro to probability and likelihood</a></li>
+  <li><a href="#problem-set" id="toc-problem-set" class="nav-link" data-scroll-target="#problem-set"><span class="header-section-number">15.2</span> Problem set</a>
   <ul class="collapse">
-  <li><a href="#part-1" id="toc-part-1" class="nav-link" data-scroll-target="#part-1"><span class="header-section-number">15.1.1</span> Part 1</a></li>
-  <li><a href="#part-2" id="toc-part-2" class="nav-link" data-scroll-target="#part-2"><span class="header-section-number">15.1.2</span> Part 2</a></li>
+  <li><a href="#part-1" id="toc-part-1" class="nav-link" data-scroll-target="#part-1"><span class="header-section-number">15.2.1</span> Part 1</a></li>
+  <li><a href="#part-2" id="toc-part-2" class="nav-link" data-scroll-target="#part-2"><span class="header-section-number">15.2.2</span> Part 2</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -362,7 +363,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Parameter calibration: Intro to probability and likelihood</span></h1>
+<h1 class="title"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Parameter calibration: likelihood methods</span></h1>
 </div>
 
 
@@ -377,6 +378,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
+<section id="intro-to-probability-and-likelihood" class="level2" data-number="15.1">
+<h2 data-number="15.1" class="anchored" data-anchor-id="intro-to-probability-and-likelihood"><span class="header-section-number">15.1</span> Intro to probability and likelihood</h2>
 <p>A random variable is a quantity that can take on values due to chance - it does not have a single value but instead can take on a range of values. The chance of each value is governed by a probability distribution</p>
 <p>For example, X is a random variable. A particular value for X is y_i</p>
 <div class="cell">
@@ -995,14 +998,15 @@ par3 0.08755983 0.1155966</code></pre>
 </div>
 <p><strong>Remember</strong></p>
 <p>Likelihood approach shown here gives us the <em>likelihood of the particular set of data GIVEN the model</em>. It does <strong>not</strong> give us the probability of the model given the particular set of data (i.e., the probability distributions of the model parameters). Ultimately, we want the probability distributions of the model parameters so that we can turn it around forecast the probability of yet to be collected data. For this we need to use Bayesian statistics!</p>
-<section id="problem-set" class="level2" data-number="15.1">
-<h2 data-number="15.1" class="anchored" data-anchor-id="problem-set"><span class="header-section-number">15.1</span> Problem set</h2>
+</section>
+<section id="problem-set" class="level2" data-number="15.2">
+<h2 data-number="15.2" class="anchored" data-anchor-id="problem-set"><span class="header-section-number">15.2</span> Problem set</h2>
 <p>Copy the text and code below into an .Rmd or .qmd document and complete the assignment. You will be asked submit (via Canvas) your rendered (or knitted) html document</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb120"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb120-1"><a href="#cb120-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="part-1" class="level3" data-number="15.1.1">
-<h3 data-number="15.1.1" class="anchored" data-anchor-id="part-1"><span class="header-section-number">15.1.1</span> Part 1</h3>
+<section id="part-1" class="level3" data-number="15.2.1">
+<h3 data-number="15.2.1" class="anchored" data-anchor-id="part-1"><span class="header-section-number">15.2.1</span> Part 1</h3>
 <p>Load dataset</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb121"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb121-1"><a href="#cb121-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="at">file =</span> <span class="st">"https://data.ecoforecast.org/neon4cast-targets/phenology/phenology-targets.csv.gz"</span>, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1077,8 +1081,8 @@ par3 0.08755983 0.1155966</code></pre>
 <p><strong>Question 12:</strong> Do you think your model from 2019 is reasonable for predicting 2020?</p>
 <p><strong>Answer 12:</strong></p>
 </section>
-<section id="part-2" class="level3" data-number="15.1.2">
-<h3 data-number="15.1.2" class="anchored" data-anchor-id="part-2"><span class="header-section-number">15.1.2</span> Part 2</h3>
+<section id="part-2" class="level3" data-number="15.2.2">
+<h3 data-number="15.2.2" class="anchored" data-anchor-id="part-2"><span class="header-section-number">15.2.2</span> Part 2</h3>
 <p>Using the following data</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb132"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb132-1"><a href="#cb132-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/soil_respiration_module_data.csv"</span>, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1407,7 +1411,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   </div>
   <div class="nav-page nav-page-next">
       <a href="./parameter-calibration2.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Parameter calibration: Intro to Bayesian statistics</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Parameter calibration: Bayesian methods</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
