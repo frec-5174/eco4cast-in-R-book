@@ -7,9 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="R. Quinn Thomas">
-<meta name="dcterms.date" content="2023-12-05">
+<meta name="dcterms.date" content="2023-12-22">
 
-<title>A practical guide to ecological forecasting</title>
+<title>A practical guide to ecological forecasting in R</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -22,7 +22,26 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -95,7 +114,7 @@ ul.task-list li input[type="checkbox"] {
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">A practical guide to ecological forecasting</a> 
+      <a href="./">A practical guide to ecological forecasting in R</a> 
     </div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
@@ -323,24 +342,40 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">A practical guide to ecological forecasting</h1>
+<h1 class="title">A practical guide to ecological forecasting in R</h1>
 </div>
 
 
+<div class="quarto-title-meta-author">
+  <div class="quarto-title-meta-heading">Author</div>
+  <div class="quarto-title-meta-heading">Affiliations</div>
+  
+    <div class="quarto-title-meta-contents">
+    <p class="author"><a href="https://rquinnthomas.com">R. Quinn Thomas</a> <a href="https://orcid.org/0000-0003-1282-7825" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
+  </div>
+    <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            Co-director of Virginia Tech Center for Ecosystem Forecasting
+          </p>
+        <p class="affiliation">
+            Department of Forest Resources and Environmental Conservation
+          </p>
+        <p class="affiliation">
+            Department of Biological Sciences
+          </p>
+        <p class="affiliation">
+            Virginia Tech
+          </p>
+      </div>
+    </div>
 
 <div class="quarto-title-meta">
 
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>R. Quinn Thomas </p>
-          </div>
-  </div>
-    
+      
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">December 5, 2023</p>
+      <p class="date">December 22, 2023</p>
     </div>
   </div>
   
@@ -352,12 +387,18 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="preface" class="level1 unnumbered">
 <h1 class="unnumbered">Preface</h1>
-<p>This book is designed for Virginia Tech graduate course FREC 5174: Ecological Modeling and Forecasting. It leverages work through the NSF-funded Macrosystems EDDIE (DEB-1926050) and Ecological Forecasting Initiative Research Coordination Network (DEB-1926388) projects. It includes training materials developed by the Macrosystems EDDIE forecasting team at Virginia Tech (Cayelan Carey, Mary Lofton, Tadhg Moore, Whitney Woelmer), Freya Olsson (NEON Ecological Forecasting Challenge workshop), Mike Dietze (Terrestrial carbon flux tutorial and modified activities from his Ecological Forecasting book), and John Smith (NEON carbon data processing code). The imprint of Carl Boettiger on the materials is throughout the book.</p>
-<p>The book uses R code to teach concepts by example (hence the name “A practical guide…”) . Hopefully the code provides an mechanism for developing your intuition.</p>
+<p>This book is designed for Virginia Tech graduate course FREC 5174: Ecological Modeling and Forecasting. It leverages work through the NSF-funded Macrosystems EDDIE (DEB-1926050) and Ecological Forecasting Initiative Research Coordination Network (DEB-1926388) projects. It includes training materials developed by the Macrosystems EDDIE forecasting team at Virginia Tech (Cayelan Carey, Mary Lofton, Tadhg Moore, Whitney Woelmer), Freya Olsson (NEON Ecological Forecasting Challenge workshop), Mike Dietze (Terrestrial carbon flux tutorial and modified activities from his Ecological Forecasting; <span class="citation" data-cites="dietzeEcologicalForecasting2017">Dietze (<a href="references.html#ref-dietzeEcologicalForecasting2017" role="doc-biblioref">2017</a>)</span>), and John Smith (NEON carbon data processing code). The imprint of Carl Boettiger on the materials is throughout the book.</p>
+<p>The book uses R code to teach concepts by example (hence the name “A practical guide…in R”). The books includes very few equations because often I find myself wishing I had code to better understand equations in papers.</p>
+<p>The book is a near-term iterative forecast itself. It automatically rebuilds every day using GitHub actions. Each build accesses the latest NEON data, NOAA weather forecasts, assimilated data, and generates a new forecast of daily net ecosystem exchange (NEE) for one NEON site (TALL). The forecast is submitted to the NEON Ecological Forecasting Challenge. As a result, the NEON data in <a href="neon-data.html" class="quarto-xref">Chapter&nbsp;<span>14</span></a> and the forecast in <a href="pulling-together.html" class="quarto-xref">Chapter&nbsp;<span>19</span></a> should be near real-time.</p>
 <p>The book is a work in progress that involves harmonizing materials developed for many different use-cases (undergraduate courses, tutorials, graduate classes). As a result there are likely to differences among chapters in style and approaches to assignments.</p>
 <p>I welcome feedback on the book through GitHub issues and/or Pull Requests.</p>
 
 
+<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
+<div id="ref-dietzeEcologicalForecasting2017" class="csl-entry" role="listitem">
+Dietze, Michael C. 2017. <em>Ecological <span>Forecasting</span></em>. <span>Princeton</span>: <span>Princeton University Press</span>.
+</div>
+</div>
 </section>
 
 </main> <!-- /main -->

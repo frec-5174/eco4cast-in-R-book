@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>A practical guide to ecological forecasting - 1&nbsp; Introduction</title>
+<title>A practical guide to ecological forecasting in R - 1&nbsp; Introduction</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,7 +20,26 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -94,7 +113,7 @@ ul.task-list li input[type="checkbox"] {
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">A practical guide to ecological forecasting</a> 
+      <a href="./">A practical guide to ecological forecasting in R</a> 
     </div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
@@ -332,8 +351,8 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 <div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/Lgi_e7N-C8E?si=lUwugeXg_oVTS8-u" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
-<p>Welcome!. The overarching goal of the course (and this book) is to teach concepts and skills in ecological modeling and forecasting and contribute forecasts to an international forecasting challenge run by the Ecological Forecasting Initiative and led out of Virginia Tech (Thomas et al.&nbsp;2023). The NEON (National Ecological Observatory Network) Ecological Forecasting Challenge empowers teams to submit forecasts of NEON data before it is collected as a test of our capacity to predict ecological processes in the future. More information about the NEON Ecological Forecasting Challenge can be found here: neon4cast.org</p>
-<p>The first half of the book will build the foundations of ecological forecasting using a set of modules, developed at Virginia Tech, that have been widely used and tested across the globe (Moore et al.&nbsp;2022, Woelmer et al.&nbsp;2023). Topics include an introduction to the iterative, near-term forecasting cycle, understanding uncertainty in ecological forecasts, using data to improve ecological forecasts, and using ecological forecasting to guide decision making. By the end of the first section, you will be automatically submitting forecasts that you developed to the NEON Ecological Forecasting Challenge. The first half will explicitly focus on forecasting using statistical/empirical models. In the process, you will gain skills in the use of GitHub, GitHub Actions, Docker, Tidymodels <a href="https://www.tidymodels.org" class="uri">https://www.tidymodels.org</a>), and Fable <a href="https://fable.tidyverts.org" class="uri">https://fable.tidyverts.org</a>).</p>
+<p>Welcome!. The overarching goal of the course (and this book) is to teach concepts and skills in ecological modeling and forecasting and contribute forecasts to an international forecasting challenge run by the Ecological Forecasting Initiative and led out of Virginia Tech (<span class="citation" data-cites="thomasNEONEcologicalForecasting2023">Thomas et al. (<a href="references.html#ref-thomasNEONEcologicalForecasting2023" role="doc-biblioref">2023</a>)</span>). The NEON (National Ecological Observatory Network) Ecological Forecasting Challenge empowers teams to submit forecasts of NEON data before it is collected as a test of our capacity to predict ecological processes in the future. More information about the NEON Ecological Forecasting Challenge can be found here: neon4cast.org</p>
+<p>The first half of the book will build the foundations of ecological forecasting using a set of modules, developed at Virginia Tech, that have been widely used and tested across the globe (<span class="citation" data-cites="mooreIntegratingEcologicalForecasting2022">Moore et al. (<a href="references.html#ref-mooreIntegratingEcologicalForecasting2022" role="doc-biblioref">2022</a>)</span>, <span class="citation" data-cites="woelmerEmbeddingCommunicationConcepts2023">Woelmer et al. (<a href="references.html#ref-woelmerEmbeddingCommunicationConcepts2023" role="doc-biblioref">2023</a>)</span>). Topics include an introduction to the iterative, near-term forecasting cycle, understanding uncertainty in ecological forecasts, using data to improve ecological forecasts, and using ecological forecasting to guide decision making. By the end of the first section, you will be automatically submitting forecasts that you developed to the NEON Ecological Forecasting Challenge. The first half will explicitly focus on forecasting using statistical/empirical models. In the process, you will gain skills in the use of GitHub, GitHub Actions, Docker, Tidymodels <a href="https://www.tidymodels.org" class="uri">https://www.tidymodels.org</a>), and Fable <a href="https://fable.tidyverts.org" class="uri">https://fable.tidyverts.org</a>).</p>
 <p>The second half of the book will introduce more advanced concepts in ecological modeling and forecasting by focusing on the use of process models (e.g., models that represent ecological mechanisms). We will learn how to build a process model, estimate the parameters of process models using likelihood and Bayesian techniques, and update the model using data assimilation.</p>
 <p>Throughout the class you will work with multiple NEON data products that include water temperature, phenocam, chlorophyll-a and terrestrial carbon.</p>
 <p>Learning objectives</p>
@@ -347,6 +366,17 @@ ul.task-list li input[type="checkbox"] {
 </ol>
 
 
+<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
+<div id="ref-mooreIntegratingEcologicalForecasting2022" class="csl-entry" role="listitem">
+Moore, Tadhg N., R. Quinn Thomas, Whitney M. Woelmer, and Cayelan C. Carey. 2022. <span>“Integrating <span>Ecological Forecasting</span> into <span>Undergraduate Ecology Curricula</span> with an <span>R Shiny Application-Based Teaching Module</span>.”</span> <em>Forecasting</em> 4 (3): 604–33. <a href="https://doi.org/10.3390/forecast4030033">https://doi.org/10.3390/forecast4030033</a>.
+</div>
+<div id="ref-thomasNEONEcologicalForecasting2023" class="csl-entry" role="listitem">
+Thomas, R Quinn, Carl Boettiger, Cayelan C Carey, Michael C Dietze, Leah R Johnson, Melissa A Kenney, Jason S McLachlan, et al. 2023. <span>“The <span>NEON Ecological Forecasting Challenge</span>.”</span> <em>Frontiers in Ecology and the Environment</em> 21 (3): 112–13. <a href="https://doi.org/10.1002/fee.2616">https://doi.org/10.1002/fee.2616</a>.
+</div>
+<div id="ref-woelmerEmbeddingCommunicationConcepts2023" class="csl-entry" role="listitem">
+Woelmer, Whitney M., Tadhg N. Moore, Mary E. Lofton, R. Quinn Thomas, and Cayelan C. Carey. 2023. <span>“Embedding Communication Concepts in Forecasting Training Increases Students’ Understanding of Ecological Uncertainty.”</span> <em>Ecosphere</em> 14 (8): e4628. <a href="https://doi.org/10.1002/ecs2.4628">https://doi.org/10.1002/ecs2.4628</a>.
+</div>
+</div>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

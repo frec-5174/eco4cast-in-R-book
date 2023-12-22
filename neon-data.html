@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>A practical guide to ecological forecasting - 14&nbsp; NEON data</title>
+<title>A practical guide to ecological forecasting in R - 14&nbsp; NEON data</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -130,7 +130,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">A practical guide to ecological forecasting</a> 
+      <a href="./">A practical guide to ecological forecasting in R</a> 
     </div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
@@ -349,19 +349,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#download-data" id="toc-download-data" class="nav-link active" data-scroll-target="#download-data"><span class="header-section-number">14.1</span> Download data</a></li>
-  <li><a href="#wood-carbon" id="toc-wood-carbon" class="nav-link" data-scroll-target="#wood-carbon"><span class="header-section-number">14.2</span> Wood carbon</a>
+  <li><a href="#neon-project" id="toc-neon-project" class="nav-link active" data-scroll-target="#neon-project"><span class="header-section-number">14.1</span> NEON Project</a></li>
+  <li><a href="#neon-terrestrial-sites" id="toc-neon-terrestrial-sites" class="nav-link" data-scroll-target="#neon-terrestrial-sites"><span class="header-section-number">14.2</span> NEON Terrestrial sites</a></li>
+  <li><a href="#download-data" id="toc-download-data" class="nav-link" data-scroll-target="#download-data"><span class="header-section-number">14.3</span> Download data</a></li>
+  <li><a href="#wood-carbon" id="toc-wood-carbon" class="nav-link" data-scroll-target="#wood-carbon"><span class="header-section-number">14.4</span> Wood carbon</a>
   <ul class="collapse">
-  <li><a href="#calculate-carbon-in-trees" id="toc-calculate-carbon-in-trees" class="nav-link" data-scroll-target="#calculate-carbon-in-trees"><span class="header-section-number">14.2.1</span> Calculate carbon in trees</a></li>
-  <li><a href="#calculate-carbon-in-dead-trees" id="toc-calculate-carbon-in-dead-trees" class="nav-link" data-scroll-target="#calculate-carbon-in-dead-trees"><span class="header-section-number">14.2.2</span> Calculate carbon in dead trees</a></li>
+  <li><a href="#calculate-carbon-in-trees" id="toc-calculate-carbon-in-trees" class="nav-link" data-scroll-target="#calculate-carbon-in-trees"><span class="header-section-number">14.4.1</span> Calculate carbon in trees</a></li>
+  <li><a href="#calculate-carbon-in-dead-trees" id="toc-calculate-carbon-in-dead-trees" class="nav-link" data-scroll-target="#calculate-carbon-in-dead-trees"><span class="header-section-number">14.4.2</span> Calculate carbon in dead trees</a></li>
   </ul></li>
-  <li><a href="#calculate-carbon-in-trees-on-the-ground-coarse-woody-debris" id="toc-calculate-carbon-in-trees-on-the-ground-coarse-woody-debris" class="nav-link" data-scroll-target="#calculate-carbon-in-trees-on-the-ground-coarse-woody-debris"><span class="header-section-number">14.3</span> Calculate carbon in trees on the ground (coarse woody debris)</a></li>
-  <li><a href="#calculate-carbon-in-fine-roots" id="toc-calculate-carbon-in-fine-roots" class="nav-link" data-scroll-target="#calculate-carbon-in-fine-roots"><span class="header-section-number">14.4</span> Calculate carbon in fine roots</a></li>
-  <li><a href="#calculate-carbon-in-soils" id="toc-calculate-carbon-in-soils" class="nav-link" data-scroll-target="#calculate-carbon-in-soils"><span class="header-section-number">14.5</span> Calculate carbon in soils</a></li>
-  <li><a href="#combine-together" id="toc-combine-together" class="nav-link" data-scroll-target="#combine-together"><span class="header-section-number">14.6</span> Combine together</a></li>
-  <li><a href="#modis-lai" id="toc-modis-lai" class="nav-link" data-scroll-target="#modis-lai"><span class="header-section-number">14.7</span> MODIS LAI</a></li>
-  <li><a href="#flux-data" id="toc-flux-data" class="nav-link" data-scroll-target="#flux-data"><span class="header-section-number">14.8</span> Flux data</a></li>
-  <li><a href="#combine-together-to-create-data-contraints" id="toc-combine-together-to-create-data-contraints" class="nav-link" data-scroll-target="#combine-together-to-create-data-contraints"><span class="header-section-number">14.9</span> Combine together to create data contraints</a></li>
+  <li><a href="#calculate-carbon-in-trees-on-the-ground-coarse-woody-debris" id="toc-calculate-carbon-in-trees-on-the-ground-coarse-woody-debris" class="nav-link" data-scroll-target="#calculate-carbon-in-trees-on-the-ground-coarse-woody-debris"><span class="header-section-number">14.5</span> Calculate carbon in trees on the ground (coarse woody debris)</a></li>
+  <li><a href="#calculate-carbon-in-fine-roots" id="toc-calculate-carbon-in-fine-roots" class="nav-link" data-scroll-target="#calculate-carbon-in-fine-roots"><span class="header-section-number">14.6</span> Calculate carbon in fine roots</a></li>
+  <li><a href="#calculate-carbon-in-soils" id="toc-calculate-carbon-in-soils" class="nav-link" data-scroll-target="#calculate-carbon-in-soils"><span class="header-section-number">14.7</span> Calculate carbon in soils</a></li>
+  <li><a href="#combine-together" id="toc-combine-together" class="nav-link" data-scroll-target="#combine-together"><span class="header-section-number">14.8</span> Combine together</a></li>
+  <li><a href="#modis-lai" id="toc-modis-lai" class="nav-link" data-scroll-target="#modis-lai"><span class="header-section-number">14.9</span> MODIS LAI</a></li>
+  <li><a href="#flux-data" id="toc-flux-data" class="nav-link" data-scroll-target="#flux-data"><span class="header-section-number">14.10</span> Flux data</a></li>
+  <li><a href="#combine-together-to-create-data-contraints" id="toc-combine-together-to-create-data-contraints" class="nav-link" data-scroll-target="#combine-together-to-create-data-contraints"><span class="header-section-number">14.11</span> Combine together to create data contraints</a></li>
   </ul>
 </nav>
     </div>
@@ -370,7 +372,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">NEON data</span></h1>
+<h1 class="title"><span id="sec-neon" class="quarto-section-identifier"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">NEON data</span></span></h1>
 </div>
 
 
@@ -392,8 +394,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>In this document, we will be creating a carbon budget for a NEON site. It was developed in collaboration with John Smith at Montana State University.</p>
 <p>NEON data is organized by data product ID in the NEON Date Portal: <a href="https://data.neonscience.org/static/browse.html" class="uri">https://data.neonscience.org/static/browse.html</a></p>
-<section id="download-data" class="level2" data-number="14.1">
-<h2 data-number="14.1" class="anchored" data-anchor-id="download-data"><span class="header-section-number">14.1</span> Download data</h2>
+<section id="neon-project" class="level2" data-number="14.1">
+<h2 data-number="14.1" class="anchored" data-anchor-id="neon-project"><span class="header-section-number">14.1</span> NEON Project</h2>
+<div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/39YrzpxVRF8?si=MZaH7miPEYhgiF6e" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
+</section>
+<section id="neon-terrestrial-sites" class="level2" data-number="14.2">
+<h2 data-number="14.2" class="anchored" data-anchor-id="neon-terrestrial-sites"><span class="header-section-number">14.2</span> NEON Terrestrial sites</h2>
+<div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/FXpqf89w6QU?si=_wGoKN0i13yJbd5S" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
+</section>
+<section id="download-data" class="level2" data-number="14.3">
+<h2 data-number="14.3" class="anchored" data-anchor-id="download-data"><span class="header-section-number">14.3</span> Download data</h2>
 <p>First, we are going to want to define the site ID. The four letter site code denotes NEON site. You can learn more about NEON sites here: <a href="https://www.neonscience.org/field-sites/explore-field-sites" class="uri">https://www.neonscience.org/field-sites/explore-field-sites</a>. The elevation, latitude , and longitude are needed to convert the diameter measurements to biomass.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>site <span class="ot">&lt;-</span> <span class="st">"TALL"</span></span>
@@ -402,10 +412,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>longitude <span class="ot">&lt;-</span> <span class="sc">-</span><span class="fl">87.393259</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="wood-carbon" class="level2" data-number="14.2">
-<h2 data-number="14.2" class="anchored" data-anchor-id="wood-carbon"><span class="header-section-number">14.2</span> Wood carbon</h2>
-<section id="calculate-carbon-in-trees" class="level3" data-number="14.2.1">
-<h3 data-number="14.2.1" class="anchored" data-anchor-id="calculate-carbon-in-trees"><span class="header-section-number">14.2.1</span> Calculate carbon in trees</h3>
+<section id="wood-carbon" class="level2" data-number="14.4">
+<h2 data-number="14.4" class="anchored" data-anchor-id="wood-carbon"><span class="header-section-number">14.4</span> Wood carbon</h2>
+<section id="calculate-carbon-in-trees" class="level3" data-number="14.4.1">
+<h3 data-number="14.4.1" class="anchored" data-anchor-id="calculate-carbon-in-trees"><span class="header-section-number">14.4.1</span> Calculate carbon in trees</h3>
 <p>In this section, we will be calculating carbon in live and dead trees at a NEON site. At the end we will have a <em>site-level</em> mean carbon stock in <em>live trees</em> for each year that was sampled from the plots that are sampling the ecosystem under the flux tower (e.g., tower plots).</p>
 <p>The code below read the data directly from NEON’s cloud storage. Since the columns may change between the official releases and the provisional data, they need to be read in separately before being combined.</p>
 <div class="cell">
@@ -568,8 +578,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="calculate-carbon-in-dead-trees" class="level3" data-number="14.2.2">
-<h3 data-number="14.2.2" class="anchored" data-anchor-id="calculate-carbon-in-dead-trees"><span class="header-section-number">14.2.2</span> Calculate carbon in dead trees</h3>
+<section id="calculate-carbon-in-dead-trees" class="level3" data-number="14.4.2">
+<h3 data-number="14.4.2" class="anchored" data-anchor-id="calculate-carbon-in-dead-trees"><span class="header-section-number">14.4.2</span> Calculate carbon in dead trees</h3>
 <p>We will now use <code>allodb</code> to extract the carbon in dead trees.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>combined_table_dead_tower <span class="ot">&lt;-</span> combined_table_dbh <span class="sc">%&gt;%</span> </span>
@@ -628,8 +638,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </section>
 </section>
-<section id="calculate-carbon-in-trees-on-the-ground-coarse-woody-debris" class="level2" data-number="14.3">
-<h2 data-number="14.3" class="anchored" data-anchor-id="calculate-carbon-in-trees-on-the-ground-coarse-woody-debris"><span class="header-section-number">14.3</span> Calculate carbon in trees on the ground (coarse woody debris)</h2>
+<section id="calculate-carbon-in-trees-on-the-ground-coarse-woody-debris" class="level2" data-number="14.5">
+<h2 data-number="14.5" class="anchored" data-anchor-id="calculate-carbon-in-trees-on-the-ground-coarse-woody-debris"><span class="header-section-number">14.5</span> Calculate carbon in trees on the ground (coarse woody debris)</h2>
 <p>The data needed to calculate carbon in trees that are laying on the ground are in two NEON data products.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>index <span class="ot">&lt;-</span>  neonstore<span class="sc">:::</span><span class="fu">neon_data</span>(<span class="at">product =</span> <span class="st">"DP1.10014.001"</span>,</span>
@@ -696,8 +706,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="calculate-carbon-in-fine-roots" class="level2" data-number="14.4">
-<h2 data-number="14.4" class="anchored" data-anchor-id="calculate-carbon-in-fine-roots"><span class="header-section-number">14.4</span> Calculate carbon in fine roots</h2>
+<section id="calculate-carbon-in-fine-roots" class="level2" data-number="14.6">
+<h2 data-number="14.6" class="anchored" data-anchor-id="calculate-carbon-in-fine-roots"><span class="header-section-number">14.6</span> Calculate carbon in fine roots</h2>
 <p>Here we are going to calculate the carbon stored in fine roots using the root chemistry data product. We will calculate the carbon in both dead and alive roots. Though we are interested mostly in live roots, at the time of writing this, there the 2021 NEON data for our site does not have <code>rootStatus</code> data available. Thus we will use historical data to compute an estimate of the ratio, so that we don’t have to throw away perfectly good information.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="do">## root chemistry data product</span></span>
@@ -760,8 +770,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb22-40"><a href="#cb22-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(year, mean_kgCperm2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="calculate-carbon-in-soils" class="level2" data-number="14.5">
-<h2 data-number="14.5" class="anchored" data-anchor-id="calculate-carbon-in-soils"><span class="header-section-number">14.5</span> Calculate carbon in soils</h2>
+<section id="calculate-carbon-in-soils" class="level2" data-number="14.7">
+<h2 data-number="14.7" class="anchored" data-anchor-id="calculate-carbon-in-soils"><span class="header-section-number">14.7</span> Calculate carbon in soils</h2>
+<div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/khfIC5TpyPQ?si=f1ldTnTVpA8UWbb7" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Download bieogeochemistry soil data to get carbon concentration</span></span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="co">#data_product1 &lt;- "DP1.00097.001"</span></span>
@@ -826,8 +837,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="combine-together" class="level2" data-number="14.6">
-<h2 data-number="14.6" class="anchored" data-anchor-id="combine-together"><span class="header-section-number">14.6</span> Combine together</h2>
+<section id="combine-together" class="level2" data-number="14.8">
+<h2 data-number="14.8" class="anchored" data-anchor-id="combine-together"><span class="header-section-number">14.8</span> Combine together</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>site_live_carbon <span class="ot">&lt;-</span> site_live_carbon <span class="sc">|&gt;</span> </span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">variable =</span> <span class="st">"live_tree"</span>) <span class="sc">|&gt;</span> </span>
@@ -879,8 +890,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="sc">-</span>datetime, <span class="at">names_to =</span> <span class="st">"variable"</span>, <span class="at">values_to =</span> <span class="st">"observation"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="modis-lai" class="level2" data-number="14.7">
-<h2 data-number="14.7" class="anchored" data-anchor-id="modis-lai"><span class="header-section-number">14.7</span> MODIS LAI</h2>
+<section id="modis-lai" class="level2" data-number="14.9">
+<h2 data-number="14.9" class="anchored" data-anchor-id="modis-lai"><span class="header-section-number">14.9</span> MODIS LAI</h2>
+<div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/n9t_ANefhjU?si=U4OYgoq83Uu2nu57" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
 <p>Download the leaf area index</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>lai <span class="ot">&lt;-</span> MODISTools<span class="sc">::</span><span class="fu">mt_subset</span>(<span class="at">product =</span> <span class="st">"MCD15A2H"</span>,</span>
@@ -917,8 +929,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="flux-data" class="level2" data-number="14.8">
-<h2 data-number="14.8" class="anchored" data-anchor-id="flux-data"><span class="header-section-number">14.8</span> Flux data</h2>
+<section id="flux-data" class="level2" data-number="14.10">
+<h2 data-number="14.10" class="anchored" data-anchor-id="flux-data"><span class="header-section-number">14.10</span> Flux data</h2>
+<p>Learn about flux data used to calibrate and evaluate NEE fluxes in the model</p>
+<div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/CR4Anc8Mkas?si=45r0mDvamjYGWq1E" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="st">"https://sdsc.osn.xsede.org/bio230014-bucket01/challenges/targets/project_id=neon4cast/duration=P1D/terrestrial_daily-targets.csv.gz"</span></span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -934,8 +948,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="combine-together-to-create-data-contraints" class="level2" data-number="14.9">
-<h2 data-number="14.9" class="anchored" data-anchor-id="combine-together-to-create-data-contraints"><span class="header-section-number">14.9</span> Combine together to create data contraints</h2>
+<section id="combine-together-to-create-data-contraints" class="level2" data-number="14.11">
+<h2 data-number="14.11" class="anchored" data-anchor-id="combine-together-to-create-data-contraints"><span class="header-section-number">14.11</span> Combine together to create data contraints</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>obs <span class="ot">&lt;-</span> total_carbon_simple <span class="sc">|&gt;</span> </span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_rows</span>(lai_cleaned, flux) <span class="sc">|&gt;</span> </span>

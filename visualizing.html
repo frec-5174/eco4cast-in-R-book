@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>A practical guide to ecological forecasting - 10&nbsp; Visualizing and evaluating forecasts</title>
+<title>A practical guide to ecological forecasting in R - 10&nbsp; Visualizing and evaluating forecasts</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -54,7 +54,26 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -130,7 +149,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">A practical guide to ecological forecasting</a> 
+      <a href="./">A practical guide to ecological forecasting in R</a> 
     </div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
@@ -385,7 +404,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-<p>The fourth forecast generation assignment will challenge analyze the automated forecasts that you submitted as part of <span class="citation" data-cites="third-forecast.qmd#sec-third-forecast">(<a href="references.html#ref-third-forecast.qmd#sec-third-forecast" role="doc-biblioref"><strong>third-forecast.qmd#sec-third-forecast?</strong></a>)</span>. The assign uses the module in Freya Olsson’s tutorial that provides code to access the automatically scored forecasts. You will add code to your respository that generates plots.</p>
+<p>The fourth forecast generation assignment will challenge analyze the automated forecasts that you submitted as part of <span class="quarto-unresolved-ref">?sec-third-forecast</span>. The assign uses the module in Freya Olsson’s tutorial that provides code to access the automatically scored forecasts. You will add code to your respository that generates plots.</p>
 <p><a href="https://github.com/OlssonF/NEON-forecast-challenge-workshop/blob/main/Analyse_scores/Get_scores_tutorial.Rmd" class="uri">https://github.com/OlssonF/NEON-forecast-challenge-workshop/blob/main/Analyse_scores/Get_scores_tutorial.Rmd</a></p>
 <section id="information-on-scoring-metrics" class="level2" data-number="10.1">
 <h2 data-number="10.1" class="anchored" data-anchor-id="information-on-scoring-metrics"><span class="header-section-number">10.1</span> Information on scoring metrics</h2>
@@ -396,9 +415,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="continuous-ranked-probability-score" class="level2" data-number="10.3">
 <h2 data-number="10.3" class="anchored" data-anchor-id="continuous-ranked-probability-score"><span class="header-section-number">10.3</span> Continuous Ranked Probability Score</h2>
-<p>Forecasts will be scored using the continuous ranked probability score (CRPS), a proper scoring rule for evaluating forecasts presented as distributions or ensembles (Gneiting &amp; Raftery 2007). The CRPS compares the forecast probability distribution to that of the validation observation and assigns a score based on both the accuracy and precision of the forecast. We will use the ‘crps_sample’ function from the <code>scoringRules</code> package in R to calculate the CRPS for each forecast.</p>
+<p>Forecasts will be scored using the continuous ranked probability score (CRPS), a proper scoring rule for evaluating forecasts presented as distributions or ensembles (<span class="citation" data-cites="gneitingStrictlyProperScoring2007">Gneiting and Raftery (<a href="references.html#ref-gneitingStrictlyProperScoring2007" role="doc-biblioref">2007</a>)</span>). The CRPS compares the forecast probability distribution to that of the validation observation and assigns a score based on both the accuracy and precision of the forecast. We will use the ‘crps_sample’ function from the <code>scoringRules</code> package in R to calculate the CRPS for each forecast.</p>
 <p>We will generate a combined score for all locations and forecast horizons. Forecasts will also be evaluated using the CRPS at each time-step in the forecast horizon and each location included in the forecasts.</p>
-<p>Importantly, we use the convention for CRPS where zero is lowest and best possible score, therefore teams want to achieve the lowest score. CPRS can be also expressed as a negative number with zero as highest and best possible score (Gneiting &amp; Raftery 2007). The <code>scoringRules</code> package that we use follows the 0 or greater convention.</p>
+<p>Importantly, we use the convention for CRPS where zero is lowest and best possible score, therefore teams want to achieve the lowest score. CPRS can be also expressed as a negative number with zero as highest and best possible score (<span class="citation" data-cites="gneitingStrictlyProperScoring2007">Gneiting and Raftery (<a href="references.html#ref-gneitingStrictlyProperScoring2007" role="doc-biblioref">2007</a>)</span>). The <code>scoringRules</code> package that we use follows the 0 or greater convention.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(scoringRules)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -425,14 +444,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>crps_equation_2 <span class="ot">&lt;-</span> <span class="fu">mean</span>(<span class="fu">abs</span>(x <span class="sc">-</span> y)) <span class="sc">-</span> s <span class="sc">/</span> (<span class="dv">2</span> <span class="sc">*</span> <span class="fu">length</span>(x)<span class="sc">^</span><span class="dv">2</span>)</span>
 <span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>crps_equation_2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.2376117</code></pre>
+<pre><code>[1] 0.2248773</code></pre>
 </div>
 </div>
 <p>Now calculate using the <code>crps_sample()</code> function in the <code>scoringRules</code> package</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">crps_sample</span>(<span class="at">y =</span> y, <span class="at">dat =</span> x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.2376117</code></pre>
+<pre><code>[1] 0.2248773</code></pre>
 </div>
 </div>
 </section>
@@ -670,19 +689,19 @@ CRPS(N(\mu, \sigma^2) | y) = \sigma \left( \frac{y - \mu}{\sigma} \left( 2 \Phi\
 <div class="cell">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(scoringRules<span class="sc">::</span><span class="fu">crps_sample</span>(<span class="at">y =</span> obs, <span class="at">dat =</span> forecast1),scoringRules<span class="sc">::</span><span class="fu">logs_sample</span>(<span class="at">y =</span> obs, <span class="at">dat =</span> forecast1)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.9760181 2.4152971</code></pre>
+<pre><code>[1] 0.7100353 2.0884507</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(scoringRules<span class="sc">::</span><span class="fu">crps_sample</span>(<span class="at">y =</span> obs, <span class="at">dat =</span> forecast2),scoringRules<span class="sc">::</span><span class="fu">logs_sample</span>(<span class="at">y =</span> obs, <span class="at">dat =</span> forecast2)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.6098066 1.6712520</code></pre>
+<pre><code>[1] 0.6570912 1.7464786</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(scoringRules<span class="sc">::</span><span class="fu">crps_sample</span>(<span class="at">y =</span> obs, <span class="at">dat =</span> forecast3),scoringRules<span class="sc">::</span><span class="fu">logs_sample</span>(<span class="at">y =</span> obs, <span class="at">dat =</span> forecast3)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1]  0.0268553 -1.1737817</code></pre>
+<pre><code>[1]  0.0215112 -1.4066638</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(scoringRules<span class="sc">::</span><span class="fu">crps_sample</span>(<span class="at">y =</span> obs, <span class="at">dat =</span> forecast4),scoringRules<span class="sc">::</span><span class="fu">logs_sample</span>(<span class="at">y =</span> obs, <span class="at">dat =</span> forecast4)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1]   0.9371742 144.2428720</code></pre>
+<pre><code>[1]   0.9270151 154.8894048</code></pre>
 </div>
 </div>
 <div class="cell">
@@ -702,6 +721,11 @@ CRPS(N(\mu, \sigma^2) | y) = \sigma \left( \frac{y - \mu}{\sigma} \left( 2 \Phi\
 </div>
 
 
+<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
+<div id="ref-gneitingStrictlyProperScoring2007" class="csl-entry" role="listitem">
+Gneiting, Tilmann, and Adrian E Raftery. 2007. <span>“Strictly <span>Proper Scoring Rules</span>, <span>Prediction</span>, and <span>Estimation</span>.”</span> <em>Journal of the American Statistical Association</em> 102 (477): 359–78. <a href="https://doi.org/10.1198/016214506000001437">https://doi.org/10.1198/016214506000001437</a>.
+</div>
+</div>
 </section>
 </section>
 

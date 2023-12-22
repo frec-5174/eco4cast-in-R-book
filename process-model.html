@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>A practical guide to ecological forecasting - 12&nbsp; Process model</title>
+<title>A practical guide to ecological forecasting in R - 12&nbsp; Process model</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -128,7 +128,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">A practical guide to ecological forecasting</a> 
+      <a href="./">A practical guide to ecological forecasting in R</a> 
     </div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
@@ -395,8 +395,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <figcaption class="figure-caption">Conceptual diagram of the forest model</figcaption>
 </figure>
 </div>
-<p>Photosynthesis (gross primary productivity; gpp) is modeled using a light-use efficiency approach. Photosynthetically Active Radiation (PAR) is converted to absorbed PAR by multiplying by the proportion absorbed by leaf area index (LAI). As LAI increases more light is absorbed. The absorbed PAR is multipled by a light use efficiency parameter (<code>alpha</code>). LAI is determined by multiplying leave carbon by the specific leaf area parameter (<code>SLA</code>).</p>
-<p>Autotrophic respiration (<code>ra</code>) is modeled as a constant proportion of GPP using the <code>Ra_frac</code> parameter. Net primary productivty (<code>npp</code>) is the carbon that is not used for autotrophic respiration (<code>gpp - ra</code>).</p>
+<p>Photosynthesis (gross primary productivity; gpp) is modeled using a light-use efficiency approach. Photosynthetically Active Radiation (PAR) is converted to absorbed PAR by multiplying by the proportion absorbed by leaf area index (LAI). As LAI increases more light is absorbed. The absorbed PAR is multiplied by a light use efficiency parameter (<code>alpha</code>). LAI is determined by multiplying leave carbon by the specific leaf area parameter (<code>SLA</code>).</p>
+<p>Autotrophic respiration (<code>ra</code>) is modeled as a constant proportion of GPP using the <code>Ra_frac</code> parameter. Net primary productivity (<code>npp</code>) is the carbon that is not used for autotrophic respiration (<code>gpp - ra</code>).</p>
 <p>NPP is allocated to the two vegetation carbon states (<code>wood</code> and <code>leaves</code>) based on a constant proportion parameter. <code>leaf_frac</code> is the proportion that is allocated to leaves and <code>1-leaf_frac</code> is the allocation to wood.</p>
 <p>Litterfall is occurs between a starting day-of-year (<code>litterfall_start</code>) and an ending day-of-year (<code>litterfall_start + litterfall_length</code>). The annual proportion of leaves (<code>litterfall_rate</code>) that are dropped is removed during this period.</p>
 <p>Tree mortality is modeled as a constant proportion of wood (<code>mortality</code>) that is lost each day.</p>
