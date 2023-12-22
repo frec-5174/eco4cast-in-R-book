@@ -489,7 +489,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="pulling-together_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="pulling-together_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Post-analysis predictions from the forest model (median and 90% CI) with data assimilation using the particle filter. Observations used in data assimilation are denoted as red dots.</figcaption>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -513,12 +518,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>inputs_past <span class="ot">&lt;-</span> <span class="fu">get_historical_met</span>(<span class="at">site =</span> <span class="st">"TALL"</span>, sim_dates[<span class="dv">1</span><span class="sc">:</span>(look_back<span class="dv">-2</span>)], <span class="at">use_mean =</span> <span class="cn">FALSE</span>)</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>inputs_future <span class="ot">&lt;-</span> <span class="fu">get_forecast_met</span>(<span class="at">site =</span> <span class="st">"TALL"</span>, sim_dates[(look_back<span class="dv">-1</span>)<span class="sc">:</span><span class="fu">length</span>(sim_dates)], <span class="at">use_mean =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>inputs <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(inputs_past, inputs_future)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>inputs <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(inputs_past, inputs_future)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>inputs_ensemble <span class="ot">&lt;-</span> <span class="fu">assign_met_ensembles</span>(inputs, ens_members)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The combined weather drivers look like the following. The vertical line is where the look back period transitions to the future.</p>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="pulling-together_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="pulling-together_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">NOAA Global Ensemble Forecasting System 31 ensemble members for the two drivers in the forest model. The look-back and forecast periods are included with the transition denoted with a vertical line.</figcaption>
+</figure>
+</div>
 </div>
 </div>
 <div class="cell">
@@ -572,7 +583,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Visualize forecast. The vertical line is where the look back period transitions to the future.</p>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="pulling-together_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid" width="672"></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="pulling-together_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Forecast median and 90% CI. The look-back and forecast periods are included with the transition denoted with a vertical line.</figcaption>
+</figure>
+</div>
 </div>
 </div>
 <p>Save the states and weights for use as initial conditions in the next forecast.</p>

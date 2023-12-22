@@ -347,17 +347,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#baseline-parameteres" id="toc-baseline-parameteres" class="nav-link active" data-scroll-target="#baseline-parameteres"><span class="header-section-number">13.1</span> Baseline parameteres</a></li>
-  <li><a href="#baseline-initial-conditions" id="toc-baseline-initial-conditions" class="nav-link" data-scroll-target="#baseline-initial-conditions"><span class="header-section-number">13.2</span> Baseline initial conditions</a></li>
-  <li><a href="#baseline-drivers" id="toc-baseline-drivers" class="nav-link" data-scroll-target="#baseline-drivers"><span class="header-section-number">13.3</span> Baseline drivers</a></li>
-  <li><a href="#parameter-uncertainity" id="toc-parameter-uncertainity" class="nav-link" data-scroll-target="#parameter-uncertainity"><span class="header-section-number">13.4</span> Parameter uncertainity</a></li>
-  <li><a href="#process-uncertainty" id="toc-process-uncertainty" class="nav-link" data-scroll-target="#process-uncertainty"><span class="header-section-number">13.5</span> Process uncertainty</a></li>
-  <li><a href="#initial-condition-uncertainty" id="toc-initial-condition-uncertainty" class="nav-link" data-scroll-target="#initial-condition-uncertainty"><span class="header-section-number">13.6</span> Initial condition uncertainty</a></li>
-  <li><a href="#driver-uncertainty" id="toc-driver-uncertainty" class="nav-link" data-scroll-target="#driver-uncertainty"><span class="header-section-number">13.7</span> Driver uncertainty</a></li>
-  <li><a href="#problem-set" id="toc-problem-set" class="nav-link" data-scroll-target="#problem-set"><span class="header-section-number">13.8</span> Problem Set</a>
+  <li><a href="#setting-up-simulations" id="toc-setting-up-simulations" class="nav-link active" data-scroll-target="#setting-up-simulations"><span class="header-section-number">13.1</span> Setting up simulations</a>
   <ul class="collapse">
-  <li><a href="#part-1" id="toc-part-1" class="nav-link" data-scroll-target="#part-1"><span class="header-section-number">13.8.1</span> Part 1</a></li>
-  <li><a href="#part-2" id="toc-part-2" class="nav-link" data-scroll-target="#part-2"><span class="header-section-number">13.8.2</span> Part 2</a></li>
+  <li><a href="#baseline-parameters" id="toc-baseline-parameters" class="nav-link" data-scroll-target="#baseline-parameters"><span class="header-section-number">13.1.1</span> Baseline parameters</a></li>
+  <li><a href="#baseline-initial-conditions" id="toc-baseline-initial-conditions" class="nav-link" data-scroll-target="#baseline-initial-conditions"><span class="header-section-number">13.1.2</span> Baseline initial conditions</a></li>
+  <li><a href="#baseline-drivers" id="toc-baseline-drivers" class="nav-link" data-scroll-target="#baseline-drivers"><span class="header-section-number">13.1.3</span> Baseline drivers</a></li>
+  </ul></li>
+  <li><a href="#parameter-uncertainity" id="toc-parameter-uncertainity" class="nav-link" data-scroll-target="#parameter-uncertainity"><span class="header-section-number">13.2</span> Parameter uncertainity</a></li>
+  <li><a href="#process-uncertainty" id="toc-process-uncertainty" class="nav-link" data-scroll-target="#process-uncertainty"><span class="header-section-number">13.3</span> Process uncertainty</a></li>
+  <li><a href="#initial-condition-uncertainty" id="toc-initial-condition-uncertainty" class="nav-link" data-scroll-target="#initial-condition-uncertainty"><span class="header-section-number">13.4</span> Initial condition uncertainty</a></li>
+  <li><a href="#driver-uncertainty" id="toc-driver-uncertainty" class="nav-link" data-scroll-target="#driver-uncertainty"><span class="header-section-number">13.5</span> Driver uncertainty</a></li>
+  <li><a href="#problem-set" id="toc-problem-set" class="nav-link" data-scroll-target="#problem-set"><span class="header-section-number">13.6</span> Problem Set</a>
+  <ul class="collapse">
+  <li><a href="#part-1" id="toc-part-1" class="nav-link" data-scroll-target="#part-1"><span class="header-section-number">13.6.1</span> Part 1</a></li>
+  <li><a href="#part-2" id="toc-part-2" class="nav-link" data-scroll-target="#part-2"><span class="header-section-number">13.6.2</span> Part 2</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -388,14 +391,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"R/helpers.R"</span>)</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"R/forest_model.R"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>This chapter applies the concepts in Chapter 5: Understanding Uncertainty in Ecological Forecasts to the forest process model. If you have not reviewed chapter 5 yet, I recommend doing that as a foundation for this Chapter.</p>
+<section id="setting-up-simulations" class="level2" data-number="13.1">
+<h2 data-number="13.1" class="anchored" data-anchor-id="setting-up-simulations"><span class="header-section-number">13.1</span> Setting up simulations</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>sim_dates <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fu">as_date</span>(<span class="st">"2023-11-15"</span>),<span class="at">length.out  =</span> <span class="dv">34</span>, <span class="at">by =</span> <span class="st">"1 day"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>site <span class="ot">&lt;-</span> <span class="st">"TALL"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="baseline-parameteres" class="level2" data-number="13.1">
-<h2 data-number="13.1" class="anchored" data-anchor-id="baseline-parameteres"><span class="header-section-number">13.1</span> Baseline parameteres</h2>
+<section id="baseline-parameters" class="level3" data-number="13.1.1">
+<h3 data-number="13.1.1" class="anchored" data-anchor-id="baseline-parameters"><span class="header-section-number">13.1.1</span> Baseline parameters</h3>
+<p>This are the parameters that will be used for all the simulations except for the simulation where parameter uncertainty is propagated</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>ens_members <span class="ot">&lt;-</span> <span class="dv">100</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>params <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
@@ -415,8 +422,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>params <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(params)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="baseline-initial-conditions" class="level2" data-number="13.2">
-<h2 data-number="13.2" class="anchored" data-anchor-id="baseline-initial-conditions"><span class="header-section-number">13.2</span> Baseline initial conditions</h2>
+<section id="baseline-initial-conditions" class="level3" data-number="13.1.2">
+<h3 data-number="13.1.2" class="anchored" data-anchor-id="baseline-initial-conditions"><span class="header-section-number">13.1.2</span> Baseline initial conditions</h3>
+<p>This are the initial conditions that will be used for all the simulations except for the simulation where initial uncertainty is propagated</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Set initial conditions</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>output <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="cn">NA</span>, <span class="at">dim =</span> <span class="fu">c</span>(<span class="fu">length</span>(sim_dates), ens_members, <span class="dv">12</span>)) <span class="co">#12 is the number of outputs</span></span>
@@ -425,25 +433,32 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>output[<span class="dv">1</span>, , <span class="dv">3</span>] <span class="ot">&lt;-</span> <span class="dv">140</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="baseline-drivers" class="level2" data-number="13.3">
-<h2 data-number="13.3" class="anchored" data-anchor-id="baseline-drivers"><span class="header-section-number">13.3</span> Baseline drivers</h2>
+<section id="baseline-drivers" class="level3" data-number="13.1.3">
+<h3 data-number="13.1.3" class="anchored" data-anchor-id="baseline-drivers"><span class="header-section-number">13.1.3</span> Baseline drivers</h3>
+<p>This are the drivers conditions that will be used for all the simulations except for the simulation where driver uncertainty is propagated. It uses the mean for the weather forecast ensemble.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>inputs <span class="ot">&lt;-</span> <span class="fu">get_forecast_met</span>(<span class="at">site =</span> site, sim_dates, <span class="at">use_mean =</span> <span class="cn">FALSE</span>)</span>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>inputs <span class="ot">&lt;-</span> <span class="fu">get_forecast_met</span>(<span class="at">site =</span> site, sim_dates, <span class="at">use_mean =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>inputs_ensemble <span class="ot">&lt;-</span> <span class="fu">assign_met_ensembles</span>(inputs, ens_members)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="parameter-uncertainity" class="level2" data-number="13.4">
-<h2 data-number="13.4" class="anchored" data-anchor-id="parameter-uncertainity"><span class="header-section-number">13.4</span> Parameter uncertainity</h2>
-<p>Update parameters to include uncertainty</p>
+</section>
+<section id="parameter-uncertainity" class="level2" data-number="13.2">
+<h2 data-number="13.2" class="anchored" data-anchor-id="parameter-uncertainity"><span class="header-section-number">13.2</span> Parameter uncertainity</h2>
+<p><strong>TO DO: Add text about where parameter uncertainty comes from</strong></p>
+<p>Our model has 13 parameters. Each of them require a value that is likely not known with perfect uncertainty. Representing parameter uncertainty involves replacing the single value for each parameter with a distribution. The distribution can be from literature reviews, a best guess, or the outcome of a calibration exercise. The the calibration exercise is Bayesian the distribution of the parameter before calibration can be refered to as a prior and after calibration is a posterior. Sampling from the parameter distribution provides values for the parameter that are assigned to each ensemble member.</p>
+<p>In many cases a senstivity analysis can be used to determine which parameters to focus uncertainty estimation on. If a model is not particularly sensitive to parameter then the prediction uncertainty is less likely to be strongly determined by the uncertainty in that parameter. In practices, the values for the less sensitive parameters are held at a single value. Other parameters are so well known that they are also held at a single value (e.g., the gravitation constant).</p>
+<p>In this example, I focuses only on propogating one parameter (<code>alpha</code>) that represents the light use efficiency of photosynthesis. All other parameters are held at their baseline values.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>new_params <span class="ot">&lt;-</span> params</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>new_params<span class="sc">$</span>alpha <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(ens_members, params<span class="sc">$</span>alpha, <span class="at">sd =</span> <span class="fl">0.005</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>This results in <code>alpha</code> having the following distribution:</p>
 <div class="cell">
 <div class="cell-output-display">
 <p><img src="prop-uncertainty_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
+<p>Use the <code>new_params</code> as the parameters in the simulation.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(t <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="fu">length</span>(sim_dates)){</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -472,8 +487,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="process-uncertainty" class="level2" data-number="13.5">
-<h2 data-number="13.5" class="anchored" data-anchor-id="process-uncertainty"><span class="header-section-number">13.5</span> Process uncertainty</h2>
+<section id="process-uncertainty" class="level2" data-number="13.3">
+<h2 data-number="13.3" class="anchored" data-anchor-id="process-uncertainty"><span class="header-section-number">13.3</span> Process uncertainty</h2>
+<p><strong>TO DO: Add text about where process uncertainty comes from. Priors, experts, posteriors, estimated distributions</strong></p>
 <p>Change process uncertainty parameters from being zero to a positive value</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>new_params <span class="ot">&lt;-</span> params</span>
@@ -515,8 +531,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="initial-condition-uncertainty" class="level2" data-number="13.6">
-<h2 data-number="13.6" class="anchored" data-anchor-id="initial-condition-uncertainty"><span class="header-section-number">13.6</span> Initial condition uncertainty</h2>
+<section id="initial-condition-uncertainty" class="level2" data-number="13.4">
+<h2 data-number="13.4" class="anchored" data-anchor-id="initial-condition-uncertainty"><span class="header-section-number">13.4</span> Initial condition uncertainty</h2>
+<p><strong>TO DO: Add text about where initial condition uncertainty comes from</strong></p>
 <p>Update the initial starting point</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Set initial conditions</span></span>
@@ -560,8 +577,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="driver-uncertainty" class="level2" data-number="13.7">
-<h2 data-number="13.7" class="anchored" data-anchor-id="driver-uncertainty"><span class="header-section-number">13.7</span> Driver uncertainty</h2>
+<section id="driver-uncertainty" class="level2" data-number="13.5">
+<h2 data-number="13.5" class="anchored" data-anchor-id="driver-uncertainty"><span class="header-section-number">13.5</span> Driver uncertainty</h2>
+<p><strong>TO DO: Add text about where driver uncertainty comes from</strong></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>new_inputs <span class="ot">&lt;-</span> <span class="fu">get_forecast_met</span>(<span class="at">site =</span> site, sim_dates, <span class="at">use_mean =</span> <span class="cn">FALSE</span>)</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>new_inputs_ensemble <span class="ot">&lt;-</span> <span class="fu">assign_met_ensembles</span>(inputs, ens_members)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -600,10 +618,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="problem-set" class="level2" data-number="13.8">
-<h2 data-number="13.8" class="anchored" data-anchor-id="problem-set"><span class="header-section-number">13.8</span> Problem Set</h2>
-<section id="part-1" class="level3" data-number="13.8.1">
-<h3 data-number="13.8.1" class="anchored" data-anchor-id="part-1"><span class="header-section-number">13.8.1</span> Part 1</h3>
+<section id="problem-set" class="level2" data-number="13.6">
+<h2 data-number="13.6" class="anchored" data-anchor-id="problem-set"><span class="header-section-number">13.6</span> Problem Set</h2>
+<section id="part-1" class="level3" data-number="13.6.1">
+<h3 data-number="13.6.1" class="anchored" data-anchor-id="part-1"><span class="header-section-number">13.6.1</span> Part 1</h3>
 <p>Using a dataset that combines each of the uncertainty dataframes into a single data frame:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>combined_df <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(parameter_df, process_df, initial_conditions_df, drivers_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -615,8 +633,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>30 days-ahead, what is the largest source of uncertainty for a flux (nee)? for a state (wood)?</li>
 </ol>
 </section>
-<section id="part-2" class="level3" data-number="13.8.2">
-<h3 data-number="13.8.2" class="anchored" data-anchor-id="part-2"><span class="header-section-number">13.8.2</span> Part 2</h3>
+<section id="part-2" class="level3" data-number="13.6.2">
+<h3 data-number="13.6.2" class="anchored" data-anchor-id="part-2"><span class="header-section-number">13.6.2</span> Part 2</h3>
 <p>Using the code above as a guide, create code to estimate uncertainty based on the propagation all sources at the same time (unlike the one-at-a-time approach above).</p>
 <p>Answer with text, code, and plots the following questions</p>
 <ul>
