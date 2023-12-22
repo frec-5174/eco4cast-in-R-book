@@ -54,7 +54,26 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -391,7 +410,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"R/helpers.R"</span>)</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"R/forest_model.R"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>This chapter applies the concepts in Chapter 5: Understanding Uncertainty in Ecological Forecasts to the forest process model. If you have not reviewed chapter 5 yet, I recommend doing that as a foundation for this Chapter.</p>
+<p>This chapter applies the concepts in <a href="understand-uncertainty.html" class="quarto-xref">Chapter&nbsp;<span>5</span></a> to the forest process model. If you have not reviewed chapter 5 yet, I recommend doing that as a foundation for this Chapter.</p>
 <section id="setting-up-simulations" class="level2" data-number="13.1">
 <h2 data-number="13.1" class="anchored" data-anchor-id="setting-up-simulations"><span class="header-section-number">13.1</span> Setting up simulations</h2>
 <div class="cell">
@@ -444,7 +463,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="parameter-uncertainity" class="level2" data-number="13.2">
 <h2 data-number="13.2" class="anchored" data-anchor-id="parameter-uncertainity"><span class="header-section-number">13.2</span> Parameter uncertainity</h2>
-<p><strong>TO DO: Add text about where parameter uncertainty comes from</strong></p>
 <p>Our model has 13 parameters. Each of them require a value that is likely not known with perfect uncertainty. Representing parameter uncertainty involves replacing the single value for each parameter with a distribution. The distribution can be from literature reviews, a best guess, or the outcome of a calibration exercise. The the calibration exercise is Bayesian the distribution of the parameter before calibration can be refered to as a prior and after calibration is a posterior. Sampling from the parameter distribution provides values for the parameter that are assigned to each ensemble member.</p>
 <p>In many cases a senstivity analysis can be used to determine which parameters to focus uncertainty estimation on. If a model is not particularly sensitive to parameter then the prediction uncertainty is less likely to be strongly determined by the uncertainty in that parameter. In practices, the values for the less sensitive parameters are held at a single value. Other parameters are so well known that they are also held at a single value (e.g., the gravitation constant).</p>
 <p>In this example, I focuses only on propogating one parameter (<code>alpha</code>) that represents the light use efficiency of photosynthesis. All other parameters are held at their baseline values.</p>
@@ -489,19 +507,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="process-uncertainty" class="level2" data-number="13.3">
 <h2 data-number="13.3" class="anchored" data-anchor-id="process-uncertainty"><span class="header-section-number">13.3</span> Process uncertainty</h2>
-<p><strong>TO DO: Add text about where process uncertainty comes from. Priors, experts, posteriors, estimated distributions</strong></p>
-<p>Change process uncertainty parameters from being zero to a positive value</p>
+<p>Process uncertainty is the uncertainty that comes from the model being a simplification of reality. We can use random noise to capture the dynamics that are missing from the model. The random noise is added to each state as end model timestep. The random noise is normally distributed with a mean equal to the model prediction for that time-step and the standard deviation equal to the parameters <code>sigma.leaf</code> (or leaves), <code>sigma.stem</code> (for wood), and <code>sigma.soil</code> (SOM). The result is a random walk that is guided by the mean prediction of the process model.</p>
+<p>Process uncertainty can be removed by setting the standard deviations equal to 0. Here we add in process uncertainty by setting the standard deviation to a non-zero value. The standard deviations can be determined using state-space calibration of the ecosystem model. You can learn more about state-space modeling in <span class="citation" data-cites="dietzeEcologicalForecasting2017">Dietze (<a href="references.html#ref-dietzeEcologicalForecasting2017" role="doc-biblioref">2017</a>)</span></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>new_params <span class="ot">&lt;-</span> params</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>new_params<span class="sc">$</span>sigma.leaf <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fl">0.1</span>, ens_members)</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>new_params<span class="sc">$</span>sigma.stem <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">1</span>, ens_members) <span class="co">#0.01 ## wood biomass</span></span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>new_params<span class="sc">$</span>sigma.soil <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">1</span>, ens_members)<span class="co"># 0.01</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>The spread that is added to each leaves at each time step.</p>
+<p>As an example <span class="quarto-unresolved-ref">?fig-process-unc</span> shows the distribution in the noise that is added the leaf state at each time step.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">rnorm</span>(ens_members, <span class="at">mean =</span> output[<span class="dv">1</span>, , <span class="dv">1</span>], <span class="at">sd =</span> new_params<span class="sc">$</span>sigma.leaf))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="prop-uncertainty_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="fig-process-unc"><img src="prop-uncertainty_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></a></p>
+</figure>
+</div>
 </div>
 </div>
 <div class="cell">
@@ -533,8 +555,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="initial-condition-uncertainty" class="level2" data-number="13.4">
 <h2 data-number="13.4" class="anchored" data-anchor-id="initial-condition-uncertainty"><span class="header-section-number">13.4</span> Initial condition uncertainty</h2>
-<p><strong>TO DO: Add text about where initial condition uncertainty comes from</strong></p>
-<p>Update the initial starting point</p>
+<p>Initial condition uncertainty is the spread in the model states at the first time-step of a forecast. This spread would be due to a lack of measurements (thus no direct knowledge of the state) or uncertainty in measurements (there is a spread in the possible states because we can’t perfectly observe it.). Here we represent initial condition uncertainty by generating a normal distribution with a mean equal to the observed value (or our best guess) and a standard deviation that represents measurement uncertainty. We update the initial starting point in the forecast with this distribution.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Set initial conditions</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>new_output <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="cn">NA</span>, <span class="at">dim =</span> <span class="fu">c</span>(<span class="fu">length</span>(sim_dates), ens_members, <span class="dv">12</span>)) <span class="co">#12 is the number of outputs</span></span>
@@ -542,11 +563,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>new_output[<span class="dv">1</span>, , <span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(ens_members, <span class="dv">140</span>, <span class="dv">10</span>)</span>
 <span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>new_output[<span class="dv">1</span>, , <span class="dv">3</span>] <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(ens_members, <span class="dv">140</span>, <span class="dv">20</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>The spread in leaves at the first time-step.</p>
+<p>As an example <span class="quarto-unresolved-ref">?fig-driver-unc</span> shows the distribution in the noise that is added the initial leaf state.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(new_output[<span class="dv">1</span>, , <span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="prop-uncertainty_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="fig-driver-unc"><img src="prop-uncertainty_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="672"></a></p>
+</figure>
+</div>
 </div>
 </div>
 <div class="cell">
@@ -579,15 +604,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="driver-uncertainty" class="level2" data-number="13.5">
 <h2 data-number="13.5" class="anchored" data-anchor-id="driver-uncertainty"><span class="header-section-number">13.5</span> Driver uncertainty</h2>
-<p><strong>TO DO: Add text about where driver uncertainty comes from</strong></p>
+<p>The uncertainty in the weather forecasts comes directly from the 31 ensembles provided by the NOAA Global Ensemble Forecasting System (GEFS). The ensemble is generated by slightly changing (perturbing) the initial states in the weather model before starting the forecast. Due to the chaotic nature of the atmosphere, the small differences get amplified over time, resulting in spread that increases further in the future.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>new_inputs <span class="ot">&lt;-</span> <span class="fu">get_forecast_met</span>(<span class="at">site =</span> site, sim_dates, <span class="at">use_mean =</span> <span class="cn">FALSE</span>)</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>new_inputs_ensemble <span class="ot">&lt;-</span> <span class="fu">assign_met_ensembles</span>(new_inputs, ens_members)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Uncertainty in the weather forecasts</p>
+<p>As an example <span class="quarto-unresolved-ref">?fig-driver-unc</span> shows 31 ensemble members from single 35-day forecast generated by NOAA GEFS.</p>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="prop-uncertainty_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid" width="672"></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="fig-driver-unc"><img src="prop-uncertainty_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid figure-img" width="672"></a></p>
+</figure>
+</div>
 </div>
 </div>
 <div class="cell">
@@ -643,6 +672,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 
 
+<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
+<div id="ref-dietzeEcologicalForecasting2017" class="csl-entry" role="listitem">
+Dietze, Michael C. 2017. <em>Ecological <span>Forecasting</span></em>. <span>Princeton</span>: <span>Princeton University Press</span>.
+</div>
+</div>
 </section>
 </section>
 
