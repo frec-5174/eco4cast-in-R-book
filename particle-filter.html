@@ -64,7 +64,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./pulling-together.html" rel="next">
+<link href="./particle-filter2.html" rel="next">
 <link href="./parameter-calibration3.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -285,8 +285,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./particle-filter2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Data assimilation: Applying to process model</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./pulling-together.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Putting it together: forecast - analysis cycle</span></span></a>
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Putting it together: forecast - analysis cycle</span></span></a>
   </div>
 </li>
       </ul>
@@ -303,17 +309,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./project2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Project 2</span></span></a>
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Project 2</span></span></a>
   </div>
 </li>
       </ul>
   </li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./summary.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Summary</span></span></a>
-  </div>
-</li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./references.html" class="sidebar-item-text sidebar-link">
@@ -374,7 +374,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Data assimilation: particle filter</span></h1>
+<h1 class="title"><span id="sec-particle-filter" class="quarto-section-identifier"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Data assimilation: particle filter</span></span></h1>
 </div>
 
 
@@ -478,6 +478,7 @@ for(t in 1:length_of_time_series){
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>         </span>
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>gflu <span class="ot">&lt;-</span> gflu[<span class="dv">1</span><span class="sc">:</span><span class="dv">15</span>, ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p><a href="#fig-glu-va" class="quarto-xref">Figure&nbsp;<span>18.1</span></a> shows the data for Virginia</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> gflu, <span class="fu">aes</span>(<span class="at">x =</span> Date, <span class="at">y =</span> <span class="fu">log</span>(Virginia))) <span class="sc">+</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
@@ -485,7 +486,12 @@ for(t in 1:length_of_time_series){
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Date"</span>, <span class="at">y =</span> <span class="st">"Log(flu cases)"</span>, <span class="at">title =</span> <span class="st">"Virginia Google Flu Trends"</span>) <span class="sc">+</span></span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="particle-filter_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+<div id="fig-glu-va" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="particle-filter_files/figure-html/fig-glu-va-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;18.1: Google flu data for Virginia</figcaption>
+</figure>
+</div>
 </div>
 </div>
 <section id="pf-with-no-observations" class="level3" data-number="18.3.1">
@@ -551,7 +557,7 @@ for(t in 1:length_of_time_series){
 <div id="fig-sim-prior-post" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="particle-filter_files/figure-html/fig-sim-prior-post-1.png" class="img-fluid figure-img" width="672"></p>
-<figcaption class="figure-caption">Figure&nbsp;18.1: Results of the particle filter with each particle shown</figcaption>
+<figcaption class="figure-caption">Figure&nbsp;18.2: Results of the particle filter with each particle shown</figcaption>
 </figure>
 </div>
 </div>
@@ -607,7 +613,7 @@ for(t in 1:length_of_time_series){
 <span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a>    }</span>
 <span id="cb9-41"><a href="#cb9-41" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p><a href="#fig-sim-prior-post2" class="quarto-xref">Figure&nbsp;<span>18.2</span></a> shows the particles with the observations. You can see how the particles are adjusted when data are present.</p>
+<p><a href="#fig-sim-prior-post2" class="quarto-xref">Figure&nbsp;<span>18.3</span></a> shows the particles with the observations. You can see how the particles are adjusted when data are present.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(<span class="at">time =</span> <span class="dv">1</span><span class="sc">:</span>nt,</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>       <span class="fu">as_tibble</span>(x),</span>
@@ -624,7 +630,7 @@ for(t in 1:length_of_time_series){
 <div id="fig-sim-prior-post2" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="particle-filter_files/figure-html/fig-sim-prior-post2-1.png" class="img-fluid figure-img" width="672"></p>
-<figcaption class="figure-caption">Figure&nbsp;18.2: Results of the particle filter with each particle shown. Observations are included</figcaption>
+<figcaption class="figure-caption">Figure&nbsp;18.3: Results of the particle filter with each particle shown. Observations are included</figcaption>
 </figure>
 </div>
 </div>
@@ -754,7 +760,7 @@ for(t in 1:length_of_time_series){
 <span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a>  }</span>
 <span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Now visualize the states from the PF</p>
+<p><a href="#fig-pf-parameters" class="quarto-xref">Figure&nbsp;<span>18.4</span></a> shows the states from the PF when parameter fitting is included</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(<span class="at">time =</span> <span class="dv">1</span><span class="sc">:</span>nt,</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">obs =</span> y,</span>
@@ -767,25 +773,28 @@ for(t in 1:length_of_time_series){
 <span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Date"</span>, <span class="at">y =</span> <span class="st">"Flu cases"</span>, <span class="at">title =</span> <span class="st">"State of Virginia"</span>) <span class="sc">+</span></span>
 <span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="particle-filter_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
+<div id="fig-pf-parameters" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="particle-filter_files/figure-html/fig-pf-parameters-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;18.4: Results of the particle filter when parameter fitting is included</figcaption>
+</figure>
 </div>
 </div>
-<p>And visualize the time-evolution of the parameter. There are two new concepts illustrated below:</p>
+</div>
+<p>And visualize the time-evolution of the parameter (<a href="#fig-parameter-timeseries" class="quarto-xref">Figure&nbsp;<span>18.5</span></a>). There are two new concepts illustrated below:</p>
 <ol type="1">
 <li>parameters distributions evolve through time. As a result the distribution of parameters is strongly influenced by the most recent observations. The distributions produced by a PF are not the same as the distributions produced by MCMC chain.<br>
 </li>
 <li>particles can have degeneracy, whereby the values of the parameters collapse down to one or a few values. This occurs because the PF does not propose new parameter values, it only selects (through resampling) parameter values from the initial set that you started with. Over the time-step the PF weeds out bad parameters and only a few ones are left. This is a major issue with a PF. Degeneracy can also occur in the states but since we are adding process uncertainty (<code>sd_add</code>) the particles are able to separate through time. There are a couple of ways to solve degeneracy - increase the number of particles so you sample more initial parameter values or propose new parameter values as part of the PF (how do to this is beyond the scope of this lecture)</li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(<span class="at">time =</span> <span class="dv">1</span><span class="sc">:</span>nt,</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>       <span class="fu">as_tibble</span>(b1)) <span class="sc">%&gt;%</span> </span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="sc">-</span><span class="fu">c</span>(time), <span class="at">names_to =</span> <span class="st">"ensemble"</span>, <span class="at">values_to =</span> <span class="st">"b1"</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x =</span> time, <span class="at">y =</span> b1, <span class="at">group =</span> <span class="fu">factor</span>(ensemble))) <span class="sc">+</span></span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Date"</span>, <span class="at">y =</span> <span class="st">"B1"</span>, <span class="at">title =</span> <span class="st">"State of Virginia"</span>) <span class="sc">+</span></span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="particle-filter_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
+<div id="fig-parameter-timeseries" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="particle-filter_files/figure-html/fig-parameter-timeseries-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;18.5: Timing evolution of the parameters</figcaption>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -793,105 +802,111 @@ for(t in 1:length_of_time_series){
 <h3 data-number="18.3.4" class="anchored" data-anchor-id="sensitivity-to-number-of-particles"><span class="header-section-number">18.3.4</span> Sensitivity to number of particles</h3>
 <p>The number of particles is a key decision when using a PF. To explore the sensitivity of the PF to the number of particles, here is a function that can be reused with different numbers of particles. It is the same as the DLM above and returns the x and b1 for the particles in a list</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>bootstrap_pf <span class="ot">&lt;-</span> <span class="cf">function</span>(num_particles, <span class="at">sd_add =</span> <span class="fl">0.2</span>, <span class="at">sd_obs =</span> <span class="fl">0.2</span>){</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  y <span class="ot">&lt;-</span> <span class="fu">log</span>(gflu<span class="sc">$</span>Virginia)</span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  nt <span class="ot">&lt;-</span> <span class="fu">length</span>(y)</span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  y[<span class="dv">2</span><span class="sc">:</span>nt] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  y[<span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">10</span>)] <span class="ot">&lt;-</span> <span class="fu">log</span>(gflu<span class="sc">$</span>Virginia)[<span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">10</span>)]</span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>  sd_init <span class="ot">&lt;-</span> <span class="fl">0.5</span></span>
-<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>  b0 <span class="ot">&lt;-</span> <span class="fl">0.482462</span></span>
-<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>  b2 <span class="ot">&lt;-</span> <span class="sc">-</span><span class="fl">0.063887</span></span>
-<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>  b1_mean <span class="ot">&lt;-</span> <span class="sc">-</span><span class="fl">0.002479</span></span>
-<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>  b1_sd <span class="ot">&lt;-</span> <span class="fl">0.01</span></span>
-<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>  sd_add <span class="ot">&lt;-</span> <span class="fl">0.130144</span></span>
-<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="cn">NA</span>, <span class="at">dim =</span> <span class="fu">c</span>(nt, num_particles))</span>
-<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>  x[<span class="dv">1</span>, ] <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(num_particles, <span class="at">mean =</span> y[<span class="dv">1</span>], <span class="at">sd =</span> sd_init)</span>
-<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a>  b1 <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="cn">NA</span>, <span class="at">dim =</span> <span class="fu">c</span>(nt, num_particles))</span>
-<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>  b1[<span class="dv">1</span>, ] <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(num_particles, b1_mean, <span class="at">sd =</span> b1_sd)</span>
-<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a>  Tmin <span class="ot">&lt;-</span> gflu<span class="sc">$</span>Tmin</span>
-<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a>  <span class="do">### resampling bootstrap particle filter</span></span>
-<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(t <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span>nt){</span>
-<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a>    <span class="do">## forward step</span></span>
-<span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span>(m <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>num_particles){</span>
-<span id="cb18-31"><a href="#cb18-31" aria-hidden="true" tabindex="-1"></a>      </span>
-<span id="cb18-32"><a href="#cb18-32" aria-hidden="true" tabindex="-1"></a>      pred <span class="ot">&lt;-</span> x[t<span class="dv">-1</span>, m] <span class="sc">+</span> b0 <span class="sc">+</span> b1[t<span class="dv">-1</span>, m] <span class="sc">*</span> Tmin[t] <span class="sc">+</span> b2<span class="sc">*</span>x[t<span class="dv">-1</span>, m]</span>
-<span id="cb18-33"><a href="#cb18-33" aria-hidden="true" tabindex="-1"></a>      </span>
-<span id="cb18-34"><a href="#cb18-34" aria-hidden="true" tabindex="-1"></a>      x[t, m ] <span class="ot">&lt;-</span> pred <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">1</span>, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> sd_add)</span>
-<span id="cb18-35"><a href="#cb18-35" aria-hidden="true" tabindex="-1"></a>      b1[t, m] <span class="ot">&lt;-</span> b1[t<span class="dv">-1</span>, m]</span>
-<span id="cb18-36"><a href="#cb18-36" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb18-37"><a href="#cb18-37" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb18-38"><a href="#cb18-38" aria-hidden="true" tabindex="-1"></a>    <span class="do">## analysis step</span></span>
-<span id="cb18-39"><a href="#cb18-39" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span>(<span class="sc">!</span><span class="fu">is.na</span>(y[t])){</span>
-<span id="cb18-40"><a href="#cb18-40" aria-hidden="true" tabindex="-1"></a>      </span>
-<span id="cb18-41"><a href="#cb18-41" aria-hidden="true" tabindex="-1"></a>      <span class="do">## calulate Likelihood (weights)</span></span>
-<span id="cb18-42"><a href="#cb18-42" aria-hidden="true" tabindex="-1"></a>      wt <span class="ot">&lt;-</span> <span class="fu">dnorm</span>(y[t], <span class="at">mean =</span> x[t, ], <span class="at">sd =</span> sd_obs)    <span class="do">## calculate likelihood (weight)</span></span>
-<span id="cb18-43"><a href="#cb18-43" aria-hidden="true" tabindex="-1"></a>      </span>
-<span id="cb18-44"><a href="#cb18-44" aria-hidden="true" tabindex="-1"></a>      wt_norm <span class="ot">&lt;-</span> wt <span class="sc">/</span> <span class="fu">sum</span>(wt)</span>
-<span id="cb18-45"><a href="#cb18-45" aria-hidden="true" tabindex="-1"></a>      </span>
-<span id="cb18-46"><a href="#cb18-46" aria-hidden="true" tabindex="-1"></a>      <span class="do">## resample ensemble members in proportion to their weight</span></span>
-<span id="cb18-47"><a href="#cb18-47" aria-hidden="true" tabindex="-1"></a>      resample_index <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span>num_particles, num_particles, <span class="at">replace =</span> <span class="cn">TRUE</span>, <span class="at">prob =</span> wt_norm) </span>
-<span id="cb18-48"><a href="#cb18-48" aria-hidden="true" tabindex="-1"></a>      </span>
-<span id="cb18-49"><a href="#cb18-49" aria-hidden="true" tabindex="-1"></a>      x[t, ] <span class="ot">&lt;-</span> x[t, resample_index]  <span class="do">## update state</span></span>
-<span id="cb18-50"><a href="#cb18-50" aria-hidden="true" tabindex="-1"></a>      b1[t, ] <span class="ot">&lt;-</span> b1[t, resample_index] <span class="do">## Parameter update</span></span>
-<span id="cb18-51"><a href="#cb18-51" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb18-52"><a href="#cb18-52" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb18-53"><a href="#cb18-53" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">list</span>(<span class="at">x =</span> x, <span class="at">b1 =</span> b1))</span>
-<span id="cb18-54"><a href="#cb18-54" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>bootstrap_pf <span class="ot">&lt;-</span> <span class="cf">function</span>(num_particles, <span class="at">sd_add =</span> <span class="fl">0.2</span>, <span class="at">sd_obs =</span> <span class="fl">0.2</span>){</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  y <span class="ot">&lt;-</span> <span class="fu">log</span>(gflu<span class="sc">$</span>Virginia)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  nt <span class="ot">&lt;-</span> <span class="fu">length</span>(y)</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  y[<span class="dv">2</span><span class="sc">:</span>nt] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  y[<span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">10</span>)] <span class="ot">&lt;-</span> <span class="fu">log</span>(gflu<span class="sc">$</span>Virginia)[<span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">10</span>)]</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>  sd_init <span class="ot">&lt;-</span> <span class="fl">0.5</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>  b0 <span class="ot">&lt;-</span> <span class="fl">0.482462</span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>  b2 <span class="ot">&lt;-</span> <span class="sc">-</span><span class="fl">0.063887</span></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>  b1_mean <span class="ot">&lt;-</span> <span class="sc">-</span><span class="fl">0.002479</span></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>  b1_sd <span class="ot">&lt;-</span> <span class="fl">0.01</span></span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>  sd_add <span class="ot">&lt;-</span> <span class="fl">0.130144</span></span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="cn">NA</span>, <span class="at">dim =</span> <span class="fu">c</span>(nt, num_particles))</span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>  x[<span class="dv">1</span>, ] <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(num_particles, <span class="at">mean =</span> y[<span class="dv">1</span>], <span class="at">sd =</span> sd_init)</span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>  b1 <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="cn">NA</span>, <span class="at">dim =</span> <span class="fu">c</span>(nt, num_particles))</span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a>  b1[<span class="dv">1</span>, ] <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(num_particles, b1_mean, <span class="at">sd =</span> b1_sd)</span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a>  Tmin <span class="ot">&lt;-</span> gflu<span class="sc">$</span>Tmin</span>
+<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a>  <span class="do">### resampling bootstrap particle filter</span></span>
+<span id="cb17-26"><a href="#cb17-26" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb17-27"><a href="#cb17-27" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(t <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span>nt){</span>
+<span id="cb17-28"><a href="#cb17-28" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb17-29"><a href="#cb17-29" aria-hidden="true" tabindex="-1"></a>    <span class="do">## forward step</span></span>
+<span id="cb17-30"><a href="#cb17-30" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span>(m <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>num_particles){</span>
+<span id="cb17-31"><a href="#cb17-31" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb17-32"><a href="#cb17-32" aria-hidden="true" tabindex="-1"></a>      pred <span class="ot">&lt;-</span> x[t<span class="dv">-1</span>, m] <span class="sc">+</span> b0 <span class="sc">+</span> b1[t<span class="dv">-1</span>, m] <span class="sc">*</span> Tmin[t] <span class="sc">+</span> b2<span class="sc">*</span>x[t<span class="dv">-1</span>, m]</span>
+<span id="cb17-33"><a href="#cb17-33" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb17-34"><a href="#cb17-34" aria-hidden="true" tabindex="-1"></a>      x[t, m ] <span class="ot">&lt;-</span> pred <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">1</span>, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> sd_add)</span>
+<span id="cb17-35"><a href="#cb17-35" aria-hidden="true" tabindex="-1"></a>      b1[t, m] <span class="ot">&lt;-</span> b1[t<span class="dv">-1</span>, m]</span>
+<span id="cb17-36"><a href="#cb17-36" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb17-37"><a href="#cb17-37" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb17-38"><a href="#cb17-38" aria-hidden="true" tabindex="-1"></a>    <span class="do">## analysis step</span></span>
+<span id="cb17-39"><a href="#cb17-39" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span>(<span class="sc">!</span><span class="fu">is.na</span>(y[t])){</span>
+<span id="cb17-40"><a href="#cb17-40" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb17-41"><a href="#cb17-41" aria-hidden="true" tabindex="-1"></a>      <span class="do">## calulate Likelihood (weights)</span></span>
+<span id="cb17-42"><a href="#cb17-42" aria-hidden="true" tabindex="-1"></a>      wt <span class="ot">&lt;-</span> <span class="fu">dnorm</span>(y[t], <span class="at">mean =</span> x[t, ], <span class="at">sd =</span> sd_obs)    <span class="do">## calculate likelihood (weight)</span></span>
+<span id="cb17-43"><a href="#cb17-43" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb17-44"><a href="#cb17-44" aria-hidden="true" tabindex="-1"></a>      wt_norm <span class="ot">&lt;-</span> wt <span class="sc">/</span> <span class="fu">sum</span>(wt)</span>
+<span id="cb17-45"><a href="#cb17-45" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb17-46"><a href="#cb17-46" aria-hidden="true" tabindex="-1"></a>      <span class="do">## resample ensemble members in proportion to their weight</span></span>
+<span id="cb17-47"><a href="#cb17-47" aria-hidden="true" tabindex="-1"></a>      resample_index <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span>num_particles, num_particles, <span class="at">replace =</span> <span class="cn">TRUE</span>, <span class="at">prob =</span> wt_norm) </span>
+<span id="cb17-48"><a href="#cb17-48" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb17-49"><a href="#cb17-49" aria-hidden="true" tabindex="-1"></a>      x[t, ] <span class="ot">&lt;-</span> x[t, resample_index]  <span class="do">## update state</span></span>
+<span id="cb17-50"><a href="#cb17-50" aria-hidden="true" tabindex="-1"></a>      b1[t, ] <span class="ot">&lt;-</span> b1[t, resample_index] <span class="do">## Parameter update</span></span>
+<span id="cb17-51"><a href="#cb17-51" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb17-52"><a href="#cb17-52" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb17-53"><a href="#cb17-53" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">list</span>(<span class="at">x =</span> x, <span class="at">b1 =</span> b1))</span>
+<span id="cb17-54"><a href="#cb17-54" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>First, run the PF using 10, 100, 1000, and 10000 particles</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>pf_10 <span class="ot">&lt;-</span> <span class="fu">bootstrap_pf</span>(<span class="dv">10</span>)</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>pf_100 <span class="ot">&lt;-</span> <span class="fu">bootstrap_pf</span>(<span class="dv">100</span>)</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>pf_1000 <span class="ot">&lt;-</span> <span class="fu">bootstrap_pf</span>(<span class="dv">1000</span>)</span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>pf_10000 <span class="ot">&lt;-</span> <span class="fu">bootstrap_pf</span>(<span class="dv">10000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>pf_10 <span class="ot">&lt;-</span> <span class="fu">bootstrap_pf</span>(<span class="dv">10</span>)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>pf_100 <span class="ot">&lt;-</span> <span class="fu">bootstrap_pf</span>(<span class="dv">100</span>)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>pf_1000 <span class="ot">&lt;-</span> <span class="fu">bootstrap_pf</span>(<span class="dv">1000</span>)</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>pf_10000 <span class="ot">&lt;-</span> <span class="fu">bootstrap_pf</span>(<span class="dv">10000</span>)</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>p10 <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">time =</span> gflu<span class="sc">$</span>Date,</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>       <span class="fu">as_tibble</span>(pf_10<span class="sc">$</span>x)) <span class="sc">%&gt;%</span> </span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="sc">-</span><span class="fu">c</span>(<span class="st">"time"</span>), <span class="at">names_to =</span> <span class="st">"ensemble"</span>, <span class="at">values_to =</span> <span class="st">"x"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">type =</span> <span class="st">"pf_10"</span>)</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>p100 <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">time =</span> gflu<span class="sc">$</span>Date,</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>       <span class="fu">as_tibble</span>(pf_100<span class="sc">$</span>x)) <span class="sc">%&gt;%</span> </span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="sc">-</span><span class="fu">c</span>(<span class="st">"time"</span>), <span class="at">names_to =</span> <span class="st">"ensemble"</span>, <span class="at">values_to =</span> <span class="st">"x"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">type =</span> <span class="st">"pf_100"</span>)</span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>p1000 <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">time =</span> gflu<span class="sc">$</span>Date,</span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>       <span class="fu">as_tibble</span>(pf_1000<span class="sc">$</span>x)) <span class="sc">%&gt;%</span> </span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="sc">-</span><span class="fu">c</span>(<span class="st">"time"</span>), <span class="at">names_to =</span> <span class="st">"ensemble"</span>, <span class="at">values_to =</span> <span class="st">"x"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">type =</span> <span class="st">"pf_1000"</span>)</span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>p10000 <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">time =</span> gflu<span class="sc">$</span>Date,</span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a>       <span class="fu">as_tibble</span>(pf_10000<span class="sc">$</span>x)) <span class="sc">%&gt;%</span> </span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="sc">-</span><span class="fu">c</span>(<span class="st">"time"</span>), <span class="at">names_to =</span> <span class="st">"ensemble"</span>, <span class="at">values_to =</span> <span class="st">"x"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">type =</span> <span class="st">"pf_10000"</span>)</span>
+<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a>gflu<span class="sc">$</span>obs_in_fit <span class="ot">&lt;-</span> <span class="fu">exp</span>(y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>And combine to a single plot. You see the width of the 95 % confidence interval increases substantially from 10 to 1000 particles but then is similar from 1000 to 10000. This reflects what we learned from the very first exercise where you drew random samples from a distribution and found that between 1000 and 10000 random samples were required to approximate the distribution well.</p>
+<p>And combine to a single plot (<span class="quarto-unresolved-ref">?fig-pf-num-sens</span>). You see the width of the 95 % confidence interval increases substantially from 10 to 1000 particles but then is similar from 1000 to 10000. This reflects what we learned from the very first exercise where you drew random samples from a distribution and found that between 1000 and 10000 random samples were required to approximate the distribution well.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>p10 <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">time =</span> gflu<span class="sc">$</span>Date,</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>       <span class="fu">as_tibble</span>(pf_10<span class="sc">$</span>x)) <span class="sc">%&gt;%</span> </span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="sc">-</span><span class="fu">c</span>(<span class="st">"time"</span>), <span class="at">names_to =</span> <span class="st">"ensemble"</span>, <span class="at">values_to =</span> <span class="st">"x"</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">type =</span> <span class="st">"pf_10"</span>)</span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>p100 <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">time =</span> gflu<span class="sc">$</span>Date,</span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>       <span class="fu">as_tibble</span>(pf_100<span class="sc">$</span>x)) <span class="sc">%&gt;%</span> </span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="sc">-</span><span class="fu">c</span>(<span class="st">"time"</span>), <span class="at">names_to =</span> <span class="st">"ensemble"</span>, <span class="at">values_to =</span> <span class="st">"x"</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">type =</span> <span class="st">"pf_100"</span>)</span>
-<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>p1000 <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">time =</span> gflu<span class="sc">$</span>Date,</span>
-<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>       <span class="fu">as_tibble</span>(pf_1000<span class="sc">$</span>x)) <span class="sc">%&gt;%</span> </span>
-<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="sc">-</span><span class="fu">c</span>(<span class="st">"time"</span>), <span class="at">names_to =</span> <span class="st">"ensemble"</span>, <span class="at">values_to =</span> <span class="st">"x"</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">type =</span> <span class="st">"pf_1000"</span>)</span>
-<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>p10000 <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">time =</span> gflu<span class="sc">$</span>Date,</span>
-<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>       <span class="fu">as_tibble</span>(pf_10000<span class="sc">$</span>x)) <span class="sc">%&gt;%</span> </span>
-<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="sc">-</span><span class="fu">c</span>(<span class="st">"time"</span>), <span class="at">names_to =</span> <span class="st">"ensemble"</span>, <span class="at">values_to =</span> <span class="st">"x"</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">type =</span> <span class="st">"pf_10000"</span>)</span>
-<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a>gflu<span class="sc">$</span>obs_in_fit <span class="ot">&lt;-</span> <span class="fu">exp</span>(y)</span>
-<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a><span class="fu">bind_rows</span>(p10, p100, p1000, p10000) <span class="sc">%&gt;%</span> </span>
-<span id="cb20-24"><a href="#cb20-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(time, type) <span class="sc">%&gt;%</span> </span>
-<span id="cb20-25"><a href="#cb20-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">x =</span> <span class="fu">exp</span>(x)) <span class="sc">%&gt;%</span> </span>
-<span id="cb20-26"><a href="#cb20-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean =</span> <span class="fu">mean</span>(x),</span>
-<span id="cb20-27"><a href="#cb20-27" aria-hidden="true" tabindex="-1"></a>            <span class="at">upper =</span> <span class="fu">quantile</span>(x, <span class="fl">0.975</span>),</span>
-<span id="cb20-28"><a href="#cb20-28" aria-hidden="true" tabindex="-1"></a>            <span class="at">lower =</span> <span class="fu">quantile</span>(x, <span class="fl">0.025</span>),<span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb20-29"><a href="#cb20-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> time, <span class="at">y =</span> mean)) <span class="sc">+</span></span>
-<span id="cb20-30"><a href="#cb20-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">color =</span> type)) <span class="sc">+</span></span>
-<span id="cb20-31"><a href="#cb20-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> lower, <span class="at">ymax =</span> upper, <span class="at">color =</span> type, <span class="at">fill =</span> type), <span class="at">alpha =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
-<span id="cb20-32"><a href="#cb20-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> gflu, <span class="fu">aes</span>(<span class="at">x =</span> Date, <span class="at">y =</span> Virginia), <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
-<span id="cb20-33"><a href="#cb20-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> gflu, <span class="fu">aes</span>(<span class="at">x =</span> Date, <span class="at">y =</span> obs_in_fit), <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
-<span id="cb20-34"><a href="#cb20-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Date"</span>, <span class="at">y =</span> <span class="st">"Flu cases"</span>, <span class="at">title =</span> <span class="st">"Google Flu Trends for Virginia"</span>) <span class="sc">+</span></span>
-<span id="cb20-35"><a href="#cb20-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co">#|warning: false</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="co">#|fig-cap: Sensitivity of predictions to different number of particles</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-pf-num-sens</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="fu">bind_rows</span>(p10, p100, p1000, p10000) <span class="sc">%&gt;%</span> </span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(time, type) <span class="sc">%&gt;%</span> </span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">x =</span> <span class="fu">exp</span>(x)) <span class="sc">%&gt;%</span> </span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean =</span> <span class="fu">mean</span>(x),</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>            <span class="at">upper =</span> <span class="fu">quantile</span>(x, <span class="fl">0.975</span>),</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>            <span class="at">lower =</span> <span class="fu">quantile</span>(x, <span class="fl">0.025</span>),<span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> time, <span class="at">y =</span> mean)) <span class="sc">+</span></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">color =</span> type)) <span class="sc">+</span></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> lower, <span class="at">ymax =</span> upper, <span class="at">color =</span> type, <span class="at">fill =</span> type), <span class="at">alpha =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> gflu, <span class="fu">aes</span>(<span class="at">x =</span> Date, <span class="at">y =</span> Virginia), <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> gflu, <span class="fu">aes</span>(<span class="at">x =</span> Date, <span class="at">y =</span> obs_in_fit), <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Date"</span>, <span class="at">y =</span> <span class="st">"Flu cases"</span>, <span class="at">title =</span> <span class="st">"Google Flu Trends for Virginia"</span>) <span class="sc">+</span></span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 12 rows containing missing values (`geom_point()`).</code></pre>
+</div>
 <div class="cell-output-display">
 <p><img src="particle-filter_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid" width="672"></p>
 </div>
@@ -915,23 +930,31 @@ for(t in 1:length_of_time_series){
 <span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="sc">-</span><span class="fu">c</span>(<span class="st">"time"</span>), <span class="at">names_to =</span> <span class="st">"ensemble"</span>, <span class="at">values_to =</span> <span class="st">"x"</span>) <span class="sc">%&gt;%</span> </span>
 <span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">type =</span> <span class="st">"high obs uncertainity"</span>)</span>
 <span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>gflu<span class="sc">$</span>obs_in_fit <span class="ot">&lt;-</span> <span class="fu">exp</span>(y)</span>
-<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a><span class="fu">bind_rows</span>(pf_low, pf_high) <span class="sc">%&gt;%</span> </span>
-<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(time, type) <span class="sc">%&gt;%</span> </span>
-<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">x =</span> <span class="fu">exp</span>(x)) <span class="sc">%&gt;%</span> </span>
-<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean =</span> <span class="fu">mean</span>(x),</span>
-<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a>            <span class="at">upper =</span> <span class="fu">quantile</span>(x, <span class="fl">0.975</span>),</span>
-<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a>            <span class="at">lower =</span> <span class="fu">quantile</span>(x, <span class="fl">0.025</span>),<span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> time, <span class="at">y =</span> mean)) <span class="sc">+</span></span>
-<span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">color =</span> type)) <span class="sc">+</span></span>
-<span id="cb21-25"><a href="#cb21-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> lower, <span class="at">ymax =</span> upper, <span class="at">color =</span> type, <span class="at">fill =</span> type), <span class="at">alpha =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
-<span id="cb21-26"><a href="#cb21-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> gflu, <span class="fu">aes</span>(<span class="at">x =</span> Date, <span class="at">y =</span> Virginia), <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
-<span id="cb21-27"><a href="#cb21-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> gflu, <span class="fu">aes</span>(<span class="at">x =</span> Date, <span class="at">y =</span> obs_in_fit), <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
-<span id="cb21-28"><a href="#cb21-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Date"</span>, <span class="at">y =</span> <span class="st">"Flu cases"</span>, <span class="at">title =</span> <span class="st">"Google Flu Trends for Virginia"</span>) <span class="sc">+</span></span>
-<span id="cb21-29"><a href="#cb21-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>gflu<span class="sc">$</span>obs_in_fit <span class="ot">&lt;-</span> <span class="fu">exp</span>(y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Does <span class="quarto-unresolved-ref">?fig-pf-obs-sens</span> match your intuition?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co">#|warning: false</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="co">#|fig-cap: Sensitivity of predictions to observation uncertainty</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-pf-obs-sens</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="fu">bind_rows</span>(pf_low, pf_high) <span class="sc">%&gt;%</span> </span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(time, type) <span class="sc">%&gt;%</span> </span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">x =</span> <span class="fu">exp</span>(x)) <span class="sc">%&gt;%</span> </span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean =</span> <span class="fu">mean</span>(x),</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>            <span class="at">upper =</span> <span class="fu">quantile</span>(x, <span class="fl">0.975</span>),</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>            <span class="at">lower =</span> <span class="fu">quantile</span>(x, <span class="fl">0.025</span>),<span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> time, <span class="at">y =</span> mean)) <span class="sc">+</span></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">color =</span> type)) <span class="sc">+</span></span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> lower, <span class="at">ymax =</span> upper, <span class="at">color =</span> type, <span class="at">fill =</span> type), <span class="at">alpha =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> gflu, <span class="fu">aes</span>(<span class="at">x =</span> Date, <span class="at">y =</span> Virginia), <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> gflu, <span class="fu">aes</span>(<span class="at">x =</span> Date, <span class="at">y =</span> obs_in_fit), <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Date"</span>, <span class="at">y =</span> <span class="st">"Flu cases"</span>, <span class="at">title =</span> <span class="st">"Google Flu Trends for Virginia"</span>) <span class="sc">+</span></span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 12 rows containing missing values (`geom_point()`).</code></pre>
+</div>
 <div class="cell-output-display">
-<p><img src="particle-filter_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid" width="672"></p>
+<p><img src="particle-filter_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </section>
@@ -940,8 +963,8 @@ for(t in 1:length_of_time_series){
 <h2 data-number="18.4" class="anchored" data-anchor-id="problem-set"><span class="header-section-number">18.4</span> Problem set</h2>
 <p>You will need the following packages</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="overview" class="level3" data-number="18.4.1">
 <h3 data-number="18.4.1" class="anchored" data-anchor-id="overview"><span class="header-section-number">18.4.1</span> Overview</h3>
@@ -969,14 +992,20 @@ for(t in 1:length_of_time_series){
 <p>This step is already done for you.</p>
 <p>Here is the data for ages 1 through 50 for the plot (starting in 1950-01-01). It was measured every 5 years.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>plot_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/PF_data1.csv"</span>, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(plot_data, <span class="fu">aes</span>(<span class="at">x =</span> datetime, <span class="at">y =</span> biomass)) <span class="sc">+</span></span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"age"</span>, <span class="at">y =</span> <span class="st">"aboveground biomass (gC/m2)"</span>) <span class="sc">+</span></span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>plot_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/PF_data1.csv"</span>, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(plot_data, <span class="fu">aes</span>(<span class="at">x =</span> datetime, <span class="at">y =</span> biomass)) <span class="sc">+</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"age"</span>, <span class="at">y =</span> <span class="st">"aboveground biomass (gC/m2)"</span>) <span class="sc">+</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="particle-filter_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid" width="672"></p>
+<div id="fig-biomass-timeseries" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="particle-filter_files/figure-html/fig-biomass-timeseries-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;18.6: Time-series of forest biomass data</figcaption>
+</figure>
+</div>
 </div>
 </div>
 <p>The following model was used to estimate the posterior distributions of the parameters using a Bayesian framework.</p>
@@ -994,7 +1023,7 @@ for(t in 2:length(sim_dates)){
 }</code></pre>
 <p>The MCMC chain has posterior distributions for the parameters (<code>g</code>, <code>u</code>, <code>sd_add</code>) and biomass at age 50 (<code>age50_biomass</code>)</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/PF_MCMC.csv"</span>, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/PF_MCMC.csv"</span>, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="part-2-forecast-using-pf" class="level3" data-number="18.4.3">
@@ -1012,21 +1041,21 @@ for(t in 2:length(sim_dates)){
 <li>The standard deviation for the obseravtions (<code>sd_data</code>) is 200.</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co">#ADD CODE TO SET UP PF HERE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co">#ADD CODE TO SET UP PF HERE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="step-2-run-particle-filter" class="level4" data-number="18.4.3.2">
 <h4 data-number="18.4.3.2" class="anchored" data-anchor-id="step-2-run-particle-filter"><span class="header-section-number">18.4.3.2</span> Step 2: Run particle filter</h4>
 <p>Write the code and run the particle filter based on the examples from the lecture. You will need to include the process model that is in the NIMBLE code above.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co">#ADD PF CODE HERE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co">#ADD PF CODE HERE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="step-3-visualize-particle-filter-output" class="level4" data-number="18.4.3.3">
 <h4 data-number="18.4.3.3" class="anchored" data-anchor-id="step-3-visualize-particle-filter-output"><span class="header-section-number">18.4.3.3</span> Step 3: Visualize particle filter output</h4>
 <p>Generate a plot that visualizes the output of the PF (see examples from the lecture). Your plot must have age on the x-axis and biomass on the y-axis with different lines for the particles.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ADD VISUALIZATION CODE HERE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ADD VISUALIZATION CODE HERE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="step-4-save-pf-output" class="level4" data-number="18.4.3.4">
@@ -1038,35 +1067,35 @@ for(t in 2:length(sim_dates)){
 <h3 data-number="18.4.4" class="anchored" data-anchor-id="part-3"><span class="header-section-number">18.4.4</span> Part 3:</h3>
 <p>Now we have new data!</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>new_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/PF_data2.csv"</span>, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(new_data, <span class="fu">aes</span>(<span class="at">x =</span> datetime, <span class="at">y =</span> biomass)) <span class="sc">+</span></span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"age"</span>, <span class="at">y =</span> <span class="st">"aboveground biomass (gC/m2)"</span>) <span class="sc">+</span></span>
-<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>new_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/PF_data2.csv"</span>, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(new_data, <span class="fu">aes</span>(<span class="at">x =</span> datetime, <span class="at">y =</span> biomass)) <span class="sc">+</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"age"</span>, <span class="at">y =</span> <span class="st">"aboveground biomass (gC/m2)"</span>) <span class="sc">+</span></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="particle-filter_files/figure-html/unnamed-chunk-27-1.png" class="img-fluid" width="672"></p>
+<p><img src="particle-filter_files/figure-html/unnamed-chunk-29-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <section id="step-1-repeat-the-pf-setup" class="level4" data-number="18.4.4.1">
 <h4 data-number="18.4.4.1" class="anchored" data-anchor-id="step-1-repeat-the-pf-setup"><span class="header-section-number">18.4.4.1</span> Step 1: Repeat the PF setup</h4>
 <p>Using the new data, repeat the PF set up in Part 2 Step 1. You will be starting at age 50 just like above.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co">#ADD CODE TO SET UP PF HERE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co">#ADD CODE TO SET UP PF HERE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="step-2-run-particle-filter-using-the-new-data" class="level4" data-number="18.4.4.2">
 <h4 data-number="18.4.4.2" class="anchored" data-anchor-id="step-2-run-particle-filter-using-the-new-data"><span class="header-section-number">18.4.4.2</span> Step 2: Run particle filter using the new data</h4>
 <p>Using the new data, run the the PF again. This will be the same code as in Part 2 Step 2 (just copy and paste)</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co">#COPY AND PASTE PF CODE FROM ABOVE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co">#COPY AND PASTE PF CODE FROM ABOVE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="step-3-visualize-pf-output" class="level4" data-number="18.4.4.3">
 <h4 data-number="18.4.4.3" class="anchored" data-anchor-id="step-3-visualize-pf-output"><span class="header-section-number">18.4.4.3</span> Step 3: Visualize PF output</h4>
 <p>Generate a plot that visualizes the output of the PF (see examples from the lecture). Your plot must have age on the x-axis and biomass on the y-axis with different lines for the particles. Your observations from the new data must be on the plot.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co">#ADD VISUALIZATION CODE HERE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co">#ADD VISUALIZATION CODE HERE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="step-4-save-output" class="level4" data-number="18.4.4.4">
@@ -1077,7 +1106,7 @@ for(t in 2:length(sim_dates)){
 <h3 data-number="18.4.5" class="anchored" data-anchor-id="part-4"><span class="header-section-number">18.4.5</span> Part 4:</h3>
 <p>Combine the two PF forecast and evaluate how data assimilation influence the forecast of the last 10 years (age 60 to 70). Produce a plot with the mean and 90% CI for the initial_forecast and assimilated_forecast on the same plot. Include the observations from the new data set.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co">#ADD CODE TO COMPARE THE TWO PF OUTPUTS</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co">#ADD CODE TO COMPARE THE TWO PF OUTPUTS</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="part-5" class="level3" data-number="18.4.6">
@@ -1394,8 +1423,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./pulling-together.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Putting it together: forecast - analysis cycle</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./particle-filter2.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Data assimilation: Applying to process model</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

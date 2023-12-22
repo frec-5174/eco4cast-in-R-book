@@ -287,8 +287,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./particle-filter2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Data assimilation: Applying to process model</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./pulling-together.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Putting it together: forecast - analysis cycle</span></span></a>
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Putting it together: forecast - analysis cycle</span></span></a>
   </div>
 </li>
       </ul>
@@ -305,17 +311,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./project2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Project 2</span></span></a>
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Project 2</span></span></a>
   </div>
 </li>
       </ul>
   </li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./summary.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Summary</span></span></a>
-  </div>
-</li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./references.html" class="sidebar-item-text sidebar-link">
@@ -401,24 +401,30 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>For our random variable, if is is governed by the distribution above, a single sample (i.e., a measurement of X) will likely be close to 0 but sometimes it will be further away.</p>
 <p>Imagine that we are measuring the same thing with the same sensor but the sensor has error that is normally distributed. We think that the measurement should be zero (mean = 0) but with the sensor uncertainty (sd = 1).</p>
-<p>The question is “What is the probability that X = y_i given a normal distribution with mean = 0 and sd = 1?”. In <span class="quarto-unresolved-ref">?fig-simple-rnorm-obs</span>, the red line is a hypothetical observation (y_i).</p>
+<p>The question is “What is the probability that X = y_i given a normal distribution with mean = 0 and sd = 1?”. In <a href="#fig-simple-rnorm-obs" class="quarto-xref">Figure&nbsp;<span>15.2</span></a>, the red line is a hypothetical observation (y_i).</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#|fig-cap: Normal distribution with mean = 0 and sd = 1. The red line is an 'observation'</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co">#|label: fig-simple-rnorm-obs</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">density</span>(<span class="fu">rnorm</span>(<span class="dv">10000</span>, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">1</span>)), <span class="at">xlab =</span> <span class="st">"y"</span>, <span class="at">main =</span> <span class="st">"mean = 0, sd = 1"</span>)</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> y_i, <span class="at">col =</span> <span class="st">"red"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">density</span>(<span class="fu">rnorm</span>(<span class="dv">10000</span>, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">1</span>)), <span class="at">xlab =</span> <span class="st">"y"</span>, <span class="at">main =</span> <span class="st">"mean = 0, sd = 1"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> y_i, <span class="at">col =</span> <span class="st">"red"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="parameter-calibration1_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+<div id="fig-simple-rnorm-obs" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="parameter-calibration1_files/figure-html/fig-simple-rnorm-obs-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;15.2: Normal distribution with mean = 0 and sd = 1. The red line is an ‘observation’</figcaption>
+</figure>
 </div>
 </div>
-<p>We could also ask “What is the probability that X = y_i given a normal distribution with mean = 2 and sd = 1?” In <span class="quarto-unresolved-ref">?fig-simple-rnorm-obs2</span> you can see that the observation is at a lower probability in the distribution.</p>
+</div>
+<p>We could also ask “What is the probability that X = y_i given a normal distribution with mean = 2 and sd = 1?” In <a href="#fig-simple-rnorm-obs2" class="quarto-xref">Figure&nbsp;<span>15.3</span></a> you can see that the observation is at a lower probability in the distribution.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#|fig-cap: Normal distribution with mean = 2 and sd = 1. The red line is an 'observation'</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co">#|label: fig-simple-rnorm-obs2</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">density</span>(<span class="fu">rnorm</span>(<span class="dv">10000</span>, <span class="at">mean =</span> <span class="dv">2</span>, <span class="at">sd =</span> <span class="dv">1</span>)), <span class="at">xlab =</span> <span class="st">"y"</span>, <span class="at">main =</span> <span class="st">"mean = 2, sd = 1"</span>)</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> y_i, <span class="at">col =</span> <span class="st">"red"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">density</span>(<span class="fu">rnorm</span>(<span class="dv">10000</span>, <span class="at">mean =</span> <span class="dv">2</span>, <span class="at">sd =</span> <span class="dv">1</span>)), <span class="at">xlab =</span> <span class="st">"y"</span>, <span class="at">main =</span> <span class="st">"mean = 2, sd = 1"</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> y_i, <span class="at">col =</span> <span class="st">"red"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="parameter-calibration1_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+<div id="fig-simple-rnorm-obs2" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="parameter-calibration1_files/figure-html/fig-simple-rnorm-obs2-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;15.3: Normal distribution with mean = 2 and sd = 1. The red line is an ‘observation’</figcaption>
+</figure>
+</div>
 </div>
 </div>
 <p>We can numerically compare the answer to the two questions using the “Probability Density Function”. In R the PDF is represented by the <code>dnorm</code> function (d representing “density”). Which mean is more likely given the data point?</p>
@@ -578,14 +584,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 [106] -70.49285 -72.34309 -74.22332 -76.13356 -78.07380 -80.04404</code></pre>
 </div>
 </div>
-<p>The relationship between the different mean values and the likelihood is a curve (<span class="quarto-unresolved-ref">?fig-ll1</span>)</p>
+<p>The relationship between the different mean values and the likelihood is a curve (<a href="#fig-ll1" class="quarto-xref">Figure&nbsp;<span>15.4</span></a>)</p>
 <p>Important: This curve may look like a probability density function (PDF) but it is not! Why? Because the area under the curve does not sum to 1. As a result 1) we use the term likelihood rather than density and 2) while the curve gives us the most likelihood estimate for the parameter, it does <strong>not</strong> give us the PDF of the parameter (even if we really really want the PDF, Bayesian statistics are needed for that)</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co">#|fig-cap: The likelihood curve over different values of the mean</span></span>
-<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="co">#|label: fig-ll1</span></span>
-<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> mean_values, <span class="at">y =</span> LL, <span class="at">type =</span> <span class="st">"o"</span>, <span class="at">xlab =</span> <span class="st">"mean"</span>, <span class="at">ylab =</span> <span class="st">"log(likelihood)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> mean_values, <span class="at">y =</span> LL, <span class="at">type =</span> <span class="st">"o"</span>, <span class="at">xlab =</span> <span class="st">"mean"</span>, <span class="at">ylab =</span> <span class="st">"log(likelihood)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="parameter-calibration1_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
+<div id="fig-ll1" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="parameter-calibration1_files/figure-html/fig-ll1-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;15.4: The likelihood curve over different values of the mean</figcaption>
+</figure>
+</div>
 </div>
 </div>
 <p>The most likely value is the highest value on the curve. Which is</p>
@@ -604,14 +613,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>We just calculated the <strong>likelihood of the data GIVEN our model</strong> where our model said that the data are normally distributed with specific means. We found the most likely value for a parameter in the model (the parameter being the mean of the PDF).</p>
-<p>For use in R tools that find the minimum of a function, find the minimum of the negative log likelihood (<span class="quarto-unresolved-ref">?fig-ll2</span>)</p>
+<p>For use in R tools that find the minimum of a function, find the minimum of the negative log likelihood (<a href="#fig-ll2" class="quarto-xref">Figure&nbsp;<span>15.5</span></a>)</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="co">#|fig-cap: The likelihood curve over different values of the mean with minimium shown</span></span>
-<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a><span class="co">#|label: fig-ll2</span></span>
-<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> mean_values, <span class="at">y =</span> <span class="sc">-</span>LL, <span class="at">type =</span> <span class="st">"o"</span>, <span class="at">xlab =</span> <span class="st">"mean"</span>, <span class="at">ylab =</span> <span class="st">"-1 * log(likelihood)"</span>) <span class="co">#Notice negative sign</span></span>
-<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="fu">mean</span>(y), <span class="at">col =</span> <span class="st">"red"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> mean_values, <span class="at">y =</span> <span class="sc">-</span>LL, <span class="at">type =</span> <span class="st">"o"</span>, <span class="at">xlab =</span> <span class="st">"mean"</span>, <span class="at">ylab =</span> <span class="st">"-1 * log(likelihood)"</span>) <span class="co">#Notice negative sign</span></span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="fu">mean</span>(y), <span class="at">col =</span> <span class="st">"red"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="parameter-calibration1_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid" width="672"></p>
+<div id="fig-ll2" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="parameter-calibration1_files/figure-html/fig-ll2-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;15.5: The likelihood curve over different values of the mean with minimium shown</figcaption>
+</figure>
+</div>
 </div>
 </div>
 <p>Now we can create a function that defines our likelihood</p>
@@ -684,13 +696,16 @@ NULL</code></pre>
 <span id="cb67-5"><a href="#cb67-5" aria-hidden="true" tabindex="-1"></a>y_true <span class="ot">&lt;-</span> par_true[<span class="dv">1</span>] <span class="sc">+</span> par_true[<span class="dv">2</span>] <span class="sc">*</span> x</span>
 <span id="cb67-6"><a href="#cb67-6" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="fu">length</span>(y_true), <span class="at">mean =</span> y_true, <span class="at">sd =</span> sd_true) <span class="co">#This is the "fake data"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>The fake data are shown in <span class="quarto-unresolved-ref">?fig-fake-data1</span>.</p>
+<p>The fake data are shown in <a href="#fig-fake-data1" class="quarto-xref">Figure&nbsp;<span>15.6</span></a>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="co">#|fig-cap: The "fake" data used in the following analysis</span></span>
-<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a><span class="co">#|label: fig-fake-data1</span></span>
-<span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x, y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x, y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="parameter-calibration1_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid" width="672"></p>
+<div id="fig-fake-data1" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="parameter-calibration1_files/figure-html/fig-fake-data1-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;15.6: The “fake” data used in the following analysis</figcaption>
+</figure>
+</div>
 </div>
 </div>
 <p>Now we need a function to make the regression calculation from the parameters and inputs (x)</p>
@@ -830,13 +845,16 @@ F-statistic: 569.4 on 1 and 98 DF,  p-value: &lt; 2.2e-16</code></pre>
 <span id="cb96-5"><a href="#cb96-5" aria-hidden="true" tabindex="-1"></a>y_true <span class="ot">&lt;-</span> par_true[<span class="dv">1</span>] <span class="sc">+</span> par_true[<span class="dv">2</span>] <span class="sc">*</span> x</span>
 <span id="cb96-6"><a href="#cb96-6" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="fu">length</span>(y_true), <span class="at">mean =</span> y_true, <span class="at">sd =</span> sd_scalar_true <span class="sc">*</span> y) <span class="co">#This is the "fake data"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>The fake data are shown in <span class="quarto-unresolved-ref">?fig-fake-data2</span>.</p>
+<p>The fake data are shown in <a href="#fig-fake-data2" class="quarto-xref">Figure&nbsp;<span>15.7</span></a>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb97"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb97-1"><a href="#cb97-1" aria-hidden="true" tabindex="-1"></a><span class="co">#|fig-cap: The "fake" data used in the following analysis</span></span>
-<span id="cb97-2"><a href="#cb97-2" aria-hidden="true" tabindex="-1"></a><span class="co">#|label: fig-fake-data2</span></span>
-<span id="cb97-3"><a href="#cb97-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x, y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb97"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb97-1"><a href="#cb97-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x, y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="parameter-calibration1_files/figure-html/unnamed-chunk-36-1.png" class="img-fluid" width="672"></p>
+<div id="fig-fake-data2" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="parameter-calibration1_files/figure-html/fig-fake-data2-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;15.7: The “fake” data used in the following analysis</figcaption>
+</figure>
+</div>
 </div>
 </div>
 <p>We use the same “process model” because we have not changed how we think the underlying process works</p>
@@ -871,13 +889,16 @@ F-statistic: 569.4 on 1 and 98 DF,  p-value: &lt; 2.2e-16</code></pre>
 <span id="cb102-5"><a href="#cb102-5" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> par_true[<span class="dv">1</span>] <span class="sc">*</span> (x <span class="sc">/</span> (x <span class="sc">+</span> par_true[<span class="dv">2</span>]))</span>
 <span id="cb102-6"><a href="#cb102-6" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="fu">length</span>(y), <span class="at">mean =</span> y, <span class="at">sd =</span> sd_true)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>The fake data are shown in <span class="quarto-unresolved-ref">?fig-fake-data3</span>.</p>
+<p>The fake data are shown in <a href="#fig-fake-data3" class="quarto-xref">Figure&nbsp;<span>15.8</span></a>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb103"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb103-1"><a href="#cb103-1" aria-hidden="true" tabindex="-1"></a><span class="co">#|fig-cap: The "fake" data used in the following analysis</span></span>
-<span id="cb103-2"><a href="#cb103-2" aria-hidden="true" tabindex="-1"></a><span class="co">#|label: fig-fake-data3</span></span>
-<span id="cb103-3"><a href="#cb103-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x, y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb103"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb103-1"><a href="#cb103-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x, y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="parameter-calibration1_files/figure-html/unnamed-chunk-41-1.png" class="img-fluid" width="672"></p>
+<div id="fig-fake-data3" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="parameter-calibration1_files/figure-html/fig-fake-data3-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;15.8: The “fake” data used in the following analysis</figcaption>
+</figure>
+</div>
 </div>
 </div>
 <p>We certainly can’t fit a linear regression to these data (will we could be it would not fit well). Fortunately, fitting it using likelihood is as simple as changing the <em>process</em> model</p>
@@ -909,17 +930,20 @@ F-statistic: 569.4 on 1 and 98 DF,  p-value: &lt; 2.2e-16</code></pre>
 <pre><code>[1] 2.0 0.5 0.1</code></pre>
 </div>
 </div>
-<p><span class="quarto-unresolved-ref">?fig-data-curve</span> shows the curve from the optimized parameters with the observations</p>
+<p><a href="#fig-data-curve" class="quarto-xref">Figure&nbsp;<span>15.9</span></a> shows the curve from the optimized parameters with the observations</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb111"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb111-1"><a href="#cb111-1" aria-hidden="true" tabindex="-1"></a><span class="co">#|fig-cap: the curve from the optimized parameters with the observations</span></span>
-<span id="cb111-2"><a href="#cb111-2" aria-hidden="true" tabindex="-1"></a><span class="co">#|label: fig-data-curve</span></span>
-<span id="cb111-3"><a href="#cb111-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x, y)</span>
-<span id="cb111-4"><a href="#cb111-4" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">pred_mm</span>(x, <span class="at">par =</span> fit<span class="sc">$</span>par), <span class="at">from =</span> <span class="fl">0.1</span>, <span class="at">to =</span> <span class="dv">10</span>, <span class="at">add =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb111"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb111-1"><a href="#cb111-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x, y)</span>
+<span id="cb111-2"><a href="#cb111-2" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">pred_mm</span>(x, <span class="at">par =</span> fit<span class="sc">$</span>par), <span class="at">from =</span> <span class="fl">0.1</span>, <span class="at">to =</span> <span class="dv">10</span>, <span class="at">add =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="parameter-calibration1_files/figure-html/unnamed-chunk-46-1.png" class="img-fluid" width="672"></p>
+<div id="fig-data-curve" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="parameter-calibration1_files/figure-html/fig-data-curve-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;15.9: the curve from the optimized parameters with the observations</figcaption>
+</figure>
 </div>
 </div>
-<p>Finally, we don’t have to assume that the <em>data</em> model is a normal distribution. Here is an example assuming that the data model follows a gamma distribution (<span class="quarto-unresolved-ref">?fig-data-curve-gamma</span>).</p>
+</div>
+<p>Finally, we don’t have to assume that the <em>data</em> model is a normal distribution. Here is an example assuming that the data model follows a gamma distribution (<a href="#fig-data-curve-gamma" class="quarto-xref">Figure&nbsp;<span>15.10</span></a>).</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb112"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb112-1"><a href="#cb112-1" aria-hidden="true" tabindex="-1"></a>LL_fn <span class="ot">&lt;-</span> <span class="cf">function</span>(par, x, y){</span>
 <span id="cb112-2"><a href="#cb112-2" aria-hidden="true" tabindex="-1"></a>    <span class="sc">-</span><span class="fu">sum</span>(<span class="fu">dgamma</span>(y, <span class="at">shape =</span> (<span class="fu">pred_mm</span>(x, par)<span class="sc">^</span><span class="dv">2</span><span class="sc">/</span>par[<span class="dv">3</span>]), <span class="at">rate =</span>  <span class="fu">pred_mm</span>(x, par)<span class="sc">/</span>par[<span class="dv">3</span>], <span class="at">log =</span> <span class="cn">TRUE</span>))</span>
@@ -928,13 +952,13 @@ F-statistic: 569.4 on 1 and 98 DF,  p-value: &lt; 2.2e-16</code></pre>
 <span id="cb112-5"><a href="#cb112-5" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">optim</span>(<span class="at">par =</span> <span class="fu">c</span>(<span class="fl">0.2</span>, <span class="fl">1.5</span>, <span class="dv">1</span>), <span class="at">fn =</span> LL_fn, <span class="at">x =</span> x, <span class="at">y =</span> y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb113"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb113-1"><a href="#cb113-1" aria-hidden="true" tabindex="-1"></a><span class="co">#|echo: false</span></span>
-<span id="cb113-2"><a href="#cb113-2" aria-hidden="true" tabindex="-1"></a><span class="co">#|fig-cap: the curve from the optimized parameters with the observations for a gamma ditribution data model.</span></span>
-<span id="cb113-3"><a href="#cb113-3" aria-hidden="true" tabindex="-1"></a><span class="co">#|label: fig-data-curve-gamma</span></span>
-<span id="cb113-4"><a href="#cb113-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x, y)</span>
-<span id="cb113-5"><a href="#cb113-5" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">pred_mm</span>(x, <span class="at">par =</span> fit<span class="sc">$</span>par), <span class="at">from =</span> <span class="fl">0.1</span>, <span class="at">to =</span> <span class="dv">10</span>, <span class="at">add =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="parameter-calibration1_files/figure-html/unnamed-chunk-48-1.png" class="img-fluid" width="672"></p>
+<div id="fig-data-curve-gamma" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="parameter-calibration1_files/figure-html/fig-data-curve-gamma-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;15.10: the curve from the optimized parameters with the observations for a gamma ditribution data model.</figcaption>
+</figure>
+</div>
 </div>
 </div>
 <p><strong>Take home messages</strong></p>
@@ -946,37 +970,37 @@ F-statistic: 569.4 on 1 and 98 DF,  p-value: &lt; 2.2e-16</code></pre>
 </ol>
 <p><strong>Components of a likelihood analysis that are not covered here</strong></p>
 <ul>
-<li>Estimating uncertainty in the parameters using the shape of the likelihood curve (you can use the shape of the likelihood curve to estimate confidence (steeper = more confidence). In the <a href="#fig-ll-unc" class="quarto-xref">Figure&nbsp;<span>15.2</span></a>, the blue line has more data in the calculation of the mean than the black line. The dashed lines are the 2-unit likelihood level (2 log(LL) units were subtracted from the highest likelihood to determine the dashed line). The values of the dashed lines where they cross the likelihood curve with the same color are approximately the 95% confidence intervals for the parameter.</li>
+<li>Estimating uncertainty in the parameters using the shape of the likelihood curve (you can use the shape of the likelihood curve to estimate confidence (steeper = more confidence). In the <a href="#fig-ll-unc" class="quarto-xref">Figure&nbsp;<span>15.11</span></a>, the blue line has more data in the calculation of the mean than the black line. The dashed lines are the 2-unit likelihood level (2 log(LL) units were subtracted from the highest likelihood to determine the dashed line). The values of the dashed lines where they cross the likelihood curve with the same color are approximately the 95% confidence intervals for the parameter.</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb114"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb114-1"><a href="#cb114-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Create a dataset</span></span>
-<span id="cb114-2"><a href="#cb114-2" aria-hidden="true" tabindex="-1"></a>y_more_data <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">20</span>, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">1</span>)</span>
-<span id="cb114-3"><a href="#cb114-3" aria-hidden="true" tabindex="-1"></a><span class="co">#Select only 5 of the values from the larger dataset</span></span>
-<span id="cb114-4"><a href="#cb114-4" aria-hidden="true" tabindex="-1"></a>y_small_data <span class="ot">&lt;-</span> y_more_data[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>]</span>
-<span id="cb114-5"><a href="#cb114-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb114-6"><a href="#cb114-6" aria-hidden="true" tabindex="-1"></a><span class="co">#Calculate the likelihood surface for each of the datasets</span></span>
-<span id="cb114-7"><a href="#cb114-7" aria-hidden="true" tabindex="-1"></a>mean_values <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="sc">-</span><span class="dv">4</span>, <span class="at">to =</span> <span class="dv">7</span>, <span class="at">by =</span> <span class="fl">0.1</span>)</span>
-<span id="cb114-8"><a href="#cb114-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb114-9"><a href="#cb114-9" aria-hidden="true" tabindex="-1"></a>LL_more <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="fu">length</span>(mean_values))</span>
-<span id="cb114-10"><a href="#cb114-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(mean_values)){</span>
-<span id="cb114-11"><a href="#cb114-11" aria-hidden="true" tabindex="-1"></a>  LL_more[i] <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="fu">dnorm</span>(y_more_data, <span class="at">mean =</span> mean_values[i], <span class="at">sd =</span> <span class="dv">1</span>, <span class="at">log =</span> <span class="cn">TRUE</span>))</span>
-<span id="cb114-12"><a href="#cb114-12" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb114-13"><a href="#cb114-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb114-14"><a href="#cb114-14" aria-hidden="true" tabindex="-1"></a>LL_small <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="fu">length</span>(mean_values))</span>
-<span id="cb114-15"><a href="#cb114-15" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(mean_values)){</span>
-<span id="cb114-16"><a href="#cb114-16" aria-hidden="true" tabindex="-1"></a>  LL_small[i] <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="fu">dnorm</span>(y_small_data, <span class="at">mean =</span> mean_values[i], <span class="at">sd =</span> <span class="dv">1</span>, <span class="at">log =</span> <span class="cn">TRUE</span>))</span>
-<span id="cb114-17"><a href="#cb114-17" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb114-18"><a href="#cb114-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb114-19"><a href="#cb114-19" aria-hidden="true" tabindex="-1"></a><span class="co">#Find the highest likelihood</span></span>
-<span id="cb114-20"><a href="#cb114-20" aria-hidden="true" tabindex="-1"></a>mle_LL_small <span class="ot">&lt;-</span> LL_small[<span class="fu">which.max</span>(LL_small)]</span>
-<span id="cb114-21"><a href="#cb114-21" aria-hidden="true" tabindex="-1"></a>mle_LL_more <span class="ot">&lt;-</span> LL_more[<span class="fu">which.max</span>(LL_more)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb113"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb113-1"><a href="#cb113-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Create a dataset</span></span>
+<span id="cb113-2"><a href="#cb113-2" aria-hidden="true" tabindex="-1"></a>y_more_data <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">20</span>, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">1</span>)</span>
+<span id="cb113-3"><a href="#cb113-3" aria-hidden="true" tabindex="-1"></a><span class="co">#Select only 5 of the values from the larger dataset</span></span>
+<span id="cb113-4"><a href="#cb113-4" aria-hidden="true" tabindex="-1"></a>y_small_data <span class="ot">&lt;-</span> y_more_data[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>]</span>
+<span id="cb113-5"><a href="#cb113-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb113-6"><a href="#cb113-6" aria-hidden="true" tabindex="-1"></a><span class="co">#Calculate the likelihood surface for each of the datasets</span></span>
+<span id="cb113-7"><a href="#cb113-7" aria-hidden="true" tabindex="-1"></a>mean_values <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="sc">-</span><span class="dv">4</span>, <span class="at">to =</span> <span class="dv">7</span>, <span class="at">by =</span> <span class="fl">0.1</span>)</span>
+<span id="cb113-8"><a href="#cb113-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb113-9"><a href="#cb113-9" aria-hidden="true" tabindex="-1"></a>LL_more <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="fu">length</span>(mean_values))</span>
+<span id="cb113-10"><a href="#cb113-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(mean_values)){</span>
+<span id="cb113-11"><a href="#cb113-11" aria-hidden="true" tabindex="-1"></a>  LL_more[i] <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="fu">dnorm</span>(y_more_data, <span class="at">mean =</span> mean_values[i], <span class="at">sd =</span> <span class="dv">1</span>, <span class="at">log =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb113-12"><a href="#cb113-12" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb113-13"><a href="#cb113-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb113-14"><a href="#cb113-14" aria-hidden="true" tabindex="-1"></a>LL_small <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="fu">length</span>(mean_values))</span>
+<span id="cb113-15"><a href="#cb113-15" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(mean_values)){</span>
+<span id="cb113-16"><a href="#cb113-16" aria-hidden="true" tabindex="-1"></a>  LL_small[i] <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="fu">dnorm</span>(y_small_data, <span class="at">mean =</span> mean_values[i], <span class="at">sd =</span> <span class="dv">1</span>, <span class="at">log =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb113-17"><a href="#cb113-17" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb113-18"><a href="#cb113-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb113-19"><a href="#cb113-19" aria-hidden="true" tabindex="-1"></a><span class="co">#Find the highest likelihood</span></span>
+<span id="cb113-20"><a href="#cb113-20" aria-hidden="true" tabindex="-1"></a>mle_LL_small <span class="ot">&lt;-</span> LL_small[<span class="fu">which.max</span>(LL_small)]</span>
+<span id="cb113-21"><a href="#cb113-21" aria-hidden="true" tabindex="-1"></a>mle_LL_more <span class="ot">&lt;-</span> LL_more[<span class="fu">which.max</span>(LL_more)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <div class="cell-output-display">
 <div id="fig-ll-unc" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="parameter-calibration1_files/figure-html/fig-ll-unc-1.png" class="img-fluid figure-img" width="672"></p>
-<figcaption class="figure-caption">Figure&nbsp;15.2: Likilihood curve with the two-unit support intervals shown</figcaption>
+<figcaption class="figure-caption">Figure&nbsp;15.11: Likilihood curve with the two-unit support intervals shown</figcaption>
 </figure>
 </div>
 </div>
@@ -986,20 +1010,20 @@ F-statistic: 569.4 on 1 and 98 DF,  p-value: &lt; 2.2e-16</code></pre>
 <li><p>There are more complete packages for doing likelihood analysis that optimize parameters, calculate AIC, estimate uncertainty, etc. For example, the <code>likelihood</code> package and <code>mle</code> function in R do these calculations for you. Here is an example using the <code>mle</code> package (note that the <code>mle</code> package assumes that you have created the objects x and y and only has parameters in the function calls…see how pred_mm and LL_fn don’t have x and y as arguments)</p></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb115"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb115-1"><a href="#cb115-1" aria-hidden="true" tabindex="-1"></a>pred_mm <span class="ot">&lt;-</span> <span class="cf">function</span>(par1, par2){</span>
-<span id="cb115-2"><a href="#cb115-2" aria-hidden="true" tabindex="-1"></a>  par1 <span class="sc">*</span> (x <span class="sc">/</span> (par2 <span class="sc">+</span> x))</span>
-<span id="cb115-3"><a href="#cb115-3" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb115-4"><a href="#cb115-4" aria-hidden="true" tabindex="-1"></a>LL_fn <span class="ot">&lt;-</span> <span class="cf">function</span>(par1, par2, par3){</span>
-<span id="cb115-5"><a href="#cb115-5" aria-hidden="true" tabindex="-1"></a>  mu <span class="ot">&lt;-</span> <span class="fu">pred_mm</span>(par1, par2)</span>
-<span id="cb115-6"><a href="#cb115-6" aria-hidden="true" tabindex="-1"></a>  <span class="sc">-</span><span class="fu">sum</span>(<span class="fu">dnorm</span>(y, <span class="at">mean =</span> mu, <span class="at">sd =</span> par3, <span class="at">log =</span> <span class="cn">TRUE</span>))</span>
-<span id="cb115-7"><a href="#cb115-7" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb115-8"><a href="#cb115-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stats4)</span>
-<span id="cb115-9"><a href="#cb115-9" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">mle</span>(<span class="at">minuslogl =</span> LL_fn, <span class="at">start =</span> <span class="fu">list</span>(<span class="at">par1 =</span> <span class="fl">0.2</span>, <span class="at">par2 =</span> <span class="fl">1.5</span>, <span class="at">par3 =</span> <span class="dv">1</span>), <span class="at">method =</span> <span class="st">"BFGS"</span>, <span class="at">nobs =</span> <span class="fu">length</span>(y)) </span>
-<span id="cb115-10"><a href="#cb115-10" aria-hidden="true" tabindex="-1"></a><span class="fu">AIC</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb114"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb114-1"><a href="#cb114-1" aria-hidden="true" tabindex="-1"></a>pred_mm <span class="ot">&lt;-</span> <span class="cf">function</span>(par1, par2){</span>
+<span id="cb114-2"><a href="#cb114-2" aria-hidden="true" tabindex="-1"></a>  par1 <span class="sc">*</span> (x <span class="sc">/</span> (par2 <span class="sc">+</span> x))</span>
+<span id="cb114-3"><a href="#cb114-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb114-4"><a href="#cb114-4" aria-hidden="true" tabindex="-1"></a>LL_fn <span class="ot">&lt;-</span> <span class="cf">function</span>(par1, par2, par3){</span>
+<span id="cb114-5"><a href="#cb114-5" aria-hidden="true" tabindex="-1"></a>  mu <span class="ot">&lt;-</span> <span class="fu">pred_mm</span>(par1, par2)</span>
+<span id="cb114-6"><a href="#cb114-6" aria-hidden="true" tabindex="-1"></a>  <span class="sc">-</span><span class="fu">sum</span>(<span class="fu">dnorm</span>(y, <span class="at">mean =</span> mu, <span class="at">sd =</span> par3, <span class="at">log =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb114-7"><a href="#cb114-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb114-8"><a href="#cb114-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stats4)</span>
+<span id="cb114-9"><a href="#cb114-9" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">mle</span>(<span class="at">minuslogl =</span> LL_fn, <span class="at">start =</span> <span class="fu">list</span>(<span class="at">par1 =</span> <span class="fl">0.2</span>, <span class="at">par2 =</span> <span class="fl">1.5</span>, <span class="at">par3 =</span> <span class="dv">1</span>), <span class="at">method =</span> <span class="st">"BFGS"</span>, <span class="at">nobs =</span> <span class="fu">length</span>(y)) </span>
+<span id="cb114-10"><a href="#cb114-10" aria-hidden="true" tabindex="-1"></a><span class="fu">AIC</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] -170.8059</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb117"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb117-1"><a href="#cb117-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb116"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb116-1"><a href="#cb116-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Maximum likelihood estimation
 
@@ -1015,11 +1039,11 @@ par3 0.09996482 0.007065724
 
 -2 log L: -176.8059 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb119"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb119-1"><a href="#cb119-1" aria-hidden="true" tabindex="-1"></a><span class="fu">logLik</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb118"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb118-1"><a href="#cb118-1" aria-hidden="true" tabindex="-1"></a><span class="fu">logLik</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>'log Lik.' 88.40293 (df=3)</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb121"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb121-1"><a href="#cb121-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb120"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb120-1"><a href="#cb120-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Profiling...</code></pre>
 </div>
@@ -1037,80 +1061,80 @@ par3 0.08755983 0.1155966</code></pre>
 <h2 data-number="15.2" class="anchored" data-anchor-id="problem-set"><span class="header-section-number">15.2</span> Problem set</h2>
 <p>Copy the text and code below into an .Rmd or .qmd document and complete the assignment. You will be asked submit (via Canvas) your rendered (or knitted) html document</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb124"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb124-1"><a href="#cb124-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb123"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb123-1"><a href="#cb123-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="part-1" class="level3" data-number="15.2.1">
 <h3 data-number="15.2.1" class="anchored" data-anchor-id="part-1"><span class="header-section-number">15.2.1</span> Part 1</h3>
 <p>Load dataset</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb125"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb125-1"><a href="#cb125-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="at">file =</span> <span class="st">"https://data.ecoforecast.org/neon4cast-targets/phenology/phenology-targets.csv.gz"</span>, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb124"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb124-1"><a href="#cb124-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="at">file =</span> <span class="st">"https://data.ecoforecast.org/neon4cast-targets/phenology/phenology-targets.csv.gz"</span>, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Filter the dataset to only include the site_id BART (Bartlett Experimental Forest in the White Mountains of New Hampshire) and the dates between 2019-01-01 and 2019-07-01. Convert the date to Day of Year (hint: use <code>lubridate:: yday()</code> function). Remove rows with gcc_90 equal to NA or gcc_sd equal to 0.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb126"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb126-1"><a href="#cb126-1" aria-hidden="true" tabindex="-1"></a>bart_2019 <span class="ot">&lt;-</span> d  <span class="sc">%&gt;%</span></span>
-<span id="cb126-2"><a href="#cb126-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(site_id <span class="sc">==</span> <span class="st">"BART"</span>,</span>
-<span id="cb126-3"><a href="#cb126-3" aria-hidden="true" tabindex="-1"></a>         datetime <span class="sc">&gt;</span> <span class="fu">as_date</span>(<span class="st">"2019-01-01"</span>),</span>
-<span id="cb126-4"><a href="#cb126-4" aria-hidden="true" tabindex="-1"></a>         datetime <span class="sc">&lt;</span> <span class="fu">as_date</span>(<span class="st">"2019-07-01"</span>),</span>
-<span id="cb126-5"><a href="#cb126-5" aria-hidden="true" tabindex="-1"></a>         variable <span class="sc">==</span> <span class="st">"gcc_90"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb126-6"><a href="#cb126-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">doy =</span> <span class="fu">yday</span>(datetime)) <span class="sc">%&gt;%</span> </span>
-<span id="cb126-7"><a href="#cb126-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(observation),</span>
-<span id="cb126-8"><a href="#cb126-8" aria-hidden="true" tabindex="-1"></a>         observation <span class="sc">&gt;</span> <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb125"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb125-1"><a href="#cb125-1" aria-hidden="true" tabindex="-1"></a>bart_2019 <span class="ot">&lt;-</span> d  <span class="sc">%&gt;%</span></span>
+<span id="cb125-2"><a href="#cb125-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(site_id <span class="sc">==</span> <span class="st">"BART"</span>,</span>
+<span id="cb125-3"><a href="#cb125-3" aria-hidden="true" tabindex="-1"></a>         datetime <span class="sc">&gt;</span> <span class="fu">as_date</span>(<span class="st">"2019-01-01"</span>),</span>
+<span id="cb125-4"><a href="#cb125-4" aria-hidden="true" tabindex="-1"></a>         datetime <span class="sc">&lt;</span> <span class="fu">as_date</span>(<span class="st">"2019-07-01"</span>),</span>
+<span id="cb125-5"><a href="#cb125-5" aria-hidden="true" tabindex="-1"></a>         variable <span class="sc">==</span> <span class="st">"gcc_90"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb125-6"><a href="#cb125-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">doy =</span> <span class="fu">yday</span>(datetime)) <span class="sc">%&gt;%</span> </span>
+<span id="cb125-7"><a href="#cb125-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(observation),</span>
+<span id="cb125-8"><a href="#cb125-8" aria-hidden="true" tabindex="-1"></a>         observation <span class="sc">&gt;</span> <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><strong>Question 1:</strong> How is gcc_90 related to day of year?</p>
 <p><strong>Answer 1:</strong></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb127"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb127-1"><a href="#cb127-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Add Answer</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb126"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb126-1"><a href="#cb126-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Add Answer</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><strong>Question 2:</strong> Use a histogram to examine the distribution of the gcc_90</p>
 <p><strong>Answer 2:</strong></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb128"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb128-1"><a href="#cb128-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Add Answer</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb127"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb127-1"><a href="#cb127-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Add Answer</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>First create a function called `pred_logistic’ that is your process model. The model is the the logistic curve which ish the equation <span class="math display">\[P_1 + P_2 {{exp(P_3 + P_4 x)}\over{1+exp(P_3 + P_4 x)}}\]</span> <strong>Question 3:</strong> Is this process model a dynamic model? Why or why not?</p>
 <p><strong>Answer 3:</strong></p>
 <p><strong>Question 4:</strong> Based on the equation above, write a function that predicts the gcc_90 as a function of the parameters (<span class="math inline">\(P\)</span>) and x where x is the DOY. Name that function “pred_logistic”</p>
 <p><strong>Answer 4:</strong></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb129"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb129-1"><a href="#cb129-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Add Answer</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb128"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb128-1"><a href="#cb128-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Add Answer</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><strong>Question 5:</strong> Write a function that calculates the negative log-likelihood of the data given a set of parameters governing the process and data models. Assume a normal distribution and be sure to estimate the sd in the data model.</p>
 <p><strong>Answer 5:</strong></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb130"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb130-1"><a href="#cb130-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Add Answer</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb129"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb129-1"><a href="#cb129-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Add Answer</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><strong>Question 6:</strong> Use the <code>optim</code> function to find the most likely parameter values. Use the following as starting values <code>par = c(0.34,0.11,-15,0.11, 1)</code> where the first four are the theta parameters from your process model and the fifth is the sd of your data model.</p>
 <p><strong>Answer 6:</strong></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb131"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb131-1"><a href="#cb131-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Add Answer</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb130"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb130-1"><a href="#cb130-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Add Answer</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><strong>Question 7:</strong> Use your optimal parameters in the <code>pred_logistic</code> function to predict the data. Save this as the object <code>predicted</code></p>
 <p><strong>Answer 7:</strong></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb132"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb132-1"><a href="#cb132-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Add Answer</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb131"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb131-1"><a href="#cb131-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Add Answer</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><strong>Question 8:</strong> Calculate the residuals and plot a histogram of the residuals</p>
 <p><strong>Answer 8:</strong></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb133"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb133-1"><a href="#cb133-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Add Answer</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb132"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb132-1"><a href="#cb132-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Add Answer</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><strong>Question 9:</strong> How does the distribution of the data (Question 2) compare to the distribution of the residuals?</p>
 <p><strong>Answer 9:</strong></p>
 <p><strong>Question 10:</strong> Predict 2020 using the process model parameters from the 2019 fit.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb134"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb134-1"><a href="#cb134-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Add Answer</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb133"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb133-1"><a href="#cb133-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Add Answer</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><strong>Answer 10:</strong></p>
 <p><strong>Question 11:</strong> Plot the forecast from Question 10 over the data from 2020 (I give the code for getting the 2020 data)</p>
 <p><strong>Answer 11:</strong></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb135"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb135-1"><a href="#cb135-1" aria-hidden="true" tabindex="-1"></a>bart_2020 <span class="ot">&lt;-</span> d  <span class="sc">%&gt;%</span></span>
-<span id="cb135-2"><a href="#cb135-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(site_id <span class="sc">==</span> <span class="st">"BART"</span>,</span>
-<span id="cb135-3"><a href="#cb135-3" aria-hidden="true" tabindex="-1"></a>         datetime <span class="sc">&gt;</span> <span class="fu">as_date</span>(<span class="st">"2020-01-01"</span>),</span>
-<span id="cb135-4"><a href="#cb135-4" aria-hidden="true" tabindex="-1"></a>         datetime <span class="sc">&lt;</span> <span class="fu">as_date</span>(<span class="st">"2020-07-01"</span>),</span>
-<span id="cb135-5"><a href="#cb135-5" aria-hidden="true" tabindex="-1"></a>         variable <span class="sc">==</span> <span class="st">"gcc_90"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb135-6"><a href="#cb135-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">doy =</span> <span class="fu">yday</span>(datetime)) <span class="sc">%&gt;%</span> </span>
-<span id="cb135-7"><a href="#cb135-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(observation),</span>
-<span id="cb135-8"><a href="#cb135-8" aria-hidden="true" tabindex="-1"></a>         observation <span class="sc">&gt;</span> <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb134"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb134-1"><a href="#cb134-1" aria-hidden="true" tabindex="-1"></a>bart_2020 <span class="ot">&lt;-</span> d  <span class="sc">%&gt;%</span></span>
+<span id="cb134-2"><a href="#cb134-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(site_id <span class="sc">==</span> <span class="st">"BART"</span>,</span>
+<span id="cb134-3"><a href="#cb134-3" aria-hidden="true" tabindex="-1"></a>         datetime <span class="sc">&gt;</span> <span class="fu">as_date</span>(<span class="st">"2020-01-01"</span>),</span>
+<span id="cb134-4"><a href="#cb134-4" aria-hidden="true" tabindex="-1"></a>         datetime <span class="sc">&lt;</span> <span class="fu">as_date</span>(<span class="st">"2020-07-01"</span>),</span>
+<span id="cb134-5"><a href="#cb134-5" aria-hidden="true" tabindex="-1"></a>         variable <span class="sc">==</span> <span class="st">"gcc_90"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb134-6"><a href="#cb134-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">doy =</span> <span class="fu">yday</span>(datetime)) <span class="sc">%&gt;%</span> </span>
+<span id="cb134-7"><a href="#cb134-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(observation),</span>
+<span id="cb134-8"><a href="#cb134-8" aria-hidden="true" tabindex="-1"></a>         observation <span class="sc">&gt;</span> <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><strong>Question 12:</strong> Do you think your model from 2019 is reasonable for predicting 2020?</p>
 <p><strong>Answer 12:</strong></p>
@@ -1119,7 +1143,7 @@ par3 0.08755983 0.1155966</code></pre>
 <h3 data-number="15.2.2" class="anchored" data-anchor-id="part-2"><span class="header-section-number">15.2.2</span> Part 2</h3>
 <p>Using the following data</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb136"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb136-1"><a href="#cb136-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/soil_respiration_module_data.csv"</span>, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb135"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb135-1"><a href="#cb135-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/soil_respiration_module_data.csv"</span>, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>It is a dataset that reports soil respiration, soil temperature, and soil moisture over a year at the University of Michigan Biological Station (from Nave, L.E., N. Bader, and J.L. Klug)</p>
 <p>The columns correspond to the following</p>

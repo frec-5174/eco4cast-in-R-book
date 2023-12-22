@@ -285,8 +285,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./particle-filter2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Data assimilation: Applying to process model</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./pulling-together.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Putting it together: forecast - analysis cycle</span></span></a>
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Putting it together: forecast - analysis cycle</span></span></a>
   </div>
 </li>
       </ul>
@@ -303,17 +309,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./project2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Project 2</span></span></a>
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Project 2</span></span></a>
   </div>
 </li>
       </ul>
   </li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./summary.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Summary</span></span></a>
-  </div>
-</li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./references.html" class="sidebar-item-text sidebar-link">
@@ -363,7 +363,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Parameter calibration: Applying to process model</span></h1>
+<h1 class="title"><span id="sec-bayes-process" class="quarto-section-identifier"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Parameter calibration: Applying to process model</span></span></h1>
 </div>
 
 
@@ -634,7 +634,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="visualize-influence-of-optimization" class="level3" data-number="17.2.3">
 <h3 data-number="17.2.3" class="anchored" data-anchor-id="visualize-influence-of-optimization"><span class="header-section-number">17.2.3</span> Visualize influence of optimization</h3>
-<p><a href="particle-filter.html#fig-sim-prior-post" class="quarto-xref">Figure&nbsp;<span>18.1</span></a> shows a simulation that use the prior distribution and a simulation that uses the posterior distribution. This highlights the constraint provided by the data on the model predictions.</p>
+<p><a href="particle-filter.html#fig-sim-prior-post" class="quarto-xref">Figure&nbsp;<span>18.2</span></a> shows a simulation that use the prior distribution and a simulation that uses the posterior distribution. This highlights the constraint provided by the data on the model predictions.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>obs_filtered <span class="ot">&lt;-</span> obs <span class="sc">|&gt;</span> </span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(datetime <span class="sc">&gt;</span> <span class="fu">min</span>(output_df_no_optim<span class="sc">$</span>datetime))</span>
