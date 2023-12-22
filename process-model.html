@@ -255,32 +255,38 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./neon-data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">NEON data</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./parameter-calibration1.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Parameter calibration: Intro to probability and likelihood</span></span></a>
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Parameter calibration: Intro to probability and likelihood</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./parameter-calibration2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Parameter calibration: Intro to Bayesian statistics</span></span></a>
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Parameter calibration: Intro to Bayesian statistics</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./parameter-calibration3.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Parameter calibration: Applying to process model</span></span></a>
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Parameter calibration: Applying to process model</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./particle-filter.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Data assimilation: particle filter</span></span></a>
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Data assimilation: particle filter</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./pulling-together.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Putting it together: forecast - analysis cycle</span></span></a>
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Putting it together: forecast - analysis cycle</span></span></a>
   </div>
 </li>
       </ul>
@@ -297,7 +303,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./project2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Project 2</span></span></a>
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Project 2</span></span></a>
   </div>
 </li>
       </ul>
@@ -305,7 +311,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./summary.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Summary</span></span></a>
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Summary</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -325,12 +331,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./neon-data.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">NEON data</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="./weather-drivers.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Accessing weather drivers</span></span></a>
   </div>
@@ -347,15 +347,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#set-up-model-run" id="toc-set-up-model-run" class="nav-link active" data-scroll-target="#set-up-model-run"><span class="header-section-number">12.1</span> Set up model run</a>
+  <li><a href="#overview-of-model" id="toc-overview-of-model" class="nav-link active" data-scroll-target="#overview-of-model"><span class="header-section-number">12.1</span> Overview of model</a></li>
+  <li><a href="#model-as-a-function" id="toc-model-as-a-function" class="nav-link" data-scroll-target="#model-as-a-function"><span class="header-section-number">12.2</span> Model as a function</a></li>
+  <li><a href="#set-up-model-run" id="toc-set-up-model-run" class="nav-link" data-scroll-target="#set-up-model-run"><span class="header-section-number">12.3</span> Set up model run</a>
   <ul class="collapse">
-  <li><a href="#time-frame-site-id-and-number-of-ensembles" id="toc-time-frame-site-id-and-number-of-ensembles" class="nav-link" data-scroll-target="#time-frame-site-id-and-number-of-ensembles"><span class="header-section-number">12.1.1</span> Time frame, site id, and number of ensembles</a></li>
-  <li><a href="#set-drivers" id="toc-set-drivers" class="nav-link" data-scroll-target="#set-drivers"><span class="header-section-number">12.1.2</span> Set drivers</a></li>
-  <li><a href="#set-parameters" id="toc-set-parameters" class="nav-link" data-scroll-target="#set-parameters"><span class="header-section-number">12.1.3</span> Set parameters</a></li>
-  <li><a href="#set-inital-condition" id="toc-set-inital-condition" class="nav-link" data-scroll-target="#set-inital-condition"><span class="header-section-number">12.1.4</span> Set inital condition</a></li>
+  <li><a href="#time-frame-site-id-and-number-of-ensembles" id="toc-time-frame-site-id-and-number-of-ensembles" class="nav-link" data-scroll-target="#time-frame-site-id-and-number-of-ensembles"><span class="header-section-number">12.3.1</span> Time frame, site id, and number of ensembles</a></li>
+  <li><a href="#set-drivers" id="toc-set-drivers" class="nav-link" data-scroll-target="#set-drivers"><span class="header-section-number">12.3.2</span> Set drivers</a></li>
+  <li><a href="#set-parameters" id="toc-set-parameters" class="nav-link" data-scroll-target="#set-parameters"><span class="header-section-number">12.3.3</span> Set parameters</a></li>
+  <li><a href="#set-inital-condition" id="toc-set-inital-condition" class="nav-link" data-scroll-target="#set-inital-condition"><span class="header-section-number">12.3.4</span> Set inital condition</a></li>
   </ul></li>
-  <li><a href="#run-model" id="toc-run-model" class="nav-link" data-scroll-target="#run-model"><span class="header-section-number">12.2</span> Run model</a></li>
-  <li><a href="#plot-output" id="toc-plot-output" class="nav-link" data-scroll-target="#plot-output"><span class="header-section-number">12.3</span> Plot output</a></li>
+  <li><a href="#run-model" id="toc-run-model" class="nav-link" data-scroll-target="#run-model"><span class="header-section-number">12.4</span> Run model</a></li>
+  <li><a href="#plot-output" id="toc-plot-output" class="nav-link" data-scroll-target="#plot-output"><span class="header-section-number">12.5</span> Plot output</a></li>
   </ul>
 </nav>
     </div>
@@ -384,10 +386,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<section id="overview-of-model" class="level2" data-number="12.1">
+<h2 data-number="12.1" class="anchored" data-anchor-id="overview-of-model"><span class="header-section-number">12.1</span> Overview of model</h2>
 <ul>
 <li>timestep: 1 day</li>
 <li>currency: MgC/ha</li>
 <li>dimension: 0-D</li>
+</ul>
+<p>Photosynthesis - LAI</p>
+<p>Autotrophic respiration</p>
+<p>Allocation</p>
+<p>Litterfall</p>
+<p>Mortality</p>
+<p>Heterotrophic respiration</p>
+<p>Net Ecosystem Exchange</p>
+</section>
+<section id="model-as-a-function" class="level2" data-number="12.2">
+<h2 data-number="12.2" class="anchored" data-anchor-id="model-as-a-function"><span class="header-section-number">12.2</span> Model as a function</h2>
+<ul>
+<li>One time-step at a time</li>
 </ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>forest_model <span class="ot">&lt;-</span> <span class="cf">function</span>(t, states, parms, inputs){</span>
@@ -468,10 +485,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-76"><a href="#cb2-76" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-77"><a href="#cb2-77" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="set-up-model-run" class="level2" data-number="12.1">
-<h2 data-number="12.1" class="anchored" data-anchor-id="set-up-model-run"><span class="header-section-number">12.1</span> Set up model run</h2>
-<section id="time-frame-site-id-and-number-of-ensembles" class="level3" data-number="12.1.1">
-<h3 data-number="12.1.1" class="anchored" data-anchor-id="time-frame-site-id-and-number-of-ensembles"><span class="header-section-number">12.1.1</span> Time frame, site id, and number of ensembles</h3>
+</section>
+<section id="set-up-model-run" class="level2" data-number="12.3">
+<h2 data-number="12.3" class="anchored" data-anchor-id="set-up-model-run"><span class="header-section-number">12.3</span> Set up model run</h2>
+<section id="time-frame-site-id-and-number-of-ensembles" class="level3" data-number="12.3.1">
+<h3 data-number="12.3.1" class="anchored" data-anchor-id="time-frame-site-id-and-number-of-ensembles"><span class="header-section-number">12.3.1</span> Time frame, site id, and number of ensembles</h3>
 <p>We are doing a deterministic simulation (no uncertainty) so we only have one ensemble member</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>site <span class="ot">&lt;-</span> <span class="st">"TALL"</span></span>
@@ -479,16 +497,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>sim_dates <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fu">as_date</span>(<span class="st">"2020-09-30"</span>), <span class="fu">Sys.Date</span>() <span class="sc">-</span> lubridate<span class="sc">::</span><span class="fu">days</span>(<span class="dv">1</span>), <span class="at">by =</span> <span class="st">"1 day"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="set-drivers" class="level3" data-number="12.1.2">
-<h3 data-number="12.1.2" class="anchored" data-anchor-id="set-drivers"><span class="header-section-number">12.1.2</span> Set drivers</h3>
+<section id="set-drivers" class="level3" data-number="12.3.2">
+<h3 data-number="12.3.2" class="anchored" data-anchor-id="set-drivers"><span class="header-section-number">12.3.2</span> Set drivers</h3>
 <p>There is a custom function to access the weater drivers. You can learn more about the function in the appendix (add link)</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>inputs <span class="ot">&lt;-</span> <span class="fu">get_historical_met</span>(<span class="at">site =</span> site, sim_dates, <span class="at">use_mean =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>inputs_ensemble <span class="ot">&lt;-</span> <span class="fu">assign_met_ensembles</span>(inputs, ens_members)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="set-parameters" class="level3" data-number="12.1.3">
-<h3 data-number="12.1.3" class="anchored" data-anchor-id="set-parameters"><span class="header-section-number">12.1.3</span> Set parameters</h3>
+<section id="set-parameters" class="level3" data-number="12.3.3">
+<h3 data-number="12.3.3" class="anchored" data-anchor-id="set-parameters"><span class="header-section-number">12.3.3</span> Set parameters</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Set parameters</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>params <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
@@ -508,8 +526,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>params <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(params)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="set-inital-condition" class="level3" data-number="12.1.4">
-<h3 data-number="12.1.4" class="anchored" data-anchor-id="set-inital-condition"><span class="header-section-number">12.1.4</span> Set inital condition</h3>
+<section id="set-inital-condition" class="level3" data-number="12.3.4">
+<h3 data-number="12.3.4" class="anchored" data-anchor-id="set-inital-condition"><span class="header-section-number">12.3.4</span> Set inital condition</h3>
 <p>Set the starting point of the simulation. All states need a starting point.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>output <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="cn">NA</span>, <span class="at">dim =</span> <span class="fu">c</span>(<span class="fu">length</span>(sim_dates), ens_members, <span class="dv">12</span>)) <span class="co">#12 is the number of outputs</span></span>
@@ -519,8 +537,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </section>
 </section>
-<section id="run-model" class="level2" data-number="12.2">
-<h2 data-number="12.2" class="anchored" data-anchor-id="run-model"><span class="header-section-number">12.2</span> Run model</h2>
+<section id="run-model" class="level2" data-number="12.4">
+<h2 data-number="12.4" class="anchored" data-anchor-id="run-model"><span class="header-section-number">12.4</span> Run model</h2>
+<p>Loop over the <code>sim_dates</code>. The loop starts on index of 2 because index of 1 was set as the initial conditions above. Save the output at step time-step to the output array.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(t <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="fu">length</span>(sim_dates)){</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  output[t, , ]  <span class="ot">&lt;-</span> <span class="fu">forest_model</span>(t, </span>
@@ -530,8 +549,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="plot-output" class="level2" data-number="12.3">
-<h2 data-number="12.3" class="anchored" data-anchor-id="plot-output"><span class="header-section-number">12.3</span> Plot output</h2>
+<section id="plot-output" class="level2" data-number="12.5">
+<h2 data-number="12.5" class="anchored" data-anchor-id="plot-output"><span class="header-section-number">12.5</span> Plot output</h2>
 <p>The <code>output_to_df</code> converts the output into a data frame.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>output_df <span class="ot">&lt;-</span> <span class="fu">output_to_df</span>(output, sim_dates, <span class="at">sim_name =</span> <span class="st">"baseline"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
