@@ -444,14 +444,14 @@ div.csl-indent {
 <span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>crps_equation_2 <span class="ot">&lt;-</span> <span class="fu">mean</span>(<span class="fu">abs</span>(x <span class="sc">-</span> y)) <span class="sc">-</span> s <span class="sc">/</span> (<span class="dv">2</span> <span class="sc">*</span> <span class="fu">length</span>(x)<span class="sc">^</span><span class="dv">2</span>)</span>
 <span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>crps_equation_2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.2365152</code></pre>
+<pre><code>[1] 0.2243726</code></pre>
 </div>
 </div>
 <p>Now calculate using the <code>crps_sample()</code> function in the <code>scoringRules</code> package</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">crps_sample</span>(<span class="at">y =</span> y, <span class="at">dat =</span> x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.2365152</code></pre>
+<pre><code>[1] 0.2243726</code></pre>
 </div>
 </div>
 <p>The two values should be the</p>
@@ -690,19 +690,19 @@ CRPS(N(\mu, \sigma^2) | y) = \sigma \left( \frac{y - \mu}{\sigma} \left( 2 \Phi\
 <div class="cell">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(scoringRules<span class="sc">::</span><span class="fu">crps_sample</span>(<span class="at">y =</span> obs, <span class="at">dat =</span> forecast1),scoringRules<span class="sc">::</span><span class="fu">logs_sample</span>(<span class="at">y =</span> obs, <span class="at">dat =</span> forecast1)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.8324116 2.2345632</code></pre>
+<pre><code>[1] 0.9789672 2.4426279</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(scoringRules<span class="sc">::</span><span class="fu">crps_sample</span>(<span class="at">y =</span> obs, <span class="at">dat =</span> forecast2),scoringRules<span class="sc">::</span><span class="fu">logs_sample</span>(<span class="at">y =</span> obs, <span class="at">dat =</span> forecast2)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.6848847 1.7912374</code></pre>
+<pre><code>[1] 0.5789278 1.6676758</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(scoringRules<span class="sc">::</span><span class="fu">crps_sample</span>(<span class="at">y =</span> obs, <span class="at">dat =</span> forecast3),scoringRules<span class="sc">::</span><span class="fu">logs_sample</span>(<span class="at">y =</span> obs, <span class="at">dat =</span> forecast3)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1]  0.0224799 -1.3563975</code></pre>
+<pre><code>[1]  0.02292222 -1.32771435</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(scoringRules<span class="sc">::</span><span class="fu">crps_sample</span>(<span class="at">y =</span> obs, <span class="at">dat =</span> forecast4),scoringRules<span class="sc">::</span><span class="fu">logs_sample</span>(<span class="at">y =</span> obs, <span class="at">dat =</span> forecast4)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1]   0.9529227 238.7237109</code></pre>
+<pre><code>[1]   0.9181356 133.6131264</code></pre>
 </div>
 </div>
 <div class="cell">
