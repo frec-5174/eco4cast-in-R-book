@@ -399,7 +399,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(neonstore)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>In this document, we will be creating a carbon budget for a NEON site. It was developed in collaboration with John Smith at Montana State University.</p>
-<p>NEON data is organized by data product ID in the NEON Date Portal: <a href="https://data.neonscience.org/static/browse.html" class="uri">https://data.neonscience.org/static/browse.html</a></p>
+<p>NEON data is organized by data product ID in the NEON Data Portal: <a href="https://data.neonscience.org/static/browse.html" class="uri">https://data.neonscience.org/static/browse.html</a></p>
+<p>The chapter uses the <code>neonstore</code> packages developed by Carl Boettiger to access NEON data. The <code>neon_cloud</code> function uses the NEON data produce ID and the table within the product to download the data from NEON cloud storage. If you are new to a NEON data product, it is important to explore the data product on NEON’s Data Portal before using the <code>neon_cloud</code> functionality (otherwise you don’t know what tables you need to download and how they link together).</p>
 <section id="neon-project" class="level2" data-number="14.1">
 <h2 data-number="14.1" class="anchored" data-anchor-id="neon-project"><span class="header-section-number">14.1</span> NEON Project</h2>
 <div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/39YrzpxVRF8?si=MZaH7miPEYhgiF6e" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
@@ -410,7 +411,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="download-data" class="level2" data-number="14.3">
 <h2 data-number="14.3" class="anchored" data-anchor-id="download-data"><span class="header-section-number">14.3</span> Download data</h2>
-<p>First, we are going to want to define the site ID. The four letter site code denotes NEON site. You can learn more about NEON sites here: <a href="https://www.neonscience.org/field-sites/explore-field-sites" class="uri">https://www.neonscience.org/field-sites/explore-field-sites</a>. The elevation, latitude , and longitude are needed to convert the diameter measurements to biomass.</p>
+<p>First, we define the site ID. The four letter site code denotes NEON site. You can learn more about NEON sites here: <a href="https://www.neonscience.org/field-sites/explore-field-sites" class="uri">https://www.neonscience.org/field-sites/explore-field-sites</a>. The elevation, latitude, and longitude are needed to convert the diameter measurements to biomass and are found on the NEON page describing the site.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>site <span class="ot">&lt;-</span> <span class="st">"OSBS"</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>elevation <span class="ot">&lt;-</span> <span class="dv">46</span> <span class="co">#166    </span></span>
@@ -422,8 +423,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 data-number="14.4" class="anchored" data-anchor-id="wood-carbon"><span class="header-section-number">14.4</span> Wood carbon</h2>
 <section id="calculate-carbon-in-trees" class="level3" data-number="14.4.1">
 <h3 data-number="14.4.1" class="anchored" data-anchor-id="calculate-carbon-in-trees"><span class="header-section-number">14.4.1</span> Calculate carbon in trees</h3>
-<p>In this section, we will be calculating carbon in live and dead trees at a NEON site. At the end we will have a <em>site-level</em> mean carbon stock in <em>live trees</em> for each year that was sampled from the plots that are sampling the ecosystem under the flux tower (e.g., tower plots).</p>
-<p>The code below read the data directly from NEON’s cloud storage. Since the columns may change between the official releases and the provisional data, they need to be read in separately before being combined.</p>
+<p>In this section, we will be calculating carbon in live and dead trees at a NEON site. At the end we will have a <em>site-level</em> mean carbon stock in <em>live trees</em> for each year that was sampled from the plots represent ecosystem under the flux tower (e.g., tower plots). We use the tower plots so correspond to same ecosystem as the NEON <code>nee</code> data.</p>
+<p>We will select the key variables in each table (thus only downloading those variables).</p>
+<p>The code below reads the data directly from NEON’s cloud storage.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Mapping and tagging table</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -460,12 +462,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">GENUS =</span> genus_species[,<span class="dv">1</span>], </span>
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">SPECIES =</span> genus_species[,<span class="dv">2</span>]) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Select the key variables in each table and join into the individual table, making sure that we have <code>GENUS</code>, <code>SPECIES</code>, and <code>measurementHeight</code>. These will be important when we use <code>allodb</code> to estimate the amount of carbon.</p>
+<p>Now we will join the tables by the key variables to build our dataset for the site.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>combined_table <span class="ot">&lt;-</span> <span class="fu">left_join</span>(ind_table, map_tag_table, <span class="at">by =</span> <span class="st">"individualID"</span>) <span class="sc">|&gt;</span> </span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(plotID,individualID)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>combined_table <span class="ot">&lt;-</span> <span class="fu">inner_join</span>(combined_table, plot_table, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"plotID"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>combined_table <span class="ot">&lt;-</span> <span class="fu">inner_join</span>(combined_table, plot_table, <span class="at">by =</span> <span class="st">"plotID"</span>) <span class="sc">|&gt;</span> </span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(individualID)</span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>combined_table_dbh <span class="ot">&lt;-</span> combined_table[<span class="fu">which</span>(combined_table<span class="sc">$</span>measurementHeight <span class="sc">==</span> <span class="dv">130</span>),]</span>
@@ -476,11 +478,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>combined_table_live_tower <span class="ot">&lt;-</span> combined_table_dbh <span class="sc">|&gt;</span>  </span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">str_detect</span>(plantStatus,<span class="st">"Live"</span>),</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>         plotType <span class="sc">==</span> <span class="st">"tower"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">stemDiameter =</span> <span class="fu">as.numeric</span>(stemDiameter))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>         plotType <span class="sc">==</span> <span class="st">"tower"</span>,</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>         measurementHeight <span class="sc">==</span> <span class="dv">130</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">stemDiameter =</span> <span class="fu">as.numeric</span>(stemDiameter))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Calculate the biomass of each tree in the table. We will do this using <code>get_biomass</code> in the <code>allodb</code> package. This function takes as arguments: <code>dbh</code>, <code>genus</code>, <code>species</code>, <code>coords</code>. We have already extracted genus and species, and in fact we have already extracted dbh as well. The steps where we were subsetting based on measurement heights of 130 cm was actually subsetting to include only data that had dbh measurements.</p>
-<p>In this next section, as well as a future one where we calculate dead tree carbon, we are going to make a simplfying assumption. We will assume that the below ground biomass of a tree is some fixed proportion of its above ground biomass. In our analysis, we will assume this value is <span class="math inline">\(.3\)</span>, but it is a parameter that can be changed.</p>
+<p>To calculate the biomass of each tree in the table, we will do this using <code>get_biomass</code> in the <code>allodb</code> package. This function takes as arguments: <code>dbh</code>, <code>genus</code>, <code>species</code>, <code>coords</code>. We have already extracted genus and species. The steps where we were subsetting based on measurement heights of 130 cm was actually subsetting to include only data that had dbh measurements.</p>
+<p>In this next section, as well as a future one where we calculate dead tree carbon, we are going to make a simplfying assumption. We will assume that the below ground biomass of a tree is some fixed proportion of its above ground biomass. In our analysis, we will assume this value is <span class="math inline">\(.3\)</span>, but it is a parameter that can be changed. We also assume that carbon is 0.5 of biomass.</p>
+<p>The <code>get_biomass</code> function is within the <code>allodb</code> package and returnes the biomass of each tree in units of kg.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(allodb)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -521,7 +525,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<p>Determine the set of plots that are measured each year (a subset, n = 5) are measured each year, while all the plots are measured every 5 years.</p>
+<p>Only a subset of plots are measured each year and we only want the plots have annual measurements. This code determines the set of plots that are measured each year (a subset, n = 5) are measured each year, while all the plots are measured every 5 years.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>last_plots <span class="ot">&lt;-</span> plot_live_carbon <span class="sc">|&gt;</span> </span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(measure_date <span class="sc">==</span> <span class="fu">max</span>(measure_date)) <span class="sc">|&gt;</span> </span>
@@ -536,7 +540,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">mean_kgCperm2 =</span> <span class="fu">mean</span>(plot_kgCm2, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
 <span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>              <span class="at">sd_kgCperm2 =</span> <span class="fu">sd</span>(plot_kgCm2))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p><a href="#fig-site-live-carbon" class="quarto-xref">Figure&nbsp;<span>14.2</span></a> is the site level carbon calculated by taking the mean only the plots that were measured each year</p>
+<p><a href="#fig-site-live-carbon" class="quarto-xref">Figure&nbsp;<span>14.2</span></a> is the site level carbon calculated by taking the mean only of the plots that were measured each year.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(site_live_carbon, <span class="fu">aes</span>(<span class="at">x =</span> measure_date, <span class="at">y =</span> mean_kgCperm2)) <span class="sc">+</span> </span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
@@ -555,7 +559,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="calculate-carbon-in-dead-trees" class="level3" data-number="14.4.2">
 <h3 data-number="14.4.2" class="anchored" data-anchor-id="calculate-carbon-in-dead-trees"><span class="header-section-number">14.4.2</span> Calculate carbon in dead trees</h3>
-<p>We will now use <code>allodb</code> to extract the carbon in dead trees.</p>
+<p>We will now use <code>allodb</code> package to extract the carbon in dead trees. This is exactly like the steps above except for using the trees with a dead status.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>combined_table_dead_tower <span class="ot">&lt;-</span> combined_table_dbh <span class="sc">|&gt;</span> </span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">grepl</span>(<span class="st">"Standing dead"</span>,plantStatus),</span>
