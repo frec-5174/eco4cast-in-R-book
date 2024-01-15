@@ -101,6 +101,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 </head>
 
@@ -353,11 +355,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#introduction-to-bayesian-statistics" id="toc-introduction-to-bayesian-statistics" class="nav-link active" data-scroll-target="#introduction-to-bayesian-statistics"><span class="header-section-number">16.1</span> Introduction to Bayesian statistics</a></li>
-  <li><a href="#starting-with-likelihood" id="toc-starting-with-likelihood" class="nav-link" data-scroll-target="#starting-with-likelihood"><span class="header-section-number">16.2</span> Starting with likelihood</a></li>
-  <li><a href="#solving-a-bayesian-model" id="toc-solving-a-bayesian-model" class="nav-link" data-scroll-target="#solving-a-bayesian-model"><span class="header-section-number">16.3</span> Solving a Bayesian model</a></li>
-  <li><a href="#predictive-posterior-distributions" id="toc-predictive-posterior-distributions" class="nav-link" data-scroll-target="#predictive-posterior-distributions"><span class="header-section-number">16.4</span> Predictive posterior distributions</a></li>
-  <li><a href="#problem-set" id="toc-problem-set" class="nav-link" data-scroll-target="#problem-set"><span class="header-section-number">16.5</span> Problem set</a></li>
+  <li><a href="#introduction-to-bayesian-statistics" id="toc-introduction-to-bayesian-statistics" class="nav-link active" data-scroll-target="#introduction-to-bayesian-statistics"><span class="header-section-number">16.1</span> Introduction to Bayesian statistics</a>
+  <ul class="collapse">
+  <li><a href="#starting-with-likelihood" id="toc-starting-with-likelihood" class="nav-link" data-scroll-target="#starting-with-likelihood"><span class="header-section-number">16.1.1</span> Starting with likelihood</a></li>
+  </ul></li>
+  <li><a href="#solving-a-bayesian-model" id="toc-solving-a-bayesian-model" class="nav-link" data-scroll-target="#solving-a-bayesian-model"><span class="header-section-number">16.2</span> Solving a Bayesian model</a></li>
+  <li><a href="#predictive-posterior-distributions" id="toc-predictive-posterior-distributions" class="nav-link" data-scroll-target="#predictive-posterior-distributions"><span class="header-section-number">16.3</span> Predictive posterior distributions</a></li>
+  <li><a href="#problem-set" id="toc-problem-set" class="nav-link" data-scroll-target="#problem-set"><span class="header-section-number">16.4</span> Problem set</a></li>
   </ul>
 </nav>
     </div>
@@ -366,7 +370,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Parameter calibration: Bayesian methods</span></h1>
+<h1 class="title"><span id="sec-bayes" class="quarto-section-identifier"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Parameter calibration: Bayesian methods</span></span></h1>
 </div>
 
 
@@ -383,10 +387,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="introduction-to-bayesian-statistics" class="level2" data-number="16.1">
 <h2 data-number="16.1" class="anchored" data-anchor-id="introduction-to-bayesian-statistics"><span class="header-section-number">16.1</span> Introduction to Bayesian statistics</h2>
-</section>
-<section id="starting-with-likelihood" class="level2" data-number="16.2">
-<h2 data-number="16.2" class="anchored" data-anchor-id="starting-with-likelihood"><span class="header-section-number">16.2</span> Starting with likelihood</h2>
-<p>Here we start where we left off with the likelihood chapter. Imagine the following dataset with five data points drawn from a normal distribution (<a href="#fig-rnorm1" class="quarto-xref">Figure&nbsp;<span>16.1</span></a>).</p>
+<section id="starting-with-likelihood" class="level3" data-number="16.1.1">
+<h3 data-number="16.1.1" class="anchored" data-anchor-id="starting-with-likelihood"><span class="header-section-number">16.1.1</span> Starting with likelihood</h3>
+<p>Here we start where we left off with the likelihood chapter <a href="parameter-calibration1.html" class="quarto-xref"><span>Chapter&nbsp;15</span></a>. Imagine the following dataset with five data points drawn from a normal distribution (<a href="#fig-rnorm1" class="quarto-xref">Figure&nbsp;<span>16.1</span></a>).</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>num_data_points <span class="ot">&lt;-</span> <span class="dv">5</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -405,7 +408,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<p>We can calculate the likelihood for a set of different means using the manual likelihood estimation that we did in the likelihood lecture</p>
+<p>We can calculate the likelihood for a set of different means using the manual likelihood estimation that we did in <a href="parameter-calibration1.html" class="quarto-xref"><span>Chapter&nbsp;15</span></a>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#DATA MODEL</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>delta_x <span class="ot">&lt;-</span> <span class="fl">0.1</span></span>
@@ -427,7 +430,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<p>The negative log likelihood is useful for using finding the maximum likelihood values with a optimizing function. However, here we want to convert back to a density (<a href="#fig-ll2-density" class="quarto-xref">Figure&nbsp;<span>16.3</span></a>)</p>
+<p>The negative log likelihood is useful for finding the maximum likelihood values with a optimizing function. However, here we want to convert back to a density (<a href="#fig-ll2-density" class="quarto-xref">Figure&nbsp;<span>16.3</span></a>)</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>density_likelihood <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="sc">-</span>negative_log_likelihood)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -442,7 +445,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<p>The y-axis are tiny numbers because we multiplied probability densities together. This is OK for our illustrative purposes. To help visualize we can rescale so that area under the curve is 1. The area is approximated where the density is the height and the width is the distance between points on the x axis (<code>delta_x</code>) that we evaluated (height x width is the area of a bar under the curve). If we sum the bars together, we get the area under the curve (a value way less than 1). Dividing the likelihood by the area rescales the densities so the area under the curve is 1. Rescaling the likelihood is not a formal part of the the analysis - just used here for visualizing.</p>
+<p>The y-axis are tiny numbers because we multiplied probability densities together. This is OK for our illustrative purposes. To help visualize we can rescale so that area under the curve is 1. The area is approximated where the density is the height and the width is the distance between points on the x axis (<code>delta_x</code>) that we evaluated (height x width is the area of a bar under the curve). If we sum the bars together, we get the area under the curve (a value way less than 1). Dividing the likelihood by the area rescales the densities so the area under the curve is 1. Rescaling the likelihood is not a formal part of the analysis - just used here for visualizing.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>likelihood_area_under_curve <span class="ot">&lt;-</span> <span class="fu">sum</span>(density_likelihood <span class="sc">*</span> delta_x) <span class="co">#Width * Height</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>density_likelihood_rescaled <span class="ot">&lt;-</span> density_likelihood<span class="sc">/</span>likelihood_area_under_curve</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -456,9 +459,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Remember that this curve is the P(data | mean = x). We want the P(mean = x | data).</p>
-<p>Following Bayes rule we can multiply the likelihood x the prior</p>
-<p><strong>TODO: add Bayes formula</strong></p>
-<p>Our prior is the following normal distribution</p>
+<p>Following Bayes rule where the <span class="math inline">\(P(data | model)\)</span> is the likelihood and <span class="math inline">\(P(model)\)</span> is our guess for the mean before seeing the data (called the prior)</p>
+<p><span class="math display">\[
+P(model | data) = \frac{P(data | model) \cdot P(model)}{P(data)}
+\]</span></p>
+<p>we can multiply the likelihood x the prior.</p>
+<p><span class="math display">\[
+P(mean | data) \simeq likelihood \cdot prior
+\]</span> Our prior is the following normal distribution</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>mean_prior <span class="ot">&lt;-</span> <span class="dv">0</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>sd_prior <span class="ot">&lt;-</span> <span class="fl">1.0</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -525,7 +533,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>area_under_curve <span class="ot">&lt;-</span> <span class="fu">sum</span>(prior_times_likelihood <span class="sc">*</span> delta_x)  <span class="co">#sum(Width * Height) = total probability of the data given all possible values of the parameter</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>normalized_posterior <span class="ot">&lt;-</span> prior_times_likelihood <span class="sc">/</span> area_under_curve</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>The probablity of the data is (i.e., area under likelihood x prior curve): 1.7841096^{-5}</p>
+<p>The probability of the data is (i.e., area under likelihood x prior curve): 2.5077176^{-4}</p>
 <p>Now we can visualize the rescaled likelihood (remember that the un-scaled likelihood was actually used in the calculations), the prior, and the normalized posterior.</p>
 <p><a href="#fig-prior-ll-post" class="quarto-xref">Figure&nbsp;<span>16.7</span></a> shows how the how the posterior is a blend of the prior and the likelihood.</p>
 <div class="cell">
@@ -547,7 +555,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<p>Here is a function that will allow you to explore how the posterior is sensitive to the likelihood and the prior</p>
+<p>Here is a function that will allow us to explore how the posterior is sensitive to the likelihood and the prior</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>explore_senstivity <span class="ot">&lt;-</span> <span class="cf">function</span>(num_data_points, mean_data, sd_data, mean_prior, sd_prior, title){</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -587,7 +595,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb17-36"><a href="#cb17-36" aria-hidden="true" tabindex="-1"></a><span class="fu">return</span>(p)</span>
 <span id="cb17-37"><a href="#cb17-37" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Now you can explore how the posterior is sensitive to 1) prior sd (i.e., confidence in the prior) 2) the number of data points used in the likelihood (how does increasing the number of data points influence the posterior) the prior mean 3) the mean of the data used in the likelihood (how different is it than the prior?)</p>
+<p>Now we can explore how the posterior is sensitive to 1) prior sd (i.e., confidence in the prior) 2) the number of data points used in the likelihood (how does increasing the number of data points influence the posterior) the prior mean 3) the mean of the data used in the likelihood (how different is it than the prior?)</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Baseline</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">explore_senstivity</span>(<span class="at">num_data_points =</span> <span class="dv">5</span>,</span>
@@ -621,7 +629,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a>                        <span class="at">sd_prior =</span> <span class="fl">1.0</span>,</span>
 <span id="cb18-31"><a href="#cb18-31" aria-hidden="true" tabindex="-1"></a>                        <span class="at">title =</span> <span class="st">"Make likelihood mean</span><span class="sc">\n</span><span class="st">closer to prior"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p><a href="#fig-post-sens" class="quarto-xref">Figure&nbsp;<span>16.8</span></a> showns the senstivity of the posterior to assumptions of the prior and the data.</p>
+<p><a href="#fig-post-sens" class="quarto-xref">Figure&nbsp;<span>16.8</span></a> shows the sensitivity of the posterior to assumptions of the prior and the data.</p>
 <div class="cell">
 <div class="cell-output-display">
 <div id="fig-post-sens" class="quarto-figure quarto-figure-center anchored">
@@ -713,11 +721,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="solving-a-bayesian-model" class="level2" data-number="16.3">
-<h2 data-number="16.3" class="anchored" data-anchor-id="solving-a-bayesian-model"><span class="header-section-number">16.3</span> Solving a Bayesian model</h2>
-<p>The example above is designed to build an intuition for how a Bayesian analysis works but is not how the parameters in a Bayesian model are estimated in practice. For one thing, if there are multiple parameters being estimated it is very hard to estimate the area under the curve. Second, the area is very very same if there are many data points (so small that the computer can’t hold it well)</p>
+</section>
+<section id="solving-a-bayesian-model" class="level2" data-number="16.2">
+<h2 data-number="16.2" class="anchored" data-anchor-id="solving-a-bayesian-model"><span class="header-section-number">16.2</span> Solving a Bayesian model</h2>
+<p>The example above is designed to build an intuition for how a Bayesian analysis works but is not how the parameters in a Bayesian model are estimated in practice. For one thing, if there are multiple parameters being estimated, it is very hard to estimate the area under the curve. Second, the area is very very small if there are many data points (so small that the computer can’t hold it well)</p>
 <p>There are two common methods for estimating posterior distributions that involve numerical computation. Both methods involve randomly sampling from an unknown posterior distribution and saving the samples. The sequence of saved sample for the parameters is called a Markov chain Monte Carlo (MCMC). The distribution of parameter values in the MCMC chain is your posterior distribution.</p>
-<p>The first is called Gibbs sampling and is used when you know the probability distribution type for the posterior but not the parameter values of the distribution. For example, if your prior is normally distributed and your likelihood is normally distributed then you know (from math that other have already done for you) that the posterior is normally distributed. Therefore, you can randomly draw from that distribution to build your MCMC chain that generates your posterior distribution. We will not go over this in detail but know that this method will give you an answer quicker but requires you (or the software you are using) to know that your prior and likelihood are conjunct (i.e., someone else has worked out that the posterior always has a certain PDF if the prior and likelihood are of certain PDF - see pages 86-89 and Table A3 in Hobbs and Hooten).</p>
+<p>The first is called Gibbs sampling and is used when you know the probability distribution type for the posterior but not the parameter values of the distribution. For example, if your prior is normally distributed and your likelihood is normally distributed then you know (from math that others have already done for you) that the posterior is normally distributed. Therefore, you can randomly draw from that distribution to build your MCMC chain that generates your posterior distribution. We will not go over this in detail but know that this method will give you an answer quicker but requires you (or the software you are using) to know that your prior and likelihood are conjunct (i.e., someone else has worked out that the posterior always has a certain PDF if the prior and likelihood are of certain PDF - see pages 86-89 and Table A3 in Hobbs and Hooten).</p>
 <p>The second is called MCMC Metropolis–Hastings (MCMC-MH) and is a rejection sampling method. In this case you don’t know the form of the posterior. Basically the MCMC-MH is the following</p>
 <ol start="0" type="1">
 <li><p>Create vector that has a length equal to the total number of iterations you want to have in your MCMC chain. Set the first value of the vector to your parameter starting point.</p></li>
@@ -880,8 +889,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="predictive-posterior-distributions" class="level2" data-number="16.4">
-<h2 data-number="16.4" class="anchored" data-anchor-id="predictive-posterior-distributions"><span class="header-section-number">16.4</span> Predictive posterior distributions</h2>
+<section id="predictive-posterior-distributions" class="level2" data-number="16.3">
+<h2 data-number="16.3" class="anchored" data-anchor-id="predictive-posterior-distributions"><span class="header-section-number">16.3</span> Predictive posterior distributions</h2>
 <p>Finally we can use the idea of randomly drawing from the posterior to develop predictions from the posterior. This is just like the Logistic growth module where you randomly sampled from the parameter uncertainty and used the random samples in the logistic equation.</p>
 <p>Here we are calculating two things 1) <code>pred_posterior_mean</code> just has uncertainty in the M-M parameter. Think about this as generating uncertainty around the mean prediction at each value of x. 2) <code>y_posterior</code> is the prediction of a observation. Therefore you take the value from #1 and add the uncertainty in the observations from <code>sd_data</code> that was set above. This is your predictive or forecast uncertainty.</p>
 <p><strong>Important:</strong> If you have multiple parameters your MCMC chain, you randomly draw <code>posterior_sample_indices</code> and use values for all the parameters at that iteration. By doing this you are representing the joint distribution of the parameter - e.g., if parameter 1 is high, parameter 2 is always low. If you select <code>posterior_sample_indices</code> for each parameter, you break the correlations of parameters that the MCMC method estimated and, as a result, overestimate the uncertainty.</p>
@@ -923,9 +932,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="problem-set" class="level2" data-number="16.5">
-<h2 data-number="16.5" class="anchored" data-anchor-id="problem-set"><span class="header-section-number">16.5</span> Problem set</h2>
-<p>Using the following as a guide</p>
+<section id="problem-set" class="level2" data-number="16.4">
+<h2 data-number="16.4" class="anchored" data-anchor-id="problem-set"><span class="header-section-number">16.4</span> Problem set</h2>
+<p>Your task is to modify the code below to estimate the posterior distribution of parameters in Q10 function that was in the likelihood analysis exercise (<a href="parameter-calibration1.html#sec-q10" class="quarto-xref"><span>Section&nbsp;15.2.2</span></a>). Use the same data as used in the Q10 likelihood exercise.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
@@ -1050,7 +1059,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><img src="parameter-calibration2_files/figure-html/unnamed-chunk-43-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>Your task is to modify the code above to estimate the posterior distribution of parameters in Q10 function that was in the likelihood analysis exercise. Use the same data as used in the Q10 likelihood exercise.</p>
 <p><strong>Question 1</strong>: Provide the distribution and parameters describing the distribution for your prior distributions. Justify why you chose the distribution and parameters. (do not spend time looking at the literature for values to use to build prior distribution - just give plausible priors and say why their plausible)</p>
 <p><strong>Answer 1:</strong></p>
 <p><strong>Question 2:</strong> Provide plots of your prior distributions.</p>

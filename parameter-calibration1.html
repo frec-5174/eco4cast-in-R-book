@@ -355,11 +355,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#intro-to-probability-and-likelihood" id="toc-intro-to-probability-and-likelihood" class="nav-link active" data-scroll-target="#intro-to-probability-and-likelihood"><span class="header-section-number">15.1</span> Intro to probability and likelihood</a></li>
+  <li><a href="#intro-to-probability-and-likelihood" id="toc-intro-to-probability-and-likelihood" class="nav-link active" data-scroll-target="#intro-to-probability-and-likelihood"><span class="header-section-number">15.1</span> Intro to probability and likelihood</a>
+  <ul class="collapse">
+  <li><a href="#take-home-messages" id="toc-take-home-messages" class="nav-link" data-scroll-target="#take-home-messages"><span class="header-section-number">15.1.1</span> Take home messages</a></li>
+  <li><a href="#brief-introduction-to-other-components-of-a-likelihood-analysis" id="toc-brief-introduction-to-other-components-of-a-likelihood-analysis" class="nav-link" data-scroll-target="#brief-introduction-to-other-components-of-a-likelihood-analysis"><span class="header-section-number">15.1.2</span> Brief introduction to other components of a likelihood analysis</a></li>
+  <li><a href="#key-point" id="toc-key-point" class="nav-link" data-scroll-target="#key-point"><span class="header-section-number">15.1.3</span> Key point</a></li>
+  </ul></li>
   <li><a href="#problem-set" id="toc-problem-set" class="nav-link" data-scroll-target="#problem-set"><span class="header-section-number">15.2</span> Problem set</a>
   <ul class="collapse">
   <li><a href="#part-1" id="toc-part-1" class="nav-link" data-scroll-target="#part-1"><span class="header-section-number">15.2.1</span> Part 1</a></li>
-  <li><a href="#part-2" id="toc-part-2" class="nav-link" data-scroll-target="#part-2"><span class="header-section-number">15.2.2</span> Part 2</a></li>
+  <li><a href="#sec-q10" id="toc-sec-q10" class="nav-link" data-scroll-target="#sec-q10"><span class="header-section-number">15.2.2</span> Part 2</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -369,7 +374,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Parameter calibration: likelihood methods</span></h1>
+<h1 class="title"><span id="sec-likelihood" class="quarto-section-identifier"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Parameter calibration: likelihood methods</span></span></h1>
 </div>
 
 
@@ -393,7 +398,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>A random number is associated with a probability of it taking that value</p>
 <p>P(X = y_i) = p_i</p>
-<p>p_i is defined from a probability distribution (P). We may have an idea of the shape (i.e., normally distributed), but not the specific distribution (i.e.&nbsp;a normal with a mean = 0, and sd = 1). For example, <a href="#fig-simple-rnorm" class="quarto-xref">Figure&nbsp;<span>15.1</span></a> is a normal distribution with a mean = 0 and sd = 1. (I created it by randomly drawing 10000 samples from a normal distribution using the <code>rnorm</code> function)</p>
+<p><code>p_i</code> is defined from a probability distribution (P). We may have an idea of the shape (i.e., normally distributed), but not the specific distribution (i.e.&nbsp;a normal with a mean = 0, and sd = 1). For example, <a href="#fig-simple-rnorm" class="quarto-xref">Figure&nbsp;<span>15.1</span></a> is a normal distribution with a mean = 0 and sd = 1. (I created it by randomly drawing 10000 samples from a normal distribution using the <code>rnorm</code> function)</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">density</span>(<span class="fu">rnorm</span>(<span class="dv">10000</span>, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">1</span>)), <span class="at">xlab =</span> <span class="st">"y"</span>, <span class="at">main =</span> <span class="st">"mean = 0, sd = 1"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -405,9 +410,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<p>For our random variable, if is is governed by the distribution above, a single sample (i.e., a measurement of X) will likely be close to 0 but sometimes it will be further away.</p>
+<p>For our random variable, if is is governed by the distribution above, a single sample (i.e., a measurement of X) will likely be close to 0 but sometimes it will be quite far away.</p>
 <p>Imagine that we are measuring the same thing with the same sensor but the sensor has error that is normally distributed. We think that the measurement should be zero (mean = 0) but with the sensor uncertainty (sd = 1).</p>
-<p>The question is “What is the probability that X = y_i given a normal distribution with mean = 0 and sd = 1?”. In <a href="#fig-simple-rnorm-obs" class="quarto-xref">Figure&nbsp;<span>15.2</span></a>, the red line is a hypothetical observation (y_i).</p>
+<p>The question is “What is the probability that <code>X = y_i</code> given a normal distribution with mean = 0 and sd = 1?”. In <a href="#fig-simple-rnorm-obs" class="quarto-xref">Figure&nbsp;<span>15.2</span></a>, the red line is a hypothetical observation (y_i).</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">density</span>(<span class="fu">rnorm</span>(<span class="dv">10000</span>, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">1</span>)), <span class="at">xlab =</span> <span class="st">"y"</span>, <span class="at">main =</span> <span class="st">"mean = 0, sd = 1"</span>)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> y_i, <span class="at">col =</span> <span class="st">"red"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -420,7 +425,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<p>We could also ask “What is the probability that X = y_i given a normal distribution with mean = 2 and sd = 1?” In <a href="#fig-simple-rnorm-obs2" class="quarto-xref">Figure&nbsp;<span>15.3</span></a> you can see that the observation is at a lower probability in the distribution.</p>
+<p>We could also ask “What is the probability that <code>X = y_i</code> given a normal distribution with mean = 2 and sd = 1?” In <a href="#fig-simple-rnorm-obs2" class="quarto-xref">Figure&nbsp;<span>15.3</span></a> you can see that the observation is at a lower probability in the distribution.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">density</span>(<span class="fu">rnorm</span>(<span class="dv">10000</span>, <span class="at">mean =</span> <span class="dv">2</span>, <span class="at">sd =</span> <span class="dv">1</span>)), <span class="at">xlab =</span> <span class="st">"y"</span>, <span class="at">main =</span> <span class="st">"mean = 2, sd = 1"</span>)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> y_i, <span class="at">col =</span> <span class="st">"red"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -433,13 +438,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<p>We can numerically compare the answer to the two questions using the “Probability Density Function”. In R the PDF is represented by the <code>dnorm</code> function (d representing “density”). Which mean is more likely given the data point?</p>
+<p>We can numerically compare the answer to the two questions using the “Probability Density Function”. In R the PDF is represented by the <code>dnorm</code> function (d representing “density”). The dnorm function allows us to answer the question: Which mean is more likely given the data point?</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">message</span>(<span class="st">"mean of 0"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>mean of 0</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dnorm</span>(y_i, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dnorm</span>(<span class="at">x =</span> y_i, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.3865399</code></pre>
 </div>
@@ -447,41 +452,39 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell-output cell-output-stderr">
 <pre><code>mean of 2</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dnorm</span>(y_i, <span class="at">mean =</span> <span class="dv">2</span>, <span class="at">sd =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dnorm</span>(<span class="at">x =</span> y_i, <span class="at">mean =</span> <span class="dv">2</span>, <span class="at">sd =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.03164526</code></pre>
 </div>
 </div>
 <p>Now, we can collect more data that represent more samples from the random variable with an unknown mean. Here are two data points.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="at">length =</span> <span class="dv">2</span>)</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>y[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="sc">-</span><span class="fl">0.2513233</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>y[<span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="sc">-</span><span class="fl">2.662035</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.2513233</span>, <span class="sc">-</span><span class="fl">2.662035</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>What is the probability of both events occurring given the mean of 0? They are independent so we can multiply them.</p>
-<p><strong>IMPORTANT:</strong> If two random events are independent, then the probability that they both occur is the multiplication of the two individual probabilities. For example the probability of getting two heads in two coin flips is 0.5 * 0.5 = 0.25. If the events are not independent then we can’t just multiply (we will get to this later)</p>
+<p><strong>IMPORTANT:</strong> If two random events are independent, then the probability that they both occur is the multiplication of the two individual probabilities. For example the probability of getting two heads in two coin flips is 0.5 * 0.5 = 0.25. If the events are not independent then we can’t just multiply (we will get to this later).</p>
+<p>The two calls to the <code>dnorm</code> function are the evaluation of the two data points.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dnorm</span>(y[<span class="dv">1</span>], <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">1</span>, <span class="at">log =</span> <span class="cn">FALSE</span>) <span class="sc">*</span> <span class="fu">dnorm</span>(y[<span class="dv">2</span>], <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">1</span>, <span class="at">log =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dnorm</span>(<span class="at">x =</span> y[<span class="dv">1</span>], <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">1</span>, <span class="at">log =</span> <span class="cn">FALSE</span>) <span class="sc">*</span> <span class="fu">dnorm</span>(<span class="at">x =</span> y[<span class="dv">2</span>], <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">1</span>, <span class="at">log =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.004459699</code></pre>
 </div>
 </div>
-<p>What about with a mean of 2?</p>
+<p>We can repeate the calculate but with a different mean to ask: What about with a mean of 2?</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dnorm</span>(y[<span class="dv">1</span>], <span class="at">mean =</span> <span class="dv">2</span>, <span class="at">sd =</span> <span class="dv">1</span>, <span class="at">log =</span> <span class="cn">FALSE</span>) <span class="sc">*</span> <span class="fu">dnorm</span>(y[<span class="dv">2</span>], <span class="at">mean =</span> <span class="dv">2</span>, <span class="at">sd =</span> <span class="dv">1</span>, <span class="at">log =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dnorm</span>(<span class="at">x =</span> y[<span class="dv">1</span>], <span class="at">mean =</span> <span class="dv">2</span>, <span class="at">sd =</span> <span class="dv">1</span>, <span class="at">log =</span> <span class="cn">FALSE</span>) <span class="sc">*</span> <span class="fu">dnorm</span>(<span class="at">x =</span> y[<span class="dv">2</span>], <span class="at">mean =</span> <span class="dv">2</span>, <span class="at">sd =</span> <span class="dv">1</span>, <span class="at">log =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 2.40778e-07</code></pre>
 </div>
 </div>
-<p>Which mean (mean = 0 or mean = 2) is more likely for the two data points?</p>
-<p>IMPORTANT: Since multiplying a lot of small numbers can result in very small numbers, we add the log of the densities. The ordering of the most to least likely does not change</p>
+<p>Using the values above, which mean (mean = 0 or mean = 2) is more likely given the two data points?</p>
+<p>IMPORTANT: Since multiplying a lot of small numbers can result in very small numbers, we add the log of the densities. This is shown below by using <code>log = TRUE</code>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">message</span>(<span class="st">"log likelihood: mean of 0"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>log likelihood: mean of 0</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dnorm</span>(y[<span class="dv">1</span>], <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">1</span>, <span class="at">log =</span> <span class="cn">TRUE</span>) <span class="sc">+</span> <span class="fu">dnorm</span>(y[<span class="dv">2</span>], <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">1</span>, <span class="at">log =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dnorm</span>(<span class="at">x =</span> y[<span class="dv">1</span>], <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">1</span>, <span class="at">log =</span> <span class="cn">TRUE</span>) <span class="sc">+</span> <span class="fu">dnorm</span>(<span class="at">x =</span> y[<span class="dv">2</span>], <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">1</span>, <span class="at">log =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] -5.412674</code></pre>
 </div>
@@ -489,28 +492,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell-output cell-output-stderr">
 <pre><code>log likelihood: mean of 2</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dnorm</span>(y[<span class="dv">1</span>], <span class="at">mean =</span> <span class="dv">2</span>, <span class="at">sd =</span> <span class="dv">1</span>, <span class="at">log =</span> <span class="cn">TRUE</span>) <span class="sc">+</span> <span class="fu">dnorm</span>(y[<span class="dv">2</span>], <span class="at">mean =</span> <span class="dv">2</span>, <span class="at">sd =</span> <span class="dv">1</span>, <span class="at">log =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dnorm</span>(<span class="at">x =</span> y[<span class="dv">1</span>], <span class="at">mean =</span> <span class="dv">2</span>, <span class="at">sd =</span> <span class="dv">1</span>, <span class="at">log =</span> <span class="cn">TRUE</span>) <span class="sc">+</span> <span class="fu">dnorm</span>(<span class="at">x =</span> y[<span class="dv">2</span>], <span class="at">mean =</span> <span class="dv">2</span>, <span class="at">sd =</span> <span class="dv">1</span>, <span class="at">log =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] -15.23939</code></pre>
 </div>
 </div>
-<p>This logically extends to three data points or more. We will get two log likelihood values because we are examining two “models” with three data points. What are the two “models”?</p>
+<p>This logically extends to three data points or more. We will get two log likelihood values because we are examining two “models” with three data points. In the code below, what are the two “models”?</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="at">length =</span> <span class="dv">3</span>)</span>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.2513233</span>, <span class="sc">-</span><span class="fl">2.662035</span>, <span class="fl">4.060981</span>)</span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>y[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="sc">-</span><span class="fl">0.2513233</span></span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>y[<span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="sc">-</span><span class="fl">2.662035</span></span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>y[<span class="dv">3</span>] <span class="ot">&lt;-</span> <span class="fl">4.060981</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>LL1 <span class="ot">&lt;-</span> <span class="fu">dnorm</span>(<span class="at">x =</span> y[<span class="dv">1</span>], <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">1</span>, <span class="at">log =</span> <span class="cn">TRUE</span>) <span class="sc">+</span> </span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>       <span class="fu">dnorm</span>(<span class="at">x =</span> y[<span class="dv">2</span>], <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">1</span>, <span class="at">log =</span> <span class="cn">TRUE</span>) <span class="sc">+</span> </span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>       <span class="fu">dnorm</span>(<span class="at">x =</span> y[<span class="dv">3</span>], <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">1</span>, <span class="at">log =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>LL1 <span class="ot">&lt;-</span> <span class="fu">dnorm</span>(y[<span class="dv">1</span>], <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">1</span>, <span class="at">log =</span> <span class="cn">TRUE</span>) <span class="sc">+</span> </span>
-<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>       <span class="fu">dnorm</span>(y[<span class="dv">2</span>], <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">1</span>, <span class="at">log =</span> <span class="cn">TRUE</span>) <span class="sc">+</span> </span>
-<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>       <span class="fu">dnorm</span>(y[<span class="dv">3</span>], <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">1</span>, <span class="at">log =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>LL2 <span class="ot">&lt;-</span> <span class="fu">dnorm</span>(<span class="at">x =</span> y[<span class="dv">1</span>], <span class="at">mean =</span> <span class="dv">2</span>, <span class="at">sd =</span> <span class="dv">1</span>, <span class="at">log =</span> <span class="cn">TRUE</span>) <span class="sc">+</span> </span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>       <span class="fu">dnorm</span>(<span class="at">x =</span> y[<span class="dv">2</span>], <span class="at">mean =</span> <span class="dv">2</span>, <span class="at">sd =</span> <span class="dv">1</span>, <span class="at">log =</span> <span class="cn">TRUE</span>) <span class="sc">+</span> </span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>       <span class="fu">dnorm</span>(<span class="at">x =</span> y[<span class="dv">3</span>], <span class="at">mean =</span> <span class="dv">2</span>, <span class="at">sd =</span> <span class="dv">1</span>, <span class="at">log =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>LL2 <span class="ot">&lt;-</span> <span class="fu">dnorm</span>(y[<span class="dv">1</span>], <span class="at">mean =</span> <span class="dv">2</span>, <span class="at">sd =</span> <span class="dv">1</span>, <span class="at">log =</span> <span class="cn">TRUE</span>) <span class="sc">+</span> </span>
-<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>       <span class="fu">dnorm</span>(y[<span class="dv">2</span>], <span class="at">mean =</span> <span class="dv">2</span>, <span class="at">sd =</span> <span class="dv">1</span>, <span class="at">log =</span> <span class="cn">TRUE</span>) <span class="sc">+</span> </span>
-<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>       <span class="fu">dnorm</span>(y[<span class="dv">3</span>], <span class="at">mean =</span> <span class="dv">2</span>, <span class="at">sd =</span> <span class="dv">1</span>, <span class="at">log =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a><span class="fu">message</span>(<span class="st">"log likelihood: mean = 0"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a><span class="fu">message</span>(<span class="st">"log likelihood: mean = 0"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>log likelihood: mean = 0</code></pre>
 </div>
@@ -527,13 +526,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>[1] -18.28215</code></pre>
 </div>
 </div>
-<p>Which can be replaced with the <code>sum</code> function</p>
+<p>The separate calls to <code>dnorm</code> can be combined into one call by using the vectoration capacities of R. If a vector of obsevation is passed to the function, it will return a vector that was evaluated as each value of the vector. Then the vector can be used in a call to the <code>sum</code> function to get a single value.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">message</span>(<span class="st">"log likelihood: mean = 0"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>log likelihood: mean = 0</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">dnorm</span>(y, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">1</span>, <span class="at">log =</span> <span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">dnorm</span>(<span class="at">x =</span> y, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">1</span>, <span class="at">log =</span> <span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] -14.5774</code></pre>
 </div>
@@ -541,7 +540,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell-output cell-output-stderr">
 <pre><code>log likelihood: mean = 2</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">dnorm</span>(y, <span class="at">mean =</span> <span class="dv">2</span>, <span class="at">sd =</span> <span class="dv">1</span>, <span class="at">log =</span> <span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">dnorm</span>(<span class="at">x =</span> y, <span class="at">mean =</span> <span class="dv">2</span>, <span class="at">sd =</span> <span class="dv">1</span>, <span class="at">log =</span> <span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] -18.28215</code></pre>
 </div>
@@ -563,7 +562,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 [106]  6.5  6.6  6.7  6.8  6.9  7.0</code></pre>
 </div>
 </div>
-<p>Now we will calculate the log likelihood of the data for each potential value of the mean.</p>
+<p>Now we will calculate the log likelihood of the data for each potential value of the mean. The code below loops over the different values of the mean that we want to test.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>LL <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="fu">length</span>(mean_values))</span>
 <span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -591,7 +590,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>The relationship between the different mean values and the likelihood is a curve (<a href="#fig-ll1" class="quarto-xref">Figure&nbsp;<span>15.4</span></a>)</p>
-<p>Important: This curve may look like a probability density function (PDF) but it is not! Why? Because the area under the curve does not sum to 1. As a result 1) we use the term likelihood rather than density and 2) while the curve gives us the most likelihood estimate for the parameter, it does <strong>not</strong> give us the PDF of the parameter (even if we really really want the PDF, Bayesian statistics are needed for that)</p>
+<p>IMPORTANT: This curve may look like a probability density function (PDF) but it is not! Why? Because the area under the curve does not sum to 1. As a result 1) we use the term likelihood rather than density and 2) while the curve gives us the most likelihood estimate for the parameter, it does <strong>not</strong> give us the PDF of the parameter (even if we really really want the PDF, Bayesian statistics are needed for that)</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> mean_values, <span class="at">y =</span> LL, <span class="at">type =</span> <span class="st">"o"</span>, <span class="at">xlab =</span> <span class="st">"mean"</span>, <span class="at">ylab =</span> <span class="st">"log(likelihood)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -603,7 +602,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<p>The most likely value is the highest value on the curve. Which is</p>
+<p>The most likely value is the highest value on the curve. Which is:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>index_of_max <span class="ot">&lt;-</span> <span class="fu">which.max</span>(LL)</span>
 <span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>mean_values[index_of_max]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -618,8 +617,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>[1] 0.3825409</code></pre>
 </div>
 </div>
-<p>We just calculated the <strong>likelihood of the data GIVEN our model</strong> where our model said that the data are normally distributed with specific means. We found the most likely value for a parameter in the model (the parameter being the mean of the PDF).</p>
-<p>For use in R tools that find the minimum of a function, find the minimum of the negative log likelihood (<a href="#fig-ll2" class="quarto-xref">Figure&nbsp;<span>15.5</span></a>)</p>
+<p>We just calculated the <strong>likelihood of the data GIVEN our model</strong> where our model was that “the data are normally distributed with a specific mean”. We found the most likely value for a parameter in the model (the parameter being the mean of the PDF).</p>
+<p>For use in R tools that find the minimum of a function, you can find the minimum of the negative log likelihood curve (<a href="#fig-ll2" class="quarto-xref">Figure&nbsp;<span>15.5</span></a>)</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> mean_values, <span class="at">y =</span> <span class="sc">-</span>LL, <span class="at">type =</span> <span class="st">"o"</span>, <span class="at">xlab =</span> <span class="st">"mean"</span>, <span class="at">ylab =</span> <span class="st">"-1 * log(likelihood)"</span>) <span class="co">#Notice negative sign</span></span>
 <span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="fu">mean</span>(y), <span class="at">col =</span> <span class="st">"red"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -632,14 +631,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<p>Now we can create a function that defines our likelihood</p>
+<p>To use optimizer function in R, we first need to create a function that defines our likelihood (this is the same as above with the mean being `par[1]`). The likelihood is also called the cost function where worse values for the parameter have worse cost scores.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>LL_fn <span class="ot">&lt;-</span> <span class="cf">function</span>(y, par){</span>
 <span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">#NEED NEGATIVE BECAUSE OPTIM MINIMIZES</span></span>
 <span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>  <span class="sc">-</span><span class="fu">sum</span>(<span class="fu">dnorm</span>(y, <span class="at">mean =</span> par[<span class="dv">1</span>], <span class="at">sd =</span> <span class="dv">1</span>, <span class="at">log =</span> <span class="cn">TRUE</span>))</span>
 <span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>And put it in an optimization function that finds the minimum (don’t worry about the details)</p>
+<p>This likelihood function is then used in an optimization function that finds the minimum (don’t worry about the details)</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="co">#@par are the starting values for the search</span></span>
 <span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a><span class="co">#@fn is the function that is minimized (find parameters that yield the lowest -log(LL)) </span></span>
@@ -692,14 +691,14 @@ NULL</code></pre>
 </div>
 </div>
 <p>Sweet it works! I know you are thinking “Wow a complicated way to calculate a mean…great thanks!”. But the power is that we can replace the direct estimation of the mean with a “process” model that predicts the mean.</p>
-<p>Here is a simple model that predicts y using a regression y = par[1] + par[2] * x</p>
+<p>Here is a simple model that predicts y using a regression <code>y = par[1] + par[2] * x</code></p>
 <p>First we are going to create some simulated data from the regression and add normally distributed noise.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">100</span>)</span>
-<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a>par_true <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="fl">1.2</span>)</span>
-<span id="cb67-3"><a href="#cb67-3" aria-hidden="true" tabindex="-1"></a>sd_true <span class="ot">&lt;-</span> <span class="fl">0.9</span></span>
+<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a>par_true <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="fl">1.2</span>) <span class="co">#Slope and intercept</span></span>
+<span id="cb67-3"><a href="#cb67-3" aria-hidden="true" tabindex="-1"></a>sd_true <span class="ot">&lt;-</span> <span class="fl">0.9</span> <span class="co">#noise term</span></span>
 <span id="cb67-4"><a href="#cb67-4" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="dv">100</span>, <span class="dv">3</span>, <span class="dv">10</span>)</span>
-<span id="cb67-5"><a href="#cb67-5" aria-hidden="true" tabindex="-1"></a>y_true <span class="ot">&lt;-</span> par_true[<span class="dv">1</span>] <span class="sc">+</span> par_true[<span class="dv">2</span>] <span class="sc">*</span> x</span>
+<span id="cb67-5"><a href="#cb67-5" aria-hidden="true" tabindex="-1"></a>y_true <span class="ot">&lt;-</span> par_true[<span class="dv">1</span>] <span class="sc">+</span> par_true[<span class="dv">2</span>] <span class="sc">*</span> x </span>
 <span id="cb67-6"><a href="#cb67-6" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="fu">length</span>(y_true), <span class="at">mean =</span> y_true, <span class="at">sd =</span> sd_true) <span class="co">#This is the "fake data"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The fake data are shown in <a href="#fig-fake-data1" class="quarto-xref">Figure&nbsp;<span>15.6</span></a>.</p>
@@ -720,7 +719,7 @@ NULL</code></pre>
 <span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a>  y <span class="ot">&lt;-</span> par[<span class="dv">1</span>] <span class="sc">+</span> par[<span class="dv">2</span>] <span class="sc">*</span> x</span>
 <span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Now our likelihood function uses the result of <code>pred_linear</code> as the mean of the PDF. This asks how likely each data point is given the parameters and inputs (x). The mean is allowed to be different for each data point because the value of x is different for each point.</p>
+<p>Now our likelihood function uses the result of <code>pred_linear</code> as the mean of the PDF. This asks how likely each data point is given the parameters and inputs (x). Unlike our example above where mean is constant, the mean is allowed to be different for each data point because the value of the input (x) is different for each point.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a>LL_fn <span class="ot">&lt;-</span> <span class="cf">function</span>(par, x, y){</span>
 <span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">#NEED NEGATIVE BECAUSE OPTIM MINIMIZES</span></span>
@@ -841,8 +840,8 @@ F-statistic: 569.4 on 1 and 98 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div>
 <p>Notice how the “Residual standard error” is similar to our sd?</p>
-<p>But the power is that we are not restricted to the assumptions of a linear regression model. We can use more a complicated and non-linear “process” models (not restricted to y = mx + b) and we can more complicated “data” models than the normal with a single “single sd” example that has constant variance.</p>
-<p>For example, we can simulate new data that assumes the standard deviation increases as the prediction increases (larger predictions have more variation). In this case we multiply y times a scalar (sd_scalar_true)</p>
+<p>But the power is that we are not restricted to the assumptions of a linear regression model. We can use more a complicated and non-linear “process” models (not restricted to y = mx + b) and we can use more complicated “data” models than the normal distribution with constant variance (i.e., single value for sd that is used for all data point)</p>
+<p>For example, we can simulate new data that assumes the standard deviation increases as the prediction increases (larger predictions have more variation). This might be due to sensor error increasing with the size of measurement. In this case we multiply y times a scalar (sd_scalar_true)</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb96"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb96-1"><a href="#cb96-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">100</span>)</span>
 <span id="cb96-2"><a href="#cb96-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="dv">100</span>, <span class="dv">3</span>, <span class="dv">10</span>)</span>
@@ -870,7 +869,7 @@ F-statistic: 569.4 on 1 and 98 DF,  p-value: &lt; 2.2e-16</code></pre>
 <span id="cb98-3"><a href="#cb98-3" aria-hidden="true" tabindex="-1"></a>  y <span class="ot">&lt;-</span> par[<span class="dv">1</span>] <span class="sc">+</span> par[<span class="dv">2</span>] <span class="sc">*</span> x</span>
 <span id="cb98-4"><a href="#cb98-4" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>However, we do have to change our “data” or “probability” model. See how sd in the dnorm is now <code>sd = par[3] * pred_linear(x, par)</code> so that the sd increases with the size of the prediction</p>
+<p>However, we do have to change our “data” or “probability” model. See how <code>sd</code> in the <code>dnorm</code> is now <code>sd = par[3] * pred_linear(x, par)</code> so that the sd increases with the size of the prediction</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb99"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb99-1"><a href="#cb99-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Probability model</span></span>
 <span id="cb99-2"><a href="#cb99-2" aria-hidden="true" tabindex="-1"></a>LL_fn <span class="ot">&lt;-</span> <span class="cf">function</span>(par, x, y){</span>
@@ -886,7 +885,7 @@ F-statistic: 569.4 on 1 and 98 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div>
 <p>As a result, we now better represent how data is generated from the underlying process. This will often change and improve parameter estimates for the process model.</p>
-<p>As another example, you can change the process model to be non-linear easily. For example, we will generate simulated data from a saturating function (a Michaelis-Menten function)</p>
+<p>As another example, you can easily change the process model to be non-linear. For example, we will generate simulated data from a saturating function (a Michaelis-Menten function)</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb102"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb102-1"><a href="#cb102-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">100</span>)</span>
 <span id="cb102-2"><a href="#cb102-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="dv">100</span>, <span class="fl">0.1</span>, <span class="dv">10</span>)</span>
@@ -907,7 +906,7 @@ F-statistic: 569.4 on 1 and 98 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div>
 </div>
-<p>We certainly can’t fit a linear regression to these data (will we could be it would not fit well). Fortunately, fitting it using likelihood is as simple as changing the <em>process</em> model</p>
+<p>We certainly don’t want to fit a linear regression to these data (though we could but it would not fit well). Fortunately, fitting it using likelihood is as simple as changing the <em>process</em> model. Here is our new process model.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb104"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb104-1"><a href="#cb104-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Process model</span></span>
 <span id="cb104-2"><a href="#cb104-2" aria-hidden="true" tabindex="-1"></a>pred_mm <span class="ot">&lt;-</span> <span class="cf">function</span>(x, par){</span>
@@ -949,7 +948,7 @@ F-statistic: 569.4 on 1 and 98 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div>
 </div>
-<p>Finally, we don’t have to assume that the <em>data</em> model is a normal distribution. Here is an example assuming that the data model follows a gamma distribution (<a href="#fig-data-curve-gamma" class="quarto-xref">Figure&nbsp;<span>15.10</span></a>).</p>
+<p>Finally, we don’t have to assume that the <em>data</em> model is a normal distribution. Here is an example assuming that the data model follows a gamma distribution (<a href="#fig-data-curve-gamma" class="quarto-xref">Figure&nbsp;<span>15.10</span></a>). Learn more about the gamma <a href="https://en.wikipedia.org/wiki/Gamma_distribution">here</a></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb112"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb112-1"><a href="#cb112-1" aria-hidden="true" tabindex="-1"></a>LL_fn <span class="ot">&lt;-</span> <span class="cf">function</span>(par, x, y){</span>
 <span id="cb112-2"><a href="#cb112-2" aria-hidden="true" tabindex="-1"></a>    <span class="sc">-</span><span class="fu">sum</span>(<span class="fu">dgamma</span>(y, <span class="at">shape =</span> (<span class="fu">pred_mm</span>(x, par)<span class="sc">^</span><span class="dv">2</span><span class="sc">/</span>par[<span class="dv">3</span>]), <span class="at">rate =</span>  <span class="fu">pred_mm</span>(x, par)<span class="sc">/</span>par[<span class="dv">3</span>], <span class="at">log =</span> <span class="cn">TRUE</span>))</span>
@@ -967,14 +966,18 @@ F-statistic: 569.4 on 1 and 98 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div>
 </div>
-<p><strong>Take home messages</strong></p>
+<section id="take-home-messages" class="level3" data-number="15.1.1">
+<h3 data-number="15.1.1" class="anchored" data-anchor-id="take-home-messages"><span class="header-section-number">15.1.1</span> Take home messages</h3>
 <ol type="1">
-<li>Think about what process produces your data. Consider deterministic mechanisms and random processes.</li>
-<li>Write your process model as a function of inputs and parameters. Your process model should be deterministic (not have any random component)</li>
+<li>Think about what process produces your data. Consider deterministic mechanisms and random processes.<br>
+</li>
+<li>Write your process model as a function of inputs and parameters. Your process model should be deterministic (not have any random component). The process model can be a simple empirical model or a process model like <a href="process-model.html" class="quarto-xref"><span>Chapter&nbsp;12</span></a>.</li>
 <li>Write down your data model. What random processes converts the output of your process model to data? This could include variance in observations, variance in the process models (it doesn’t represent the real world perfectly even if we could observe it perfectly), and variation among sample units (like individuals). In a likelihood analysis, all of these forms are typically combined together.</li>
 <li>Embed your process model as the mean for your data model and solve with an optimizing algorithm. In the normal distribution, the mean is one of the parameters of the PDF so you can use the process model prediction directory in the data model as the mean. In other distributions the parameters of the PDF are not the mean, instead the mean is a function of the parameters. Therefore you will need to convert the mean to the parameters of the distribution. This is called “moment matching.”</li>
 </ol>
-<p><strong>Components of a likelihood analysis that are not covered here</strong></p>
+</section>
+<section id="brief-introduction-to-other-components-of-a-likelihood-analysis" class="level3" data-number="15.1.2">
+<h3 data-number="15.1.2" class="anchored" data-anchor-id="brief-introduction-to-other-components-of-a-likelihood-analysis"><span class="header-section-number">15.1.2</span> Brief introduction to other components of a likelihood analysis</h3>
 <ul>
 <li>Estimating uncertainty in the parameters using the shape of the likelihood curve (you can use the shape of the likelihood curve to estimate confidence (steeper = more confidence). In the <a href="#fig-ll-unc" class="quarto-xref">Figure&nbsp;<span>15.11</span></a>, the blue line has more data in the calculation of the mean than the black line. The dashed lines are the 2-unit likelihood level (2 log(LL) units were subtracted from the highest likelihood to determine the dashed line). The values of the dashed lines where they cross the likelihood curve with the same color are approximately the 95% confidence intervals for the parameter.</li>
 </ul>
@@ -1060,8 +1063,11 @@ par2 0.39017722 0.5630485
 par3 0.08755983 0.1155966</code></pre>
 </div>
 </div>
-<p><strong>Remember</strong></p>
-<p>Likelihood approach shown here gives us the <em>likelihood of the particular set of data GIVEN the model</em>. It does <strong>not</strong> give us the probability of the model given the particular set of data (i.e., the probability distributions of the model parameters). Ultimately, we want the probability distributions of the model parameters so that we can turn it around forecast the probability of yet to be collected data. For this we need to use Bayesian statistics!</p>
+</section>
+<section id="key-point" class="level3" data-number="15.1.3">
+<h3 data-number="15.1.3" class="anchored" data-anchor-id="key-point"><span class="header-section-number">15.1.3</span> Key point</h3>
+<p>Likelihood approach shown here gives us the <em>likelihood of the particular set of data GIVEN the model</em>. It does <strong>not</strong> give us the probability of the model given the particular set of data (i.e., the probability distributions of the model parameters). Ultimately, we want the probability distributions of the model parameters so that we can turn it around forecast the probability of yet to be collected data. For this we need to use Bayesian statistics in <a href="parameter-calibration2.html" class="quarto-xref"><span>Chapter&nbsp;16</span></a>!</p>
+</section>
 </section>
 <section id="problem-set" class="level2" data-number="15.2">
 <h2 data-number="15.2" class="anchored" data-anchor-id="problem-set"><span class="header-section-number">15.2</span> Problem set</h2>
@@ -1096,9 +1102,10 @@ par3 0.08755983 0.1155966</code></pre>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb127"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb127-1"><a href="#cb127-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Add Answer</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>First create a function called `pred_logistic’ that is your process model. The model is the the logistic curve which ish the equation <span class="math display">\[P_1 + P_2 {{exp(P_3 + P_4 x)}\over{1+exp(P_3 + P_4 x)}}\]</span> <strong>Question 3:</strong> Is this process model a dynamic model? Why or why not?</p>
+<p>First create a function called `pred_logistic’ that is your process model. The model is the the logistic curve which ish the equation <span class="math display">\[P_1 + P_2 {{exp(P_3 + P_4 x)}\over{1+exp(P_3 + P_4 x)}}\]</span></p>
+<p><strong>Question 3:</strong> Is this process model a dynamic model? Why or why not?</p>
 <p><strong>Answer 3:</strong></p>
-<p><strong>Question 4:</strong> Based on the equation above, write a function that predicts the gcc_90 as a function of the parameters (<span class="math inline">\(P\)</span>) and x where x is the DOY. Name that function “pred_logistic”</p>
+<p><strong>Question 4:</strong> Based on the equation above, write a function that predicts the gcc_90 as a function of the parameters (<span class="math inline">\(P\)</span>) and x where x is the DOY. Name that function <code>pred_logistic</code>.</p>
 <p><strong>Answer 4:</strong></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb128"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb128-1"><a href="#cb128-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Add Answer</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1125,7 +1132,7 @@ par3 0.08755983 0.1155966</code></pre>
 </div>
 <p><strong>Question 9:</strong> How does the distribution of the data (Question 2) compare to the distribution of the residuals?</p>
 <p><strong>Answer 9:</strong></p>
-<p><strong>Question 10:</strong> Predict 2020 using the process model parameters from the 2019 fit.</p>
+<p><strong>Question 10:</strong> Predict year 2020 using the process model parameters from the 2019 fit.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb133"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb133-1"><a href="#cb133-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Add Answer</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -1145,11 +1152,11 @@ par3 0.08755983 0.1155966</code></pre>
 <p><strong>Question 12:</strong> Do you think your model from 2019 is reasonable for predicting 2020?</p>
 <p><strong>Answer 12:</strong></p>
 </section>
-<section id="part-2" class="level3" data-number="15.2.2">
-<h3 data-number="15.2.2" class="anchored" data-anchor-id="part-2"><span class="header-section-number">15.2.2</span> Part 2</h3>
+<section id="sec-q10" class="level3" data-number="15.2.2">
+<h3 data-number="15.2.2" class="anchored" data-anchor-id="sec-q10"><span class="header-section-number">15.2.2</span> Part 2</h3>
 <p>Using the following data</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb135"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb135-1"><a href="#cb135-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"https://raw.githubusercontent.com/frec-5174/frec-5174-docs/main/data/soil_respiration_module_data.csv"</span>, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb135"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb135-1"><a href="#cb135-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"https://raw.githubusercontent.com/frec-5174/eco4cast-in-R-book/main/data/soil_respiration_module_data.csv"</span>, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>It is a dataset that reports soil respiration, soil temperature, and soil moisture over a year at the University of Michigan Biological Station (from Nave, L.E., N. Bader, and J.L. Klug)</p>
 <p>The columns correspond to the following</p>
@@ -1161,7 +1168,7 @@ par3 0.08755983 0.1155966</code></pre>
 <li>soil_temp: Soil Temp (deg C) soil_moisture: Soil Moisture (%)<br>
 </li>
 </ul>
-<p>Use maximium likelihood to estimate the parameters in the model that predicts the relationship between soil temperature and soil respiration using the Q10 function below</p>
+<p>Use maximum likelihood to estimate the parameters in the model that predicts the relationship between soil temperature and soil respiration using the Q10 function below</p>
 <p><span class="math display">\[\theta_1 * \theta_2 ^{{(T - 20)}\over{10}}\]</span></p>
 <p>Show all the steps to determine the most likely parameter values, report the parameter values, and plot the data and predictions on the same plot</p>
 
