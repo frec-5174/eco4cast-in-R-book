@@ -474,7 +474,7 @@ for(t in 1:length_of_time_series){
 </section>
 <section id="example-of-particle-filter" class="level2" data-number="18.3">
 <h2 data-number="18.3" class="anchored" data-anchor-id="example-of-particle-filter"><span class="header-section-number">18.3</span> Example of Particle Filter</h2>
-<p>Here is an example of the particle filter applied to the <a href="https://en.wikipedia.org/wiki/Google_Flu_Trends">Google Flu data</a>, project that has been since stoped by Google due to accuracy issues. It is still a good dataset for illustrative purposes here.</p>
+<p>Here is an example of the particle filter applied to the <a href="https://en.wikipedia.org/wiki/Google_Flu_Trends">Google Flu data</a>, project that has been since stopped by Google due to <a href="https://www.science.org/doi/abs/10.1126/science.1248506">accuracy issues</a>. It is still a good dataset for illustrative purposes here. The exercises from Mike Dietze’s Ecological Forecasting book also use Google Flu data.</p>
 <p>First load in data. We are only going to focus on the first 15 weeks of the data so that you can see the particles more easily</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>gflu <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/gflu_data.txt"</span>, <span class="at">skip =</span> <span class="dv">11</span>, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>) <span class="sc">%&gt;%</span> </span>
@@ -886,7 +886,7 @@ for(t in 1:length_of_time_series){
 <span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a>gflu<span class="sc">$</span>obs_in_fit <span class="ot">&lt;-</span> <span class="fu">exp</span>(y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>And combine to a single plot (<span class="quarto-unresolved-ref">?fig-pf-num-sens</span>). You see the width of the 95 % confidence interval increases substantially from 10 to 1000 particles but then is similar from 1000 to 10000. This reflects what we learned from the very first exercise where you drew random samples from a distribution and found that between 1000 and 10000 random samples were required to approximate the distribution well.</p>
+<p>And combine to a single plot (<span class="quarto-unresolved-ref">?fig-pf-num-sens</span>). You see the width of the 95% confidence interval increases substantially from 10 to 1000 particles but then is similar from 1000 to 10000. This reflects what we learned from the very first exercise where you drew random samples from a distribution and found that between 1000 and 10000 random samples were required to approximate the distribution well.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co">#|warning: false</span></span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="co">#|fig-cap: Sensitivity of predictions to different number of particles</span></span>

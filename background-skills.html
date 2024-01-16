@@ -319,10 +319,11 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#r-skills" id="toc-r-skills" class="nav-link active" data-scroll-target="#r-skills"><span class="header-section-number">2.1</span> R skills</a></li>
-  <li><a href="#sec-github" id="toc-sec-github" class="nav-link" data-scroll-target="#sec-github"><span class="header-section-number">2.2</span> Git Skills</a></li>
-  <li><a href="#docker-skills" id="toc-docker-skills" class="nav-link" data-scroll-target="#docker-skills"><span class="header-section-number">2.3</span> Docker Skills</a></li>
-  <li><a href="#running-a-docker-container" id="toc-running-a-docker-container" class="nav-link" data-scroll-target="#running-a-docker-container"><span class="header-section-number">2.4</span> Running a docker container</a></li>
+  <li><a href="#rrstudio-installation" id="toc-rrstudio-installation" class="nav-link active" data-scroll-target="#rrstudio-installation"><span class="header-section-number">2.1</span> R/Rstudio Installation</a></li>
+  <li><a href="#r-skills" id="toc-r-skills" class="nav-link" data-scroll-target="#r-skills"><span class="header-section-number">2.2</span> R skills</a></li>
+  <li><a href="#sec-github" id="toc-sec-github" class="nav-link" data-scroll-target="#sec-github"><span class="header-section-number">2.3</span> Git Skills</a></li>
+  <li><a href="#docker-skills" id="toc-docker-skills" class="nav-link" data-scroll-target="#docker-skills"><span class="header-section-number">2.4</span> Docker Skills</a></li>
+  <li><a href="#running-a-docker-container" id="toc-running-a-docker-container" class="nav-link" data-scroll-target="#running-a-docker-container"><span class="header-section-number">2.5</span> Running a docker container</a></li>
   </ul>
 </nav>
     </div>
@@ -346,12 +347,17 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<section id="r-skills" class="level2" data-number="2.1">
-<h2 data-number="2.1" class="anchored" data-anchor-id="r-skills"><span class="header-section-number">2.1</span> R skills</h2>
+<p>This chapter provides information about data science skills that are crucial completing the activities in the book (aka prerequisites).</p>
+<section id="rrstudio-installation" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="rrstudio-installation"><span class="header-section-number">2.1</span> R/Rstudio Installation</h2>
+<p>Pending</p>
+</section>
+<section id="r-skills" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="r-skills"><span class="header-section-number">2.2</span> R skills</h2>
 <p>The book uses R as the focal programming language and generate uses the Tidyverse approach when working with and visualizing data. The following functions are commonly used: <code>read_csv</code>, <code>write_csv</code>, <code>mutate</code>, <code>filter</code>, <code>group_by</code>, <code>summarize</code>, <code>ggplot</code>, <code>select</code>, pipes (<code>|&gt;</code> or <code>%&gt;</code>), <code>pivot_wider</code>, <code>pivot_longer</code>, <code>arrange</code>, <code>left_join</code>). If you are new R and Tidyverse there are many great materials on the internet. The Data Carpentry “Data Analysis and Visualization in R for Ecologists” is an excellent starting point for learning. The <a href="https://r4ds.hadley.nz%5D">R for Data Science book</a> is an especially useful reference for learning the Tidyverse commands. Finally, I have created an <a href="https://github.com/frec-3044/tidyvere-intro-template">introductory to tidyverse module</a> for my undergraduate Environmental Data Science class. You can use the module as a “test” of your Tidyverse skills</p>
 </section>
-<section id="sec-github" class="level2" data-number="2.2">
-<h2 data-number="2.2" class="anchored" data-anchor-id="sec-github"><span class="header-section-number">2.2</span> Git Skills</h2>
+<section id="sec-github" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="sec-github"><span class="header-section-number">2.3</span> Git Skills</h2>
 <p>You will be required to use Git and GitHub to complete the assignments in the book. In particular, Git and GitHub are uses for the generation and submission of forecasts to the NEON Ecological Forecasting Challenge. Below are instructions for setting up Git and GitHub on your computer.</p>
 <ol type="1">
 <li><p>Create a GitHub user account at <a href="https://github.com" class="uri">https://github.com</a>, if you don’t already have one. <a href="https://happygitwithr.com/github-acct.html#username-advice">Here is advice about choosing a user name</a>, because choosing a good user name is critical.</p></li>
@@ -393,14 +399,14 @@ use_git_config(user.name = "Jane Doe", user.email = "jane@example.org")</code></
 </ol>
 <p>If you are having issues (i.e., your computer does not seem to have Git installed), <a href="https://happygitwithr.com/index.html">here</a> is an excellent resource to help you debug your git + Rstudio issues.</p>
 </section>
-<section id="docker-skills" class="level2" data-number="2.3">
-<h2 data-number="2.3" class="anchored" data-anchor-id="docker-skills"><span class="header-section-number">2.3</span> Docker Skills</h2>
+<section id="docker-skills" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="docker-skills"><span class="header-section-number">2.4</span> Docker Skills</h2>
 <p>Docker is tool that the activities in the book use for improving the reproduciblity and automation of data analysis and forecasting workflows. Below are the instructions for setting up and interacting with a Docker container (instructions are from Freya Olsson’s workshop)</p>
 <p>Go to <a href="https://docs.docker.com/get-docker/" class="uri">https://docs.docker.com/get-docker/</a> to install the relevant install for your platform (available for PC, Mac and Linux). Also see <a href="https://docs.docker.com/desktop/" class="uri">https://docs.docker.com/desktop/</a>.</p>
 <p>NOTE: * If you’re running Windows, you will need WSL (Windows Subsystem for Linux) * If you’re running a Linux distribution, you may have to enable Viritualization on your computer (see <a href="https://stackoverflow.com/questions/76646465/unable-to-launch-docker-desktop-on-ubuntu/76655270#76655270">here</a>)</p>
 </section>
-<section id="running-a-docker-container" class="level2" data-number="2.4">
-<h2 data-number="2.4" class="anchored" data-anchor-id="running-a-docker-container"><span class="header-section-number">2.4</span> Running a docker container</h2>
+<section id="running-a-docker-container" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="running-a-docker-container"><span class="header-section-number">2.5</span> Running a docker container</h2>
 <ol type="1">
 <li>Launch Docker Desktop (either from the Command Line or by starting the GUI)</li>
 <li>At the command line run the following command which tells docker to <code>run</code> the container with the name <code>eco4cast/rocker-neon4cast</code> that has all the packages and libraries installed already. The <code>PASSWORD=yourpassword</code> sets a simple password that you will use to open the container. The <code>-ti</code> option starts both a terminal and an interactive session.</li>
