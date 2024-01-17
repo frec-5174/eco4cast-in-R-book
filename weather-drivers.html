@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>A Practical Guide to Ecological Forecasting in R - 23&nbsp; Accessing weather drivers</title>
+<title>A Practical Guide to Ecological Forecasting in R - 24&nbsp; Accessing weather drivers</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -113,7 +113,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./weather-drivers.html">Appendix</a></li><li class="breadcrumb-item"><a href="./weather-drivers.html"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Accessing weather drivers</span></a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./weather-drivers.html">Appendix</a></li><li class="breadcrumb-item"><a href="./weather-drivers.html"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Accessing weather drivers</span></a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -210,7 +210,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./visualizing.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Visualizing and evaluating forecasts</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Evaluating forecasts</span></span></a>
   </div>
 </li>
       </ul>
@@ -322,6 +322,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./best-practices.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Putting it together: Analyzing forecasts</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./references.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">References</span></a>
   </div>
@@ -338,13 +344,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./weather-drivers.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Accessing weather drivers</span></span></a>
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Accessing weather drivers</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./example-schedule.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Example semester course schedule</span></span></a>
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Example semester course schedule</span></span></a>
   </div>
 </li>
       </ul>
@@ -359,8 +365,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#historical-weather" id="toc-historical-weather" class="nav-link active" data-scroll-target="#historical-weather"><span class="header-section-number">23.1</span> “Historical weather”</a></li>
-  <li><a href="#forecasts" id="toc-forecasts" class="nav-link" data-scroll-target="#forecasts"><span class="header-section-number">23.2</span> Forecasts</a></li>
+  <li><a href="#historical-weather" id="toc-historical-weather" class="nav-link active" data-scroll-target="#historical-weather"><span class="header-section-number">24.1</span> “Historical weather”</a></li>
+  <li><a href="#forecasts" id="toc-forecasts" class="nav-link" data-scroll-target="#forecasts"><span class="header-section-number">24.2</span> Forecasts</a></li>
   </ul>
 </nav>
     </div>
@@ -369,7 +375,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Accessing weather drivers</span></h1>
+<h1 class="title"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Accessing weather drivers</span></h1>
 </div>
 
 
@@ -384,8 +390,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-<section id="historical-weather" class="level2" data-number="23.1">
-<h2 data-number="23.1" class="anchored" data-anchor-id="historical-weather"><span class="header-section-number">23.1</span> “Historical weather”</h2>
+<section id="historical-weather" class="level2" data-number="24.1">
+<h2 data-number="24.1" class="anchored" data-anchor-id="historical-weather"><span class="header-section-number">24.1</span> “Historical weather”</h2>
 <p>Our goal is to generate genuine forecasts of the future. Therefore we need to use weather forecasts as driver inputs into our model.</p>
 <p>This opens a critical issue when calibrating a model that is then used for forecasting. A model could be calibrated using observed weather from a weather station as inputs. As a result the parameters are tuned to the weather from the station. However, the bias and statistics of the observed weather may be different from the forecasted weather since weather forecasts are for a larger grid (e.g., the weather forecast may be consistently warmer by 2 degrees C). This offset in the meteorology used to calibrate and forecast could result in the forecast being biased. The issue can be fixed by either adjusting the weather forecast to be more consistent with the observed weather or calibrating the model using weather inputs from the weather forecast model. In this book we use the later.</p>
 <p>The get_historical_met function gets the first day of all the weather forecasts generated since September 2020. The first day of each forecast is the closest to what was observed because it directly follows data assimilation. Combing the first days together gives a complete time series of weather until the present day.</p>
@@ -424,8 +430,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="forecasts" class="level2" data-number="23.2">
-<h2 data-number="23.2" class="anchored" data-anchor-id="forecasts"><span class="header-section-number">23.2</span> Forecasts</h2>
+<section id="forecasts" class="level2" data-number="24.2">
+<h2 data-number="24.2" class="anchored" data-anchor-id="forecasts"><span class="header-section-number">24.2</span> Forecasts</h2>
 <p>An individual forecast can be accessed using the <code>get_forecast_met</code> function. This provides the full horizon (35-days ahead) for a forecast that was generated on a specific day (<code>reference_datetime</code>).</p>
 <p>The function is print out here so that you can modify if you want to add variables or process in a different way.</p>
 <div class="cell">
@@ -771,7 +777,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   </div>
   <div class="nav-page nav-page-next">
       <a href="./example-schedule.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Example semester course schedule</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Example semester course schedule</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
