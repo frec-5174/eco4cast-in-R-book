@@ -307,6 +307,12 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Accessing weather drivers</span></span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./example-schedule.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Example semester course schedule</span></span></a>
+  </div>
+</li>
       </ul>
   </li>
     </ul>
@@ -372,8 +378,8 @@ use_git_config(user.name = "Jane Doe", user.email = "jane@example.org")</code></
 <p>If you get an error at this step it is likely due to your computer not having Git. Follow the instructions <a href="https://happygitwithr.com/install-git.html">here</a> about installing Git</p>
 <ol start="4" type="1">
 <li><p>Set up your GitHub credentials on your computer. Follow the instructions <a href="https://happygitwithr.com/https-pat.html#tldr">here</a> about using <code>usethis::create_github_token()</code> and <code>gitcreds::gitcreds_set()</code> functions. Also, save your GitHub PAT to a password manager so that you can find it in the future (in case you need to interact with GitHub from a different computer).</p></li>
-<li><p>Go to Canvas and get the link to accept the assignment. Copy and paste the link in a web browser. Accept the assignment.</p></li>
-<li><p>Go to your assignment at <a href="https://github.com/frec-3044-Spring2024" class="uri">https://github.com/frec-3044-Spring2024</a>. Click on repository.</p></li>
+<li><p>Go to <a href="https://github.com/frec3044/git-rmd-intro" class="uri">https://github.com/frec3044/git-rmd-intro</a>. Find the “fork” bottom near the top right. Click “Fork” and tell it to fork to your personal GitHub account.</p></li>
+<li><p>Go to the repo on your personal GitHub account. It will be something like <code>https://github.com/[your-user-name]/git-rmd-intro</code></p></li>
 <li><p>Under the green “Code” button, select the local tab, and copy the https link.</p></li>
 <li><p>Open Rstudio on your computer and create a new project. First, File -&gt; New Project -&gt; Version Control -&gt; Git. Paste the URL from you repo in the first box, hit tab to fill in the repo name in the second, and then use Browse to select where you want the project on your computer (I recommend having a directory on your computer where you keep all repositories we use in the class).</p></li>
 <li><p>Your project will load. Then go to File -&gt; New -&gt; New File -&gt; Quarto Document</p></li>
@@ -394,8 +400,7 @@ use_git_config(user.name = "Jane Doe", user.email = "jane@example.org")</code></
 <li>Click on the “assignment1.html” in your “Files” pane and select “View in Web Browser”. Confirm that it looks as expected.</li>
 <li>Commit the updated <code>.qmd</code> and new <code>.html</code> files to git.</li>
 <li>Push to your repository on GitHub.</li>
-<li>Go to <a href="https://github.com/frec-3044-Spring2024" class="uri">https://github.com/frec-3044-Spring2024</a> and click on your repository. You should also see three commits: 2 were committed by you and 1 was committed by the github classroom bot. The Github classroom bot commit is the automatic commit that occurred when you accepted the assignment.</li>
-<li>Go to the course on Canvas and upload the .html file to the assignment.</li>
+<li>Go to <code>https://github.com/[your-user-name]/git-rmd-intro</code> You should also see your two most recent commits.</li>
 </ol>
 <p>If you are having issues (i.e., your computer does not seem to have Git installed), <a href="https://happygitwithr.com/index.html">here</a> is an excellent resource to help you debug your git + Rstudio issues.</p>
 </section>
