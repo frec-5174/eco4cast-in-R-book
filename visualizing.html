@@ -403,6 +403,7 @@ div.csl-indent {
   </ul></li>
   <li><a href="#baseline-forecasts" id="toc-baseline-forecasts" class="nav-link" data-scroll-target="#baseline-forecasts"><span class="header-section-number">10.2</span> Baseline forecasts</a></li>
   <li><a href="#reading" id="toc-reading" class="nav-link" data-scroll-target="#reading"><span class="header-section-number">10.3</span> Reading</a></li>
+  <li><a href="#problem-set" id="toc-problem-set" class="nav-link" data-scroll-target="#problem-set"><span class="header-section-number">10.4</span> Problem Set</a></li>
   </ul>
 </nav>
     </div>
@@ -459,7 +460,7 @@ div.csl-indent {
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(scoringRules)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">crps_sample</span>(<span class="at">y =</span> y, <span class="at">dat =</span> x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.2313989</code></pre>
+<pre><code>[1] 0.2480399</code></pre>
 </div>
 </div>
 </section>
@@ -548,6 +549,20 @@ div.csl-indent {
 <section id="reading" class="level2" data-number="10.3">
 <h2 data-number="10.3" class="anchored" data-anchor-id="reading"><span class="header-section-number">10.3</span> Reading</h2>
 <p>Simonis, J. L., White, E. P., &amp; Ernest, S. K. M. (2021). Evaluating probabilistic ecological forecasts. Ecology, 102(8). <a href="https://doi.org/10.1002/ecy.3431" class="uri">https://doi.org/10.1002/ecy.3431</a></p>
+</section>
+<section id="problem-set" class="level2" data-number="10.4">
+<h2 data-number="10.4" class="anchored" data-anchor-id="problem-set"><span class="header-section-number">10.4</span> Problem Set</h2>
+<p>If you have forecast submissions the scores from your submitted forecasts and the climatology and persistence forecasts. If you do not have submitted forecasts, use the <code>model_id = XXXX</code> to answer the questions</p>
+<p>Create a new Rmarkdown document that you use to answer the questions below with a mix of code and text.</p>
+<ol type="1">
+<li>Plot climatology, persistence, and your model for a single forecast day on the same plot</li>
+<li>Based on visual inspection of your plot, how do the medians model each forecasts differ in capacity to represent the observations.</li>
+<li>Based on visual inspection of your plot, how does the uncertainty of each model forecasts differ in capacity to represent the observations.</li>
+<li>Calculate the mean CRPS for the single day forecast (averaged across all horizons). Which model has the lower score?</li>
+<li>Calculate the mean CRPS for climatology, persistence, and your model for all reference datetimes and horizons. Which model has the lower score when you consider all submissions?</li>
+<li>Do you think you have enough important from the mean CRPS score to determine the “best” model? If not, what is needed to better characterize the best performing model?</li>
+</ol>
+<p>Commit your Rmd and knitted html to your GitHub repository that you used in <a href="third-forecast.html" class="quarto-xref"><span>Chapter&nbsp;8</span></a>.</p>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
