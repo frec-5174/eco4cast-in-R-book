@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>A Practical Guide to Ecological Forecasting in R - 4&nbsp; First forecast: Introduction to NEON Ecological Forecasting Challenge</title>
+<title>A Practical Guide to Ecosystem Forecasting - 4&nbsp; First forecast: Introduction to NEON Ecological Forecasting Challenge</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -113,7 +113,7 @@ div.csl-indent {
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">A Practical Guide to Ecological Forecasting in R</a> 
+      <a href="./">A Practical Guide to Ecosystem Forecasting</a> 
     </div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
@@ -305,12 +305,23 @@ div.csl-indent {
 </li>
       </ul>
   </li>
-        <li class="sidebar-item">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">
+ <span class="menu-text">Best Practices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./best-practices.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Best Practices in Ecological Forecasting</span></span></a>
   </div>
 </li>
+      </ul>
+  </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./references.html" class="sidebar-item-text sidebar-link">
@@ -319,13 +330,13 @@ div.csl-indent {
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true">
  <span class="menu-text">Appendix</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./weather-drivers.html" class="sidebar-item-text sidebar-link">
@@ -351,7 +362,8 @@ div.csl-indent {
    
   <ul>
   <li><a href="#reading" id="toc-reading" class="nav-link active" data-scroll-target="#reading"><span class="header-section-number">4.1</span> Reading</a></li>
-  <li><a href="#readings" id="toc-readings" class="nav-link" data-scroll-target="#readings"><span class="header-section-number">4.2</span> Readings</a></li>
+  <li><a href="#assignment" id="toc-assignment" class="nav-link" data-scroll-target="#assignment"><span class="header-section-number">4.2</span> Assignment</a></li>
+  <li><a href="#reference-describing-the-module" id="toc-reference-describing-the-module" class="nav-link" data-scroll-target="#reference-describing-the-module"><span class="header-section-number">4.3</span> Reference describing the module</a></li>
   </ul>
 </nav>
     </div>
@@ -375,20 +387,29 @@ div.csl-indent {
 
 </header>
 
-<p>This module was developed by Olsson, F., C. Boettiger, C.C. Carey, M.E. Lofton, and R.Q. Thomas</p>
-<p><a href="https://github.com/OlssonF/NEON-forecast-challenge-workshop"><strong>Tutorial</strong></a></p>
-<p>This tutorial introduces participants to key concepts in ecological forecasting and provides hands-on materials for submitting forecasts to the Ecological Forecasting Initiative (EFI) - National Ecological Observatory Network (NEON) Forecasting Challenge (hereafter, Challenge). You can learn more about the Challenge in <span class="citation" data-cites="thomasNEONEcologicalForecasting2023">Thomas et al. (<a href="references.html#ref-thomasNEONEcologicalForecasting2023" role="doc-biblioref">2023</a>)</span>. The tutorial has been developed and used with more than 300 participants in both classrooms and workshops and provides the ecological understanding, workflows, and tools to enable ecologists with minimal forecasting experience to participate in the Challenge via a hands-on code-based tutorial. This R-based tutorial introduces participants to a near-term, iterative forecasting workflow that includes obtaining observations from NEON, developing a simple forecasting model, generating a forecast, and submitting the forecast to the Challenge, as well as analyzing forecast performance once new observations become available for evaluation. The overarching aim of this tutorial is to lower the barrier to ecological forecasting and empower participants to continue to innovate and develop their own ecological forecasts for the Challenge into the future.</p>
+<p>This chapter, and the associated tutorial material, introduces participants to key concepts in ecological forecasting and provides hands-on materials for submitting forecasts to the Ecological Forecasting Initiative (EFI) - National Ecological Observatory Network (NEON) Forecasting Challenge (hereafter, Challenge). You can learn more about the Challenge in <span class="citation" data-cites="thomasNEONEcologicalForecasting2023">Thomas et al. (<a href="references.html#ref-thomasNEONEcologicalForecasting2023" role="doc-biblioref">2023</a>)</span>. The tutorial has been developed and used with more than 300 participants in both classrooms and workshops and provides the ecological understanding, workflows, and tools to enable ecologists with minimal forecasting experience to participate in the Challenge via a hands-on code-based tutorial. This R-based tutorial introduces participants to a near-term, iterative forecasting workflow that includes obtaining observations from NEON, developing a simple forecasting model, generating a forecast, and submitting the forecast to the Challenge, as well as analyzing forecast performance once new observations become available for evaluation. The overarching aim of this tutorial is to lower the barrier to ecological forecasting and empower participants to continue to innovate and develop their own ecological forecasts for the Challenge into the future.</p>
 <p>The assignment will require you to create a GitHub repository with your completed code from the NEON Forecasting Challenge workshop. You will build on this repository throughout the rest of section 1 of the book. You can learn more about setting up Git and GitHub in <a href="background-skills.html#sec-github" class="quarto-xref"><span>Section&nbsp;2.3</span></a>.</p>
+<p>This tutorial was developed by Olsson, F., C. Boettiger, C.C. Carey, M.E. Lofton, and R.Q. Thomas</p>
+<p><a href="https://github.com/OlssonF/NEON-forecast-challenge-workshop"><strong>Tutorial</strong></a></p>
 <p>You will be generating forecasts of water temperature at NEON aquatics sites.</p>
-<p>Reference</p>
-<p>Olsson, F., C. Boettiger, C.C. Carey, M.E. Lofton, and R.Q. Thomas. Can you predict the future? A tutorial for the National Ecological Observatory Network Ecological Forecasting Challenge. In review at <em>Journal of Open Source Education</em>.</p>
 <section id="reading" class="level2" data-number="4.1">
 <h2 data-number="4.1" class="anchored" data-anchor-id="reading"><span class="header-section-number">4.1</span> Reading</h2>
-</section>
-<section id="readings" class="level2" data-number="4.2">
-<h2 data-number="4.2" class="anchored" data-anchor-id="readings"><span class="header-section-number">4.2</span> Readings</h2>
-<p>Dietze, M., &amp; Lynch, H. (2019). Forecasting a bright future for ecology. Frontiers in Ecology and the Environment, 17(1), 3–3. <a href="https://doi.org/10.1002/fee.1994" class="uri">https://doi.org/10.1002/fee.1994</a></p>
 <p>Thomas, R. Q., Boettiger, C., Carey, C. C., Dietze, M. C., Johnson, L. R., Kenney, M. A., et al.&nbsp;(2023). The NEON Ecological Forecasting Challenge. Frontiers in Ecology and the Environment, 21(3), 112–113. <a href="https://doi.org/10.1002/fee.2616" class="uri">https://doi.org/10.1002/fee.2616</a></p>
+</section>
+<section id="assignment" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="assignment"><span class="header-section-number">4.2</span> Assignment</h2>
+<p>Pre-assignment set up: Follow the <a href="https://github.com/OlssonF/NEON-forecast-challenge-workshop#neon-forecast-challenge-workshop-pre-workshop-instructions">instructions for setting up R and the code repository</a></p>
+<ol type="1">
+<li>Create a GitHub repository with the module</li>
+<li>Work through the tutorial into TASKS sections</li>
+<li>Modify the simple model in the template Rmd in some way (see TASKS for ideas).</li>
+<li>Knit the template Rmd to html.</li>
+<li>Commit template to GitHub</li>
+</ol>
+</section>
+<section id="reference-describing-the-module" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="reference-describing-the-module"><span class="header-section-number">4.3</span> Reference describing the module</h2>
+<p>Olsson, F., C. Boettiger, C.C. Carey, M.E. Lofton, and R.Q. Thomas. Can you predict the future? A tutorial for the National Ecological Observatory Network Ecological Forecasting Challenge. In review at <em>Journal of Open Source Education</em>.</p>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>A Practical Guide to Ecological Forecasting in R - 5&nbsp; Understanding Uncertainty in Ecological Forecasts</title>
+<title>A Practical Guide to Ecosystem Forecasting - 5&nbsp; Understanding Uncertainty in Ecological Forecasts</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -94,7 +94,7 @@ ul.task-list li input[type="checkbox"] {
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">A Practical Guide to Ecological Forecasting in R</a> 
+      <a href="./">A Practical Guide to Ecosystem Forecasting</a> 
     </div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
@@ -286,12 +286,23 @@ ul.task-list li input[type="checkbox"] {
 </li>
       </ul>
   </li>
-        <li class="sidebar-item">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">
+ <span class="menu-text">Best Practices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./best-practices.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Best Practices in Ecological Forecasting</span></span></a>
   </div>
 </li>
+      </ul>
+  </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./references.html" class="sidebar-item-text sidebar-link">
@@ -300,13 +311,13 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true">
  <span class="menu-text">Appendix</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./weather-drivers.html" class="sidebar-item-text sidebar-link">
@@ -327,7 +338,15 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#reading" id="toc-reading" class="nav-link active" data-scroll-target="#reading"><span class="header-section-number">5.1</span> Reading</a></li>
+  <li><a href="#problem-set" id="toc-problem-set" class="nav-link" data-scroll-target="#problem-set"><span class="header-section-number">5.2</span> Problem set</a></li>
+  <li><a href="#reference-describing-the-module" id="toc-reference-describing-the-module" class="nav-link" data-scroll-target="#reference-describing-the-module"><span class="header-section-number">5.3</span> Reference describing the module</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -351,10 +370,27 @@ ul.task-list li input[type="checkbox"] {
 
 <p>Ecological forecasting is a tool that can be used for understanding and predicting changes in populations, communities, and ecosystems. Ecological forecasting is an emerging approach which provides an estimate of the future state of an ecological system with uncertainty, allowing society to prepare for changes in important ecosystem services. Forecast uncertainty is derived from multiple sources, including model parameters and driver data, among others. Knowing the uncertainty associated with a forecast enables forecast users to evaluate the forecast and make more informed decisions. Ecological forecasters develop and update forecasts using the iterative forecasting cycle, in which they make a hypothesis of how an ecological system works; embed their hypothesis in a model; and use the model to make a forecast of future conditions and quantify forecast uncertainty. There are a number of approaches that forecasters can use to reduce uncertainty, which will be explored in this module.</p>
 <p><a href="https://cdn.serc.carleton.edu/files/eddie/teaching_materials/modules/instructor_powerpoint_module6.pptx"><strong>Background presentation</strong></a></p>
-<p><a href="https://github.com/MacrosystemsEDDIE/module6_R"><strong>Rmarkdown (includes assignment)</strong></a></p>
+<p>The assignment will require you to create a GitHub repository with your completed code from the NEON Forecasting Challenge workshop. You will build on this repository throughout the rest of section 1 of the book. You can learn more about setting up Git and GitHub in <a href="background-skills.html#sec-github" class="quarto-xref"><span>Section&nbsp;2.3</span></a>.</p>
+<section id="reading" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="reading"><span class="header-section-number">5.1</span> Reading</h2>
+<p>Dietze, M. C., Fox, A., Beck-Johnson, L. M., Betancourt, J. L., Hooten, M. B., Jarnevich, C. S., et al.&nbsp;(2018). Iterative near-term ecological forecasting: Needs, opportunities, and challenges. Proc Natl Acad Sci U S A, 115(7), 1424–1432. <a href="https://doi.org/10.1073/pnas.1710231115" class="uri">https://doi.org/10.1073/pnas.1710231115</a></p>
+</section>
+<section id="problem-set" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="problem-set"><span class="header-section-number">5.2</span> Problem set</h2>
+<ol type="1">
+<li>Fork <a href="https://github.com/MacrosystemsEDDIE/module6_R">repository</a> for the assignment.</li>
+<li>Complete activities A, B, and C in the <a href="https://github.com/MacrosystemsEDDIE/module6_R/blob/main/assignment/module6.Rmd">Rmarkdown document</a>. You will be modifying the Rmarkdown document with the answers to the questions (both text and code).</li>
+<li>Knit the Rmarkdown Rmd to html.</li>
+<li>Commit Rmarkdown and html to GitHub</li>
+</ol>
+</section>
+<section id="reference-describing-the-module" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="reference-describing-the-module"><span class="header-section-number">5.3</span> Reference describing the module</h2>
+<p>Lofton,M., T. Moore, W. Woelmer, R. Q. Thomas, and C.C. Carey. In Prep. Macrosystems EDDIE: A modular curriculum to teach undergraduates ecological forecasting improves student and instructor confidence in their data science skills.</p>
 <p>This module was developed by Moore, T. N., Lofton, M.E., Carey, C.C. and Thomas, R. Q. 24 July 2023. Macrosystems EDDIE: Understanding Uncertainty in Ecological Forecasts. Macrosystems EDDIE Module 6, Version 2. http://module6.macrosystemseddie.org. Module development was supported by NSF grants DEB-1926050 and DBI-1933016.</p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>A Practical Guide to Ecological Forecasting in R - 7&nbsp; Using data to improve ecological forecasts</title>
+<title>A Practical Guide to Ecosystem Forecasting - 7&nbsp; Using data to improve ecological forecasts</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -94,7 +94,7 @@ ul.task-list li input[type="checkbox"] {
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">A Practical Guide to Ecological Forecasting in R</a> 
+      <a href="./">A Practical Guide to Ecosystem Forecasting</a> 
     </div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
@@ -286,12 +286,23 @@ ul.task-list li input[type="checkbox"] {
 </li>
       </ul>
   </li>
-        <li class="sidebar-item">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">
+ <span class="menu-text">Best Practices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./best-practices.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Best Practices in Ecological Forecasting</span></span></a>
   </div>
 </li>
+      </ul>
+  </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./references.html" class="sidebar-item-text sidebar-link">
@@ -300,13 +311,13 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true">
  <span class="menu-text">Appendix</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./weather-drivers.html" class="sidebar-item-text sidebar-link">
@@ -331,7 +342,9 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#readings" id="toc-readings" class="nav-link active" data-scroll-target="#readings"><span class="header-section-number">7.1</span> Readings</a></li>
+  <li><a href="#reading" id="toc-reading" class="nav-link active" data-scroll-target="#reading"><span class="header-section-number">7.1</span> Reading</a></li>
+  <li><a href="#problem-set" id="toc-problem-set" class="nav-link" data-scroll-target="#problem-set"><span class="header-section-number">7.2</span> Problem set</a></li>
+  <li><a href="#module-references" id="toc-module-references" class="nav-link" data-scroll-target="#module-references"><span class="header-section-number">7.3</span> Module references</a></li>
   </ul>
 </nav>
     </div>
@@ -358,12 +371,19 @@ ul.task-list li input[type="checkbox"] {
 <p>To be useful for management, ecological forecasts need to be both accurate enough for managers to be able to rely on them for decision-making and include a representation of forecast uncertainty, so managers can properly interpret the probability of future events. To improve forecast accuracy by starting forecast current conditions, we can update forecasts with observational data once they become available, a process known as data assimilation. Recent improvements in environmental sensor technology and an increase in the number of sensors deployed in ecosystems have resulted in an increase in the availability of data for assimilation to help develop and improve forecasts for natural resource management. In this module, students will develop an ecosystem model of primary productivity, use the model to generate forecasts, and then explore how assimilating different types of data at different temporal frequencies (e.g., daily, weekly) affects forecast accuracy. Finally, students will assimilate different types of data into forecasts and examine how data assimilation affects water resource management decisions.</p>
 <p><a href="https://cdn.serc.carleton.edu/files/eddie/teaching_materials/modules/instructors_powerpoint_23sep22.v4.pptx"><strong>Background presentation</strong></a></p>
 <p><a href="https://macrosystemseddie.shinyapps.io/module7/"><strong>Rshiny App</strong></a></p>
-<p><a href="https://cdn.serc.carleton.edu/files/eddie/teaching_materials/modules/student_handout_23sep22.docx"><strong>Assignment</strong></a></p>
+<section id="reading" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="reading"><span class="header-section-number">7.1</span> Reading</h2>
+<p>Niu, S., Luo, Y., Dietze, M. C., Keenan, T. F., Shi, Z., Li, J., &amp; III, F. S. C. (2014). The role of data assimilation in predictive ecology. Ecosphere, 5(5), art65-16. <a href="https://doi.org/10.1890/ES13-00273.1" class="uri">https://doi.org/10.1890/ES13-00273.1</a></p>
+</section>
+<section id="problem-set" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="problem-set"><span class="header-section-number">7.2</span> Problem set</h2>
+<p>Complete activities A, B, and C in the R Shiny application and submit answers to the questions in the <a href="https://cdn.serc.carleton.edu/files/eddie/teaching_materials/modules/student_handout_23sep22.docx">assignment word document</a></p>
+</section>
+<section id="module-references" class="level2" data-number="7.3">
+<h2 data-number="7.3" class="anchored" data-anchor-id="module-references"><span class="header-section-number">7.3</span> Module references</h2>
+<p>Lofton,M., T. Moore, W. Woelmer, R. Q. Thomas, and C.C. Carey. In Prep. Macrosystems EDDIE: A modular curriculum to teach undergraduates ecological forecasting improves student and instructor confidence in their data science skills.</p>
 <p>This module was developed by: Lofton, M.E., T.N. Moore, Thomas, R.Q., and C.C. Carey. 20 September 2022. Macrosystems EDDIE: Using Data to Improve Ecological Forecasts. Macrosystems EDDIE Module 7, Version 1. <a href="https://macrosystemseddie.shinyapps.io/module7" class="uri">https://macrosystemseddie.shinyapps.io/module7</a>. Module development was supported by NSF grants DEB-1926050 and DBI-1933016.</p>
 <p>This module has been peer-reviewed and included in the <a href="https://serc.carleton.edu/teachearth/exemplary.html">“On the Cutting Edge Exemplary Teaching Activities”</a> collection.</p>
-<section id="readings" class="level2" data-number="7.1">
-<h2 data-number="7.1" class="anchored" data-anchor-id="readings"><span class="header-section-number">7.1</span> Readings</h2>
-<p>Niu, S., Luo, Y., Dietze, M. C., Keenan, T. F., Shi, Z., Li, J., &amp; III, F. S. C. (2014). The role of data assimilation in predictive ecology. Ecosphere, 5(5), art65-16. <a href="https://doi.org/10.1890/ES13-00273.1" class="uri">https://doi.org/10.1890/ES13-00273.1</a></p>
 
 
 </section>

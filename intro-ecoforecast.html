@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>A Practical Guide to Ecological Forecasting in R - 3&nbsp; Introduction to Ecological Forecasting</title>
+<title>A Practical Guide to Ecosystem Forecasting - 3&nbsp; Introduction to Ecological Forecasting</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -94,7 +94,7 @@ ul.task-list li input[type="checkbox"] {
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">A Practical Guide to Ecological Forecasting in R</a> 
+      <a href="./">A Practical Guide to Ecosystem Forecasting</a> 
     </div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
@@ -286,12 +286,23 @@ ul.task-list li input[type="checkbox"] {
 </li>
       </ul>
   </li>
-        <li class="sidebar-item">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">
+ <span class="menu-text">Best Practices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./best-practices.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Best Practices in Ecological Forecasting</span></span></a>
   </div>
 </li>
+      </ul>
+  </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./references.html" class="sidebar-item-text sidebar-link">
@@ -300,13 +311,13 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true">
  <span class="menu-text">Appendix</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./weather-drivers.html" class="sidebar-item-text sidebar-link">
@@ -327,7 +338,15 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#reading" id="toc-reading" class="nav-link active" data-scroll-target="#reading"><span class="header-section-number">3.1</span> Reading</a></li>
+  <li><a href="#problem-set" id="toc-problem-set" class="nav-link" data-scroll-target="#problem-set"><span class="header-section-number">3.2</span> Problem set</a></li>
+  <li><a href="#module-references" id="toc-module-references" class="nav-link" data-scroll-target="#module-references"><span class="header-section-number">3.3</span> Module references</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -352,12 +371,21 @@ ul.task-list li input[type="checkbox"] {
 <p>Ecological forecasting is a tool that can be used for understanding and predicting changes in populations, communities, and ecosystems. Ecological forecasting is an emerging approach which provides an estimate of the future state of an ecological system with uncertainty, allowing society to prepare for changes in important ecosystem services. Ecological forecasters develop and update forecasts using the iterative forecasting cycle, in which they make a hypothesis of how an ecological system works; embed their hypothesis in a model; and use the model to make a forecast of future conditions. When observations become available, they can assess the accuracy of their forecast, which indicates if their hypothesis is supported or needs to be updated before the next forecast is generated. In this module, students will apply the iterative forecasting cycle to develop an ecological forecast for a National Ecological Observation Network (NEON) site. Students will use NEON data to build an ecological model that predicts primary productivity. Using their calibrated model, they will learn about the different components of a forecast with uncertainty and compare productivity forecasts among NEON sites. The overarching goal of this module is for students to learn fundamental concepts about ecological forecasting and build a forecast for a NEON site. Students will work with an R Shiny interface to visualize data, build a model, generate a forecast with uncertainty, and then compare the forecast with observations. The A-B-C structure of this module makes it flexible and adaptable to a range of student levels and course structures.</p>
 <p><a href="https://cdn.serc.carleton.edu/files/eddie/teaching_materials/modules/instructor_powerpoint_module5.pptx"><strong>Background presentation</strong></a></p>
 <p><a href="https://macrosystemseddie.shinyapps.io/module5/"><strong>Rshiny App</strong></a></p>
-<p><a href="https://cdn.serc.carleton.edu/files/eddie/teaching_materials/modules/student_handout_module5.docx"><strong>Assignment</strong></a></p>
 <p>This module was developed by Moore, T.N., Lofton, M.E., C.C. Carey, and R.Q. Thomas. 03 July 2023. Macrosystems EDDIE: Introduction to Ecological Forecasting. Macrosystems EDDIE Module 5, Version 2. <a href="http://module5.macrosystemseddie.org" class="uri">http://module5.macrosystemseddie.org</a>. Module development was supported by NSF grants DEB-1926050 and DBI-1933016.</p>
-<p>Reference describing the effectiveness of the module:</p>
+<section id="reading" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="reading"><span class="header-section-number">3.1</span> Reading</h2>
+<p>Dietze, M. C., Fox, A., Beck-Johnson, L. M., Betancourt, J. L., Hooten, M. B., Jarnevich, C. S., et al.&nbsp;(2018). Iterative near-term ecological forecasting: Needs, opportunities, and challenges. Proc Natl Acad Sci U S A, 115(7), 1424–1432. <a href="https://doi.org/10.1073/pnas.1710231115" class="uri">https://doi.org/10.1073/pnas.1710231115</a></p>
+</section>
+<section id="problem-set" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="problem-set"><span class="header-section-number">3.2</span> Problem set</h2>
+<p>Complete activities A, B, and C in the R Shiny application and submit answers to the questions in the <a href="https://cdn.serc.carleton.edu/files/eddie/teaching_materials/modules/student_handout_module5.docx">assignment word document</a></p>
+</section>
+<section id="module-references" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="module-references"><span class="header-section-number">3.3</span> Module references</h2>
 <p>Moore, T.N., R.Q. Thomas, W.M. Woelmer, C.C Carey. 2022. Integrating ecological forecasting into undergraduate ecology curricula with an R Shiny application-based teaching module. <em>Forecasting</em> 4:604-633. <a href="https://doi.org/10.3390/forecast4030033" class="uri">https://doi.org/10.3390/forecast4030033</a></p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
