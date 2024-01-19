@@ -386,15 +386,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#sensitivity-to-number-of-particles" id="toc-sensitivity-to-number-of-particles" class="nav-link" data-scroll-target="#sensitivity-to-number-of-particles"><span class="header-section-number">18.3.4</span> Sensitivity to number of particles</a></li>
   <li><a href="#senstivity-to-observation-uncertainity" id="toc-senstivity-to-observation-uncertainity" class="nav-link" data-scroll-target="#senstivity-to-observation-uncertainity"><span class="header-section-number">18.3.5</span> Senstivity to observation uncertainity</a></li>
   </ul></li>
-  <li><a href="#problem-set" id="toc-problem-set" class="nav-link" data-scroll-target="#problem-set"><span class="header-section-number">18.4</span> Problem set</a>
-  <ul class="collapse">
-  <li><a href="#overview" id="toc-overview" class="nav-link" data-scroll-target="#overview"><span class="header-section-number">18.4.1</span> Overview</a></li>
-  <li><a href="#part-1-fit-model-to-historical-data-already-done-for-you" id="toc-part-1-fit-model-to-historical-data-already-done-for-you" class="nav-link" data-scroll-target="#part-1-fit-model-to-historical-data-already-done-for-you"><span class="header-section-number">18.4.2</span> Part 1: Fit model to historical data (Already done for you!)</a></li>
-  <li><a href="#part-2-forecast-using-pf" id="toc-part-2-forecast-using-pf" class="nav-link" data-scroll-target="#part-2-forecast-using-pf"><span class="header-section-number">18.4.3</span> Part 2: Forecast using PF</a></li>
-  <li><a href="#part-3" id="toc-part-3" class="nav-link" data-scroll-target="#part-3"><span class="header-section-number">18.4.4</span> Part 3:</a></li>
-  <li><a href="#part-4" id="toc-part-4" class="nav-link" data-scroll-target="#part-4"><span class="header-section-number">18.4.5</span> Part 4:</a></li>
-  <li><a href="#part-5" id="toc-part-5" class="nav-link" data-scroll-target="#part-5"><span class="header-section-number">18.4.6</span> Part 5:</a></li>
-  </ul></li>
+  <li><a href="#reading" id="toc-reading" class="nav-link" data-scroll-target="#reading"><span class="header-section-number">18.4</span> Reading</a></li>
+  <li><a href="#problem-set" id="toc-problem-set" class="nav-link" data-scroll-target="#problem-set"><span class="header-section-number">18.5</span> Problem set</a></li>
   </ul>
 </nav>
     </div>
@@ -982,163 +975,14 @@ for(t in 1:length_of_time_series){
 </div>
 </section>
 </section>
-<section id="problem-set" class="level2" data-number="18.4">
-<h2 data-number="18.4" class="anchored" data-anchor-id="problem-set"><span class="header-section-number">18.4</span> Problem set</h2>
-<p>You will need the following packages</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<section id="overview" class="level3" data-number="18.4.1">
-<h3 data-number="18.4.1" class="anchored" data-anchor-id="overview"><span class="header-section-number">18.4.1</span> Overview</h3>
-<p>This exercise involves the following objectives</p>
-<ol type="1">
-<li>Modify the particle filter examples to apply to a new model. The model is defined as NIMBLE code so you have to convert to a particle filter.</li>
-<li>Use out put from a state-space model fit to initialize the particle filter</li>
-<li>Run the particle filter without observations to forecast</li>
-<li>Run the particle filter to assimilate new observations and forecast</li>
-<li>Evaluate how the forecast depends on data assimilation</li>
-</ol>
-<section id="data" class="level4" data-number="18.4.1.1">
-<h4 data-number="18.4.1.1" class="anchored" data-anchor-id="data"><span class="header-section-number">18.4.1.1</span> Data</h4>
-<p>The data for this exercise is above biomass vs.&nbsp;age for a single forest plot. The data has two columns: age (in years) and biomass (in gC/m2)</p>
+<section id="reading" class="level2" data-number="18.4">
+<h2 data-number="18.4" class="anchored" data-anchor-id="reading"><span class="header-section-number">18.4</span> Reading</h2>
 </section>
-<section id="model" class="level4" data-number="18.4.1.2">
-<h4 data-number="18.4.1.2" class="anchored" data-anchor-id="model"><span class="header-section-number">18.4.1.2</span> Model</h4>
-<p>We are predicting the aboveground biomass using the following model</p>
-<p>biomass = previous biomass + constant growth - mortality rate * previous biomass</p>
-<p>The constant growth is the parameter <code>g</code> below (in units of gC/m2/yr) and mortality rate is the parameter <code>u</code>below (proportion of biomass per year). We fit the model as a state-space model.</p>
-</section>
-</section>
-<section id="part-1-fit-model-to-historical-data-already-done-for-you" class="level3" data-number="18.4.2">
-<h3 data-number="18.4.2" class="anchored" data-anchor-id="part-1-fit-model-to-historical-data-already-done-for-you"><span class="header-section-number">18.4.2</span> Part 1: Fit model to historical data (Already done for you!)</h3>
-<p>This step is already done for you.</p>
-<p>Here is the data for ages 1 through 50 for the plot (starting in 1950-01-01). It was measured every 5 years.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>plot_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/PF_data1.csv"</span>, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(plot_data, <span class="fu">aes</span>(<span class="at">x =</span> datetime, <span class="at">y =</span> biomass)) <span class="sc">+</span></span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"age"</span>, <span class="at">y =</span> <span class="st">"aboveground biomass (gC/m2)"</span>) <span class="sc">+</span></span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<div id="fig-biomass-timeseries" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="particle-filter_files/figure-html/fig-biomass-timeseries-1.png" class="img-fluid figure-img" width="672"></p>
-<figcaption class="figure-caption">Figure&nbsp;18.6: Time-series of forest biomass data</figcaption>
-</figure>
-</div>
-</div>
-</div>
-<p>The following model was used to estimate the posterior distributions of the parameters using a Bayesian framework.</p>
-<pre><code>sim_dates &lt;- seq(as_date("1950-01-01"), length.out = 50, by = "1 year)
-biomass[1, ] &lt;- 0
-
-for(t in 2:length(sim_dates)){
-
-  for(i in 1:num_particles){
-
-    biomass_predicted &lt;- biomass[t+1, i] + param$g - param$u
-
-    biomass[t, i] &lt;- rnorm(1, mean = biomass_predicted , sd = param$sd_add)
-  }
-}</code></pre>
-<p>The MCMC chain has posterior distributions for the parameters (<code>g</code>, <code>u</code>, <code>sd_add</code>) and biomass at age 50 (<code>age50_biomass</code>)</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/PF_MCMC.csv"</span>, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-<section id="part-2-forecast-using-pf" class="level3" data-number="18.4.3">
-<h3 data-number="18.4.3" class="anchored" data-anchor-id="part-2-forecast-using-pf"><span class="header-section-number">18.4.3</span> Part 2: Forecast using PF</h3>
-<p>Now you will use the MCMC chain to determine the mean parameter values and the initial condition at age 50 for the particle filter.</p>
-<p>Using the lecture material create a particle filter that uses the forest growth model to simulate the aboveground biomass of the forest for age 50 through 70.</p>
-<section id="step-1-set-up-pf" class="level4" data-number="18.4.3.1">
-<h4 data-number="18.4.3.1" class="anchored" data-anchor-id="step-1-set-up-pf"><span class="header-section-number">18.4.3.1</span> Step 1: Set up PF</h4>
-<p>Following the code in the PF lecture set up the particle filter.</p>
-<p>Instead of using data from a file you will use the following for your data: <code>obs &lt;- NULL</code></p>
-<p>Be sure to:</p>
-<ul>
-<li>use the mean values for <code>g</code>, <code>u</code>, and <code>sd_add</code> from the MCMC chain as the parameter values</li>
-<li>use the distribution of the biomass at age 50 in the MCMC chain as your initial state for the PF</li>
-<li>The standard deviation for the obseravtions (<code>sd_data</code>) is 200.</li>
-</ul>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co">#ADD CODE TO SET UP PF HERE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-<section id="step-2-run-particle-filter" class="level4" data-number="18.4.3.2">
-<h4 data-number="18.4.3.2" class="anchored" data-anchor-id="step-2-run-particle-filter"><span class="header-section-number">18.4.3.2</span> Step 2: Run particle filter</h4>
-<p>Write the code and run the particle filter based on the examples from the lecture. You will need to include the process model that is in the NIMBLE code above.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co">#ADD PF CODE HERE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-<section id="step-3-visualize-particle-filter-output" class="level4" data-number="18.4.3.3">
-<h4 data-number="18.4.3.3" class="anchored" data-anchor-id="step-3-visualize-particle-filter-output"><span class="header-section-number">18.4.3.3</span> Step 3: Visualize particle filter output</h4>
-<p>Generate a plot that visualizes the output of the PF (see examples from the lecture). Your plot must have age on the x-axis and biomass on the y-axis with different lines for the particles.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ADD VISUALIZATION CODE HERE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-<section id="step-4-save-pf-output" class="level4" data-number="18.4.3.4">
-<h4 data-number="18.4.3.4" class="anchored" data-anchor-id="step-4-save-pf-output"><span class="header-section-number">18.4.3.4</span> Step 4: Save PF output</h4>
-<p>use this code to save your PF output as the object <code>initial_forecast</code></p>
-</section>
-</section>
-<section id="part-3" class="level3" data-number="18.4.4">
-<h3 data-number="18.4.4" class="anchored" data-anchor-id="part-3"><span class="header-section-number">18.4.4</span> Part 3:</h3>
-<p>Now we have new data!</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>new_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/PF_data2.csv"</span>, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(new_data, <span class="fu">aes</span>(<span class="at">x =</span> datetime, <span class="at">y =</span> biomass)) <span class="sc">+</span></span>
-<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"age"</span>, <span class="at">y =</span> <span class="st">"aboveground biomass (gC/m2)"</span>) <span class="sc">+</span></span>
-<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="particle-filter_files/figure-html/unnamed-chunk-29-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<section id="step-1-repeat-the-pf-setup" class="level4" data-number="18.4.4.1">
-<h4 data-number="18.4.4.1" class="anchored" data-anchor-id="step-1-repeat-the-pf-setup"><span class="header-section-number">18.4.4.1</span> Step 1: Repeat the PF setup</h4>
-<p>Using the new data, repeat the PF set up in Part 2 Step 1. You will be starting at age 50 just like above.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co">#ADD CODE TO SET UP PF HERE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-<section id="step-2-run-particle-filter-using-the-new-data" class="level4" data-number="18.4.4.2">
-<h4 data-number="18.4.4.2" class="anchored" data-anchor-id="step-2-run-particle-filter-using-the-new-data"><span class="header-section-number">18.4.4.2</span> Step 2: Run particle filter using the new data</h4>
-<p>Using the new data, run the the PF again. This will be the same code as in Part 2 Step 2 (just copy and paste)</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co">#COPY AND PASTE PF CODE FROM ABOVE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-<section id="step-3-visualize-pf-output" class="level4" data-number="18.4.4.3">
-<h4 data-number="18.4.4.3" class="anchored" data-anchor-id="step-3-visualize-pf-output"><span class="header-section-number">18.4.4.3</span> Step 3: Visualize PF output</h4>
-<p>Generate a plot that visualizes the output of the PF (see examples from the lecture). Your plot must have age on the x-axis and biomass on the y-axis with different lines for the particles. Your observations from the new data must be on the plot.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co">#ADD VISUALIZATION CODE HERE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-<section id="step-4-save-output" class="level4" data-number="18.4.4.4">
-<h4 data-number="18.4.4.4" class="anchored" data-anchor-id="step-4-save-output"><span class="header-section-number">18.4.4.4</span> Step 4: Save output</h4>
-</section>
-</section>
-<section id="part-4" class="level3" data-number="18.4.5">
-<h3 data-number="18.4.5" class="anchored" data-anchor-id="part-4"><span class="header-section-number">18.4.5</span> Part 4:</h3>
-<p>Combine the two PF forecast and evaluate how data assimilation influence the forecast of the last 10 years (age 60 to 70). Produce a plot with the mean and 90% CI for the initial_forecast and assimilated_forecast on the same plot. Include the observations from the new data set.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co">#ADD CODE TO COMPARE THE TWO PF OUTPUTS</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-<section id="part-5" class="level3" data-number="18.4.6">
-<h3 data-number="18.4.6" class="anchored" data-anchor-id="part-5"><span class="header-section-number">18.4.6</span> Part 5:</h3>
-<p>Answer the follow question</p>
-<p>How did assimilating data influence your forecast for ages 60 to 70? Consider both the mean and uncertainty in your answer.</p>
+<section id="problem-set" class="level2" data-number="18.5">
+<h2 data-number="18.5" class="anchored" data-anchor-id="problem-set"><span class="header-section-number">18.5</span> Problem set</h2>
+<p>The problem set is located in <code>particle_filter_problem_set.qmd</code> in https://github.com/frec-5174/book-problem-sets. You can fork the repository or copy the <a href="https://github.com/frec-5174/book-problem-sets/blob/main/particle_filter_problem_set.qmd">code</a> into your own quarto document</p>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->

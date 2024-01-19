@@ -384,7 +384,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </ul></li>
   <li><a href="#solving-a-bayesian-model" id="toc-solving-a-bayesian-model" class="nav-link" data-scroll-target="#solving-a-bayesian-model"><span class="header-section-number">16.2</span> Solving a Bayesian model</a></li>
   <li><a href="#predictive-posterior-distributions" id="toc-predictive-posterior-distributions" class="nav-link" data-scroll-target="#predictive-posterior-distributions"><span class="header-section-number">16.3</span> Predictive posterior distributions</a></li>
-  <li><a href="#problem-set" id="toc-problem-set" class="nav-link" data-scroll-target="#problem-set"><span class="header-section-number">16.4</span> Problem set</a></li>
+  <li><a href="#reading" id="toc-reading" class="nav-link" data-scroll-target="#reading"><span class="header-section-number">16.4</span> Reading</a></li>
+  <li><a href="#problem-set" id="toc-problem-set" class="nav-link" data-scroll-target="#problem-set"><span class="header-section-number">16.5</span> Problem Set</a></li>
   </ul>
 </nav>
     </div>
@@ -556,7 +557,7 @@ P(mean | data) \simeq likelihood \cdot prior
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>area_under_curve <span class="ot">&lt;-</span> <span class="fu">sum</span>(prior_times_likelihood <span class="sc">*</span> delta_x)  <span class="co">#sum(Width * Height) = total probability of the data given all possible values of the parameter</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>normalized_posterior <span class="ot">&lt;-</span> prior_times_likelihood <span class="sc">/</span> area_under_curve</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>The probability of the data is (i.e., area under likelihood x prior curve): 3.9783247^{-5}</p>
+<p>The probability of the data is (i.e., area under likelihood x prior curve): 1.9398046^{-5}</p>
 <p>Now we can visualize the rescaled likelihood (remember that the un-scaled likelihood was actually used in the calculations), the prior, and the normalized posterior.</p>
 <p><a href="#fig-prior-ll-post" class="quarto-xref">Figure&nbsp;<span>16.7</span></a> shows how the how the posterior is a blend of the prior and the likelihood.</p>
 <div class="cell">
@@ -955,151 +956,12 @@ P(mean | data) \simeq likelihood \cdot prior
 </div>
 </div>
 </section>
-<section id="problem-set" class="level2" data-number="16.4">
-<h2 data-number="16.4" class="anchored" data-anchor-id="problem-set"><span class="header-section-number">16.4</span> Problem set</h2>
-<p>Your task is to modify the code below to estimate the posterior distribution of parameters in Q10 function that was in the likelihood analysis exercise (<a href="parameter-calibration1.html#sec-q10" class="quarto-xref"><span>Section&nbsp;15.2.2</span></a>). Use the same data as used in the Q10 likelihood exercise.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
-<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a><span class="co">#Build fake dataset</span></span>
-<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">100</span>)</span>
-<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>num_data_points <span class="ot">&lt;-</span> <span class="dv">200</span></span>
-<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>sd_data <span class="ot">&lt;-</span> <span class="fl">0.25</span></span>
-<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>par_true <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="fl">0.5</span>)</span>
-<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">runif</span>(num_data_points, <span class="dv">0</span>, <span class="dv">10</span>)</span>
-<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a>y_true <span class="ot">&lt;-</span> par_true[<span class="dv">1</span>] <span class="sc">*</span> (x <span class="sc">/</span> (x <span class="sc">+</span> par_true[<span class="dv">2</span>]))</span>
-<span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="fu">length</span>(y_true), <span class="at">mean =</span> y_true, <span class="at">sd =</span> sd_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x, y, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, par_true[<span class="dv">1</span>] <span class="sc">+</span> <span class="dv">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="parameter-calibration2_files/figure-html/unnamed-chunk-40-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Set MCMC Configuration</span></span>
-<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>num_iter <span class="ot">&lt;-</span> <span class="dv">2000</span></span>
-<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>num_pars <span class="ot">&lt;-</span> <span class="dv">2</span></span>
-<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>jump <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.05</span>, <span class="fl">0.05</span>)</span>
-<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a><span class="co">#Initialize chain</span></span>
-<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>pars <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="cn">NA</span>, <span class="at">dim =</span> <span class="fu">c</span>(num_pars, num_iter))</span>
-<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a>pars[<span class="dv">1</span>, <span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="dv">2</span></span>
-<span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a>pars[<span class="dv">2</span>, <span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb44-10"><a href="#cb44-10" aria-hidden="true" tabindex="-1"></a>log_likelihood_prior_current <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">10000000000</span></span>
-<span id="cb44-11"><a href="#cb44-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-12"><a href="#cb44-12" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span>num_iter){</span>
-<span id="cb44-13"><a href="#cb44-13" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb44-14"><a href="#cb44-14" aria-hidden="true" tabindex="-1"></a>  <span class="co">#Loop through parameter value</span></span>
-<span id="cb44-15"><a href="#cb44-15" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb44-16"><a href="#cb44-16" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>num_pars){</span>
-<span id="cb44-17"><a href="#cb44-17" aria-hidden="true" tabindex="-1"></a>      <span class="co">#Randomly select new parameter values</span></span>
-<span id="cb44-18"><a href="#cb44-18" aria-hidden="true" tabindex="-1"></a>    proposed_pars <span class="ot">&lt;-</span> pars[, i <span class="sc">-</span> <span class="dv">1</span>]</span>
-<span id="cb44-19"><a href="#cb44-19" aria-hidden="true" tabindex="-1"></a>    proposed_pars[j] <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">1</span>, <span class="at">mean =</span> pars[j, i <span class="sc">-</span> <span class="dv">1</span>], <span class="at">sd =</span> jump[j])</span>
-<span id="cb44-20"><a href="#cb44-20" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb44-21"><a href="#cb44-21" aria-hidden="true" tabindex="-1"></a>    <span class="do">##########################</span></span>
-<span id="cb44-22"><a href="#cb44-22" aria-hidden="true" tabindex="-1"></a>    <span class="co"># PRIORS</span></span>
-<span id="cb44-23"><a href="#cb44-23" aria-hidden="true" tabindex="-1"></a>    <span class="do">#########################</span></span>
-<span id="cb44-24"><a href="#cb44-24" aria-hidden="true" tabindex="-1"></a>    <span class="co">#(remember that you multiply probabilities which mean you can add log(probability))</span></span>
-<span id="cb44-25"><a href="#cb44-25" aria-hidden="true" tabindex="-1"></a>    log_prior <span class="ot">&lt;-</span> <span class="fu">dunif</span>(proposed_pars[<span class="dv">1</span>], <span class="at">min =</span> <span class="dv">0</span>, <span class="at">max =</span> <span class="dv">10</span>, <span class="at">log =</span> <span class="cn">TRUE</span>) <span class="sc">+</span> </span>
-<span id="cb44-26"><a href="#cb44-26" aria-hidden="true" tabindex="-1"></a>      <span class="fu">dunif</span>(proposed_pars[<span class="dv">2</span>], <span class="at">min =</span> <span class="dv">0</span>, <span class="at">max =</span> <span class="dv">100</span>, <span class="at">log =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb44-27"><a href="#cb44-27" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb44-28"><a href="#cb44-28" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Likelihood.  </span></span>
-<span id="cb44-29"><a href="#cb44-29" aria-hidden="true" tabindex="-1"></a>    <span class="co">#You could use:</span></span>
-<span id="cb44-30"><a href="#cb44-30" aria-hidden="true" tabindex="-1"></a>    <span class="co"># pred &lt;- process_model(x, pars = proposed_pars)</span></span>
-<span id="cb44-31"><a href="#cb44-31" aria-hidden="true" tabindex="-1"></a>    <span class="co"># log_likelihood &lt;- sum(dnorm(new_data, mean = pred, sd = sd_data, log = TRUE)</span></span>
-<span id="cb44-32"><a href="#cb44-32" aria-hidden="true" tabindex="-1"></a>    <span class="co"># but we are looping here because it transitions well to the next section of the course</span></span>
-<span id="cb44-33"><a href="#cb44-33" aria-hidden="true" tabindex="-1"></a>    log_likelihood <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="fu">length</span>(x))</span>
-<span id="cb44-34"><a href="#cb44-34" aria-hidden="true" tabindex="-1"></a>    pred <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="fu">length</span>(x))</span>
-<span id="cb44-35"><a href="#cb44-35" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span>(m <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(x)){</span>
-<span id="cb44-36"><a href="#cb44-36" aria-hidden="true" tabindex="-1"></a>      <span class="do">##########################</span></span>
-<span id="cb44-37"><a href="#cb44-37" aria-hidden="true" tabindex="-1"></a>      <span class="co"># PROCESS MODEL</span></span>
-<span id="cb44-38"><a href="#cb44-38" aria-hidden="true" tabindex="-1"></a>      <span class="do">#########################</span></span>
-<span id="cb44-39"><a href="#cb44-39" aria-hidden="true" tabindex="-1"></a>      pred[m] <span class="ot">&lt;-</span> proposed_pars[<span class="dv">1</span>] <span class="sc">*</span> (x[m] <span class="sc">/</span> (x[m] <span class="sc">+</span> proposed_pars[<span class="dv">2</span>]))</span>
-<span id="cb44-40"><a href="#cb44-40" aria-hidden="true" tabindex="-1"></a>      <span class="do">##########################</span></span>
-<span id="cb44-41"><a href="#cb44-41" aria-hidden="true" tabindex="-1"></a>      <span class="co"># DATA MODEL</span></span>
-<span id="cb44-42"><a href="#cb44-42" aria-hidden="true" tabindex="-1"></a>      <span class="do">#########################</span></span>
-<span id="cb44-43"><a href="#cb44-43" aria-hidden="true" tabindex="-1"></a>      log_likelihood[m] <span class="ot">&lt;-</span> <span class="fu">dnorm</span>(y[m], <span class="at">mean =</span> pred[m], <span class="at">sd =</span> sd_data, <span class="at">log =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb44-44"><a href="#cb44-44" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb44-45"><a href="#cb44-45" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Remember that you multiply probabilities which mean you can add log(probability)</span></span>
-<span id="cb44-46"><a href="#cb44-46" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Hence the use of sum</span></span>
-<span id="cb44-47"><a href="#cb44-47" aria-hidden="true" tabindex="-1"></a>    log_likelihood <span class="ot">&lt;-</span> <span class="fu">sum</span>(log_likelihood)</span>
-<span id="cb44-48"><a href="#cb44-48" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb44-49"><a href="#cb44-49" aria-hidden="true" tabindex="-1"></a>    <span class="do">############################</span></span>
-<span id="cb44-50"><a href="#cb44-50" aria-hidden="true" tabindex="-1"></a>    <span class="do">###  PRIOR x LIKELIHOOD</span></span>
-<span id="cb44-51"><a href="#cb44-51" aria-hidden="true" tabindex="-1"></a>    <span class="do">############################</span></span>
-<span id="cb44-52"><a href="#cb44-52" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Combine the prior and likelihood</span></span>
-<span id="cb44-53"><a href="#cb44-53" aria-hidden="true" tabindex="-1"></a>    <span class="co">#remember that you multiply probabilities which means you can add log(probability)</span></span>
-<span id="cb44-54"><a href="#cb44-54" aria-hidden="true" tabindex="-1"></a>    log_likelihood_prior_proposed <span class="ot">&lt;-</span> log_prior <span class="sc">+</span> log_likelihood</span>
-<span id="cb44-55"><a href="#cb44-55" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb44-56"><a href="#cb44-56" aria-hidden="true" tabindex="-1"></a>    <span class="co">#We want the ratio of new / old but since it is in log space we first</span></span>
-<span id="cb44-57"><a href="#cb44-57" aria-hidden="true" tabindex="-1"></a>    <span class="co">#take the difference of the logs: log(new/old) = log(new) - log(old) </span></span>
-<span id="cb44-58"><a href="#cb44-58" aria-hidden="true" tabindex="-1"></a>    <span class="co"># and then take out of log space exp(log(new) - log(old))</span></span>
-<span id="cb44-59"><a href="#cb44-59" aria-hidden="true" tabindex="-1"></a>    z <span class="ot">&lt;-</span> <span class="fu">exp</span>(log_likelihood_prior_proposed <span class="sc">-</span> log_likelihood_prior_current)</span>
-<span id="cb44-60"><a href="#cb44-60" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb44-61"><a href="#cb44-61" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Now pick a random number between 0 and 1</span></span>
-<span id="cb44-62"><a href="#cb44-62" aria-hidden="true" tabindex="-1"></a>    r <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="dv">1</span>, <span class="at">min =</span> <span class="dv">0</span>, <span class="at">max =</span> <span class="dv">1</span>)</span>
-<span id="cb44-63"><a href="#cb44-63" aria-hidden="true" tabindex="-1"></a>    <span class="co">#If z &gt; r then accept the new parameters</span></span>
-<span id="cb44-64"><a href="#cb44-64" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Note: this will always happen if the new parameters are more likely than</span></span>
-<span id="cb44-65"><a href="#cb44-65" aria-hidden="true" tabindex="-1"></a>    <span class="co">#the old parameters z &gt; 1 means than z is always &gt; r no matter what value of</span></span>
-<span id="cb44-66"><a href="#cb44-66" aria-hidden="true" tabindex="-1"></a>    <span class="co">#r is chosen.  However it will accept worse parameter sets (P_new is less</span></span>
-<span id="cb44-67"><a href="#cb44-67" aria-hidden="true" tabindex="-1"></a>    <span class="co">#likely then P_old - i.e., z &lt; 1) in proportion to how much worse it is</span></span>
-<span id="cb44-68"><a href="#cb44-68" aria-hidden="true" tabindex="-1"></a>    <span class="co">#For example: if z = 0.9 and then any random number drawn by runif that is</span></span>
-<span id="cb44-69"><a href="#cb44-69" aria-hidden="true" tabindex="-1"></a>    <span class="co">#less than 0.90 will result in accepting the worse values (i.e., the slightly</span></span>
-<span id="cb44-70"><a href="#cb44-70" aria-hidden="true" tabindex="-1"></a>    <span class="co">#worse values will be accepted a lot of the time).  In contrast, if z = 0.01</span></span>
-<span id="cb44-71"><a href="#cb44-71" aria-hidden="true" tabindex="-1"></a>    <span class="co">#(i.e., the new parameters are much much worse), then they can still be accepted</span></span>
-<span id="cb44-72"><a href="#cb44-72" aria-hidden="true" tabindex="-1"></a>    <span class="co">#but much more rarely because random r values of &lt; 0.1 occur more rarely</span></span>
-<span id="cb44-73"><a href="#cb44-73" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span>(<span class="fu">log</span>(z) <span class="sc">&gt;</span> <span class="fu">log</span>(r)){</span>
-<span id="cb44-74"><a href="#cb44-74" aria-hidden="true" tabindex="-1"></a>      pars[j, i] <span class="ot">&lt;-</span> proposed_pars[j]</span>
-<span id="cb44-75"><a href="#cb44-75" aria-hidden="true" tabindex="-1"></a>      log_likelihood_prior_current <span class="ot">&lt;-</span> log_likelihood_prior_proposed</span>
-<span id="cb44-76"><a href="#cb44-76" aria-hidden="true" tabindex="-1"></a>    }<span class="cf">else</span>{</span>
-<span id="cb44-77"><a href="#cb44-77" aria-hidden="true" tabindex="-1"></a>      pars[j, i] <span class="ot">&lt;-</span> pars[j, i <span class="sc">-</span> <span class="dv">1</span>]</span>
-<span id="cb44-78"><a href="#cb44-78" aria-hidden="true" tabindex="-1"></a>      log_likelihood_prior_current <span class="ot">&lt;-</span> log_likelihood_prior_current <span class="co">#this calculation isn't necessary but is here to show you the logic</span></span>
-<span id="cb44-79"><a href="#cb44-79" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb44-80"><a href="#cb44-80" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb44-81"><a href="#cb44-81" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">iter =</span> <span class="dv">1</span><span class="sc">:</span>num_iter,</span>
-<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>            <span class="at">par1 =</span> pars[<span class="dv">1</span>, ],</span>
-<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">par2 =</span> pars[<span class="dv">2</span>, ]) <span class="sc">%&gt;%</span></span>
-<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="sc">-</span>iter, <span class="at">values_to =</span> <span class="st">"value"</span>, <span class="at">names_to =</span> <span class="st">"parameter"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(d, <span class="fu">aes</span>(<span class="at">x =</span> iter, <span class="at">y =</span> value)) <span class="sc">+</span></span>
-<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
-<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>parameter, <span class="at">scales =</span> <span class="st">"free"</span>) <span class="sc">+</span></span>
-<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span>
-<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(d, <span class="fu">aes</span>(<span class="at">x =</span> value)) <span class="sc">+</span></span>
-<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>() <span class="sc">+</span></span>
-<span id="cb46-8"><a href="#cb46-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>parameter, <span class="at">scales =</span> <span class="st">"free"</span>) <span class="sc">+</span></span>
-<span id="cb46-9"><a href="#cb46-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span>
-<span id="cb46-10"><a href="#cb46-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-11"><a href="#cb46-11" aria-hidden="true" tabindex="-1"></a>p1 <span class="sc">/</span> p2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="parameter-calibration2_files/figure-html/unnamed-chunk-43-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<p><strong>Question 1</strong>: Provide the distribution and parameters describing the distribution for your prior distributions. Justify why you chose the distribution and parameters. (do not spend time looking at the literature for values to use to build prior distribution - just give plausible priors and say why their plausible)</p>
-<p><strong>Answer 1:</strong></p>
-<p><strong>Question 2:</strong> Provide plots of your prior distributions.</p>
-<p><strong>Answer 2:</strong></p>
-<p><strong>Question 3:</strong> Modify the code above to estimate the posterior distribution of your parameters. Put your modified code below.</p>
-<p><strong>Answer 3:</strong></p>
-<p><strong>Question 4:</strong> Plot the your MCMC chain for all parameters (iteration # will be the x-axis)</p>
-<p><strong>Answer 4:</strong></p>
-<p><strong>Question 5:</strong> Approximately how many iterations did it take your chain to converge to a straight line with constant variation around the line (i.e., a fuzzy caterpillar). This is the burn-in. If your chain did not converge, modify the <code>jump</code> variable for each parameters and/or increase your iterations. You should not need more than 10000 iterations for convergence so running the chain for a long period of time will not fix issues that could be fixed by modifying the <code>jump</code> variable. Also, pay attention to the <code>sd_data</code> parameter. You should estimate it as a parameter or set it to a reasonable value. If it is too small your chain will fail because the probability of the some of parameters that are explored functionally zero.</p>
-<p><strong>Answer 5:</strong></p>
-<p><strong>Question 6:</strong> Remove the iterations between 1 and your burn-in number and plot the histograms for your parameters.</p>
-<p><strong>Answer 6:</strong></p>
-<p><strong>Question 7:</strong> Provide the mean and 95% Credible Intervals for each parameter</p>
-<p><strong>Answer 7:</strong></p>
-<p><strong>Question 8:</strong> Random select 1000 values from the parameters in your posterior distribution. Show the randomly selected values for each parameter as a histogram.</p>
-<p><strong>Answer 8:</strong></p>
-<p><strong>Question 9:</strong> Use the samples from Question 8 to generate posterior predictions of soil respiration at the observed temperature values (i.e., the same temperature data used in your model fit). Provide a plot with temperature on the x-axis and respiration on the y-axis. The plot should have the mean and 95% predictive uncertainty bounds (i.e., include uncertainty in parameters and in the data model)</p>
-<p><strong>Answer 9:</strong></p>
+<section id="reading" class="level2" data-number="16.4">
+<h2 data-number="16.4" class="anchored" data-anchor-id="reading"><span class="header-section-number">16.4</span> Reading</h2>
+</section>
+<section id="problem-set" class="level2" data-number="16.5">
+<h2 data-number="16.5" class="anchored" data-anchor-id="problem-set"><span class="header-section-number">16.5</span> Problem Set</h2>
+<p>The problem set is located in <code>bayesian_problem_set.qmd</code> in https://github.com/frec-5174/book-problem-sets. You can fork the repository or copy the <a href="https://github.com/frec-5174/book-problem-sets/blob/main/bayesian_problem_set.qmd">code</a> into your own quarto document</p>
 
 
 </section>

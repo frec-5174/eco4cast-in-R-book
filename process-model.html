@@ -383,7 +383,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#time-frame-site-id-and-number-of-ensembles" id="toc-time-frame-site-id-and-number-of-ensembles" class="nav-link" data-scroll-target="#time-frame-site-id-and-number-of-ensembles"><span class="header-section-number">12.3.1</span> Time frame, site id, and number of ensembles</a></li>
   <li><a href="#set-drivers" id="toc-set-drivers" class="nav-link" data-scroll-target="#set-drivers"><span class="header-section-number">12.3.2</span> Set drivers</a></li>
   <li><a href="#set-parameters" id="toc-set-parameters" class="nav-link" data-scroll-target="#set-parameters"><span class="header-section-number">12.3.3</span> Set parameters</a></li>
-  <li><a href="#set-inital-condition" id="toc-set-inital-condition" class="nav-link" data-scroll-target="#set-inital-condition"><span class="header-section-number">12.3.4</span> Set inital condition</a></li>
+  <li><a href="#set-initial-condition" id="toc-set-initial-condition" class="nav-link" data-scroll-target="#set-initial-condition"><span class="header-section-number">12.3.4</span> Set initial condition</a></li>
   </ul></li>
   <li><a href="#run-model" id="toc-run-model" class="nav-link" data-scroll-target="#run-model"><span class="header-section-number">12.4</span> Run model</a></li>
   <li><a href="#plot-output" id="toc-plot-output" class="nav-link" data-scroll-target="#plot-output"><span class="header-section-number">12.5</span> Plot output</a></li>
@@ -528,12 +528,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="set-drivers" class="level3" data-number="12.3.2">
 <h3 data-number="12.3.2" class="anchored" data-anchor-id="set-drivers"><span class="header-section-number">12.3.2</span> Set drivers</h3>
-<p>I have provided a custom function to access the weater drivers. You can learn more about the function in the appendix (add link). They are provided in the chapter as a function rather than the full code to avoid unncessary detraction from the focus on the process model.</p>
+<p>I have provided a custom function to access the weather drivers. You can learn more about the function in the appendix (add link). They are provided in the chapter as a function rather than the full code to avoid unnecessary detraction from the focus on the process model.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>inputs <span class="ot">&lt;-</span> <span class="fu">get_historical_met</span>(<span class="at">site =</span> site, sim_dates, <span class="at">use_mean =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>inputs_ensemble <span class="ot">&lt;-</span> <span class="fu">assign_met_ensembles</span>(inputs, ens_members)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Here is a plot of the meterological input data.</p>
+<p>Here is a plot of the meteorological input data.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#INSERT FIGURE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -560,8 +560,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>params <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(params)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="set-inital-condition" class="level3" data-number="12.3.4">
-<h3 data-number="12.3.4" class="anchored" data-anchor-id="set-inital-condition"><span class="header-section-number">12.3.4</span> Set inital condition</h3>
+<section id="set-initial-condition" class="level3" data-number="12.3.4">
+<h3 data-number="12.3.4" class="anchored" data-anchor-id="set-initial-condition"><span class="header-section-number">12.3.4</span> Set initial condition</h3>
 <p>Next we set the starting point of the simulation. All three states need a starting point.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>output <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="cn">NA</span>, <span class="at">dim =</span> <span class="fu">c</span>(<span class="fu">length</span>(sim_dates), ens_members, <span class="dv">12</span>)) <span class="co">#12 is the number of outputs</span></span>

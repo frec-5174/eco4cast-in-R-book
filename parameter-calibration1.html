@@ -101,8 +101,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 </head>
 
@@ -384,11 +382,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#brief-introduction-to-other-components-of-a-likelihood-analysis" id="toc-brief-introduction-to-other-components-of-a-likelihood-analysis" class="nav-link" data-scroll-target="#brief-introduction-to-other-components-of-a-likelihood-analysis"><span class="header-section-number">15.1.2</span> Brief introduction to other components of a likelihood analysis</a></li>
   <li><a href="#key-point" id="toc-key-point" class="nav-link" data-scroll-target="#key-point"><span class="header-section-number">15.1.3</span> Key point</a></li>
   </ul></li>
-  <li><a href="#problem-set" id="toc-problem-set" class="nav-link" data-scroll-target="#problem-set"><span class="header-section-number">15.2</span> Problem set</a>
-  <ul class="collapse">
-  <li><a href="#part-1" id="toc-part-1" class="nav-link" data-scroll-target="#part-1"><span class="header-section-number">15.2.1</span> Part 1</a></li>
-  <li><a href="#sec-q10" id="toc-sec-q10" class="nav-link" data-scroll-target="#sec-q10"><span class="header-section-number">15.2.2</span> Part 2</a></li>
-  </ul></li>
+  <li><a href="#reading" id="toc-reading" class="nav-link" data-scroll-target="#reading"><span class="header-section-number">15.2</span> Reading</a></li>
+  <li><a href="#problem-set" id="toc-problem-set" class="nav-link" data-scroll-target="#problem-set"><span class="header-section-number">15.3</span> Problem set</a></li>
   </ul>
 </nav>
     </div>
@@ -1092,111 +1087,14 @@ par3 0.08755983 0.1155966</code></pre>
 <p>Likelihood approach shown here gives us the <em>likelihood of the particular set of data GIVEN the model</em>. It does <strong>not</strong> give us the probability of the model given the particular set of data (i.e., the probability distributions of the model parameters). Ultimately, we want the probability distributions of the model parameters so that we can turn it around forecast the probability of yet to be collected data. For this we need to use Bayesian statistics in <a href="parameter-calibration2.html" class="quarto-xref"><span>Chapter&nbsp;16</span></a>!</p>
 </section>
 </section>
-<section id="problem-set" class="level2" data-number="15.2">
-<h2 data-number="15.2" class="anchored" data-anchor-id="problem-set"><span class="header-section-number">15.2</span> Problem set</h2>
-<p>Copy the text and code below into an .Rmd or .qmd document and complete the assignment. You will be asked submit (via Canvas) your rendered (or knitted) html document</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb123"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb123-1"><a href="#cb123-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<section id="part-1" class="level3" data-number="15.2.1">
-<h3 data-number="15.2.1" class="anchored" data-anchor-id="part-1"><span class="header-section-number">15.2.1</span> Part 1</h3>
-<p>Load dataset</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb124"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb124-1"><a href="#cb124-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="at">file =</span> <span class="st">"https://data.ecoforecast.org/neon4cast-targets/phenology/phenology-targets.csv.gz"</span>, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Filter the dataset to only include the site_id BART (Bartlett Experimental Forest in the White Mountains of New Hampshire) and the dates between 2019-01-01 and 2019-07-01. Convert the date to Day of Year (hint: use <code>lubridate:: yday()</code> function). Remove rows with gcc_90 equal to NA or gcc_sd equal to 0.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb125"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb125-1"><a href="#cb125-1" aria-hidden="true" tabindex="-1"></a>bart_2019 <span class="ot">&lt;-</span> d  <span class="sc">%&gt;%</span></span>
-<span id="cb125-2"><a href="#cb125-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(site_id <span class="sc">==</span> <span class="st">"BART"</span>,</span>
-<span id="cb125-3"><a href="#cb125-3" aria-hidden="true" tabindex="-1"></a>         datetime <span class="sc">&gt;</span> <span class="fu">as_date</span>(<span class="st">"2019-01-01"</span>),</span>
-<span id="cb125-4"><a href="#cb125-4" aria-hidden="true" tabindex="-1"></a>         datetime <span class="sc">&lt;</span> <span class="fu">as_date</span>(<span class="st">"2019-07-01"</span>),</span>
-<span id="cb125-5"><a href="#cb125-5" aria-hidden="true" tabindex="-1"></a>         variable <span class="sc">==</span> <span class="st">"gcc_90"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb125-6"><a href="#cb125-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">doy =</span> <span class="fu">yday</span>(datetime)) <span class="sc">%&gt;%</span> </span>
-<span id="cb125-7"><a href="#cb125-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(observation),</span>
-<span id="cb125-8"><a href="#cb125-8" aria-hidden="true" tabindex="-1"></a>         observation <span class="sc">&gt;</span> <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p><strong>Question 1:</strong> How is gcc_90 related to day of year?</p>
-<p><strong>Answer 1:</strong></p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb126"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb126-1"><a href="#cb126-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Add Answer</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p><strong>Question 2:</strong> Use a histogram to examine the distribution of the gcc_90</p>
-<p><strong>Answer 2:</strong></p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb127"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb127-1"><a href="#cb127-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Add Answer</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>First create a function called `pred_logistic’ that is your process model. The model is the the logistic curve which ish the equation <span class="math display">\[P_1 + P_2 {{exp(P_3 + P_4 x)}\over{1+exp(P_3 + P_4 x)}}\]</span></p>
-<p><strong>Question 3:</strong> Is this process model a dynamic model? Why or why not?</p>
-<p><strong>Answer 3:</strong></p>
-<p><strong>Question 4:</strong> Based on the equation above, write a function that predicts the gcc_90 as a function of the parameters (<span class="math inline">\(P\)</span>) and x where x is the DOY. Name that function <code>pred_logistic</code>.</p>
-<p><strong>Answer 4:</strong></p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb128"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb128-1"><a href="#cb128-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Add Answer</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p><strong>Question 5:</strong> Write a function that calculates the negative log-likelihood of the data given a set of parameters governing the process and data models. Assume a normal distribution and be sure to estimate the sd in the data model.</p>
-<p><strong>Answer 5:</strong></p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb129"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb129-1"><a href="#cb129-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Add Answer</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p><strong>Question 6:</strong> Use the <code>optim</code> function to find the most likely parameter values. Use the following as starting values <code>par = c(0.34,0.11,-15,0.11, 1)</code> where the first four are the theta parameters from your process model and the fifth is the sd of your data model.</p>
-<p><strong>Answer 6:</strong></p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb130"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb130-1"><a href="#cb130-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Add Answer</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p><strong>Question 7:</strong> Use your optimal parameters in the <code>pred_logistic</code> function to predict the data. Save this as the object <code>predicted</code></p>
-<p><strong>Answer 7:</strong></p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb131"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb131-1"><a href="#cb131-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Add Answer</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p><strong>Question 8:</strong> Calculate the residuals and plot a histogram of the residuals</p>
-<p><strong>Answer 8:</strong></p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb132"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb132-1"><a href="#cb132-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Add Answer</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p><strong>Question 9:</strong> How does the distribution of the data (Question 2) compare to the distribution of the residuals?</p>
-<p><strong>Answer 9:</strong></p>
-<p><strong>Question 10:</strong> Predict year 2020 using the process model parameters from the 2019 fit.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb133"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb133-1"><a href="#cb133-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Add Answer</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p><strong>Answer 10:</strong></p>
-<p><strong>Question 11:</strong> Plot the forecast from Question 10 over the data from 2020 (I give the code for getting the 2020 data)</p>
-<p><strong>Answer 11:</strong></p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb134"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb134-1"><a href="#cb134-1" aria-hidden="true" tabindex="-1"></a>bart_2020 <span class="ot">&lt;-</span> d  <span class="sc">%&gt;%</span></span>
-<span id="cb134-2"><a href="#cb134-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(site_id <span class="sc">==</span> <span class="st">"BART"</span>,</span>
-<span id="cb134-3"><a href="#cb134-3" aria-hidden="true" tabindex="-1"></a>         datetime <span class="sc">&gt;</span> <span class="fu">as_date</span>(<span class="st">"2020-01-01"</span>),</span>
-<span id="cb134-4"><a href="#cb134-4" aria-hidden="true" tabindex="-1"></a>         datetime <span class="sc">&lt;</span> <span class="fu">as_date</span>(<span class="st">"2020-07-01"</span>),</span>
-<span id="cb134-5"><a href="#cb134-5" aria-hidden="true" tabindex="-1"></a>         variable <span class="sc">==</span> <span class="st">"gcc_90"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb134-6"><a href="#cb134-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">doy =</span> <span class="fu">yday</span>(datetime)) <span class="sc">%&gt;%</span> </span>
-<span id="cb134-7"><a href="#cb134-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(observation),</span>
-<span id="cb134-8"><a href="#cb134-8" aria-hidden="true" tabindex="-1"></a>         observation <span class="sc">&gt;</span> <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p><strong>Question 12:</strong> Do you think your model from 2019 is reasonable for predicting 2020?</p>
-<p><strong>Answer 12:</strong></p>
+<section id="reading" class="level2" data-number="15.2">
+<h2 data-number="15.2" class="anchored" data-anchor-id="reading"><span class="header-section-number">15.2</span> Reading</h2>
 </section>
-<section id="sec-q10" class="level3" data-number="15.2.2">
-<h3 data-number="15.2.2" class="anchored" data-anchor-id="sec-q10"><span class="header-section-number">15.2.2</span> Part 2</h3>
-<p>Using the following data</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb135"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb135-1"><a href="#cb135-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"https://raw.githubusercontent.com/frec-5174/eco4cast-in-R-book/main/data/soil_respiration_module_data.csv"</span>, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>It is a dataset that reports soil respiration, soil temperature, and soil moisture over a year at the University of Michigan Biological Station (from Nave, L.E., N. Bader, and J.L. Klug)</p>
-<p>The columns correspond to the following</p>
-<ul>
-<li>doy = Day of Year<br>
-</li>
-<li>soil_resp: Soil respiration (micromoles CO2 per m2 per second)<br>
-</li>
-<li>soil_temp: Soil Temp (deg C) soil_moisture: Soil Moisture (%)<br>
-</li>
-</ul>
-<p>Use maximum likelihood to estimate the parameters in the model that predicts the relationship between soil temperature and soil respiration using the Q10 function below</p>
-<p><span class="math display">\[\theta_1 * \theta_2 ^{{(T - 20)}\over{10}}\]</span></p>
-<p>Show all the steps to determine the most likely parameter values, report the parameter values, and plot the data and predictions on the same plot</p>
+<section id="problem-set" class="level2" data-number="15.3">
+<h2 data-number="15.3" class="anchored" data-anchor-id="problem-set"><span class="header-section-number">15.3</span> Problem set</h2>
+<p>The problem set is located in <code>likelihood_problem_set.qmd</code> in https://github.com/frec-5174/book-problem-sets. You can fork the repository or copy the <a href="https://github.com/frec-5174/book-problem-sets/blob/main/likelihood_problem_set.qmd">code</a> into your own quarto document</p>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
