@@ -428,7 +428,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>We will find the first day of our simulation (14 days ago) in the last saved analysis and use this for initial conditions.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>site <span class="ot">&lt;-</span> <span class="st">"OSBS"</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>look_back <span class="ot">&lt;-</span> <span class="dv">14</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>look_back <span class="ot">&lt;-</span> <span class="dv">30</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>horizon <span class="ot">&lt;-</span> <span class="dv">30</span></span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>reference_datetime <span class="ot">&lt;-</span> <span class="fu">Sys.Date</span>()</span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>sim_dates <span class="ot">&lt;-</span> <span class="fu">seq</span>(reference_datetime <span class="sc">-</span> look_back, <span class="at">length.out =</span> look_back <span class="sc">+</span> horizon, <span class="at">by =</span> <span class="st">"1 day"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -552,7 +552,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>validating that file matches required standard</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>data/terrestrial_daily-2024-01-23-bookcast_forest.csv</code></pre>
+<pre><code>data/terrestrial_daily-2024-01-24-bookcast_forest.csv</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
 <pre><code>✔ file has model_id column
