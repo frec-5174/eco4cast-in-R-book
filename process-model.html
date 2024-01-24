@@ -377,16 +377,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#overview-of-model" id="toc-overview-of-model" class="nav-link active" data-scroll-target="#overview-of-model"><span class="header-section-number">12.1</span> Overview of model</a></li>
-  <li><a href="#model-as-a-function" id="toc-model-as-a-function" class="nav-link" data-scroll-target="#model-as-a-function"><span class="header-section-number">12.2</span> Model as a function</a></li>
-  <li><a href="#set-up-model-run" id="toc-set-up-model-run" class="nav-link" data-scroll-target="#set-up-model-run"><span class="header-section-number">12.3</span> Set up model run</a>
+  <li><a href="#solving-the-model" id="toc-solving-the-model" class="nav-link" data-scroll-target="#solving-the-model"><span class="header-section-number">12.2</span> Solving the model</a></li>
+  <li><a href="#model-as-a-function" id="toc-model-as-a-function" class="nav-link" data-scroll-target="#model-as-a-function"><span class="header-section-number">12.3</span> Model as a function</a></li>
+  <li><a href="#set-up-model-run" id="toc-set-up-model-run" class="nav-link" data-scroll-target="#set-up-model-run"><span class="header-section-number">12.4</span> Set up model run</a>
   <ul class="collapse">
-  <li><a href="#time-frame-site-id-and-number-of-ensembles" id="toc-time-frame-site-id-and-number-of-ensembles" class="nav-link" data-scroll-target="#time-frame-site-id-and-number-of-ensembles"><span class="header-section-number">12.3.1</span> Time frame, site id, and number of ensembles</a></li>
-  <li><a href="#set-drivers" id="toc-set-drivers" class="nav-link" data-scroll-target="#set-drivers"><span class="header-section-number">12.3.2</span> Set drivers</a></li>
-  <li><a href="#set-parameters" id="toc-set-parameters" class="nav-link" data-scroll-target="#set-parameters"><span class="header-section-number">12.3.3</span> Set parameters</a></li>
-  <li><a href="#set-initial-condition" id="toc-set-initial-condition" class="nav-link" data-scroll-target="#set-initial-condition"><span class="header-section-number">12.3.4</span> Set initial condition</a></li>
+  <li><a href="#time-frame-site-id-and-number-of-ensembles" id="toc-time-frame-site-id-and-number-of-ensembles" class="nav-link" data-scroll-target="#time-frame-site-id-and-number-of-ensembles"><span class="header-section-number">12.4.1</span> Time frame, site id, and number of ensembles</a></li>
+  <li><a href="#set-drivers" id="toc-set-drivers" class="nav-link" data-scroll-target="#set-drivers"><span class="header-section-number">12.4.2</span> Set drivers</a></li>
+  <li><a href="#set-parameters" id="toc-set-parameters" class="nav-link" data-scroll-target="#set-parameters"><span class="header-section-number">12.4.3</span> Set parameters</a></li>
+  <li><a href="#set-initial-condition" id="toc-set-initial-condition" class="nav-link" data-scroll-target="#set-initial-condition"><span class="header-section-number">12.4.4</span> Set initial condition</a></li>
   </ul></li>
-  <li><a href="#run-model" id="toc-run-model" class="nav-link" data-scroll-target="#run-model"><span class="header-section-number">12.4</span> Run model</a></li>
-  <li><a href="#plot-output" id="toc-plot-output" class="nav-link" data-scroll-target="#plot-output"><span class="header-section-number">12.5</span> Plot output</a></li>
+  <li><a href="#run-model" id="toc-run-model" class="nav-link" data-scroll-target="#run-model"><span class="header-section-number">12.5</span> Run model</a></li>
+  <li><a href="#plot-output" id="toc-plot-output" class="nav-link" data-scroll-target="#plot-output"><span class="header-section-number">12.6</span> Plot output</a></li>
   </ul>
 </nav>
     </div>
@@ -434,169 +435,187 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Finally, net ecosystem exchange (<code>nee</code>) is modeled as <code>ra + rh - gpp</code> with negative values corresponding to net gain in carbon by the ecosystem.</p>
 <p>The model requires inputs of photosynthetic active radiation (<code>PAR</code>), air temperature (<code>temp</code>), and day-of-year (<code>doy</code>).</p>
 </section>
-<section id="model-as-a-function" class="level2" data-number="12.2">
-<h2 data-number="12.2" class="anchored" data-anchor-id="model-as-a-function"><span class="header-section-number">12.2</span> Model as a function</h2>
-<p>The code below describes the model as a R function. The function predicts one time-step at a time. The same function is found in the <code>R/forecast_model.R</code> script in the book repository. The inputs to the function are: - <code>t</code>: the index of the current model time-step - <code>states</code>: a matrix of the states (rows = ensemble member, columns = state) - <code>parms</code>: a data frame of parameters (rows = ensemble member, columns = parameter) - <code>inputs</code>: a matrix of drivers (rows = ensemble member, columns = driver)</p>
+<section id="solving-the-model" class="level2" data-number="12.2">
+<h2 data-number="12.2" class="anchored" data-anchor-id="solving-the-model"><span class="header-section-number">12.2</span> Solving the model</h2>
+<p>At each time-step, the processes that results in the change in the model states are calculate (i.e., photosynthesis, mortality, respiration, etc.). The process rates are then combined to determine the net rate of change for each model state (i.e., the derivatives).</p>
+<pre><code>  dleaves_dt &lt;- leaf_alloc  - litterfall
+  dwood_dt &lt;- wood_alloc  - mortality
+  dSOM_dt &lt;- litterfall + mortality - rh</code></pre>
+<p>The net rate of change for each time-step is added to the value of the state at the previous time-step to calculate the update state.</p>
+<pre><code>  states[, 1] &lt;- states[, 1] + dleaves_dt
+  states[, 2] &lt;- states[, 2] + dwood_dt
+  states[, 3] &lt;- states[, 3] + dSOM_dt</code></pre>
+<p>This process is repeated at each time-step to create the time-series model output. This method is called the Euler method for solving ordinary differential equations and assumed a constant change in time (dt = 1 day) in each time-step.</p>
+</section>
+<section id="model-as-a-function" class="level2" data-number="12.3">
+<h2 data-number="12.3" class="anchored" data-anchor-id="model-as-a-function"><span class="header-section-number">12.3</span> Model as a function</h2>
+<p>The code below describes the model as a R function. The function predicts one time-step at a time. The same function is found in the <code>R/forecast_model.R</code> script in the book repository. The inputs to the function are:</p>
+<ul>
+<li><p><code>t</code>: the index of the current model time-step</p></li>
+<li><p><code>states</code>: a matrix of the states (rows = ensemble member, columns = state)</p></li>
+<li><p><code>parms</code>: a data frame of parameters (rows = ensemble member, columns = parameter)</p></li>
+<li><p><code>inputs</code>: a matrix of drivers (rows = ensemble member, columns = driver)</p></li>
+</ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>forest_model <span class="ot">&lt;-</span> <span class="cf">function</span>(t, states, parms, inputs){</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  ens_members <span class="ot">&lt;-</span> <span class="fu">nrow</span>(states)</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  inputs_temp <span class="ot">&lt;-</span> inputs[, <span class="dv">1</span>]</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  inputs_PAR <span class="ot">&lt;-</span> inputs[, <span class="dv">2</span>]</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  inputs_doy <span class="ot">&lt;-</span> inputs[, <span class="dv">3</span>]</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Unit Conversion: umol/m2/sec to Mg/ha/timestep</span></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  k <span class="ot">&lt;-</span> <span class="fl">1e-6</span> <span class="sc">*</span> <span class="dv">12</span> <span class="sc">*</span> <span class="fl">1e-6</span> <span class="sc">*</span> <span class="dv">10000</span> <span class="sc">*</span> <span class="dv">86400</span> <span class="co">#mol/umol*gC/mol*Mg/g*m2/ha*sec/timestep</span></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Convert leaf carbon to leaf area index</span></span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  lai <span class="ot">&lt;-</span> states[, <span class="dv">1</span>] <span class="sc">*</span> parms<span class="sc">$</span>SLA <span class="sc">*</span> <span class="fl">0.1</span>  <span class="co">#0.1 is conversion from Mg/ha to kg/m2</span></span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  <span class="co"># photosynthesis</span></span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  <span class="co">#Calculate gross primary productivity as a function of LAI and PAR (convert to daily)</span></span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>  <span class="do">## pmax ensures GPP never goes negative</span></span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>  gpp <span class="ot">&lt;-</span> <span class="fu">pmax</span>(<span class="dv">0</span>, k <span class="sc">*</span> parms<span class="sc">$</span>alpha <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">exp</span>(<span class="sc">-</span><span class="fl">0.5</span> <span class="sc">*</span> lai)) <span class="sc">*</span> inputs_PAR)</span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>  <span class="do">## autotropic respiration &amp; allocation to leaves and wood</span></span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>  ra <span class="ot">&lt;-</span> gpp <span class="sc">*</span> parms<span class="sc">$</span>Ra_frac</span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>  npp <span class="ot">&lt;-</span> gpp <span class="sc">-</span> ra</span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>  leaf_alloc <span class="ot">&lt;-</span> npp <span class="sc">*</span> parms<span class="sc">$</span>leaf_frac</span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>  wood_alloc <span class="ot">&lt;-</span> npp <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> parms<span class="sc">$</span>leaf_frac)</span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Calculate soil respiration using a base rate and a Q10 temperature modifier </span></span>
-<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>  <span class="co">#(more soil = more respiration, hotter = more respiration)</span></span>
-<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>  <span class="do">## pmax ensures SOM never goes negative</span></span>
-<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>  rh <span class="ot">&lt;-</span> <span class="fu">pmax</span>(k <span class="sc">*</span> parms<span class="sc">$</span>Rbasal <span class="sc">*</span> states[, <span class="dv">3</span>] <span class="sc">*</span> parms<span class="sc">$</span>Q10 <span class="sc">^</span> (inputs_temp <span class="sc">/</span> <span class="dv">10</span>), <span class="dv">0</span>) </span>
-<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>  <span class="do">## turnover</span></span>
-<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>  <span class="co">#calculate the daily rate of leaf drop</span></span>
-<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>  litterfall <span class="ot">&lt;-</span> states[ , <span class="dv">1</span>] <span class="sc">*</span> (parms<span class="sc">$</span>litterfall_rate <span class="sc">*</span> (<span class="dv">365</span><span class="sc">/</span> (params<span class="sc">$</span>litterfall_length)))</span>
-<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>  <span class="co">#Not leaf drop if outside the day of year window</span></span>
-<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>  litterfall[<span class="sc">!</span>(inputs_doy <span class="sc">&gt;</span> params<span class="sc">$</span>litterfall_start <span class="sc">&amp;</span> </span>
-<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>              inputs_doy[<span class="dv">1</span>] <span class="sc">&lt;</span> (params<span class="sc">$</span>litterfall_start <span class="sc">+</span> params<span class="sc">$</span>litterfall_length))] <span class="ot">&lt;-</span> <span class="fl">0.0</span></span>
-<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>  <span class="co">#kill trees</span></span>
-<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>  mortality <span class="ot">&lt;-</span> states[ , <span class="dv">2</span>] <span class="sc">*</span> parms<span class="sc">$</span>mortality</span>
-<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>  <span class="co">#Change in states</span></span>
-<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>  dleaves_dt <span class="ot">&lt;-</span> leaf_alloc  <span class="sc">-</span> litterfall</span>
-<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>  dwood_dt <span class="ot">&lt;-</span> wood_alloc  <span class="sc">-</span> mortality</span>
-<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>  dSOM_dt <span class="ot">&lt;-</span> litterfall <span class="sc">+</span> mortality <span class="sc">-</span> rh</span>
-<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a>  <span class="co">#Update states by adding the change</span></span>
-<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a>  states[, <span class="dv">1</span>] <span class="ot">&lt;-</span> states[, <span class="dv">1</span>] <span class="sc">+</span> dleaves_dt</span>
-<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a>  states[, <span class="dv">2</span>] <span class="ot">&lt;-</span> states[, <span class="dv">2</span>] <span class="sc">+</span> dwood_dt</span>
-<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a>  states[, <span class="dv">3</span>] <span class="ot">&lt;-</span> states[, <span class="dv">3</span>] <span class="sc">+</span> dSOM_dt</span>
-<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Add normally distributed random noise to states</span></span>
-<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a>  <span class="do">## pmax ensures states never goes negative</span></span>
-<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a>  states[, <span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fu">pmax</span>(<span class="fu">rnorm</span>(ens_members, states[, <span class="dv">1</span>] , parms<span class="sc">$</span>sigma.leaf), <span class="dv">0</span>)</span>
-<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a>  states[, <span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="fu">pmax</span>(<span class="fu">rnorm</span>(ens_members, states[, <span class="dv">2</span>], parms<span class="sc">$</span>sigma.stem), <span class="dv">0</span>)</span>
-<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a>  states[, <span class="dv">3</span>] <span class="ot">&lt;-</span> <span class="fu">pmax</span>(<span class="fu">rnorm</span>(ens_members, states[, <span class="dv">3</span>], parms<span class="sc">$</span>sigma.soil), <span class="dv">0</span>)</span>
-<span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a>  <span class="co">#Dervived variables (LAI and net ecosystem exchange)</span></span>
-<span id="cb2-60"><a href="#cb2-60" aria-hidden="true" tabindex="-1"></a>  lai <span class="ot">&lt;-</span> states[, <span class="dv">1</span>]  <span class="sc">*</span> parms<span class="sc">$</span>SLA <span class="sc">*</span> <span class="fl">0.1</span></span>
-<span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a>  nee <span class="ot">&lt;-</span> ra <span class="sc">+</span> rh <span class="sc">-</span> gpp</span>
-<span id="cb2-62"><a href="#cb2-62" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb2-63"><a href="#cb2-63" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">cbind</span>(<span class="at">state1 =</span> states[, <span class="dv">1</span>],</span>
-<span id="cb2-64"><a href="#cb2-64" aria-hidden="true" tabindex="-1"></a>              <span class="at">state2 =</span> states[, <span class="dv">2</span>],</span>
-<span id="cb2-65"><a href="#cb2-65" aria-hidden="true" tabindex="-1"></a>              <span class="at">state3 =</span> states[, <span class="dv">3</span>],</span>
-<span id="cb2-66"><a href="#cb2-66" aria-hidden="true" tabindex="-1"></a>              <span class="at">lai =</span> lai,</span>
-<span id="cb2-67"><a href="#cb2-67" aria-hidden="true" tabindex="-1"></a>               <span class="at">gpp =</span> gpp ,</span>
-<span id="cb2-68"><a href="#cb2-68" aria-hidden="true" tabindex="-1"></a>               <span class="at">nee =</span> nee,</span>
-<span id="cb2-69"><a href="#cb2-69" aria-hidden="true" tabindex="-1"></a>               <span class="at">ra =</span>  ra,</span>
-<span id="cb2-70"><a href="#cb2-70" aria-hidden="true" tabindex="-1"></a>               <span class="at">npp_w =</span> wood_alloc,</span>
-<span id="cb2-71"><a href="#cb2-71" aria-hidden="true" tabindex="-1"></a>               <span class="at">npp_l =</span> leaf_alloc,</span>
-<span id="cb2-72"><a href="#cb2-72" aria-hidden="true" tabindex="-1"></a>               <span class="at">rh =</span> rh,</span>
-<span id="cb2-73"><a href="#cb2-73" aria-hidden="true" tabindex="-1"></a>               <span class="at">litterfall =</span> litterfall,</span>
-<span id="cb2-74"><a href="#cb2-74" aria-hidden="true" tabindex="-1"></a>               <span class="at">mortality =</span> mortality))</span>
-<span id="cb2-75"><a href="#cb2-75" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>forest_model <span class="ot">&lt;-</span> <span class="cf">function</span>(t, states, parms, inputs){</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  ens_members <span class="ot">&lt;-</span> <span class="fu">nrow</span>(states)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  inputs_temp <span class="ot">&lt;-</span> inputs[, <span class="dv">1</span>]</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  inputs_PAR <span class="ot">&lt;-</span> inputs[, <span class="dv">2</span>]</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  inputs_doy <span class="ot">&lt;-</span> inputs[, <span class="dv">3</span>]</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Unit Conversion: umol/m2/sec to Mg/ha/timestep</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  k <span class="ot">&lt;-</span> <span class="fl">1e-6</span> <span class="sc">*</span> <span class="dv">12</span> <span class="sc">*</span> <span class="fl">1e-6</span> <span class="sc">*</span> <span class="dv">10000</span> <span class="sc">*</span> <span class="dv">86400</span> <span class="co">#mol/umol*gC/mol*Mg/g*m2/ha*sec/timestep</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Convert leaf carbon to leaf area index</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  lai <span class="ot">&lt;-</span> states[, <span class="dv">1</span>] <span class="sc">*</span> parms<span class="sc">$</span>SLA <span class="sc">*</span> <span class="fl">0.1</span>  <span class="co">#0.1 is conversion from Mg/ha to kg/m2</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>  <span class="co"># photosynthesis</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>  <span class="co">#Calculate gross primary productivity as a function of LAI and PAR (convert to daily)</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>  <span class="do">## pmax ensures GPP never goes negative</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>  gpp <span class="ot">&lt;-</span> <span class="fu">pmax</span>(<span class="dv">0</span>, k <span class="sc">*</span> parms<span class="sc">$</span>alpha <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">exp</span>(<span class="sc">-</span><span class="fl">0.5</span> <span class="sc">*</span> lai)) <span class="sc">*</span> inputs_PAR)</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>  <span class="do">## autotropic respiration &amp; allocation to leaves and wood</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>  ra <span class="ot">&lt;-</span> gpp <span class="sc">*</span> parms<span class="sc">$</span>Ra_frac</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>  npp <span class="ot">&lt;-</span> gpp <span class="sc">-</span> ra</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>  leaf_alloc <span class="ot">&lt;-</span> npp <span class="sc">*</span> parms<span class="sc">$</span>leaf_frac</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>  wood_alloc <span class="ot">&lt;-</span> npp <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> parms<span class="sc">$</span>leaf_frac)</span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Calculate soil respiration using a base rate and a Q10 temperature modifier </span></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>  <span class="co">#(more soil = more respiration, hotter = more respiration)</span></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>  <span class="do">## pmax ensures SOM never goes negative</span></span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>  rh <span class="ot">&lt;-</span> <span class="fu">pmax</span>(k <span class="sc">*</span> parms<span class="sc">$</span>Rbasal <span class="sc">*</span> states[, <span class="dv">3</span>] <span class="sc">*</span> parms<span class="sc">$</span>Q10 <span class="sc">^</span> (inputs_temp <span class="sc">/</span> <span class="dv">10</span>), <span class="dv">0</span>) </span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>  <span class="do">## turnover</span></span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>  <span class="co">#calculate the daily rate of leaf drop</span></span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>  litterfall <span class="ot">&lt;-</span> states[ , <span class="dv">1</span>] <span class="sc">*</span> (parms<span class="sc">$</span>litterfall_rate <span class="sc">*</span> (<span class="dv">365</span><span class="sc">/</span> (params<span class="sc">$</span>litterfall_length)))</span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>  <span class="co">#Not leaf drop if outside the day of year window</span></span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>  litterfall[<span class="sc">!</span>(inputs_doy <span class="sc">&gt;</span> params<span class="sc">$</span>litterfall_start <span class="sc">&amp;</span> </span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>              inputs_doy[<span class="dv">1</span>] <span class="sc">&lt;</span> (params<span class="sc">$</span>litterfall_start <span class="sc">+</span> params<span class="sc">$</span>litterfall_length))] <span class="ot">&lt;-</span> <span class="fl">0.0</span></span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>  <span class="co">#kill trees</span></span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>  mortality <span class="ot">&lt;-</span> states[ , <span class="dv">2</span>] <span class="sc">*</span> parms<span class="sc">$</span>mortality</span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a>  <span class="co">#Change in states</span></span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a>  dleaves_dt <span class="ot">&lt;-</span> leaf_alloc  <span class="sc">-</span> litterfall</span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a>  dwood_dt <span class="ot">&lt;-</span> wood_alloc  <span class="sc">-</span> mortality</span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a>  dSOM_dt <span class="ot">&lt;-</span> litterfall <span class="sc">+</span> mortality <span class="sc">-</span> rh</span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a>  <span class="co">#Update states by adding the change</span></span>
+<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a>  states[, <span class="dv">1</span>] <span class="ot">&lt;-</span> states[, <span class="dv">1</span>] <span class="sc">+</span> dleaves_dt</span>
+<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a>  states[, <span class="dv">2</span>] <span class="ot">&lt;-</span> states[, <span class="dv">2</span>] <span class="sc">+</span> dwood_dt</span>
+<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a>  states[, <span class="dv">3</span>] <span class="ot">&lt;-</span> states[, <span class="dv">3</span>] <span class="sc">+</span> dSOM_dt</span>
+<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Add normally distributed random noise to states</span></span>
+<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a>  <span class="do">## pmax ensures states never goes negative</span></span>
+<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a>  states[, <span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fu">pmax</span>(<span class="fu">rnorm</span>(ens_members, states[, <span class="dv">1</span>] , parms<span class="sc">$</span>sigma.leaf), <span class="dv">0</span>)</span>
+<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a>  states[, <span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="fu">pmax</span>(<span class="fu">rnorm</span>(ens_members, states[, <span class="dv">2</span>], parms<span class="sc">$</span>sigma.stem), <span class="dv">0</span>)</span>
+<span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a>  states[, <span class="dv">3</span>] <span class="ot">&lt;-</span> <span class="fu">pmax</span>(<span class="fu">rnorm</span>(ens_members, states[, <span class="dv">3</span>], parms<span class="sc">$</span>sigma.soil), <span class="dv">0</span>)</span>
+<span id="cb4-58"><a href="#cb4-58" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-59"><a href="#cb4-59" aria-hidden="true" tabindex="-1"></a>  <span class="co">#Dervived variables (LAI and net ecosystem exchange)</span></span>
+<span id="cb4-60"><a href="#cb4-60" aria-hidden="true" tabindex="-1"></a>  lai <span class="ot">&lt;-</span> states[, <span class="dv">1</span>]  <span class="sc">*</span> parms<span class="sc">$</span>SLA <span class="sc">*</span> <span class="fl">0.1</span></span>
+<span id="cb4-61"><a href="#cb4-61" aria-hidden="true" tabindex="-1"></a>  nee <span class="ot">&lt;-</span> ra <span class="sc">+</span> rh <span class="sc">-</span> gpp</span>
+<span id="cb4-62"><a href="#cb4-62" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-63"><a href="#cb4-63" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">cbind</span>(<span class="at">state1 =</span> states[, <span class="dv">1</span>],</span>
+<span id="cb4-64"><a href="#cb4-64" aria-hidden="true" tabindex="-1"></a>              <span class="at">state2 =</span> states[, <span class="dv">2</span>],</span>
+<span id="cb4-65"><a href="#cb4-65" aria-hidden="true" tabindex="-1"></a>              <span class="at">state3 =</span> states[, <span class="dv">3</span>],</span>
+<span id="cb4-66"><a href="#cb4-66" aria-hidden="true" tabindex="-1"></a>              <span class="at">lai =</span> lai,</span>
+<span id="cb4-67"><a href="#cb4-67" aria-hidden="true" tabindex="-1"></a>               <span class="at">gpp =</span> gpp ,</span>
+<span id="cb4-68"><a href="#cb4-68" aria-hidden="true" tabindex="-1"></a>               <span class="at">nee =</span> nee,</span>
+<span id="cb4-69"><a href="#cb4-69" aria-hidden="true" tabindex="-1"></a>               <span class="at">ra =</span>  ra,</span>
+<span id="cb4-70"><a href="#cb4-70" aria-hidden="true" tabindex="-1"></a>               <span class="at">npp_w =</span> wood_alloc,</span>
+<span id="cb4-71"><a href="#cb4-71" aria-hidden="true" tabindex="-1"></a>               <span class="at">npp_l =</span> leaf_alloc,</span>
+<span id="cb4-72"><a href="#cb4-72" aria-hidden="true" tabindex="-1"></a>               <span class="at">rh =</span> rh,</span>
+<span id="cb4-73"><a href="#cb4-73" aria-hidden="true" tabindex="-1"></a>               <span class="at">litterfall =</span> litterfall,</span>
+<span id="cb4-74"><a href="#cb4-74" aria-hidden="true" tabindex="-1"></a>               <span class="at">mortality =</span> mortality))</span>
+<span id="cb4-75"><a href="#cb4-75" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="set-up-model-run" class="level2" data-number="12.3">
-<h2 data-number="12.3" class="anchored" data-anchor-id="set-up-model-run"><span class="header-section-number">12.3</span> Set up model run</h2>
-<section id="time-frame-site-id-and-number-of-ensembles" class="level3" data-number="12.3.1">
-<h3 data-number="12.3.1" class="anchored" data-anchor-id="time-frame-site-id-and-number-of-ensembles"><span class="header-section-number">12.3.1</span> Time frame, site id, and number of ensembles</h3>
+<section id="set-up-model-run" class="level2" data-number="12.4">
+<h2 data-number="12.4" class="anchored" data-anchor-id="set-up-model-run"><span class="header-section-number">12.4</span> Set up model run</h2>
+<section id="time-frame-site-id-and-number-of-ensembles" class="level3" data-number="12.4.1">
+<h3 data-number="12.4.1" class="anchored" data-anchor-id="time-frame-site-id-and-number-of-ensembles"><span class="header-section-number">12.4.1</span> Time frame, site id, and number of ensembles</h3>
 <p>In this chapter, we are running a deterministic simulation (no uncertainty) so we only have one ensemble member. The simulation is for a single NEON site (OSBS). The simulation will run from <code>2020-09-30</code> to two days ago.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>site <span class="ot">&lt;-</span> <span class="st">"OSBS"</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>ens_members <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>sim_dates <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fu">as_date</span>(<span class="st">"2020-09-30"</span>), <span class="fu">Sys.Date</span>() <span class="sc">-</span> lubridate<span class="sc">::</span><span class="fu">days</span>(<span class="dv">2</span>), <span class="at">by =</span> <span class="st">"1 day"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>site <span class="ot">&lt;-</span> <span class="st">"OSBS"</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>ens_members <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>sim_dates <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fu">as_date</span>(<span class="st">"2020-09-30"</span>), <span class="fu">Sys.Date</span>() <span class="sc">-</span> lubridate<span class="sc">::</span><span class="fu">days</span>(<span class="dv">2</span>), <span class="at">by =</span> <span class="st">"1 day"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="set-drivers" class="level3" data-number="12.3.2">
-<h3 data-number="12.3.2" class="anchored" data-anchor-id="set-drivers"><span class="header-section-number">12.3.2</span> Set drivers</h3>
+<section id="set-drivers" class="level3" data-number="12.4.2">
+<h3 data-number="12.4.2" class="anchored" data-anchor-id="set-drivers"><span class="header-section-number">12.4.2</span> Set drivers</h3>
 <p>I have provided a custom function to access the weather drivers. You can learn more about the function in the appendix (add link). They are provided in the chapter as a function rather than the full code to avoid unnecessary detraction from the focus on the process model.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>inputs <span class="ot">&lt;-</span> <span class="fu">get_historical_met</span>(<span class="at">site =</span> site, sim_dates, <span class="at">use_mean =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>inputs_ensemble <span class="ot">&lt;-</span> <span class="fu">assign_met_ensembles</span>(inputs, ens_members)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>inputs <span class="ot">&lt;-</span> <span class="fu">get_historical_met</span>(<span class="at">site =</span> site, sim_dates, <span class="at">use_mean =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>inputs_ensemble <span class="ot">&lt;-</span> <span class="fu">assign_met_ensembles</span>(inputs, ens_members)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Here is a plot of the meteorological input data.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#INSERT FIGURE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">#INSERT FIGURE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="set-parameters" class="level3" data-number="12.3.3">
-<h3 data-number="12.3.3" class="anchored" data-anchor-id="set-parameters"><span class="header-section-number">12.3.3</span> Set parameters</h3>
+<section id="set-parameters" class="level3" data-number="12.4.3">
+<h3 data-number="12.4.3" class="anchored" data-anchor-id="set-parameters"><span class="header-section-number">12.4.3</span> Set parameters</h3>
 <p>The model has 10 process parameters and 3 parameters representing the process uncertainty. Each of the parameters is set below to reasonable values. The process uncertainty standard deviations are set to 0.0 since our simulation is deterministic.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Set parameters</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>params <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>alpha <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fl">0.02</span>, ens_members)</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>SLA <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fl">4.74</span>, ens_members)</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>leaf_frac <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fl">0.315</span>, ens_members)</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>Ra_frac <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fl">0.5</span>, ens_members)</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>Rbasal <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fl">0.002</span>, ens_members)</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>Q10 <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fl">2.1</span>, ens_members)</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>litterfall_rate <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">/</span>(<span class="fl">2.0</span><span class="sc">*</span><span class="dv">365</span>), ens_members) <span class="co">#Two year leaf lifespan</span></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>litterfall_start <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">200</span>, ens_members)</span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>litterfall_length<span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">60</span>, ens_members)</span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>mortality <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fl">0.00015</span>, ens_members) <span class="co">#Wood lives about 18 years on average (all trees, branches, roots, course roots)</span></span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>sigma.leaf <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fl">0.0</span>, ens_members) <span class="co">#0.01 </span></span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>sigma.stem <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fl">0.0</span>, ens_members) <span class="co">#0.01 ## wood biomass</span></span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>sigma.soil <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fl">0.0</span>, ens_members)<span class="co"># 0.01</span></span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>params <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(params)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Set parameters</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>params <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>alpha <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fl">0.02</span>, ens_members)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>SLA <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fl">4.74</span>, ens_members)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>leaf_frac <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fl">0.315</span>, ens_members)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>Ra_frac <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fl">0.5</span>, ens_members)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>Rbasal <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fl">0.002</span>, ens_members)</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>Q10 <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fl">2.1</span>, ens_members)</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>litterfall_rate <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">/</span>(<span class="fl">2.0</span><span class="sc">*</span><span class="dv">365</span>), ens_members) <span class="co">#Two year leaf lifespan</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>litterfall_start <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">200</span>, ens_members)</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>litterfall_length<span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">60</span>, ens_members)</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>mortality <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fl">0.00015</span>, ens_members) <span class="co">#Wood lives about 18 years on average (all trees, branches, roots, course roots)</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>sigma.leaf <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fl">0.0</span>, ens_members) <span class="co">#0.01 </span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>sigma.stem <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fl">0.0</span>, ens_members) <span class="co">#0.01 ## wood biomass</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>sigma.soil <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fl">0.0</span>, ens_members)<span class="co"># 0.01</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>params <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(params)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="set-initial-condition" class="level3" data-number="12.3.4">
-<h3 data-number="12.3.4" class="anchored" data-anchor-id="set-initial-condition"><span class="header-section-number">12.3.4</span> Set initial condition</h3>
+<section id="set-initial-condition" class="level3" data-number="12.4.4">
+<h3 data-number="12.4.4" class="anchored" data-anchor-id="set-initial-condition"><span class="header-section-number">12.4.4</span> Set initial condition</h3>
 <p>Next we set the starting point of the simulation. All three states need a starting point.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>output <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="cn">NA</span>, <span class="at">dim =</span> <span class="fu">c</span>(<span class="fu">length</span>(sim_dates), ens_members, <span class="dv">12</span>)) <span class="co">#12 is the number of outputs</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>output[<span class="dv">1</span>, , <span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="dv">5</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>output[<span class="dv">1</span>, , <span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="dv">140</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>output[<span class="dv">1</span>, , <span class="dv">3</span>] <span class="ot">&lt;-</span> <span class="dv">140</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>output <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="cn">NA</span>, <span class="at">dim =</span> <span class="fu">c</span>(<span class="fu">length</span>(sim_dates), ens_members, <span class="dv">12</span>)) <span class="co">#12 is the number of outputs</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>output[<span class="dv">1</span>, , <span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="dv">5</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>output[<span class="dv">1</span>, , <span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="dv">140</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>output[<span class="dv">1</span>, , <span class="dv">3</span>] <span class="ot">&lt;-</span> <span class="dv">140</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
-<section id="run-model" class="level2" data-number="12.4">
-<h2 data-number="12.4" class="anchored" data-anchor-id="run-model"><span class="header-section-number">12.4</span> Run model</h2>
+<section id="run-model" class="level2" data-number="12.5">
+<h2 data-number="12.5" class="anchored" data-anchor-id="run-model"><span class="header-section-number">12.5</span> Run model</h2>
 <p>Loop over the <code>sim_dates</code> vector that includes the dates of the simulation. The loop starts on index of 2 because index of 1 was set as the initial conditions above. The <code>forest_model</code> function is the the process model above. Save the output at each time-step to the output array.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(t <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="fu">length</span>(sim_dates)){</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  output[t, , ]  <span class="ot">&lt;-</span> <span class="fu">forest_model</span>(t, </span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">states =</span> <span class="fu">matrix</span>(output[t<span class="dv">-1</span> , , <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>], <span class="at">nrow =</span> ens_members),</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">parms =</span> params,</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">inputs =</span> <span class="fu">matrix</span>(inputs_ensemble[t ,, ], <span class="at">nrow =</span> ens_members))</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(t <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="fu">length</span>(sim_dates)){</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  output[t, , ]  <span class="ot">&lt;-</span> <span class="fu">forest_model</span>(t, </span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">states =</span> <span class="fu">matrix</span>(output[t<span class="dv">-1</span> , , <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>], <span class="at">nrow =</span> ens_members),</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">parms =</span> params,</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">inputs =</span> <span class="fu">matrix</span>(inputs_ensemble[t ,, ], <span class="at">nrow =</span> ens_members))</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="plot-output" class="level2" data-number="12.5">
-<h2 data-number="12.5" class="anchored" data-anchor-id="plot-output"><span class="header-section-number">12.5</span> Plot output</h2>
+<section id="plot-output" class="level2" data-number="12.6">
+<h2 data-number="12.6" class="anchored" data-anchor-id="plot-output"><span class="header-section-number">12.6</span> Plot output</h2>
 <p>The <code>output_to_df</code> converts the output into a data frame and is located in the <code>R/helpers.R</code> script in the book repository. The <code>sim_name</code> is the name of your simulation.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>output_df <span class="ot">&lt;-</span> <span class="fu">output_to_df</span>(output, sim_dates, <span class="at">sim_name =</span> <span class="st">"baseline"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>output_df <span class="ot">&lt;-</span> <span class="fu">output_to_df</span>(output, sim_dates, <span class="at">sim_name =</span> <span class="st">"baseline"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><a href="#fig-determ-output" class="quarto-xref">Figure&nbsp;<span>12.2</span></a> is a plot of the output data frame.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>output_df <span class="sc">|&gt;</span> </span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(variable <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"lai"</span>, <span class="st">"wood"</span>, <span class="st">"som"</span>, <span class="st">"nee"</span>)) <span class="sc">|&gt;</span> </span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> datetime)) <span class="sc">+</span></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">y =</span> prediction, <span class="at">group =</span> ensemble)) <span class="sc">+</span></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>variable, <span class="at">scale =</span> <span class="st">"free"</span>) <span class="sc">+</span></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>output_df <span class="sc">|&gt;</span> </span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(variable <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"lai"</span>, <span class="st">"wood"</span>, <span class="st">"som"</span>, <span class="st">"nee"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> datetime)) <span class="sc">+</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">y =</span> prediction, <span class="at">group =</span> ensemble)) <span class="sc">+</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>variable, <span class="at">scale =</span> <span class="st">"free"</span>) <span class="sc">+</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div id="fig-determ-output" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
