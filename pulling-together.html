@@ -385,7 +385,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#step-1-set-initial-conditions-and-parameter-distributions" id="toc-step-1-set-initial-conditions-and-parameter-distributions" class="nav-link active" data-scroll-target="#step-1-set-initial-conditions-and-parameter-distributions"><span class="header-section-number">20.1</span> Step 1: Set initial conditions and parameter distributions</a></li>
   <li><a href="#step-2-get-latest-data" id="toc-step-2-get-latest-data" class="nav-link" data-scroll-target="#step-2-get-latest-data"><span class="header-section-number">20.2</span> Step 2: Get latest data</a></li>
   <li><a href="#step-3-generate-forecast" id="toc-step-3-generate-forecast" class="nav-link" data-scroll-target="#step-3-generate-forecast"><span class="header-section-number">20.3</span> Step 3: Generate forecast</a></li>
-  <li><a href="#step-4-save-forecast-and-data-assimiliation-output" id="toc-step-4-save-forecast-and-data-assimiliation-output" class="nav-link" data-scroll-target="#step-4-save-forecast-and-data-assimiliation-output"><span class="header-section-number">20.4</span> Step 4: Save forecast and data assimiliation output</a></li>
+  <li><a href="#step-4-save-forecast-and-data-assimilation-output" id="toc-step-4-save-forecast-and-data-assimilation-output" class="nav-link" data-scroll-target="#step-4-save-forecast-and-data-assimilation-output"><span class="header-section-number">20.4</span> Step 4: Save forecast and data assimilation output</a></li>
   <li><a href="#step-5-repeat-steps-2---4" id="toc-step-5-repeat-steps-2---4" class="nav-link" data-scroll-target="#step-5-repeat-steps-2---4"><span class="header-section-number">20.5</span> Step 5: Repeat Steps 2 - 4</a></li>
   <li><a href="#additional-example" id="toc-additional-example" class="nav-link" data-scroll-target="#additional-example"><span class="header-section-number">20.6</span> Additional example</a></li>
   </ul>
@@ -501,7 +501,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>  analysis <span class="ot">&lt;-</span> <span class="fu">particle_filter</span>(t, forecast, obs, sim_dates, wt, fit_params,</span>
 <span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>                              <span class="at">variables =</span> <span class="fu">c</span>(<span class="st">"lai"</span>, <span class="st">"wood"</span>, <span class="st">"som"</span>, <span class="st">"nee"</span>), </span>
-<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>                                             <span class="at">sds =</span> <span class="fu">c</span>(<span class="fl">0.1</span>, <span class="dv">1</span>, <span class="dv">20</span>, <span class="fl">0.005</span>))</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>                              <span class="at">sds =</span> <span class="fu">c</span>(<span class="fl">0.1</span>, <span class="dv">1</span>, <span class="dv">20</span>, <span class="fl">0.005</span>))</span>
 <span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>  forecast <span class="ot">&lt;-</span> analysis<span class="sc">$</span>forecast</span>
 <span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>  fit_params <span class="ot">&lt;-</span> analysis<span class="sc">$</span>fit_params</span>
@@ -509,11 +509,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="step-4-save-forecast-and-data-assimiliation-output" class="level2" data-number="20.4">
-<h2 data-number="20.4" class="anchored" data-anchor-id="step-4-save-forecast-and-data-assimiliation-output"><span class="header-section-number">20.4</span> Step 4: Save forecast and data assimiliation output</h2>
+<section id="step-4-save-forecast-and-data-assimilation-output" class="level2" data-number="20.4">
+<h2 data-number="20.4" class="anchored" data-anchor-id="step-4-save-forecast-and-data-assimilation-output"><span class="header-section-number">20.4</span> Step 4: Save forecast and data assimilation output</h2>
 <p>Convert forecast to a dataframe.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>output_df <span class="ot">&lt;-</span> <span class="fu">output_to_df</span>(forecast, sim_dates, <span class="at">sim_name =</span> <span class="st">"simple_forest_model"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>forecast_weighted <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="cn">NA</span>, <span class="at">dim =</span> <span class="fu">c</span>(<span class="fu">length</span>(sim_dates), ens_members, <span class="dv">12</span>))</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>params_weighted <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="cn">NA</span>, <span class="at">dim =</span> <span class="fu">c</span>(<span class="fu">length</span>(sim_dates) ,ens_members , num_pars))</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(t <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(sim_dates)){</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  wt_norm <span class="ot">&lt;-</span>  wt[t, ]<span class="sc">/</span><span class="fu">sum</span>(wt[t, ])</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  resample_index <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span>ens_members, ens_members, <span class="at">replace =</span> <span class="cn">TRUE</span>, <span class="at">prob =</span> wt_norm ) </span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  forecast_weighted[t, , ] <span class="ot">&lt;-</span> forecast[t, resample_index, <span class="dv">1</span><span class="sc">:</span><span class="dv">12</span>] </span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  params_weighted[t, , ] <span class="ot">&lt;-</span> fit_params[t,resample_index, ] </span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>output_df <span class="ot">&lt;-</span> <span class="fu">output_to_df</span>(forecast_weighted, sim_dates, <span class="at">sim_name =</span> <span class="st">"simple_forest_model"</span>)</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>parameter_df <span class="ot">&lt;-</span> <span class="fu">parameters_to_df</span>(params_weighted, sim_dates, <span class="at">sim_name =</span> <span class="st">"simple_forest_model"</span>, <span class="at">param_names =</span> <span class="fu">c</span>(<span class="st">"alpha"</span>,<span class="st">"Rbasal"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><a href="#fig-step4" class="quarto-xref">Figure&nbsp;<span>20.1</span></a> is a Visualization of the forecast. The vertical line is where the look back period transitions to the future.</p>
 <div class="cell">
@@ -528,37 +540,37 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>Save the states and weights for use as initial conditions in the next forecast.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>analysis<span class="sc">$</span>params <span class="ot">&lt;-</span> params</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">save</span>(analysis, <span class="at">file =</span> <span class="st">"data/PF_analysis_1.Rdata"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>analysis<span class="sc">$</span>params <span class="ot">&lt;-</span> params</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">save</span>(analysis, <span class="at">file =</span> <span class="st">"data/PF_analysis_1.Rdata"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Convert to the format and units required by the NEON Ecological Forecasting Challenge</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>efi_output <span class="ot">&lt;-</span> output_df <span class="sc">|&gt;</span> </span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">datetime =</span> <span class="fu">as_datetime</span>(datetime),</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">model_id =</span> <span class="st">"bookcast_forest"</span>,</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">duration =</span> <span class="st">"P1D"</span>,</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">project_id =</span> <span class="st">"neon4cast"</span>,</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">site_id =</span> site,</span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">family =</span> <span class="st">"ensemble"</span>,</span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">reference_datetime =</span> <span class="fu">as_datetime</span>(reference_datetime)) <span class="sc">|&gt;</span> </span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">parameter =</span> ensemble) <span class="sc">|&gt;</span> </span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(datetime <span class="sc">&gt;=</span> reference_datetime) <span class="sc">|&gt;</span> </span>
-<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(variable <span class="sc">==</span> <span class="st">"nee"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">prediction =</span> prediction  <span class="sc">/</span> <span class="fl">0.01</span>) <span class="co">#Convert from MgC/ha/Day to gC/m2/day</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>efi_output <span class="ot">&lt;-</span> output_df <span class="sc">|&gt;</span> </span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">datetime =</span> <span class="fu">as_datetime</span>(datetime),</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">model_id =</span> <span class="st">"bookcast_forest"</span>,</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">duration =</span> <span class="st">"P1D"</span>,</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">project_id =</span> <span class="st">"neon4cast"</span>,</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">site_id =</span> site,</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">family =</span> <span class="st">"ensemble"</span>,</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">reference_datetime =</span> <span class="fu">as_datetime</span>(reference_datetime)) <span class="sc">|&gt;</span> </span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">parameter =</span> ensemble) <span class="sc">|&gt;</span> </span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(datetime <span class="sc">&gt;=</span> reference_datetime) <span class="sc">|&gt;</span> </span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(variable <span class="sc">==</span> <span class="st">"nee"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">prediction =</span> prediction  <span class="sc">/</span> <span class="fl">0.01</span>) <span class="co">#Convert from MgC/ha/Day to gC/m2/day</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Write the forecast to a csv file</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>file_name <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"data/terrestrial_daily-"</span>, reference_datetime, <span class="st">"-bookcast_forest.csv"</span>)</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(efi_output, file_name)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>file_name <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"data/terrestrial_daily-"</span>, reference_datetime, <span class="st">"-bookcast_forest.csv"</span>)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(efi_output, file_name)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>and submit to the Challenge. The submission uses the submit function in the neon4cast package(<code>remotes::install_github("eco4cast/neon4cast")</code>)</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>neon4cast<span class="sc">::</span><span class="fu">submit</span>(file_name, <span class="at">ask =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>neon4cast<span class="sc">::</span><span class="fu">submit</span>(file_name, <span class="at">ask =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>validating that file matches required standard</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>data/terrestrial_daily-2024-01-28-bookcast_forest.csv</code></pre>
+<pre><code>data/terrestrial_daily-2024-01-29-bookcast_forest.csv</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
 <pre><code>✔ file has model_id column
@@ -580,7 +592,7 @@ Thank you for submitting!</code></pre>
 <h2 data-number="20.5" class="anchored" data-anchor-id="step-5-repeat-steps-2---4"><span class="header-section-number">20.5</span> Step 5: Repeat Steps 2 - 4</h2>
 <p>Wait for a day to pass and then use yesterday’s analysis today for initial conditions and parameter distributions</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">"data/PF_analysis_1.Rdata"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">"data/PF_analysis_1.Rdata"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="additional-example" class="level2" data-number="20.6">
