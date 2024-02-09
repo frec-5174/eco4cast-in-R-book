@@ -429,7 +429,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="step-3-generate-forecast" class="level2" data-number="20.3">
 <h2 data-number="20.3" class="anchored" data-anchor-id="step-3-generate-forecast"><span class="header-section-number">20.3</span> Step 3: Generate forecast</h2>
-<p>This example introduces the concept of a “look back”. This is stepping back in the past to restart the particle filter so that it can assimilate any data that has been make avialable since the last time that time period was run through the particle filter. The look back is important because many observations have delays before becoming avialable (called latency). NEON flux data can have a 5 day to 1.5 month latency. MODIS LAI is a 8 day average so has an 8-day latency.</p>
+<p>This example introduces the concept of a “look back”. This is stepping back in the past to restart the particle filter so that it can assimilate any data that has been make available since the last time that time period was run through the particle filter. The look back is important because many observations have delays before becoming available (called latency). NEON flux data can have a 5 day to 1.5 month latency. MODIS LAI is a 8 day average so has an 8-day latency.</p>
 <p>Here we use a look back of 14-days. Since our forecast horizon is 30-days in the future, the total days of the simulation is 14 + 30. Our reference_datetime is today.</p>
 <p>We will find the first day of our simulation (14 days ago) in the last saved analysis and use this for initial conditions.</p>
 <div class="cell">
@@ -570,7 +570,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>validating that file matches required standard</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>data/terrestrial_daily-2024-02-08-bookcast_forest.csv</code></pre>
+<pre><code>data/terrestrial_daily-2024-02-09-bookcast_forest.csv</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
 <pre><code>✔ file has model_id column
