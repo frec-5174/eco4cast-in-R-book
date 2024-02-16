@@ -588,7 +588,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>split</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;Training/Testing/Total&gt;
-&lt;3588/898/4486&gt;</code></pre>
+&lt;3590/898/4488&gt;</code></pre>
 </div>
 </div>
 <p>To actually get the training and testing data we need to apply the <code>training()</code> and <code>testing()</code> functions to the split.</p>
@@ -600,7 +600,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>train_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 3,588 × 5
+<pre><code># A tibble: 3,590 × 5
    datetime   site_id temperature air_temperature   doy
    &lt;date&gt;     &lt;chr&gt;         &lt;dbl&gt;           &lt;dbl&gt; &lt;dbl&gt;
  1 2017-08-27 BARC           31.5              NA   239
@@ -613,7 +613,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  8 2017-09-03 BARC           31.1              NA   246
  9 2017-09-06 BARC           30.8              NA   249
 10 2017-09-07 BARC           30.5              NA   250
-# ℹ 3,578 more rows</code></pre>
+# ℹ 3,580 more rows</code></pre>
 </div>
 </div>
 </section>
@@ -750,7 +750,7 @@ stats::lm(formula = ..y ~ ., data = data)
 
 Coefficients:
     (Intercept)      site_idSUGG  air_temperature              doy  
-       5.308760        -0.735499         0.858610         0.004031  </code></pre>
+       5.070542        -0.658002         0.865904         0.003984  </code></pre>
 </div>
 </div>
 </section>
@@ -799,8 +799,8 @@ Coefficients:
  6 2017-10-04 BARC           27.6              NA   277    NA
  7 2017-10-06 BARC           27.6              NA   279    NA
  8 2017-10-10 BARC           29.5              NA   283    NA
- 9 2017-10-11 BARC           29.6              NA   284    NA
-10 2017-10-14 BARC           28.5              NA   287    NA
+ 9 2017-10-14 BARC           28.5              NA   287    NA
+10 2017-10-19 BARC           26.6              NA   292    NA
 # ℹ 888 more rows</code></pre>
 </div>
 </div>
@@ -821,8 +821,8 @@ Coefficients:
 <pre><code># A tibble: 2 × 3
   .metric .estimator .estimate
   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
-1 rmse    standard       2.38 
-2 rsq     standard       0.794</code></pre>
+1 rmse    standard       2.43 
+2 rsq     standard       0.787</code></pre>
 </div>
 </div>
 </section>
@@ -844,16 +844,16 @@ Coefficients:
 <pre><code># A tibble: 68 × 5
    datetime   site_id air_temperature temperature   doy
    &lt;date&gt;     &lt;chr&gt;             &lt;dbl&gt; &lt;lgl&gt;       &lt;dbl&gt;
- 1 2024-02-16 SUGG               17.2 NA             47
- 2 2024-02-17 SUGG               14.6 NA             48
- 3 2024-02-18 SUGG               13.1 NA             49
- 4 2024-02-19 SUGG               12.7 NA             50
- 5 2024-02-20 SUGG               14.2 NA             51
- 6 2024-02-21 SUGG               15.5 NA             52
- 7 2024-02-22 SUGG               16.2 NA             53
- 8 2024-02-23 SUGG               17.1 NA             54
- 9 2024-02-24 SUGG               16.9 NA             55
-10 2024-02-25 SUGG               15.6 NA             56
+ 1 2024-02-16 BARC               17.2 NA             47
+ 2 2024-02-17 BARC               14.6 NA             48
+ 3 2024-02-18 BARC               13.1 NA             49
+ 4 2024-02-19 BARC               12.7 NA             50
+ 5 2024-02-20 BARC               14.2 NA             51
+ 6 2024-02-21 BARC               15.5 NA             52
+ 7 2024-02-22 BARC               16.2 NA             53
+ 8 2024-02-23 BARC               17.1 NA             54
+ 9 2024-02-24 BARC               16.9 NA             55
+10 2024-02-25 BARC               15.6 NA             56
 # ℹ 58 more rows</code></pre>
 </div>
 </div>
