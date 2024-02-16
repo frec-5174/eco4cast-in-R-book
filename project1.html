@@ -468,7 +468,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="step-4-train-model" class="level3" data-number="11.1.4">
 <h3 data-number="11.1.4" class="anchored" data-anchor-id="step-4-train-model"><span class="header-section-number">11.1.4</span> Step 4: Train model</h3>
 <ul>
-<li><p>Tune hyper-parameters: hyper-parameters are configuration settings the govern how a particular ML method is fit to data. They are called “hyper” because “regular” parameters are the parameter within the model that are learned by the ML method. For example, a method called “random forecast” requires a hyper-parameter that controls the minimum size of a regression tree that is allowed. This parameter (called <code>min_n</code>) could be directly provided by you or could be tuned. The tuning process involves repeatedly fitting the model using different values of the hyper-parameter and using the hyper-parameter values that yield the best fit to the data. Importantly: not all ML methods have hyper-parameter (e.g., linear regression using the <code>lm</code> engine does not have hyper-parameters). We don’t tune hyperparameters in this example. See <code>example-with-tuning.Rmd</code> for an extension of this application that includes hyperparameter tuning.</p></li>
+<li><p>Tune hyper-parameters: hyper-parameters are configuration settings the govern how a particular ML method is fit to data. They are called “hyper” because “regular” parameters are the parameter within the model that are learned by the ML method. For example, a method called “random forecast” requires a hyper-parameter that controls the minimum size of a regression tree that is allowed. This parameter (called <code>min_n</code>) could be directly provided by you or could be tuned. The tuning process involves repeatedly fitting the model using different values of the hyper-parameter and using the hyper-parameter values that yield the best fit to the data. Importantly: not all ML methods have hyper-parameter (e.g., linear regression using the <code>lm</code> engine does not have hyper-parameters). We don’t tune hyperparameters in this example. See <a href="https://github.com/frec3044/machine-learning/blob/main/assignment/example-with-tuning.Rmd"><code>example-with-tuning.Rmd</code></a> for an extension of this application that includes hyperparameter tuning.</p></li>
 <li><p>Fit model (using best hyper-parameter if they are tuned). The model is fit to the training data.</p></li>
 </ul>
 </section>
@@ -624,10 +624,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>a formula with the dependent variable and the predictors. If <code>.</code> is used as the predictors, that means use all columns other than the dependent variable.</li>
 <li>Steps that modify the data</li>
 </ul>
-<p>We will use the following steps: - <code>step_rm</code> because we don’t want to use the identifier of the plot in the fitting. - <code>step_other</code> because there are rare land-use classes that we want to lump together. This creates an “other” class. - <code>step_dummy</code> because linear regression requires classes to be dummy variables. For example, a linear regression requires groups to be dummy variables. Therefore, a column called “ecosystem” with two values: “forest” and “grass” would be converted to two columns: ecosystem_forest with a value of 0 or 1 and ecosystem_grass with a value of 0 and 1)</p>
+<p>We will use the following steps:</p>
+<ul>
+<li><p><code>step_rm</code> because we don’t want to use the datetime in the fit.</p></li>
+<li><p><code>step_naomit</code> because there are na values in the temperature and air_temperature columns. This is used here for illustrative purposes and can also be done by filtering the target data before it is split into training and testing groups</p></li>
+</ul>
 <p><a href="https://recipes.tidymodels.org/reference/index.html">Here are the different recipe steps used above</a></p>
 <ul>
-<li><a href="https://recipes.tidymodels.org/reference/index.html#step-functions-dummy-variables-and-encodings">Add dummy variables</a></li>
 <li><a href="https://recipes.tidymodels.org/reference/index.html#step-functions-filters">Filter rows and select columns</a></li>
 </ul>
 <p>Here is our recipe:</p>
@@ -781,7 +784,7 @@ Coefficients:
 <div class="cell">
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>pred_test <span class="ot">&lt;-</span> <span class="fu">bind_cols</span>(test_data, predictions)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Now we have a data frame with the prediction and all the predictors used to predict it and other identifying info (like <code>plotID</code>)</p>
+<p>Now we have a data frame with the prediction and all the predictors used to predict it.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>pred_test</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -804,7 +807,7 @@ Coefficients:
 </section>
 <section id="step-6-evaluate-model-1" class="level4" data-number="11.1.8.6">
 <h4 data-number="11.1.8.6" class="anchored" data-anchor-id="step-6-evaluate-model-1"><span class="header-section-number">11.1.8.6</span> Step 6: Evaluate model</h4>
-<p>We will evaluate the performance of our predictions of the testing data using two metrics (<code>rmse</code> and <code>rsq</code>). The function <code>metric_set</code> defines the set of metric we will be using them. It creates a function called <code>multi_metric()</code> that we will use to calculate the metrics. We pipe in the predicted test data (<code>pred_test</code>) and tell the function that our truth (i.e., observed data) is the <code>plot_kgCm2</code> column and the predictions (i.e., <code>estimate</code>) is the <code>.pred</code> column</p>
+<p>We will evaluate the performance of our predictions of the testing data using two metrics (<code>rmse</code> and <code>rsq</code>). The function <code>metric_set</code> defines the set of metric we will be using them. It creates a function called <code>multi_metric()</code> that we will use to calculate the metrics. We pipe in the predicted test data (<code>pred_test</code>) and tell the function that our truth (i.e., observed data) is the <code>temperature</code> column and the predictions (i.e., <code>estimate</code>) is the <code>.pred</code> column</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>multi_metric <span class="ot">&lt;-</span> <span class="fu">metric_set</span>(rmse, rsq)</span>
 <span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -834,27 +837,27 @@ Coefficients:
 <span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(parameter <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">|&gt;</span> </span>
 <span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>parameter)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>You will notice that the plot_kgCm2 is all <code>NA</code> because you don’t know what the carbon stock is of the plot.</p>
+<p>You will notice that the <code>temperature</code> is all <code>NA</code> because you don’t know what the carbon stock is of the plot.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>targets_future</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 68 × 5
    datetime   site_id air_temperature temperature   doy
    &lt;date&gt;     &lt;chr&gt;             &lt;dbl&gt; &lt;lgl&gt;       &lt;dbl&gt;
- 1 2024-02-16 BARC               17.2 NA             47
- 2 2024-02-17 BARC               14.6 NA             48
- 3 2024-02-18 BARC               13.1 NA             49
- 4 2024-02-19 BARC               12.7 NA             50
- 5 2024-02-20 BARC               14.2 NA             51
- 6 2024-02-21 BARC               15.5 NA             52
- 7 2024-02-22 BARC               16.2 NA             53
- 8 2024-02-23 BARC               17.1 NA             54
- 9 2024-02-24 BARC               16.9 NA             55
-10 2024-02-25 BARC               15.6 NA             56
+ 1 2024-02-16 SUGG               17.2 NA             47
+ 2 2024-02-17 SUGG               14.6 NA             48
+ 3 2024-02-18 SUGG               13.1 NA             49
+ 4 2024-02-19 SUGG               12.7 NA             50
+ 5 2024-02-20 SUGG               14.2 NA             51
+ 6 2024-02-21 SUGG               15.5 NA             52
+ 7 2024-02-22 SUGG               16.2 NA             53
+ 8 2024-02-23 SUGG               17.1 NA             54
+ 9 2024-02-24 SUGG               16.9 NA             55
+10 2024-02-25 SUGG               15.6 NA             56
 # ℹ 58 more rows</code></pre>
 </div>
 </div>
-<p>As in “Step 5: Predict Test Data”, use the model fitting on the training data (<code>biomass_fit</code>) to predict the new data.</p>
+<p>As in “Step 5: Predict Test Data”, use the model fitting on the training data (<code>fit</code>) to predict the new data.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>new_predictions <span class="ot">&lt;-</span> <span class="fu">predict</span>(fit, <span class="at">new_data =</span> targets_future)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -909,7 +912,7 @@ Coefficients:
 <div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>our_model <span class="ot">&lt;-</span> <span class="fu">rand_forest</span>(<span class="at">mode =</span> <span class="st">"regression"</span>) <span class="sc">|&gt;</span> </span>
 <span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">"ranger"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>A list of models that are avialable for you to use can be found <a href="https://parsnip.tidymodels.org/reference/index.html#models">here</a>. Not all models are designed for all applications. For example, forecasting water temperature requires regression models rather than classification models.</p>
+<p>A list of models that are available for you to use can be found <a href="https://parsnip.tidymodels.org/reference/index.html#models">here</a>. Not all models are designed for all applications. For example, forecasting water temperature requires regression models rather than classification models.</p>
 </section>
 <section id="tuning-hyper-parameters" class="level4" data-number="11.1.9.2">
 <h4 data-number="11.1.9.2" class="anchored" data-anchor-id="tuning-hyper-parameters"><span class="header-section-number">11.1.9.2</span> Tuning hyper-parameters</h4>
@@ -1023,7 +1026,7 @@ Attaching package: 'fabletools'</code></pre>
 </section>
 <section id="how-to-submit-a-forecast" class="level2" data-number="11.3">
 <h2 data-number="11.3" class="anchored" data-anchor-id="how-to-submit-a-forecast"><span class="header-section-number">11.3</span> How to submit a forecast</h2>
-<p><a href="https://projects.ecoforecast.org/neon4cast-ci/instructions.html" class="uri">https://projects.ecoforecast.org/neon4cast-ci/instructions.html</a></p>
+<p>The introductions registering your model and submitting it can be found <a href="https://projects.ecoforecast.org/neon4cast-ci/instructions.html">here</a>.</p>
 
 
 </section>
