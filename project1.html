@@ -956,6 +956,7 @@ Coefficients:
 <section id="intro-to-fable-models" class="level2" data-number="11.3">
 <h2 data-number="11.3" class="anchored" data-anchor-id="intro-to-fable-models"><span class="header-section-number">11.3</span> Intro to Fable Models</h2>
 <p>The Fable modeling framework provides an interface for many common models used in forecasting. The useful thing about Fable is that it is specifically focused on forecasting so uncertainty estimation is a core feature. Fable also has an associated ebook called <a href="https://otexts.com/fpp3/">“Forecasting: Principles and Practice”</a> that is an excellent resource to learn empirical methods in time-series forecasting. Similar to Tidymodels, once you have learned the general structure for how the package works, it opens up many different modeling approaches.</p>
+<p>The example below forecasts using a simple random walk. Since the random walk starts at the last observation, it shows how to generate a forecast for variables that have a gap between the last observation and the current day.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tsibble)</span>
 <span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fable)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -971,57 +972,63 @@ Coefficients:
 <span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>var <span class="ot">&lt;-</span> <span class="st">"temperature"</span></span>
 <span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>site <span class="ot">&lt;-</span> <span class="st">"BARC"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>The targets have to be converted into a time-series tibble (called a <code>tsibble</code>). WHY IS THIS CODE NEEDED?</p>
+<p>We want to collect when to start our forecast. If we have observations from today then our forecast starts today. But if there is a gap between our last observation and today, our forecast needs to start on the data of the last observation and forecast until today. Then the forecast needs to extend into the future for our desired horizon. As a result the horizon that we provide the <code>fable</code> model may actually be longer than the horizon that we want to forecast into the future. The code below calculate the start date of the forecast and the full horizon (the desired horizon in the future + the gap between last observation and today)</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>forecast_starts <span class="ot">&lt;-</span> targets <span class="sc">|&gt;</span> </span>
 <span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(observation) <span class="sc">&amp;</span> site_id <span class="sc">==</span> site <span class="sc">&amp;</span> variable <span class="sc">==</span> var) <span class="sc">|&gt;</span> </span>
 <span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Start the day after the most recent non-NA value</span></span>
 <span id="cb60-4"><a href="#cb60-4" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">summarise</span>(<span class="at">start_date =</span> <span class="fu">max</span>(datetime) <span class="sc">+</span> lubridate<span class="sc">::</span><span class="fu">days</span>(<span class="dv">1</span>)) <span class="sc">|&gt;</span>  <span class="co"># Date</span></span>
-<span id="cb60-5"><a href="#cb60-5" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">h =</span> (<span class="fu">Sys.Date</span>() <span class="sc">-</span> start_date) <span class="sc">+</span> max_horizon) <span class="sc">|&gt;</span>  <span class="co"># Horizon value</span></span>
-<span id="cb60-6"><a href="#cb60-6" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">ungroup</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb60-5"><a href="#cb60-5" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">h =</span> (<span class="fu">Sys.Date</span>() <span class="sc">-</span> start_date) <span class="sc">+</span> max_horizon,</span>
+<span id="cb60-6"><a href="#cb60-6" aria-hidden="true" tabindex="-1"></a>                <span class="at">h =</span> <span class="fu">as.numeric</span>(h)) <span class="sc">|&gt;</span>  <span class="co"># Horizon value</span></span>
+<span id="cb60-7"><a href="#cb60-7" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">ungroup</span>()</span>
+<span id="cb60-8"><a href="#cb60-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-9"><a href="#cb60-9" aria-hidden="true" tabindex="-1"></a>forecast_starts</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 2
+  start_date     h
+  &lt;date&gt;     &lt;dbl&gt;
+1 2024-02-18    36</code></pre>
 </div>
-<p>To make a <code>tsibble</code> you need to defined the grouping variables (<code>key</code>) and the common that defines the time-series (<code>index</code>). WHY FILL GAPS?</p>
+</div>
+<p>The targets have to be converted into a time-series tibble (called a <code>tsibble</code>). To make a <code>tsibble</code> you need to defined the grouping variables (<code>key</code>) and the common that defines the time-series (<code>index</code>). Many modeling approaches require the datetime to be continuous (no gaps) but allow na values for values in the gaps. The <code>fill_gaps()</code> function fills the gaps with <code>NA</code>s.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>targets_use <span class="ot">&lt;-</span> targets <span class="sc">|&gt;</span> </span>
-<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(site_id <span class="sc">==</span> site,</span>
-<span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a>                variable <span class="sc">==</span> var) <span class="sc">%&gt;%</span></span>
-<span id="cb61-4"><a href="#cb61-4" aria-hidden="true" tabindex="-1"></a>  tsibble<span class="sc">::</span><span class="fu">as_tsibble</span>(<span class="at">key =</span> <span class="fu">c</span>(<span class="st">'variable'</span>, <span class="st">'site_id'</span>), <span class="at">index =</span> <span class="st">'datetime'</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb61-5"><a href="#cb61-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># add NA values up to today (index)</span></span>
-<span id="cb61-6"><a href="#cb61-6" aria-hidden="true" tabindex="-1"></a>  tsibble<span class="sc">::</span><span class="fu">fill_gaps</span>(<span class="at">.end =</span> <span class="fu">Sys.Date</span>()) <span class="sc">|&gt;</span> </span>
-<span id="cb61-7"><a href="#cb61-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Remove the NA's put at the end, so that the forecast starts from the last day with an observation,</span></span>
-<span id="cb61-8"><a href="#cb61-8" aria-hidden="true" tabindex="-1"></a>  <span class="co"># rather than today</span></span>
-<span id="cb61-9"><a href="#cb61-9" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(datetime <span class="sc">&lt;</span> forecast_starts<span class="sc">$</span>start_date)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>targets_use <span class="ot">&lt;-</span> targets <span class="sc">|&gt;</span> </span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(site_id <span class="sc">==</span> site,</span>
+<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a>                variable <span class="sc">==</span> var) <span class="sc">%&gt;%</span></span>
+<span id="cb62-4"><a href="#cb62-4" aria-hidden="true" tabindex="-1"></a>  tsibble<span class="sc">::</span><span class="fu">as_tsibble</span>(<span class="at">key =</span> <span class="fu">c</span>(<span class="st">'variable'</span>, <span class="st">'site_id'</span>), <span class="at">index =</span> <span class="st">'datetime'</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb62-5"><a href="#cb62-5" aria-hidden="true" tabindex="-1"></a>  tsibble<span class="sc">::</span><span class="fu">fill_gaps</span>()   <span class="co"># add NA values up to today (index)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Once you have a <code>tsibble</code>, you combine it with a modeling approach to generate a model that is ready to be used. In this case the model is a random walk (<code>RW</code>) with the target of <code>observation</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>RW_model <span class="ot">&lt;-</span> targets_use <span class="sc">|&gt;</span> </span>
-<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>  fabletools<span class="sc">::</span><span class="fu">model</span>(<span class="at">RW =</span> fable<span class="sc">::</span><span class="fu">RW</span>(observation))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>RW_model <span class="ot">&lt;-</span> targets_use <span class="sc">|&gt;</span> </span>
+<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a>  fabletools<span class="sc">::</span><span class="fu">model</span>(<span class="at">RW =</span> fable<span class="sc">::</span><span class="fu">RW</span>(observation))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>The model is then used to generate a forecast for <code>h</code> number of time-steps in the future (<code>h = 35</code>). The uncertainty is calculated using a bootstrap method (<code>bootstrap= T</code>) with 200 ensemble members, e.g.&nbsp;samples (<code>times = 200</code>).</p>
+<p>The model is then used to generate a forecast for <code>h</code> number of time-steps in the future. The uncertainty is calculated using a bootstrap method (<code>bootstrap= T</code>) with 200 ensemble members, e.g.&nbsp;samples (<code>times = 200</code>).</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>forecast <span class="ot">&lt;-</span> RW_model <span class="sc">|&gt;</span>  </span>
-<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a>  fabletools<span class="sc">::</span><span class="fu">generate</span>(<span class="at">h =</span> <span class="dv">35</span>, <span class="at">bootstrap =</span> T, <span class="at">times =</span> <span class="dv">200</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>forecast <span class="ot">&lt;-</span> RW_model <span class="sc">|&gt;</span>  </span>
+<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a>  fabletools<span class="sc">::</span><span class="fu">generate</span>(<span class="at">h =</span> forecast_starts<span class="sc">$</span>h, <span class="at">bootstrap =</span> T, <span class="at">times =</span> <span class="dv">200</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The forecast is converted into a standard format</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>RW_forecasts_EFI <span class="ot">&lt;-</span> forecast <span class="sc">%&gt;%</span></span>
-<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">parameter =</span> .rep,</span>
-<span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">prediction =</span> .sim) <span class="sc">%&gt;%</span></span>
-<span id="cb64-4"><a href="#cb64-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># For the EFI challenge we only want the forecast for future</span></span>
-<span id="cb64-5"><a href="#cb64-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(datetime <span class="sc">&gt;</span> <span class="fu">Sys.Date</span>()) <span class="sc">%&gt;%</span></span>
-<span id="cb64-6"><a href="#cb64-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(site_id, variable) <span class="sc">%&gt;%</span></span>
-<span id="cb64-7"><a href="#cb64-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">reference_datetime =</span> <span class="fu">min</span>(datetime) <span class="sc">-</span> lubridate<span class="sc">::</span><span class="fu">days</span>(<span class="dv">1</span>),</span>
-<span id="cb64-8"><a href="#cb64-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">family =</span> <span class="st">"ensemble"</span>,</span>
-<span id="cb64-9"><a href="#cb64-9" aria-hidden="true" tabindex="-1"></a>         <span class="at">model_id =</span> <span class="st">"persistenceRW"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb64-10"><a href="#cb64-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(model_id, datetime, reference_datetime, site_id, family, parameter, variable, prediction)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a>RW_forecasts_EFI <span class="ot">&lt;-</span> forecast <span class="sc">%&gt;%</span></span>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">parameter =</span> .rep,</span>
+<span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">prediction =</span> .sim) <span class="sc">%&gt;%</span></span>
+<span id="cb65-4"><a href="#cb65-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># For the EFI challenge we only want the forecast for future</span></span>
+<span id="cb65-5"><a href="#cb65-5" aria-hidden="true" tabindex="-1"></a>  <span class="co">#filter(datetime &gt; Sys.Date()) %&gt;%</span></span>
+<span id="cb65-6"><a href="#cb65-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(site_id, variable) <span class="sc">%&gt;%</span></span>
+<span id="cb65-7"><a href="#cb65-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">reference_datetime =</span> <span class="fu">Sys.Date</span>(),</span>
+<span id="cb65-8"><a href="#cb65-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">family =</span> <span class="st">"ensemble"</span>,</span>
+<span id="cb65-9"><a href="#cb65-9" aria-hidden="true" tabindex="-1"></a>         <span class="at">model_id =</span> <span class="st">"persistenceRW"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb65-10"><a href="#cb65-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(model_id, datetime, reference_datetime, site_id, family, parameter, variable, prediction)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>and plotted</p>
+<p>and plotted. The reference_datetime is shown in blue.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a>RW_forecasts_EFI <span class="sc">|&gt;</span></span>
-<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(variable <span class="sc">==</span> <span class="st">"temperature"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> datetime, <span class="at">y =</span> prediction, <span class="at">group =</span> parameter)) <span class="sc">+</span></span>
-<span id="cb65-4"><a href="#cb65-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span> </span>
-<span id="cb65-5"><a href="#cb65-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>site_id)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>RW_forecasts_EFI <span class="sc">|&gt;</span></span>
+<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(variable <span class="sc">==</span> <span class="st">"temperature"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> datetime, <span class="at">y =</span> prediction, <span class="at">group =</span> parameter)) <span class="sc">+</span></span>
+<span id="cb66-4"><a href="#cb66-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span> </span>
+<span id="cb66-5"><a href="#cb66-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="fu">aes</span>(<span class="at">xintercept =</span> reference_datetime), <span class="at">color =</span> <span class="st">"blue"</span>) <span class="sc">+</span></span>
+<span id="cb66-6"><a href="#cb66-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>site_id)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="project1_files/figure-html/unnamed-chunk-46-1.png" class="img-fluid" width="672"></p>
 </div>
@@ -1031,10 +1038,10 @@ Coefficients:
 <h3 data-number="11.3.2" class="anchored" data-anchor-id="fable-extras"><span class="header-section-number">11.3.2</span> Fable extras</h3>
 <section id="other-models" class="level4" data-number="11.3.2.1">
 <h4 data-number="11.3.2.1" class="anchored" data-anchor-id="other-models"><span class="header-section-number">11.3.2.1</span> Other models</h4>
-<p>Other models can be added at the step that the targets are combined with the modeling approach.</p>
+<p>Other models can be added at the step that the targets are combined with the modeling approach. This example is a <a href="https://otexts.com/fpp3/regression-intro.html">time-series linear model</a> with a trend and seasonal term.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>RW_model <span class="ot">&lt;-</span> targets_use <span class="sc">|&gt;</span> </span>
-<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a>  fabletools<span class="sc">::</span><span class="fu">model</span>(<span class="at">ETS =</span> fable<span class="sc">::</span><span class="fu">ETS</span>(observation <span class="sc">~</span> <span class="fu">season</span>(<span class="st">"A"</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a>RW_model <span class="ot">&lt;-</span> targets_use <span class="sc">|&gt;</span> </span>
+<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a>  fabletools<span class="sc">::</span><span class="fu">model</span>(<span class="at">lm =</span> <span class="fu">TSLM</span>(observation <span class="sc">~</span> <span class="fu">trend</span>() <span class="sc">+</span> <span class="fu">season</span>()))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>A list of the other models are are: <a href="https://fable.tidyverts.org/reference/index.html" class="uri">https://fable.tidyverts.org/reference/index.html</a></p>
 </section>
