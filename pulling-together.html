@@ -416,8 +416,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>We will start our forecast - analysis cycle by running the model with a particle filter over a period of time in the past. This is designed to spin-up the model and set the initial states and parameters for a forecast.</p>
 <p>Now we are going to generate a forecast that started from our 1 year spin up completed in <a href="particle-filter2.html" class="quarto-xref">Chapter&nbsp;<span>19</span></a>. First load the analysis data into memory so that we can access the initial conditions and parameters in it.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">"data/PF_analysis_0.Rdata"</span>)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>ens_members <span class="ot">&lt;-</span> <span class="fu">dim</span>(analysis<span class="sc">$</span>forecast)[<span class="dv">2</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="fu">file.exists</span>(<span class="st">"data/PF_analysis_1.Rdata"</span>)){</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">load</span>(<span class="st">"data/PF_analysis_1.Rdata"</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>}<span class="cf">else</span>{</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">load</span>(<span class="st">"data/PF_analysis_0.Rdata"</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>ens_members <span class="ot">&lt;-</span> <span class="fu">dim</span>(analysis<span class="sc">$</span>forecast)[<span class="dv">2</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="step-2-get-latest-data" class="level2" data-number="20.2">
@@ -468,7 +472,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>num_pars <span class="ot">&lt;-</span> <span class="dv">2</span></span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>fit_params <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="cn">NA</span>, <span class="at">dim =</span> <span class="fu">c</span>(<span class="fu">length</span>(sim_dates) ,ens_members , num_pars))</span>
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>fit_params[<span class="dv">1</span>, , <span class="dv">1</span>] <span class="ot">&lt;-</span> analysis<span class="sc">$</span>fit_params[index, ,<span class="dv">1</span>]</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>fit_params[<span class="dv">1</span>, , <span class="dv">2</span>] <span class="ot">&lt;-</span> analysis<span class="sc">$</span>fit_params[index, ,<span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>fit_params[<span class="dv">1</span>, , <span class="dv">2</span>] <span class="ot">&lt;-</span> analysis<span class="sc">$</span>fit_params[index, ,<span class="dv">2</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Initialize the states with the states from the analysis that occurred on the index simulation date in the previous run through the particle filter.</p>
 <div class="cell">
