@@ -348,9 +348,10 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#reading" id="toc-reading" class="nav-link active" data-scroll-target="#reading"><span class="header-section-number">8.1</span> Reading</a></li>
-  <li><a href="#assignment" id="toc-assignment" class="nav-link" data-scroll-target="#assignment"><span class="header-section-number">8.2</span> Assignment</a></li>
-  <li><a href="#module-reference" id="toc-module-reference" class="nav-link" data-scroll-target="#module-reference"><span class="header-section-number">8.3</span> Module reference</a></li>
+  <li><a href="#key-concepts" id="toc-key-concepts" class="nav-link active" data-scroll-target="#key-concepts"><span class="header-section-number">8.1</span> Key concepts</a></li>
+  <li><a href="#reading" id="toc-reading" class="nav-link" data-scroll-target="#reading"><span class="header-section-number">8.2</span> Reading</a></li>
+  <li><a href="#assignment" id="toc-assignment" class="nav-link" data-scroll-target="#assignment"><span class="header-section-number">8.3</span> Assignment</a></li>
+  <li><a href="#module-reference" id="toc-module-reference" class="nav-link" data-scroll-target="#module-reference"><span class="header-section-number">8.4</span> Module reference</a></li>
   </ul>
 </nav>
     </div>
@@ -377,12 +378,18 @@ ul.task-list li input[type="checkbox"] {
 <p>In the third forecast generation assignment, you will be automating the submission of your forecast. By running your forecast code each day, you will be updating your model with the latest data, which is a simple form of data assimilation.</p>
 <p><a href="https://github.com/OlssonF/NEON-forecast-challenge-workshop/blob/main/Automate_forecasts/automation_tutorial.Rmd"><strong>Automation tutorial</strong></a></p>
 <p>You will be generating forecasts of water temperature at NEON aquatics sites.</p>
-<section id="reading" class="level2" data-number="8.1">
-<h2 data-number="8.1" class="anchored" data-anchor-id="reading"><span class="header-section-number">8.1</span> Reading</h2>
+<section id="key-concepts" class="level2" data-number="8.1">
+<h2 data-number="8.1" class="anchored" data-anchor-id="key-concepts"><span class="header-section-number">8.1</span> Key concepts</h2>
+<p>GitHub Actions is used to execute the forecast each day in the “cloud”. The “cloud” are small computers that are run somewhere in a Microsoft data center (Microsoft owns GitHub). You create a yaml file in the <code>.github/workflows</code> in your github repo that defines the time of day that your job is run, the environment (type of operating system and Docker container), and the steps in the job.</p>
+<p>You will use Docker container (<code>eco4cast/neon4cast-rocker</code>) to ensure consistent computation environment each day. The Docker is based on a rocker container that already has R, Rstudio, and many common packages (e.g., tidyverse). It also contains packages that are specific to the NEON Forecasting Challenge.</p>
+<p>Pulling data include the Docker container and export the results. Nothing persists in container after it finishes in GitHub Actions. You will use the <code>neon4cast::stage2</code> and <code>neon4cast::stage3</code> to read in the meteorology data. You will use read_csv and a weblink to read in the targets. You will export your forecasts using the <code>neon4cast::submit</code> function that uploads your forecast to the NEON Ecological Forecasting Challenge S3 submission bucket.</p>
+</section>
+<section id="reading" class="level2" data-number="8.2">
+<h2 data-number="8.2" class="anchored" data-anchor-id="reading"><span class="header-section-number">8.2</span> Reading</h2>
 <p>Thomas, R. Q., Boettiger, C., Carey, C. C., Dietze, M. C., Johnson, L. R., Kenney, M. A., et al.&nbsp;(2023). The NEON Ecological Forecasting Challenge. Frontiers in Ecology and the Environment, 21(3), 112–113. <a href="https://doi.org/10.1002/fee.2616" class="uri">https://doi.org/10.1002/fee.2616</a></p>
 </section>
-<section id="assignment" class="level2" data-number="8.2">
-<h2 data-number="8.2" class="anchored" data-anchor-id="assignment"><span class="header-section-number">8.2</span> Assignment</h2>
+<section id="assignment" class="level2" data-number="8.3">
+<h2 data-number="8.3" class="anchored" data-anchor-id="assignment"><span class="header-section-number">8.3</span> Assignment</h2>
 <p>Pre-assignment set up: Complete <a href="second-forecast.html" class="quarto-xref"><span>Chapter&nbsp;6</span></a></p>
 <ol type="1">
 <li>Convert your template markdown code to a .R script</li>
@@ -391,8 +398,8 @@ ul.task-list li input[type="checkbox"] {
 <li>Provide instructor with link to GitHub repository that demonstrates multiple successful automated execution of forecasting code.</li>
 </ol>
 </section>
-<section id="module-reference" class="level2" data-number="8.3">
-<h2 data-number="8.3" class="anchored" data-anchor-id="module-reference"><span class="header-section-number">8.3</span> Module reference</h2>
+<section id="module-reference" class="level2" data-number="8.4">
+<h2 data-number="8.4" class="anchored" data-anchor-id="module-reference"><span class="header-section-number">8.4</span> Module reference</h2>
 <p>Olsson, F., C. Boettiger, C.C. Carey, M.E. Lofton, and R.Q. Thomas. Can you predict the future? A tutorial for the National Ecological Observatory Network Ecological Forecasting Challenge. In review at <em>Journal of Open Source Education</em>.</p>
 
 
