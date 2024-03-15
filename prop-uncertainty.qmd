@@ -1,4 +1,4 @@
-# Propogating uncertainty {#sec-prop-unc}
+# Propagating uncertainty {#sec-prop-unc}
 
 ```{r}
 #| message: FALSE
@@ -64,7 +64,7 @@ inputs <- get_forecast_met(site = site, sim_dates, use_mean = TRUE)
 inputs_ensemble <- assign_met_ensembles(inputs, ens_members)
 ```
 
-## Parameter uncertainity
+## Parameter uncertainty
 
 Our model has `r ncol(params)` parameters. Each of them require a value that is likely not known with perfect uncertainty. Representing parameter uncertainty involves replacing the single value for each parameter with a distribution. The distribution can be from literature reviews, a best guess, or the outcome of a calibration exercise. The the calibration exercise is Bayesian the distribution of the parameter before calibration can be refereed to as a prior and after calibration is a posterior. Sampling from the parameter distribution provides values for the parameter that are assigned to each ensemble member.
 
