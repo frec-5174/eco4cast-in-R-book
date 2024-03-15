@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>A Practical Guide to Ecosystem Forecasting - 14&nbsp; Propogating uncertainty</title>
+<title>A Practical Guide to Ecosystem Forecasting - 14&nbsp; Propagating uncertainty</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -132,7 +132,7 @@ div.csl-indent {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./advanced-forecasting.html">Advanced forecasting</a></li><li class="breadcrumb-item"><a href="./prop-uncertainty.html"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Propogating uncertainty</span></a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./advanced-forecasting.html">Advanced forecasting</a></li><li class="breadcrumb-item"><a href="./prop-uncertainty.html"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Propagating uncertainty</span></a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -281,7 +281,7 @@ div.csl-indent {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./prop-uncertainty.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Propogating uncertainty</span></span></a>
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Propagating uncertainty</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -402,7 +402,7 @@ div.csl-indent {
   <li><a href="#baseline-initial-conditions" id="toc-baseline-initial-conditions" class="nav-link" data-scroll-target="#baseline-initial-conditions"><span class="header-section-number">14.1.2</span> Baseline initial conditions</a></li>
   <li><a href="#baseline-drivers" id="toc-baseline-drivers" class="nav-link" data-scroll-target="#baseline-drivers"><span class="header-section-number">14.1.3</span> Baseline drivers</a></li>
   </ul></li>
-  <li><a href="#parameter-uncertainity" id="toc-parameter-uncertainity" class="nav-link" data-scroll-target="#parameter-uncertainity"><span class="header-section-number">14.2</span> Parameter uncertainity</a></li>
+  <li><a href="#parameter-uncertainty" id="toc-parameter-uncertainty" class="nav-link" data-scroll-target="#parameter-uncertainty"><span class="header-section-number">14.2</span> Parameter uncertainty</a></li>
   <li><a href="#process-uncertainty" id="toc-process-uncertainty" class="nav-link" data-scroll-target="#process-uncertainty"><span class="header-section-number">14.3</span> Process uncertainty</a></li>
   <li><a href="#initial-condition-uncertainty" id="toc-initial-condition-uncertainty" class="nav-link" data-scroll-target="#initial-condition-uncertainty"><span class="header-section-number">14.4</span> Initial condition uncertainty</a></li>
   <li><a href="#driver-uncertainty" id="toc-driver-uncertainty" class="nav-link" data-scroll-target="#driver-uncertainty"><span class="header-section-number">14.5</span> Driver uncertainty</a></li>
@@ -419,7 +419,7 @@ div.csl-indent {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span id="sec-prop-unc" class="quarto-section-identifier"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Propogating uncertainty</span></span></h1>
+<h1 class="title"><span id="sec-prop-unc" class="quarto-section-identifier"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Propagating uncertainty</span></span></h1>
 </div>
 
 
@@ -491,8 +491,8 @@ div.csl-indent {
 </div>
 </section>
 </section>
-<section id="parameter-uncertainity" class="level2" data-number="14.2">
-<h2 data-number="14.2" class="anchored" data-anchor-id="parameter-uncertainity"><span class="header-section-number">14.2</span> Parameter uncertainity</h2>
+<section id="parameter-uncertainty" class="level2" data-number="14.2">
+<h2 data-number="14.2" class="anchored" data-anchor-id="parameter-uncertainty"><span class="header-section-number">14.2</span> Parameter uncertainty</h2>
 <p>Our model has 13 parameters. Each of them require a value that is likely not known with perfect uncertainty. Representing parameter uncertainty involves replacing the single value for each parameter with a distribution. The distribution can be from literature reviews, a best guess, or the outcome of a calibration exercise. The the calibration exercise is Bayesian the distribution of the parameter before calibration can be refereed to as a prior and after calibration is a posterior. Sampling from the parameter distribution provides values for the parameter that are assigned to each ensemble member.</p>
 <p>In many cases a sensitivity analysis can be used to determine which parameters to focus uncertainty estimation on. If a model is not particularly sensitive to parameter then the prediction uncertainty is less likely to be strongly determined by the uncertainty in that parameter. In practices, the values for the less sensitive parameters are held at a single value. Other parameters are so well known that they are also held at a single value (e.g., the gravitation constant).</p>
 <p>In this example, I focuses only on propagating one parameter (<code>alpha</code>) that represents the light use efficiency of photosynthesis. All other parameters are held at their baseline values.</p>
