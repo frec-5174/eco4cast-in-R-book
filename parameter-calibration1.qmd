@@ -41,7 +41,7 @@ plot(density(rnorm(10000, mean = 0, sd = 1)), xlab = "y", main = "mean = 0, sd =
 abline(v = y_i, col = "red")
 ```
 
-We could also ask "What is the probability that `X = y_i` given a normal distribution with mean = 2 and sd = 1?" In @fig-simple-rnorm-obs2 you can see that the observation is at a lower probability in the distribution.
+We could also ask "What is the probability that `X = y_i` *given* a normal distribution with mean = 2 and sd = 1?" In @fig-simple-rnorm-obs2 you can see that the observation is at a lower probability in the distribution.
 
 ```{r}
 #| fig-cap: Normal distribution with mean = 2 and sd = 1. The red line is an 'observation'
@@ -50,7 +50,7 @@ plot(density(rnorm(10000, mean = 2, sd = 1)), xlab = "y", main = "mean = 2, sd =
 abline(v = y_i, col = "red")
 ```
 
-We can numerically compare the answer to the two questions using the "Probability Density Function". In R the PDF is represented by the `dnorm` function (d representing "density"). The dnorm function allows us to answer the question: Which mean is more likely given the data point?
+We can numerically compare the answer to the two questions using the "Probability Density Function". In R the PDF is represented by the `dnorm` function (d representing "density"). The `dnorm` function allows us to answer the question: Which mean is more likely given the data point?
 
 ```{r}
 message("mean of 0")
@@ -66,7 +66,7 @@ Now, we can collect more data that represent more samples from the random variab
 y <- c(-0.2513233, -2.662035)
 ```
 
-What is the probability of both events occurring given the mean of 0? They are independent so we can multiply them.
+What is the probability of both events occurring given the mean = 0? They are independent so we can multiply them.
 
 **IMPORTANT:** If two random events are independent, then the probability that they both occur is the multiplication of the two individual probabilities. For example the probability of getting two heads in two coin flips is 0.5 \* 0.5 = 0.25. If the events are not independent then we can't just multiply (we will get to this later).
 
@@ -76,7 +76,7 @@ The two calls to the `dnorm` function are the evaluation of the two data points.
 dnorm(x = y[1], mean = 0, sd = 1, log = FALSE) * dnorm(x = y[2], mean = 0, sd = 1, log = FALSE)
 ```
 
-We can repeate the calculate but with a different mean to ask: What about with a mean of 2?
+We can repeat the calculation but with a different value for the mean to ask the question: What about with a mean of 2?
 
 ```{r}
 dnorm(x = y[1], mean = 2, sd = 1, log = FALSE) * dnorm(x = y[2], mean = 2, sd = 1, log = FALSE)
@@ -112,7 +112,7 @@ message("log likelihood: mean = 2")
 LL2
 ```
 
-The separate calls to `dnorm` can be combined into one call by using the vectoration capacities of R. If a vector of obsevation is passed to the function, it will return a vector that was evaluated as each value of the vector. Then the vector can be used in a call to the `sum` function to get a single value.
+The separate calls to `dnorm` can be combined into one call by using the vectorization capacities of R. If a vector of observation is passed to the function, it will return a vector that was evaluated as each value of the vector. Then the vector can be used in a call to the `sum` function to get a single value.
 
 ```{r}
 message("log likelihood: mean = 0")
@@ -176,7 +176,7 @@ plot(x = mean_values, y = -LL, type = "o", xlab = "mean", ylab = "-1 * log(likel
 abline(v = mean(y), col = "red")
 ```
 
-To use optimizer function in R, we first need to create a function that defines our likelihood (this is the same as above with the mean being \`par\[1\]\`). The likelihood is also called the cost function where worse values for the parameter have worse cost scores.
+To use optimizer function in R, we first need to create a function that defines our likelihood (this is the same as above with the mean being \`par\[1\]\`). The likelihood is also called the cost function where worse values for the parameter have higher cost scores.
 
 ```{r}
 LL_fn <- function(y, par){
@@ -543,6 +543,4 @@ Likelihood approach shown here gives us the *likelihood of the particular set of
 
 ## Problem set
 
-The problem set is located in `likelihood_problem_set.qmd` in  https://github.com/frec-5174/book-problem-sets.  You can fork the repository or copy the [code](https://github.com/frec-5174/book-problem-sets/blob/main/likelihood_problem_set.qmd) into your own quarto document
-
-
+The problem set is located in `likelihood_problem_set.qmd` in https://github.com/frec-5174/book-problem-sets. You can fork the repository or copy the [code](https://github.com/frec-5174/book-problem-sets/blob/main/likelihood_problem_set.qmd) into your own quarto document
