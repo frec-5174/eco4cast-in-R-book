@@ -444,7 +444,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<p>We could also ask “What is the probability that <code>X = y_i</code> given a normal distribution with mean = 2 and sd = 1?” In <a href="#fig-simple-rnorm-obs2" class="quarto-xref">Figure&nbsp;<span>16.3</span></a> you can see that the observation is at a lower probability in the distribution.</p>
+<p>We could also ask “What is the probability that <code>X = y_i</code> <em>given</em> a normal distribution with mean = 2 and sd = 1?” In <a href="#fig-simple-rnorm-obs2" class="quarto-xref">Figure&nbsp;<span>16.3</span></a> you can see that the observation is at a lower probability in the distribution.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">density</span>(<span class="fu">rnorm</span>(<span class="dv">10000</span>, <span class="at">mean =</span> <span class="dv">2</span>, <span class="at">sd =</span> <span class="dv">1</span>)), <span class="at">xlab =</span> <span class="st">"y"</span>, <span class="at">main =</span> <span class="st">"mean = 2, sd = 1"</span>)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> y_i, <span class="at">col =</span> <span class="st">"red"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -457,7 +457,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<p>We can numerically compare the answer to the two questions using the “Probability Density Function”. In R the PDF is represented by the <code>dnorm</code> function (d representing “density”). The dnorm function allows us to answer the question: Which mean is more likely given the data point?</p>
+<p>We can numerically compare the answer to the two questions using the “Probability Density Function”. In R the PDF is represented by the <code>dnorm</code> function (d representing “density”). The <code>dnorm</code> function allows us to answer the question: Which mean is more likely given the data point?</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">message</span>(<span class="st">"mean of 0"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
@@ -480,7 +480,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.2513233</span>, <span class="sc">-</span><span class="fl">2.662035</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>What is the probability of both events occurring given the mean of 0? They are independent so we can multiply them.</p>
+<p>What is the probability of both events occurring given the mean = 0? They are independent so we can multiply them.</p>
 <p><strong>IMPORTANT:</strong> If two random events are independent, then the probability that they both occur is the multiplication of the two individual probabilities. For example the probability of getting two heads in two coin flips is 0.5 * 0.5 = 0.25. If the events are not independent then we can’t just multiply (we will get to this later).</p>
 <p>The two calls to the <code>dnorm</code> function are the evaluation of the two data points.</p>
 <div class="cell">
@@ -489,7 +489,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>[1] 0.004459699</code></pre>
 </div>
 </div>
-<p>We can repeate the calculate but with a different mean to ask: What about with a mean of 2?</p>
+<p>We can repeat the calculation but with a different value for the mean to ask the question: What about with a mean of 2?</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dnorm</span>(<span class="at">x =</span> y[<span class="dv">1</span>], <span class="at">mean =</span> <span class="dv">2</span>, <span class="at">sd =</span> <span class="dv">1</span>, <span class="at">log =</span> <span class="cn">FALSE</span>) <span class="sc">*</span> <span class="fu">dnorm</span>(<span class="at">x =</span> y[<span class="dv">2</span>], <span class="at">mean =</span> <span class="dv">2</span>, <span class="at">sd =</span> <span class="dv">1</span>, <span class="at">log =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -545,7 +545,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>[1] -18.28215</code></pre>
 </div>
 </div>
-<p>The separate calls to <code>dnorm</code> can be combined into one call by using the vectoration capacities of R. If a vector of obsevation is passed to the function, it will return a vector that was evaluated as each value of the vector. Then the vector can be used in a call to the <code>sum</code> function to get a single value.</p>
+<p>The separate calls to <code>dnorm</code> can be combined into one call by using the vectorization capacities of R. If a vector of observation is passed to the function, it will return a vector that was evaluated as each value of the vector. Then the vector can be used in a call to the <code>sum</code> function to get a single value.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">message</span>(<span class="st">"log likelihood: mean = 0"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
@@ -650,7 +650,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<p>To use optimizer function in R, we first need to create a function that defines our likelihood (this is the same as above with the mean being `par[1]`). The likelihood is also called the cost function where worse values for the parameter have worse cost scores.</p>
+<p>To use optimizer function in R, we first need to create a function that defines our likelihood (this is the same as above with the mean being `par[1]`). The likelihood is also called the cost function where worse values for the parameter have higher cost scores.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>LL_fn <span class="ot">&lt;-</span> <span class="cf">function</span>(y, par){</span>
 <span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">#NEED NEGATIVE BECAUSE OPTIM MINIMIZES</span></span>
