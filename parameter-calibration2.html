@@ -558,7 +558,7 @@ P(mean | data) \simeq likelihood \cdot prior
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>area_under_curve <span class="ot">&lt;-</span> <span class="fu">sum</span>(prior_times_likelihood <span class="sc">*</span> delta_x)  <span class="co">#sum(Width * Height) = total probability of the data given all possible values of the parameter</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>normalized_posterior <span class="ot">&lt;-</span> prior_times_likelihood <span class="sc">/</span> area_under_curve</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>The probability of the data is (i.e., area under likelihood x prior curve): 8.3609513^{-6}</p>
+<p>The probability of the data is (i.e., area under likelihood x prior curve): 1.330082^{-6}</p>
 <p>Now we can visualize the rescaled likelihood (remember that the un-scaled likelihood was actually used in the calculations), the prior, and the normalized posterior.</p>
 <p><a href="#fig-prior-ll-post" class="quarto-xref">Figure&nbsp;<span>17.7</span></a> shows how the how the posterior is a blend of the prior and the likelihood.</p>
 <div class="cell">
