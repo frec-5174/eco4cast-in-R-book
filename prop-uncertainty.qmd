@@ -64,7 +64,7 @@ inputs <- get_forecast_met(site = site, sim_dates, use_mean = TRUE)
 inputs_ensemble <- assign_met_ensembles(inputs, ens_members)
 ```
 
-## Parameter uncertainty
+## Parameter uncertainty {#sec-prop-unc-pars}
 
 Our model has `r ncol(params)` parameters. Each of them require a value that is likely not known with perfect uncertainty. Representing parameter uncertainty involves replacing the single value for each parameter with a distribution. The distribution can be from literature reviews, a best guess, or the outcome of a calibration exercise. The the calibration exercise is Bayesian the distribution of the parameter before calibration can be refereed to as a prior and after calibration is a posterior. Sampling from the parameter distribution provides values for the parameter that are assigned to each ensemble member.
 
@@ -297,12 +297,18 @@ Answer with text, code, and plots the following questions
 2)  10 days-ahead, what is the largest source of uncertainty for a flux (nee)? for a state (wood)?
 3)  30 days-ahead, what is the largest source of uncertainty for a flux (nee)? for a state (wood)?
 
+To answer the question you will calculate the variance across ensemble members for each uncertainty type for each date.  This table can be plotted to visually compare the magnitude of each source of uncertainty. 
+
+```{r}
+
+
+```
+
 ### Part 2
 
-Using the code above as a guide, create code to estimate uncertainty based on the propagation all sources at the same time (unlike the one-at-a-time approach above).
+Using the code above as a guide, create code to estimate uncertainty based on the propagation all sources at the same time (unlike the one-at-a-time approach above). Plot the forecast with the combined uncertainty.
 
-Answer with text, code, and plots the following questions
+```{r}
 
--   Plot the forecast with the combined uncertainty.
 
--   If you calculate the variance of the combined uncertainty and compared to the sum of the individual variances, do they match? What does it mean if they are different?
+```

@@ -1,5 +1,7 @@
 # Parameter calibration: Bayesian methods {#sec-bayes}
 
+Including parameter uncertainty in forecasts as demonstrated in @sec-prop-unc-pars requires having a probability distribute for the parameters.  The previous chapter shows how to estimate parameters using likelihood methods.  While likelihood methods are designed to find optimal values, they are not designed to estimate the probability distribution of the parameters.  By finding optimal values likelihood methods can reduce process uncertainty because a better calibrated model has a better match to historical data and smaller residual error.  This chapter introduces the use of Bayesian methods to estimate parameter distributions.
+
 ## Introduction to Bayesian statistics
 
 ```{r}
@@ -7,6 +9,7 @@
 #| message: FALSE
 library(tidyverse)
 library(patchwork)
+set.seed(120)
 ```
 
 ### Starting with likelihood
@@ -34,6 +37,7 @@ We can calculate the likelihood for a set of different means using the manual li
 delta_x <- 0.1
 x <- seq(-10,10, delta_x)
 negative_log_likelihood <- rep(NA,length(x))
+
 for(i in 1:length(x)){
   negative_log_likelihood[i] <- -sum(dnorm(new_data, mean = x[i], sd = 1, log = TRUE))
 }
@@ -63,6 +67,7 @@ The y-axis are tiny numbers because we multiplied probability densities together
 
 ```{r}
 likelihood_area_under_curve <- sum(density_likelihood * delta_x) #Width * Height
+
 density_likelihood_rescaled <- density_likelihood/likelihood_area_under_curve
 ```
 
@@ -72,11 +77,10 @@ The rescaled likelihood looks like this (@fig-rescaled-ll)
 #| fig-cap: Rescale likelihood (area under curve is 1)
 #| label: fig-rescaled-ll
 d <- tibble(x = x,
-            likelihood = density_likelihood_rescaled) |> 
-ggplot(aes(x = x, y = likelihood)) +
+            likelihood = density_likelihood_rescaled)
+ggplot(data = d, aes(x = x, y = likelihood)) +
   geom_line() +
   theme_bw()
-
 ```
 
 Remember that this curve is the P(data \| mean = x). We want the P(mean = x \| data).
@@ -179,7 +183,7 @@ explore_senstivity <- function(num_data_points, mean_data, sd_data, mean_prior, 
 
 new_data <- rnorm(num_data_points, mean_data, sd_data)
 delta_x <- 0.1
-x <- seq(-5,5, delta_x)
+x <- seq(-15,15, delta_x)
 negative_log_likelihood <- rep(NA,length(x))
 
 #DATA MODEL
@@ -223,7 +227,7 @@ p1 <- explore_senstivity(num_data_points = 5,
                         sd_data = 2,
                         mean_prior = 0,
                         sd_prior = 1.0,
-                        title = "Baseline")
+                        title = "Baseline\n")
 
 #Increase confidence in prior
 p2 <- explore_senstivity(num_data_points = 5,
@@ -239,13 +243,21 @@ p3 <- explore_senstivity(num_data_points = 50,
                         sd_data = 2,
                         mean_prior = 0,
                         sd_prior = 1.0,
-                        title = "Increase data")
+                        title = "Increase data\n")
 
 #Make likelihood mean closer to prior
 p4 <- explore_senstivity(num_data_points = 5,
                         mean_data = 0,
                         sd_data = 2,
                         mean_prior = 0,
+                        sd_prior = 1.0,
+                        title = "Make likelihood mean\ncloser to prior")
+
+
+p4 <- explore_senstivity(num_data_points = 1,
+                        mean_data = 10,
+                        sd_data = 1.0,
+                        mean_prior = 10,
                         sd_prior = 1.0,
                         title = "Make likelihood mean\ncloser to prior")
 
@@ -265,7 +277,6 @@ Just like we extended the likelihood analysis to the non-linear example, we can 
 First create a data set using the Michaelis-Menten function from the likelihood exercise. Here, instead of fitting both parameters, we only fit one parameter (the maximum or saturating value) called par1. In the chunk below we set the number of data points, the true value for par1, and the standard deviation of the data.
 
 ```{r}
-set.seed(100)
 num_data_points <- 10
 par1_true <- 3
 sd_data <- 0.5
@@ -366,7 +377,7 @@ The second is called MCMC Metropolis--Hastings (MCMC-MH) and is a rejection samp
 5)  If `prob_proposed` from Step 3 is greater than `z` from Step 4 then save the proposed parameter for that iteration of MCMC chain. If it is less, then assign the previous parameter value for that iteration of the MCMC chain. As a result of Step 5:
 
 -   All parameters that improve the probability will have `prob_proposed/prob_current` \> 1. Therefore all improvements will be accepted since z (by definition in Step 4) can never be greater than 1.
--   Worse parameters where `prob_proposed/prob_current` \< 1, will be accepted in proportion to how worse they are. For example if `prob_proposed/prob_current` = 0.9, 90% of the time z will be less the .90 so the worse parameters than are worse by 10% will be accepted 90% of the time. If `prob_proposed/prob_current` = 0.01 (i.e., the new parameters are much worse), only 1% of the time will z be less then 0.01. Therefore it is possible but not common to save these worse parameters. As a result, the MCMC-MH approach explores the full distribution by spending more time at more likely parameter values. This is different than maximum likelihood optimization methods like `optim'` that only save parameters that are better than previous (thus finds the peak of the mountain rather than the shape of the mountain). The MCMC-HM approach requires taking a lot samples so that it spends some time at very unlikely values - a necessity for estimating the tails of a distribution.
+-   Worse parameters where `prob_proposed/prob_current` \< 1, will be accepted in proportion to how worse they are. For example if `prob_proposed/prob_current` = 0.9, 90% of the time z will be less the 0.90 so the worse parameters than are worse by 10% will be accepted 90% of the time. If `prob_proposed/prob_current` = 0.01 (i.e., the new parameters are much worse), only 1% of the time will z be less then 0.01. Therefore it is possible but not common to save these worse parameters. As a result, the MCMC-MH approach explores the full distribution by spending more time at more likely parameter values. This is different than maximum likelihood optimization methods like `optim'` that only save parameters that are better than previous (thus finds the peak of the mountain rather than the shape of the mountain). The MCMC-HM approach requires taking a lot samples so that it spends some time at very unlikely values - a necessity for estimating the tails of a distribution.
 -   You want to accept \~40% percent of all proposed parameter values. If your jump parameter from #1 is too large, you won't be able two explore the area around the most likely values (i.e., you won't get a lot of `prob_proposed/prob_current` values near 1). If your jump parameter from #1 is too small, you won't be able to explore the tails of the distribution (i.e., you won't get a lot of `prob_proposed/prob_current` values near 0 that have a random chance of being accepted).
 
 *Note:* there is a step that is ignored here that just confuses at this stage. Your proposal distribution in #1 doesn't have to be normal, which is symmetric (i.e., your probability of jumping from a value of X to Y is the same as jumping from Y to X). There is adjustment for non-symmetric proposals that is on page page 71 in Dietze and page 158 in Hobbs and Hooten.
@@ -395,15 +406,18 @@ Run MCMC-MH
 
 ```{r}
 #Initialize chain
-num_iter <- 5000
+num_iter <- 1000
 pars <- array(NA, dim = c(num_iter))
 pars[1] <- 2
 log_prob_current <- -10000000000
 prob_current <- exp(log_prob_current)
-jump <- 0.1
+jump <- 0.8
 
 mean_prior <- 1.0
 sd_prior <- 0.5
+
+accept <- rep(NA,num_iter)
+accept[1] <- 1
 
 for(i in 2:num_iter){
   
@@ -440,10 +454,13 @@ for(i in 2:num_iter){
   #worse values will be accepted a lot of the time).  In contrast, if z = 0.01
   #(i.e., the new parameters are much much worse), then they can still be accepted
   #but much more rarely because random r values of < 0.1 occur more rarely
+  #print(c(pars[i - 1], proposed_pars, z, r))
   if(z > r){
+    accept[i] <- 1
     pars[i] <- proposed_pars
     prob_current <- prob_proposed
   }else{
+    accept[i] <- 0
     pars[i] <- pars[i - 1]
     prob_current <- prob_current #this calculation isn't necessary but is here to show you the logic
   }
@@ -520,7 +537,7 @@ hist(random_draws)
 
 Finally we can use the idea of randomly drawing from the posterior to develop predictions from the posterior. This is just like the Logistic growth module where you randomly sampled from the parameter uncertainty and used the random samples in the logistic equation.
 
-Here we are calculating two things 1) `pred_posterior_mean` just has uncertainty in the M-M parameter. Think about this as generating uncertainty around the mean prediction at each value of x. 2) `y_posterior` is the prediction of a observation. Therefore you take the value from #1 and add the uncertainty in the observations from `sd_data` that was set above. This is your predictive or forecast uncertainty.
+Here we are calculating two things 1) `pred_posterior_mean` just has uncertainty in the M-M model parameter. Think about this as generating uncertainty around the mean prediction at each value of x. 2) `y_posterior` is the prediction of a observation. Therefore you take the value from #1 and add the uncertainty in the observations from `sd_data` that was set above. This is your predictive or forecast uncertainty.
 
 **Important:** If you have multiple parameters your MCMC chain, you randomly draw `posterior_sample_indices` and use values for all the parameters at that iteration. By doing this you are representing the joint distribution of the parameter - e.g., if parameter 1 is high, parameter 2 is always low. If you select `posterior_sample_indices` for each parameter, you break the correlations of parameters that the MCMC method estimated and, as a result, overestimate the uncertainty.
 
@@ -563,8 +580,6 @@ ggplot(d, aes(x = x)) +
 
 ## Reading
 
-
 ## Problem Set
 
-The problem set is located in `bayesian_problem_set.qmd` in  https://github.com/frec-5174/book-problem-sets.  You can fork the repository or copy the [code](https://github.com/frec-5174/book-problem-sets/blob/main/bayesian_problem_set.qmd) into your own quarto document
-
+The problem set is located in `bayesian_problem_set.qmd` in https://github.com/frec-5174/book-problem-sets. You can fork the repository or copy the [code](https://github.com/frec-5174/book-problem-sets/blob/main/bayesian_problem_set.qmd) into your own quarto document
