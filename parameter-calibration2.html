@@ -410,6 +410,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
+<p>Including parameter uncertainty in forecasts as demonstrated in <a href="prop-uncertainty.html#sec-prop-unc-pars" class="quarto-xref"><span>Section&nbsp;14.2</span></a> requires having a probability distribute for the parameters. The previous chapter shows how to estimate parameters using likelihood methods. While likelihood methods are designed to find optimal values, they are not designed to estimate the probability distribution of the parameters. By finding optimal values likelihood methods can reduce process uncertainty because a better calibrated model has a better match to historical data and smaller residual error. This chapter introduces the use of Bayesian methods to estimate parameter distributions.</p>
 <section id="introduction-to-bayesian-statistics" class="level2" data-number="17.1">
 <h2 data-number="17.1" class="anchored" data-anchor-id="introduction-to-bayesian-statistics"><span class="header-section-number">17.1</span> Introduction to Bayesian statistics</h2>
 <section id="starting-with-likelihood" class="level3" data-number="17.1.1">
@@ -439,9 +440,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>delta_x <span class="ot">&lt;-</span> <span class="fl">0.1</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">10</span>,<span class="dv">10</span>, delta_x)</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>negative_log_likelihood <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>,<span class="fu">length</span>(x))</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(x)){</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  negative_log_likelihood[i] <span class="ot">&lt;-</span> <span class="sc">-</span><span class="fu">sum</span>(<span class="fu">dnorm</span>(new_data, <span class="at">mean =</span> x[i], <span class="at">sd =</span> <span class="dv">1</span>, <span class="at">log =</span> <span class="cn">TRUE</span>))</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(x)){</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  negative_log_likelihood[i] <span class="ot">&lt;-</span> <span class="sc">-</span><span class="fu">sum</span>(<span class="fu">dnorm</span>(new_data, <span class="at">mean =</span> x[i], <span class="at">sd =</span> <span class="dv">1</span>, <span class="at">log =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><a href="#fig-ll-bayes" class="quarto-xref">Figure&nbsp;<span>17.2</span></a> is the likelihood surface for different values of the mean given the observation of x = 2.</p>
 <div class="cell">
@@ -473,15 +475,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>The y-axis are tiny numbers because we multiplied probability densities together. This is OK for our illustrative purposes. To help visualize we can rescale so that area under the curve is 1. The area is approximated where the density is the height and the width is the distance between points on the x axis (<code>delta_x</code>) that we evaluated (height x width is the area of a bar under the curve). If we sum the bars together, we get the area under the curve (a value way less than 1). Dividing the likelihood by the area rescales the densities so the area under the curve is 1. Rescaling the likelihood is not a formal part of the analysis - just used here for visualizing.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>likelihood_area_under_curve <span class="ot">&lt;-</span> <span class="fu">sum</span>(density_likelihood <span class="sc">*</span> delta_x) <span class="co">#Width * Height</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>density_likelihood_rescaled <span class="ot">&lt;-</span> density_likelihood<span class="sc">/</span>likelihood_area_under_curve</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>density_likelihood_rescaled <span class="ot">&lt;-</span> density_likelihood<span class="sc">/</span>likelihood_area_under_curve</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>The rescaled likelihood looks like this (<span class="quarto-unresolved-ref">?fig-rescaled-ll</span>)</p>
+<p>The rescaled likelihood looks like this (<a href="#fig-rescaled-ll" class="quarto-xref">Figure&nbsp;<span>17.4</span></a>)</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> x,</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>            <span class="at">likelihood =</span> density_likelihood_rescaled) <span class="sc">|&gt;</span> </span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> likelihood)) <span class="sc">+</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>            <span class="at">likelihood =</span> density_likelihood_rescaled)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> d, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> likelihood)) <span class="sc">+</span></span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-rescaled-ll" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="parameter-calibration2_files/figure-html/fig-rescaled-ll-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;17.4: Rescale likelihood (area under curve is 1)</figcaption>
+</figure>
+</div>
+</div>
 </div>
 <p>Remember that this curve is the P(data | mean = x). We want the P(mean = x | data).</p>
 <p>Following Bayes rule where the <span class="math inline">\(P(data | model)\)</span> is the likelihood and <span class="math inline">\(P(model)\)</span> is our guess for the mean before seeing the data (called the prior)</p>
@@ -496,7 +507,7 @@ P(mean | data) \simeq likelihood \cdot prior
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>mean_prior <span class="ot">&lt;-</span> <span class="dv">0</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>sd_prior <span class="ot">&lt;-</span> <span class="fl">1.0</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>With the density for each value of x in <a href="#fig-prior-dens" class="quarto-xref">Figure&nbsp;<span>17.4</span></a></p>
+<p>With the density for each value of x in <a href="#fig-prior-dens" class="quarto-xref">Figure&nbsp;<span>17.5</span></a></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>density_prior <span class="ot">&lt;-</span> <span class="fu">dnorm</span>(x, <span class="at">mean =</span> mean_prior, <span class="at">sd =</span> sd_prior)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -510,12 +521,12 @@ P(mean | data) \simeq likelihood \cdot prior
 <div id="fig-prior-dens" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="parameter-calibration2_files/figure-html/fig-prior-dens-1.png" class="img-fluid figure-img" width="672"></p>
-<figcaption class="figure-caption">Figure&nbsp;17.4: likelihood of the x given the prior distribution</figcaption>
+<figcaption class="figure-caption">Figure&nbsp;17.5: likelihood of the x given the prior distribution</figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p>Putting the rescaled likelihood on the same plot as the prior results in <a href="#fig-prior-ll-dens" class="quarto-xref">Figure&nbsp;<span>17.5</span></a></p>
+<p>Putting the rescaled likelihood on the same plot as the prior results in <a href="#fig-prior-ll-dens" class="quarto-xref">Figure&nbsp;<span>17.6</span></a></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(<span class="at">x =</span> x,</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>            <span class="at">prior =</span> density_prior,</span>
@@ -529,12 +540,12 @@ P(mean | data) \simeq likelihood \cdot prior
 <div id="fig-prior-ll-dens" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="parameter-calibration2_files/figure-html/fig-prior-ll-dens-1.png" class="img-fluid figure-img" width="672"></p>
-<figcaption class="figure-caption">Figure&nbsp;17.5: likelihood of the x given the prior distribution and likelihood of the model.</figcaption>
+<figcaption class="figure-caption">Figure&nbsp;17.6: likelihood of the x given the prior distribution and likelihood of the model.</figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p>Multiplying the prior x the likelihood (not rescaled) gives <a href="#fig-post-unscaled" class="quarto-xref">Figure&nbsp;<span>17.6</span></a></p>
+<p>Multiplying the prior x the likelihood (not rescaled) gives <a href="#fig-post-unscaled" class="quarto-xref">Figure&nbsp;<span>17.7</span></a></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>prior_times_likelihood <span class="ot">&lt;-</span> density_prior <span class="sc">*</span> density_likelihood</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -548,7 +559,7 @@ P(mean | data) \simeq likelihood \cdot prior
 <div id="fig-post-unscaled" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="parameter-calibration2_files/figure-html/fig-post-unscaled-1.png" class="img-fluid figure-img" width="672"></p>
-<figcaption class="figure-caption">Figure&nbsp;17.6: <strong>?(caption)</strong></figcaption>
+<figcaption class="figure-caption">Figure&nbsp;17.7: <strong>?(caption)</strong></figcaption>
 </figure>
 </div>
 </div>
@@ -558,9 +569,9 @@ P(mean | data) \simeq likelihood \cdot prior
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>area_under_curve <span class="ot">&lt;-</span> <span class="fu">sum</span>(prior_times_likelihood <span class="sc">*</span> delta_x)  <span class="co">#sum(Width * Height) = total probability of the data given all possible values of the parameter</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>normalized_posterior <span class="ot">&lt;-</span> prior_times_likelihood <span class="sc">/</span> area_under_curve</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>The probability of the data is (i.e., area under likelihood x prior curve): 2.3060695^{-5}</p>
+<p>The probability of the data is (i.e., area under likelihood x prior curve): 2.2325827^{-6}</p>
 <p>Now we can visualize the rescaled likelihood (remember that the un-scaled likelihood was actually used in the calculations), the prior, and the normalized posterior.</p>
-<p><a href="#fig-prior-ll-post" class="quarto-xref">Figure&nbsp;<span>17.7</span></a> shows how the how the posterior is a blend of the prior and the likelihood.</p>
+<p><a href="#fig-prior-ll-post" class="quarto-xref">Figure&nbsp;<span>17.8</span></a> shows how the how the posterior is a blend of the prior and the likelihood.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(<span class="at">x =</span> x,</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">prior =</span> density_prior,</span>
@@ -575,7 +586,7 @@ P(mean | data) \simeq likelihood \cdot prior
 <div id="fig-prior-ll-post" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="parameter-calibration2_files/figure-html/fig-prior-ll-post-1.png" class="img-fluid figure-img" width="672"></p>
-<figcaption class="figure-caption">Figure&nbsp;17.7: Prior, likelihood, and posterior shown together</figcaption>
+<figcaption class="figure-caption">Figure&nbsp;17.8: Prior, likelihood, and posterior shown together</figcaption>
 </figure>
 </div>
 </div>
@@ -586,7 +597,7 @@ P(mean | data) \simeq likelihood \cdot prior
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>new_data <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(num_data_points, mean_data, sd_data)</span>
 <span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>delta_x <span class="ot">&lt;-</span> <span class="fl">0.1</span></span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">5</span>,<span class="dv">5</span>, delta_x)</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">15</span>,<span class="dv">15</span>, delta_x)</span>
 <span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>negative_log_likelihood <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>,<span class="fu">length</span>(x))</span>
 <span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="co">#DATA MODEL</span></span>
@@ -628,7 +639,7 @@ P(mean | data) \simeq likelihood \cdot prior
 <span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>                        <span class="at">sd_data =</span> <span class="dv">2</span>,</span>
 <span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>                        <span class="at">mean_prior =</span> <span class="dv">0</span>,</span>
 <span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>                        <span class="at">sd_prior =</span> <span class="fl">1.0</span>,</span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>                        <span class="at">title =</span> <span class="st">"Baseline"</span>)</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>                        <span class="at">title =</span> <span class="st">"Baseline</span><span class="sc">\n</span><span class="st">"</span>)</span>
 <span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="co">#Increase confidence in prior</span></span>
 <span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">explore_senstivity</span>(<span class="at">num_data_points =</span> <span class="dv">5</span>,</span>
@@ -644,7 +655,7 @@ P(mean | data) \simeq likelihood \cdot prior
 <span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a>                        <span class="at">sd_data =</span> <span class="dv">2</span>,</span>
 <span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>                        <span class="at">mean_prior =</span> <span class="dv">0</span>,</span>
 <span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a>                        <span class="at">sd_prior =</span> <span class="fl">1.0</span>,</span>
-<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a>                        <span class="at">title =</span> <span class="st">"Increase data"</span>)</span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a>                        <span class="at">title =</span> <span class="st">"Increase data</span><span class="sc">\n</span><span class="st">"</span>)</span>
 <span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a><span class="co">#Make likelihood mean closer to prior</span></span>
 <span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a>p4 <span class="ot">&lt;-</span> <span class="fu">explore_senstivity</span>(<span class="at">num_data_points =</span> <span class="dv">5</span>,</span>
@@ -652,15 +663,23 @@ P(mean | data) \simeq likelihood \cdot prior
 <span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a>                        <span class="at">sd_data =</span> <span class="dv">2</span>,</span>
 <span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a>                        <span class="at">mean_prior =</span> <span class="dv">0</span>,</span>
 <span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a>                        <span class="at">sd_prior =</span> <span class="fl">1.0</span>,</span>
-<span id="cb18-31"><a href="#cb18-31" aria-hidden="true" tabindex="-1"></a>                        <span class="at">title =</span> <span class="st">"Make likelihood mean</span><span class="sc">\n</span><span class="st">closer to prior"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb18-31"><a href="#cb18-31" aria-hidden="true" tabindex="-1"></a>                        <span class="at">title =</span> <span class="st">"Make likelihood mean</span><span class="sc">\n</span><span class="st">closer to prior"</span>)</span>
+<span id="cb18-32"><a href="#cb18-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-33"><a href="#cb18-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-34"><a href="#cb18-34" aria-hidden="true" tabindex="-1"></a>p4 <span class="ot">&lt;-</span> <span class="fu">explore_senstivity</span>(<span class="at">num_data_points =</span> <span class="dv">1</span>,</span>
+<span id="cb18-35"><a href="#cb18-35" aria-hidden="true" tabindex="-1"></a>                        <span class="at">mean_data =</span> <span class="dv">10</span>,</span>
+<span id="cb18-36"><a href="#cb18-36" aria-hidden="true" tabindex="-1"></a>                        <span class="at">sd_data =</span> <span class="fl">1.0</span>,</span>
+<span id="cb18-37"><a href="#cb18-37" aria-hidden="true" tabindex="-1"></a>                        <span class="at">mean_prior =</span> <span class="dv">10</span>,</span>
+<span id="cb18-38"><a href="#cb18-38" aria-hidden="true" tabindex="-1"></a>                        <span class="at">sd_prior =</span> <span class="fl">1.0</span>,</span>
+<span id="cb18-39"><a href="#cb18-39" aria-hidden="true" tabindex="-1"></a>                        <span class="at">title =</span> <span class="st">"Make likelihood mean</span><span class="sc">\n</span><span class="st">closer to prior"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p><a href="#fig-post-sens" class="quarto-xref">Figure&nbsp;<span>17.8</span></a> shows the sensitivity of the posterior to assumptions of the prior and the data.</p>
+<p><a href="#fig-post-sens" class="quarto-xref">Figure&nbsp;<span>17.9</span></a> shows the sensitivity of the posterior to assumptions of the prior and the data.</p>
 <div class="cell">
 <div class="cell-output-display">
 <div id="fig-post-sens" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="parameter-calibration2_files/figure-html/fig-post-sens-1.png" class="img-fluid figure-img" width="672"></p>
-<figcaption class="figure-caption">Figure&nbsp;17.8: Senstivity of posteriors to different data and prior scenarios</figcaption>
+<figcaption class="figure-caption">Figure&nbsp;17.9: Senstivity of posteriors to different data and prior scenarios</figcaption>
 </figure>
 </div>
 </div>
@@ -668,14 +687,13 @@ P(mean | data) \simeq likelihood \cdot prior
 <p>Just like we extended the likelihood analysis to the non-linear example, we can do the same for the Bayesian analysis.</p>
 <p>First create a data set using the Michaelis-Menten function from the likelihood exercise. Here, instead of fitting both parameters, we only fit one parameter (the maximum or saturating value) called par1. In the chunk below we set the number of data points, the true value for par1, and the standard deviation of the data.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">100</span>)</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>num_data_points <span class="ot">&lt;-</span> <span class="dv">10</span></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>par1_true <span class="ot">&lt;-</span> <span class="dv">3</span></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>sd_data <span class="ot">&lt;-</span> <span class="fl">0.5</span></span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">runif</span>(num_data_points, <span class="dv">0</span>, <span class="dv">10</span>)</span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>par_true <span class="ot">&lt;-</span> <span class="fu">c</span>(par1_true, <span class="fl">0.5</span>)</span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>y_true <span class="ot">&lt;-</span> par_true[<span class="dv">1</span>] <span class="sc">*</span> (x <span class="sc">/</span> (x <span class="sc">+</span> par_true[<span class="dv">2</span>]))</span>
-<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="fu">length</span>(y_true), <span class="at">mean =</span> y_true, <span class="at">sd =</span> sd_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>num_data_points <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>par1_true <span class="ot">&lt;-</span> <span class="dv">3</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>sd_data <span class="ot">&lt;-</span> <span class="fl">0.5</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">runif</span>(num_data_points, <span class="dv">0</span>, <span class="dv">10</span>)</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>par_true <span class="ot">&lt;-</span> <span class="fu">c</span>(par1_true, <span class="fl">0.5</span>)</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>y_true <span class="ot">&lt;-</span> par_true[<span class="dv">1</span>] <span class="sc">*</span> (x <span class="sc">/</span> (x <span class="sc">+</span> par_true[<span class="dv">2</span>]))</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="fu">length</span>(y_true), <span class="at">mean =</span> y_true, <span class="at">sd =</span> sd_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x, y, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, par1_true <span class="sc">+</span> <span class="dv">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -763,7 +781,7 @@ P(mean | data) \simeq likelihood \cdot prior
 </ol>
 <ul>
 <li>All parameters that improve the probability will have <code>prob_proposed/prob_current</code> &gt; 1. Therefore all improvements will be accepted since z (by definition in Step 4) can never be greater than 1.</li>
-<li>Worse parameters where <code>prob_proposed/prob_current</code> &lt; 1, will be accepted in proportion to how worse they are. For example if <code>prob_proposed/prob_current</code> = 0.9, 90% of the time z will be less the .90 so the worse parameters than are worse by 10% will be accepted 90% of the time. If <code>prob_proposed/prob_current</code> = 0.01 (i.e., the new parameters are much worse), only 1% of the time will z be less then 0.01. Therefore it is possible but not common to save these worse parameters. As a result, the MCMC-MH approach explores the full distribution by spending more time at more likely parameter values. This is different than maximum likelihood optimization methods like <code>optim'</code> that only save parameters that are better than previous (thus finds the peak of the mountain rather than the shape of the mountain). The MCMC-HM approach requires taking a lot samples so that it spends some time at very unlikely values - a necessity for estimating the tails of a distribution.</li>
+<li>Worse parameters where <code>prob_proposed/prob_current</code> &lt; 1, will be accepted in proportion to how worse they are. For example if <code>prob_proposed/prob_current</code> = 0.9, 90% of the time z will be less the 0.90 so the worse parameters than are worse by 10% will be accepted 90% of the time. If <code>prob_proposed/prob_current</code> = 0.01 (i.e., the new parameters are much worse), only 1% of the time will z be less then 0.01. Therefore it is possible but not common to save these worse parameters. As a result, the MCMC-MH approach explores the full distribution by spending more time at more likely parameter values. This is different than maximum likelihood optimization methods like <code>optim'</code> that only save parameters that are better than previous (thus finds the peak of the mountain rather than the shape of the mountain). The MCMC-HM approach requires taking a lot samples so that it spends some time at very unlikely values - a necessity for estimating the tails of a distribution.</li>
 <li>You want to accept ~40% percent of all proposed parameter values. If your jump parameter from #1 is too large, you won’t be able two explore the area around the most likely values (i.e., you won’t get a lot of <code>prob_proposed/prob_current</code> values near 1). If your jump parameter from #1 is too small, you won’t be able to explore the tails of the distribution (i.e., you won’t get a lot of <code>prob_proposed/prob_current</code> values near 0 that have a random chance of being accepted).</li>
 </ul>
 <p><em>Note:</em> there is a step that is ignored here that just confuses at this stage. Your proposal distribution in #1 doesn’t have to be normal, which is symmetric (i.e., your probability of jumping from a value of X to Y is the same as jumping from Y to X). There is adjustment for non-symmetric proposals that is on page page 71 in Dietze and page 158 in Hobbs and Hooten.</p>
@@ -788,59 +806,65 @@ P(mean | data) \simeq likelihood \cdot prior
 <p>Run MCMC-MH</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Initialize chain</span></span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>num_iter <span class="ot">&lt;-</span> <span class="dv">5000</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>num_iter <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>pars <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="cn">NA</span>, <span class="at">dim =</span> <span class="fu">c</span>(num_iter))</span>
 <span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>pars[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="dv">2</span></span>
 <span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>log_prob_current <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">10000000000</span></span>
 <span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>prob_current <span class="ot">&lt;-</span> <span class="fu">exp</span>(log_prob_current)</span>
-<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>jump <span class="ot">&lt;-</span> <span class="fl">0.1</span></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>jump <span class="ot">&lt;-</span> <span class="fl">0.8</span></span>
 <span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>mean_prior <span class="ot">&lt;-</span> <span class="fl">1.0</span></span>
 <span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>sd_prior <span class="ot">&lt;-</span> <span class="fl">0.5</span></span>
 <span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span>num_iter){</span>
-<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>  <span class="co">#Randomly select new parameter values</span></span>
-<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>  proposed_pars <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">1</span>, pars[i <span class="sc">-</span> <span class="dv">1</span>], jump)</span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>accept <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>,num_iter)</span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>accept[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span>num_iter){</span>
 <span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a>  <span class="co">#PRIORS: how likely is the proposed value given the prior distribution?</span></span>
-<span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a>  prior <span class="ot">&lt;-</span> <span class="fu">dnorm</span>(proposed_pars, <span class="at">mean =</span> mean_prior, <span class="at">sd =</span> sd_prior)</span>
-<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-21"><a href="#cb28-21" aria-hidden="true" tabindex="-1"></a>  <span class="co">#PROCESS MODEL: Use new parameter values in the process model</span></span>
-<span id="cb28-22"><a href="#cb28-22" aria-hidden="true" tabindex="-1"></a>  pred <span class="ot">&lt;-</span> proposed_pars <span class="sc">*</span> (x <span class="sc">/</span> (x <span class="sc">+</span> par_true[<span class="dv">2</span>]))</span>
+<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a>  <span class="co">#Randomly select new parameter values</span></span>
+<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a>  proposed_pars <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">1</span>, pars[i <span class="sc">-</span> <span class="dv">1</span>], jump)</span>
+<span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb28-21"><a href="#cb28-21" aria-hidden="true" tabindex="-1"></a>  <span class="co">#PRIORS: how likely is the proposed value given the prior distribution?</span></span>
+<span id="cb28-22"><a href="#cb28-22" aria-hidden="true" tabindex="-1"></a>  prior <span class="ot">&lt;-</span> <span class="fu">dnorm</span>(proposed_pars, <span class="at">mean =</span> mean_prior, <span class="at">sd =</span> sd_prior)</span>
 <span id="cb28-23"><a href="#cb28-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-24"><a href="#cb28-24" aria-hidden="true" tabindex="-1"></a>  <span class="co">#DATA MODEL: how likely is the data given the proposed parameter?</span></span>
-<span id="cb28-25"><a href="#cb28-25" aria-hidden="true" tabindex="-1"></a>  <span class="co">#We are multiplying here</span></span>
-<span id="cb28-26"><a href="#cb28-26" aria-hidden="true" tabindex="-1"></a>  likelihood <span class="ot">&lt;-</span> <span class="fu">prod</span>(<span class="fu">dnorm</span>(y, <span class="at">mean =</span> pred, <span class="at">sd =</span> sd_data))</span>
-<span id="cb28-27"><a href="#cb28-27" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb28-28"><a href="#cb28-28" aria-hidden="true" tabindex="-1"></a>  <span class="co">#Combine the prior and likelihood</span></span>
-<span id="cb28-29"><a href="#cb28-29" aria-hidden="true" tabindex="-1"></a>  <span class="co">#remember that you multiply probabilities which mean you can add log(probability)</span></span>
-<span id="cb28-30"><a href="#cb28-30" aria-hidden="true" tabindex="-1"></a>  prob_proposed <span class="ot">&lt;-</span> prior <span class="sc">*</span> likelihood</span>
-<span id="cb28-31"><a href="#cb28-31" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb28-32"><a href="#cb28-32" aria-hidden="true" tabindex="-1"></a>  z <span class="ot">&lt;-</span> (prob_proposed<span class="sc">/</span>prob_current)</span>
-<span id="cb28-33"><a href="#cb28-33" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb28-34"><a href="#cb28-34" aria-hidden="true" tabindex="-1"></a>  <span class="co">#Now pick a random number between 0 and 1</span></span>
-<span id="cb28-35"><a href="#cb28-35" aria-hidden="true" tabindex="-1"></a>  r <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb28-24"><a href="#cb28-24" aria-hidden="true" tabindex="-1"></a>  <span class="co">#PROCESS MODEL: Use new parameter values in the process model</span></span>
+<span id="cb28-25"><a href="#cb28-25" aria-hidden="true" tabindex="-1"></a>  pred <span class="ot">&lt;-</span> proposed_pars <span class="sc">*</span> (x <span class="sc">/</span> (x <span class="sc">+</span> par_true[<span class="dv">2</span>]))</span>
+<span id="cb28-26"><a href="#cb28-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-27"><a href="#cb28-27" aria-hidden="true" tabindex="-1"></a>  <span class="co">#DATA MODEL: how likely is the data given the proposed parameter?</span></span>
+<span id="cb28-28"><a href="#cb28-28" aria-hidden="true" tabindex="-1"></a>  <span class="co">#We are multiplying here</span></span>
+<span id="cb28-29"><a href="#cb28-29" aria-hidden="true" tabindex="-1"></a>  likelihood <span class="ot">&lt;-</span> <span class="fu">prod</span>(<span class="fu">dnorm</span>(y, <span class="at">mean =</span> pred, <span class="at">sd =</span> sd_data))</span>
+<span id="cb28-30"><a href="#cb28-30" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb28-31"><a href="#cb28-31" aria-hidden="true" tabindex="-1"></a>  <span class="co">#Combine the prior and likelihood</span></span>
+<span id="cb28-32"><a href="#cb28-32" aria-hidden="true" tabindex="-1"></a>  <span class="co">#remember that you multiply probabilities which mean you can add log(probability)</span></span>
+<span id="cb28-33"><a href="#cb28-33" aria-hidden="true" tabindex="-1"></a>  prob_proposed <span class="ot">&lt;-</span> prior <span class="sc">*</span> likelihood</span>
+<span id="cb28-34"><a href="#cb28-34" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb28-35"><a href="#cb28-35" aria-hidden="true" tabindex="-1"></a>  z <span class="ot">&lt;-</span> (prob_proposed<span class="sc">/</span>prob_current)</span>
 <span id="cb28-36"><a href="#cb28-36" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb28-37"><a href="#cb28-37" aria-hidden="true" tabindex="-1"></a>  <span class="co">#If z &gt; r then accept the new parameters</span></span>
-<span id="cb28-38"><a href="#cb28-38" aria-hidden="true" tabindex="-1"></a>  <span class="co">#Note: this will always happen if the new parameters are more likely than</span></span>
-<span id="cb28-39"><a href="#cb28-39" aria-hidden="true" tabindex="-1"></a>  <span class="co">#the old parameters z &gt; 1 means than z is always &gt; r no matter what value of</span></span>
-<span id="cb28-40"><a href="#cb28-40" aria-hidden="true" tabindex="-1"></a>  <span class="co">#r is chosen.  However it will accept worse parameter sets (P_new is less</span></span>
-<span id="cb28-41"><a href="#cb28-41" aria-hidden="true" tabindex="-1"></a>  <span class="co">#likely then P_old - i.e., z &lt; 1) in proportion to how much worse it is</span></span>
-<span id="cb28-42"><a href="#cb28-42" aria-hidden="true" tabindex="-1"></a>  <span class="co">#For example: if z = 0.9 and then any random number drawn by runif that is</span></span>
-<span id="cb28-43"><a href="#cb28-43" aria-hidden="true" tabindex="-1"></a>  <span class="co">#less than 0.90 will result in accepting the worse values (i.e., the slightly</span></span>
-<span id="cb28-44"><a href="#cb28-44" aria-hidden="true" tabindex="-1"></a>  <span class="co">#worse values will be accepted a lot of the time).  In contrast, if z = 0.01</span></span>
-<span id="cb28-45"><a href="#cb28-45" aria-hidden="true" tabindex="-1"></a>  <span class="co">#(i.e., the new parameters are much much worse), then they can still be accepted</span></span>
-<span id="cb28-46"><a href="#cb28-46" aria-hidden="true" tabindex="-1"></a>  <span class="co">#but much more rarely because random r values of &lt; 0.1 occur more rarely</span></span>
-<span id="cb28-47"><a href="#cb28-47" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(z <span class="sc">&gt;</span> r){</span>
-<span id="cb28-48"><a href="#cb28-48" aria-hidden="true" tabindex="-1"></a>    pars[i] <span class="ot">&lt;-</span> proposed_pars</span>
-<span id="cb28-49"><a href="#cb28-49" aria-hidden="true" tabindex="-1"></a>    prob_current <span class="ot">&lt;-</span> prob_proposed</span>
-<span id="cb28-50"><a href="#cb28-50" aria-hidden="true" tabindex="-1"></a>  }<span class="cf">else</span>{</span>
-<span id="cb28-51"><a href="#cb28-51" aria-hidden="true" tabindex="-1"></a>    pars[i] <span class="ot">&lt;-</span> pars[i <span class="sc">-</span> <span class="dv">1</span>]</span>
-<span id="cb28-52"><a href="#cb28-52" aria-hidden="true" tabindex="-1"></a>    prob_current <span class="ot">&lt;-</span> prob_current <span class="co">#this calculation isn't necessary but is here to show you the logic</span></span>
-<span id="cb28-53"><a href="#cb28-53" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb28-54"><a href="#cb28-54" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb28-37"><a href="#cb28-37" aria-hidden="true" tabindex="-1"></a>  <span class="co">#Now pick a random number between 0 and 1</span></span>
+<span id="cb28-38"><a href="#cb28-38" aria-hidden="true" tabindex="-1"></a>  r <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb28-39"><a href="#cb28-39" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb28-40"><a href="#cb28-40" aria-hidden="true" tabindex="-1"></a>  <span class="co">#If z &gt; r then accept the new parameters</span></span>
+<span id="cb28-41"><a href="#cb28-41" aria-hidden="true" tabindex="-1"></a>  <span class="co">#Note: this will always happen if the new parameters are more likely than</span></span>
+<span id="cb28-42"><a href="#cb28-42" aria-hidden="true" tabindex="-1"></a>  <span class="co">#the old parameters z &gt; 1 means than z is always &gt; r no matter what value of</span></span>
+<span id="cb28-43"><a href="#cb28-43" aria-hidden="true" tabindex="-1"></a>  <span class="co">#r is chosen.  However it will accept worse parameter sets (P_new is less</span></span>
+<span id="cb28-44"><a href="#cb28-44" aria-hidden="true" tabindex="-1"></a>  <span class="co">#likely then P_old - i.e., z &lt; 1) in proportion to how much worse it is</span></span>
+<span id="cb28-45"><a href="#cb28-45" aria-hidden="true" tabindex="-1"></a>  <span class="co">#For example: if z = 0.9 and then any random number drawn by runif that is</span></span>
+<span id="cb28-46"><a href="#cb28-46" aria-hidden="true" tabindex="-1"></a>  <span class="co">#less than 0.90 will result in accepting the worse values (i.e., the slightly</span></span>
+<span id="cb28-47"><a href="#cb28-47" aria-hidden="true" tabindex="-1"></a>  <span class="co">#worse values will be accepted a lot of the time).  In contrast, if z = 0.01</span></span>
+<span id="cb28-48"><a href="#cb28-48" aria-hidden="true" tabindex="-1"></a>  <span class="co">#(i.e., the new parameters are much much worse), then they can still be accepted</span></span>
+<span id="cb28-49"><a href="#cb28-49" aria-hidden="true" tabindex="-1"></a>  <span class="co">#but much more rarely because random r values of &lt; 0.1 occur more rarely</span></span>
+<span id="cb28-50"><a href="#cb28-50" aria-hidden="true" tabindex="-1"></a>  <span class="co">#print(c(pars[i - 1], proposed_pars, z, r))</span></span>
+<span id="cb28-51"><a href="#cb28-51" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(z <span class="sc">&gt;</span> r){</span>
+<span id="cb28-52"><a href="#cb28-52" aria-hidden="true" tabindex="-1"></a>    accept[i] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb28-53"><a href="#cb28-53" aria-hidden="true" tabindex="-1"></a>    pars[i] <span class="ot">&lt;-</span> proposed_pars</span>
+<span id="cb28-54"><a href="#cb28-54" aria-hidden="true" tabindex="-1"></a>    prob_current <span class="ot">&lt;-</span> prob_proposed</span>
+<span id="cb28-55"><a href="#cb28-55" aria-hidden="true" tabindex="-1"></a>  }<span class="cf">else</span>{</span>
+<span id="cb28-56"><a href="#cb28-56" aria-hidden="true" tabindex="-1"></a>    accept[i] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb28-57"><a href="#cb28-57" aria-hidden="true" tabindex="-1"></a>    pars[i] <span class="ot">&lt;-</span> pars[i <span class="sc">-</span> <span class="dv">1</span>]</span>
+<span id="cb28-58"><a href="#cb28-58" aria-hidden="true" tabindex="-1"></a>    prob_current <span class="ot">&lt;-</span> prob_current <span class="co">#this calculation isn't necessary but is here to show you the logic</span></span>
+<span id="cb28-59"><a href="#cb28-59" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb28-60"><a href="#cb28-60" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The <code>pars</code> variable is our MCMC chain estimating the posterior distribution . We can visualize it in two ways. The first is with iteration number on the axis. The second is as a histogram. A chain is that ready for analysis will have a constant mean and variance. The variance is important because it is the exploration of the posterior distribution. The histogram shows the posterior distribution.</p>
 <div class="cell">
@@ -887,18 +911,18 @@ P(mean | data) \simeq likelihood \cdot prior
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="co">#Mean</span></span>
 <span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(par_post_burn)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 2.703547</code></pre>
+<pre><code>[1] 2.952403</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co">#sd</span></span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(par_post_burn)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.1801216</code></pre>
+<pre><code>[1] 0.1653424</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Quantiles</span></span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(par_post_burn, <span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.5</span>,<span class="fl">0.975</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    2.5%      50%    97.5% 
-2.359081 2.700100 3.065872 </code></pre>
+2.652697 2.960757 3.281253 </code></pre>
 </div>
 </div>
 <p>Finally, you can sample from the posterior distribution just like your would sample from a random variable using the <code>rnorm</code>, <code>rexp</code>, <code>rlnorm</code>, etc. function. The key is to randomly select an iteration (<code>num_sample = 1</code>) or a set of samples (if <code>num_sample &gt; 0</code>) with replacement (<code>replace = TRUE</code>; i.e., a iteration could be randomly selected multiple times).</p>
@@ -917,7 +941,7 @@ P(mean | data) \simeq likelihood \cdot prior
 <section id="predictive-posterior-distributions" class="level2" data-number="17.3">
 <h2 data-number="17.3" class="anchored" data-anchor-id="predictive-posterior-distributions"><span class="header-section-number">17.3</span> Predictive posterior distributions</h2>
 <p>Finally we can use the idea of randomly drawing from the posterior to develop predictions from the posterior. This is just like the Logistic growth module where you randomly sampled from the parameter uncertainty and used the random samples in the logistic equation.</p>
-<p>Here we are calculating two things 1) <code>pred_posterior_mean</code> just has uncertainty in the M-M parameter. Think about this as generating uncertainty around the mean prediction at each value of x. 2) <code>y_posterior</code> is the prediction of a observation. Therefore you take the value from #1 and add the uncertainty in the observations from <code>sd_data</code> that was set above. This is your predictive or forecast uncertainty.</p>
+<p>Here we are calculating two things 1) <code>pred_posterior_mean</code> just has uncertainty in the M-M model parameter. Think about this as generating uncertainty around the mean prediction at each value of x. 2) <code>y_posterior</code> is the prediction of a observation. Therefore you take the value from #1 and add the uncertainty in the observations from <code>sd_data</code> that was set above. This is your predictive or forecast uncertainty.</p>
 <p><strong>Important:</strong> If you have multiple parameters your MCMC chain, you randomly draw <code>posterior_sample_indices</code> and use values for all the parameters at that iteration. By doing this you are representing the joint distribution of the parameter - e.g., if parameter 1 is high, parameter 2 is always low. If you select <code>posterior_sample_indices</code> for each parameter, you break the correlations of parameters that the MCMC method estimated and, as a result, overestimate the uncertainty.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>num_samples <span class="ot">&lt;-</span> <span class="dv">1000</span></span>

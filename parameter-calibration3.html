@@ -377,13 +377,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#runing-mcmc-on-the-forest-process-model" id="toc-runing-mcmc-on-the-forest-process-model" class="nav-link active" data-scroll-target="#runing-mcmc-on-the-forest-process-model"><span class="header-section-number">18.1</span> Runing MCMC on the forest process model</a></li>
+  <li><a href="#running-mcmc-on-the-forest-process-model" id="toc-running-mcmc-on-the-forest-process-model" class="nav-link active" data-scroll-target="#running-mcmc-on-the-forest-process-model"><span class="header-section-number">18.1</span> Running MCMC on the forest process model</a></li>
   <li><a href="#examining-the-influence-of-the-parameter-optimization-on-model-predictions" id="toc-examining-the-influence-of-the-parameter-optimization-on-model-predictions" class="nav-link" data-scroll-target="#examining-the-influence-of-the-parameter-optimization-on-model-predictions"><span class="header-section-number">18.2</span> Examining the influence of the parameter optimization on model predictions</a>
   <ul class="collapse">
   <li><a href="#simulation-with-prior-parameter-distributions" id="toc-simulation-with-prior-parameter-distributions" class="nav-link" data-scroll-target="#simulation-with-prior-parameter-distributions"><span class="header-section-number">18.2.1</span> Simulation with prior parameter distributions</a></li>
   <li><a href="#simulation-with-posterior-parameter-distributions" id="toc-simulation-with-posterior-parameter-distributions" class="nav-link" data-scroll-target="#simulation-with-posterior-parameter-distributions"><span class="header-section-number">18.2.2</span> Simulation with posterior parameter distributions</a></li>
   <li><a href="#visualize-influence-of-optimization" id="toc-visualize-influence-of-optimization" class="nav-link" data-scroll-target="#visualize-influence-of-optimization"><span class="header-section-number">18.2.3</span> Visualize influence of optimization</a></li>
   <li><a href="#save-posteriors-for-future-use" id="toc-save-posteriors-for-future-use" class="nav-link" data-scroll-target="#save-posteriors-for-future-use"><span class="header-section-number">18.2.4</span> Save posteriors for future use</a></li>
+  <li><a href="#to-do" id="toc-to-do" class="nav-link" data-scroll-target="#to-do"><span class="header-section-number">18.2.5</span> TO DO</a></li>
   </ul></li>
   </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/frec-5174/eco4cast-in-R-book/issues/new" class="toc-action">Report an issue</a></p><p><a href="https://github.com/frec-5174/eco4cast-in-R-book/blob/main/parameter-calibration3.qmd" class="toc-action">View source</a></p></div></div></nav>
@@ -408,8 +409,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-<section id="runing-mcmc-on-the-forest-process-model" class="level2" data-number="18.1">
-<h2 data-number="18.1" class="anchored" data-anchor-id="runing-mcmc-on-the-forest-process-model"><span class="header-section-number">18.1</span> Runing MCMC on the forest process model</h2>
+<section id="running-mcmc-on-the-forest-process-model" class="level2" data-number="18.1">
+<h2 data-number="18.1" class="anchored" data-anchor-id="running-mcmc-on-the-forest-process-model"><span class="header-section-number">18.1</span> Running MCMC on the forest process model</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
@@ -424,7 +425,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>obs <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/site_carbon_data.csv"</span>, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Set up dates of simulation, parameters, initial conditions, and meterology inputs</p>
+<p>Set up dates of simulation, parameters, initial conditions, and meteorology inputs</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>sim_dates <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fu">as_date</span>(<span class="st">"2022-01-01"</span>), <span class="fu">Sys.Date</span>() <span class="sc">-</span> <span class="dv">2</span>, <span class="at">by =</span> <span class="st">"1 day"</span>)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -645,21 +646,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>output[<span class="dv">1</span>, , <span class="dv">2</span>] <span class="ot">&lt;-</span> state_init[<span class="dv">2</span>]</span>
 <span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>output[<span class="dv">1</span>, , <span class="dv">3</span>] <span class="ot">&lt;-</span> state_init[<span class="dv">3</span>]</span>
 <span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Sample from posterior distributions</span></span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>alpha <span class="ot">&lt;-</span> <span class="fu">sample</span>(fit_params[<span class="dv">1</span>, nburn<span class="sc">:</span>num_iter], ens_members, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>Rbasal <span class="ot">&lt;-</span> <span class="fu">sample</span>(fit_params[<span class="dv">2</span>, nburn<span class="sc">:</span>num_iter], ens_members, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>litterfall_start <span class="ot">&lt;-</span> <span class="fu">sample</span>(fit_params[<span class="dv">3</span>, nburn<span class="sc">:</span>num_iter], ens_members, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(t <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="fu">length</span>(sim_dates)){</span>
-<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>  output[t, , ]  <span class="ot">&lt;-</span> <span class="fu">forest_model</span>(t, </span>
-<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">states =</span> <span class="fu">matrix</span>(output[t<span class="dv">-1</span> , , <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>], <span class="at">nrow =</span> ens_members) , </span>
-<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">parms =</span> params, </span>
-<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">inputs =</span> <span class="fu">matrix</span>(inputs_ensemble[t ,, ], <span class="at">nrow =</span> ens_members))</span>
-<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>output_df_optim <span class="ot">&lt;-</span> <span class="fu">output_to_df</span>(output, sim_dates, <span class="at">sim_name =</span> <span class="st">"optimized"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Sample from posterior distributions.  Use the same index for each</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>index <span class="ot">&lt;-</span> <span class="fu">sample</span>(nburn<span class="sc">:</span>num_iter, ens_members, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>alpha <span class="ot">&lt;-</span> fit_params[<span class="dv">1</span>, index]</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>Rbasal <span class="ot">&lt;-</span> fit_params[<span class="dv">2</span>, index]</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>litterfall_start <span class="ot">&lt;-</span> fit_params[<span class="dv">3</span>, index]</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(t <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="fu">length</span>(sim_dates)){</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>  output[t, , ]  <span class="ot">&lt;-</span> <span class="fu">forest_model</span>(t, </span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">states =</span> <span class="fu">matrix</span>(output[t<span class="dv">-1</span> , , <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>], <span class="at">nrow =</span> ens_members) , </span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">parms =</span> params, </span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">inputs =</span> <span class="fu">matrix</span>(inputs_ensemble[t ,, ], <span class="at">nrow =</span> ens_members))</span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>output_df_optim <span class="ot">&lt;-</span> <span class="fu">output_to_df</span>(output, sim_dates, <span class="at">sim_name =</span> <span class="st">"optimized"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="visualize-influence-of-optimization" class="level3" data-number="18.2.3">
@@ -698,6 +700,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>  <span class="fu">write_csv</span>(parameter_MCMC, <span class="st">"data/saved_parameter_chain.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+</section>
+<section id="to-do" class="level3" data-number="18.2.5">
+<h3 data-number="18.2.5" class="anchored" data-anchor-id="to-do"><span class="header-section-number">18.2.5</span> TO DO</h3>
+<p>add information about joint distributions and identifiablity</p>
 
 
 </section>
