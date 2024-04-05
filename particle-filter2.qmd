@@ -74,7 +74,7 @@ state_init[3] <- obs |>
   pull(observation)
 ```
 
-Assigne the intial conditions to the first time-step of the simulation
+Assign the initial conditions to the first time-step of the simulation
 
 ```{r}
 #Set initial conditions
@@ -103,7 +103,7 @@ params$litterfall_start <- mean(fit_params_table$litterfall_start, na.rm = TRUE)
 
 ## Run the particle filter
 
-In the particle filter we perturb the parameter values sligthly to prevent them from collapsing to a single value.
+In the particle filter we perturb the parameter values slightly to prevent them from collapsing to a single value.
 
 ```{r}
 for(t in 2:length(sim_dates)){
