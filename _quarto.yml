@@ -44,7 +44,7 @@ book:
     - part: advanced-forecasting.qmd
       chapters:
         - process-model.qmd
-        - prop-uncertainty.qmd
+        - process-model-prop-uncertainty.qmd
         - neon-data.qmd
         - likelihood-methods.qmd
         - bayesian-methods-intro.qmd
