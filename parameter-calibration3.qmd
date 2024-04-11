@@ -236,7 +236,7 @@ for(t in 2:length(sim_dates)){
                                  inputs = matrix(inputs_ensemble[t ,, ], nrow = ens_members))
 }
 
-output_df_no_optim <- output_to_df(output, sim_dates, sim_name = "no_optim")
+output_df_no_optim <- output_to_df(output, sim_dates, sim_name = "using prior")
 ```
 
 ### Simulation with posterior parameter distributions
@@ -264,7 +264,7 @@ for(t in 2:length(sim_dates)){
                                  inputs = matrix(inputs_ensemble[t ,, ], nrow = ens_members))
 }
 
-output_df_optim <- output_to_df(output, sim_dates, sim_name = "optimized")
+output_df_optim <- output_to_df(output, sim_dates, sim_name = "using posteriors")
 
 ```
 
