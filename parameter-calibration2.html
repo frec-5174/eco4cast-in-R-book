@@ -385,8 +385,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </ul></li>
   <li><a href="#solving-a-bayesian-model" id="toc-solving-a-bayesian-model" class="nav-link" data-scroll-target="#solving-a-bayesian-model"><span class="header-section-number">17.2</span> Solving a Bayesian model</a></li>
   <li><a href="#predictive-posterior-distributions" id="toc-predictive-posterior-distributions" class="nav-link" data-scroll-target="#predictive-posterior-distributions"><span class="header-section-number">17.3</span> Predictive posterior distributions</a></li>
-  <li><a href="#reading" id="toc-reading" class="nav-link" data-scroll-target="#reading"><span class="header-section-number">17.4</span> Reading</a></li>
-  <li><a href="#problem-set" id="toc-problem-set" class="nav-link" data-scroll-target="#problem-set"><span class="header-section-number">17.5</span> Problem Set</a></li>
+  <li><a href="#important-considerations" id="toc-important-considerations" class="nav-link" data-scroll-target="#important-considerations"><span class="header-section-number">17.4</span> Important considerations</a>
+  <ul class="collapse">
+  <li><a href="#joint-vs-marginal-distributions" id="toc-joint-vs-marginal-distributions" class="nav-link" data-scroll-target="#joint-vs-marginal-distributions"><span class="header-section-number">17.4.1</span> Joint vs marginal distributions</a></li>
+  <li><a href="#identifiablity" id="toc-identifiablity" class="nav-link" data-scroll-target="#identifiablity"><span class="header-section-number">17.4.2</span> Identifiablity</a></li>
+  </ul></li>
+  <li><a href="#reading" id="toc-reading" class="nav-link" data-scroll-target="#reading"><span class="header-section-number">17.5</span> Reading</a></li>
+  <li><a href="#problem-set" id="toc-problem-set" class="nav-link" data-scroll-target="#problem-set"><span class="header-section-number">17.6</span> Problem Set</a></li>
   </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/frec-5174/eco4cast-in-R-book/issues/new" class="toc-action">Report an issue</a></p><p><a href="https://github.com/frec-5174/eco4cast-in-R-book/blob/main/parameter-calibration2.qmd" class="toc-action">View source</a></p></div></div></nav>
     </div>
@@ -941,8 +946,7 @@ P(mean | data) \simeq likelihood \cdot prior
 <section id="predictive-posterior-distributions" class="level2" data-number="17.3">
 <h2 data-number="17.3" class="anchored" data-anchor-id="predictive-posterior-distributions"><span class="header-section-number">17.3</span> Predictive posterior distributions</h2>
 <p>Finally we can use the idea of randomly drawing from the posterior to develop predictions from the posterior. This is just like the Logistic growth module where you randomly sampled from the parameter uncertainty and used the random samples in the logistic equation.</p>
-<p>Here we are calculating two things 1) <code>pred_posterior_mean</code> just has uncertainty in the M-M model parameter. Think about this as generating uncertainty around the mean prediction at each value of x. 2) <code>y_posterior</code> is the prediction of a observation. Therefore you take the value from #1 and add the uncertainty in the observations from <code>sd_data</code> that was set above. This is your predictive or forecast uncertainty.</p>
-<p><strong>Important:</strong> If you have multiple parameters your MCMC chain, you randomly draw <code>posterior_sample_indices</code> and use values for all the parameters at that iteration. By doing this you are representing the joint distribution of the parameter - e.g., if parameter 1 is high, parameter 2 is always low. If you select <code>posterior_sample_indices</code> for each parameter, you break the correlations of parameters that the MCMC method estimated and, as a result, overestimate the uncertainty.</p>
+<p>Here we are calculating two things 1) <code>pred_posterior_mean</code> just has uncertainty in the M-M model parameter. Think about this as generating uncertainty around the mean prediction at each value of x. 2) <code>y_posterior</code> is the prediction of am observation. Therefore you take the value from #1 and add the uncertainty in the observations from <code>sd_data</code> that was set above. This is your predictive or forecast uncertainty.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>num_samples <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
 <span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>x_new <span class="ot">=</span> x</span>
@@ -981,11 +985,30 @@ P(mean | data) \simeq likelihood \cdot prior
 </div>
 </div>
 </section>
-<section id="reading" class="level2" data-number="17.4">
-<h2 data-number="17.4" class="anchored" data-anchor-id="reading"><span class="header-section-number">17.4</span> Reading</h2>
+<section id="important-considerations" class="level2" data-number="17.4">
+<h2 data-number="17.4" class="anchored" data-anchor-id="important-considerations"><span class="header-section-number">17.4</span> Important considerations</h2>
+<section id="joint-vs-marginal-distributions" class="level3" data-number="17.4.1">
+<h3 data-number="17.4.1" class="anchored" data-anchor-id="joint-vs-marginal-distributions"><span class="header-section-number">17.4.1</span> Joint vs marginal distributions</h3>
+<p>If you have multiple parameters your MCMC chain, you randomly draw <code>posterior_sample_indices</code> and use values for all the parameters at that iteration. By doing this you are representing the joint distribution of the parameter - e.g., if parameter 1 is high, parameter 2 is always low. If you select <code>posterior_sample_indices</code> for each parameter, you break the correlations of parameters that the MCMC method estimated and, as a result, overestimate the uncertainty.</p>
 </section>
-<section id="problem-set" class="level2" data-number="17.5">
-<h2 data-number="17.5" class="anchored" data-anchor-id="problem-set"><span class="header-section-number">17.5</span> Problem Set</h2>
+<section id="identifiablity" class="level3" data-number="17.4.2">
+<h3 data-number="17.4.2" class="anchored" data-anchor-id="identifiablity"><span class="header-section-number">17.4.2</span> Identifiablity</h3>
+<p>Imagine you have a model that predicts water temperature as a linear function of air temperature but uses the following equation:</p>
+<p>water temperature = m + a * b * air temperature</p>
+<p>in this toy example the slope has been separated into two parameters (a and b). As a result, you can get the same value for a slope with a large value <code>a</code> and a small value for <code>b</code> as when you have small value for <code>a</code> and a large value for <code>b</code>. Consequentially it is impossible to find a value for either a or b and these parameters are unidentifiable. Obviously, if you collapse the a*b down into a single parameter (m) then that parameter is identifiable.</p>
+<p>In a ecosystem example, we often use net fluxes (like net ecosystem exchange) to calibrate models. Since NEE is the net of respiration and photosynthesis, the same NEE can emerge from a system with large values for respiration and photosynthes as a system with small values for respiration and photosynthesis. Therefore the parameters that govern respiration and photosynthesis are not identifiable using only NEE data for parameter estimation.</p>
+<p>Identifiablity issues can be addressed by adding additional data sources for parameter estimation. For example, in the next chapter we use NEE and LAI in the calibration. The LAI data helps separate out the low production from the high production system because …</p>
+<p>Identifiablity issues can be addressed by using “stronger” priors that have distributions with less spread. These informed priors can come from data synthesis, surveying experts, or measurements. In some cases they are so informed that you assume they are a fixed value. Justification for the parameter value choice when fixing a parameter or using a strong prior.<br>
+### Data leakage</p>
+<p>Data that contributed to the prior distribution can be me used in the likelihood (data leaking from the prior to posterior). This will result in artificial re-enforcement of the prior and will give artificially large confidence in the posterior. Similarly, data that you collected that will be used in the likelihood can not be used to develop the prior.</p>
+<p>You can use data that you will use in your likelihood calculate to involve the starting point of your MCMC chain. In some cases, a maximum likelihood fit of your model, like in Chapter XXX, will yield starting points that are very close mean of the posterior (just without the uncertainty estimation). By starting your MCMC chain at this maximum likelihood estimates for the parameters, you will reduce the burn-in iterations and increase the computationally efficiency of your Bayesian analysis. This is not data leakage.</p>
+</section>
+</section>
+<section id="reading" class="level2" data-number="17.5">
+<h2 data-number="17.5" class="anchored" data-anchor-id="reading"><span class="header-section-number">17.5</span> Reading</h2>
+</section>
+<section id="problem-set" class="level2" data-number="17.6">
+<h2 data-number="17.6" class="anchored" data-anchor-id="problem-set"><span class="header-section-number">17.6</span> Problem Set</h2>
 <p>The problem set is located in <code>bayesian_problem_set.qmd</code> in https://github.com/frec-5174/book-problem-sets. You can fork the repository or copy the <a href="https://github.com/frec-5174/book-problem-sets/blob/main/bayesian_problem_set.qmd">code</a> into your own quarto document</p>
 
 
