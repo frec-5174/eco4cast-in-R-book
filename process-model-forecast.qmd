@@ -1,4 +1,4 @@
-# Putting it together: forecast - analysis cycle {#sec-pulling-together}
+# Forecast - analysis cycle {#sec-pulling-together}
 
 ```{r}
 #| echo: false
