@@ -434,7 +434,7 @@ combined$type <- factor(combined$type, levels = c("prior (forecast)", "likelihoo
 ```{r}
 #| warning: false
 #| fig-cap: Particle filter through a Bayesian lens
-#| label: fig-sim-prior-post2
+#| label: fig-sim-prior-post3
 #| 
 combined |> 
   ggplot(aes(x = x, y = y, color = type, group = date)) + 
