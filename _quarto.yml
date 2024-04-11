@@ -46,13 +46,13 @@ book:
         - process-model.qmd
         - prop-uncertainty.qmd
         - neon-data.qmd
-        - parameter-calibration1.qmd
-        - parameter-calibration2.qmd
-        - parameter-calibration3.qmd
+        - likelihood-methods.qmd
+        - bayesian-methods-intro.qmd
+        - bayesian-process-models.qmd
         - particle-filter.qmd
-        - particle-filter2.qmd
-        - pulling-together.qmd
-        - pulling-together2.qmd
+        - particle-filter-process-model.qmd
+        - process-model-forecast.qmd
+        - process-model-forecast-evaluation.qmd
     - part: "Project 2"
       chapters:
         - project2.qmd
