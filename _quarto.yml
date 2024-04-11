@@ -22,7 +22,7 @@ book:
         - Virginia Tech
   date: today
   date-format: long
-  license: "CC BY-NC-SA"
+  license: "CC BY-NC-ND"
   chapters:
     - index.qmd
     - intro.qmd

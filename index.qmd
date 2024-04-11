@@ -11,3 +11,5 @@ The terms ecosystem forecasting and ecological forecasting will be used intercha
 The book is a work in progress that involves harmonizing materials developed for many different use-cases (undergraduate courses, tutorials, graduate classes). As a result there are likely to differences among chapters in style and approaches to assignments.
 
 I welcome feedback on the book through GitHub issues and/or Pull Requests.
+
+This online book is licensed under the [CC BY-NC-ND 4.0](https://creativecommons.org/licenses/by-nc-nd/4.0/) license
