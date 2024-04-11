@@ -276,7 +276,7 @@ for(t in 2:num_time_steps){
        as_tibble(x)) %>% 
   pivot_longer(cols = -time, names_to = "ensemble", values_to = "x") |> 
   ggplot(aes(x = time, y = x, group = factor(ensemble))) +
-  geom_line()
+  geom_line() +
   labs(x = "Date", y = "log(Flu cases)", title = "State of Virginia") +
   theme_bw()
 ```
@@ -304,7 +304,7 @@ with_obs <- tibble(time = gflu$Date,
 
 combined <- bind_rows(no_obs, with_obs)
 
-gflu$obs_in_fit <- log(gflu$Virginia)
+gflu$obs_in_fit <- y
 
 combined %>% 
   group_by(time, type) %>% 
@@ -314,7 +314,7 @@ combined %>%
   ggplot(aes(x = time, y = mean)) +
   geom_line(aes(color = type)) +
   geom_ribbon(aes(ymin = lower, ymax = upper, color = type, fill = type), alpha = 0.2) +
-  geom_point(data = gflu, aes(x = Date, y = log(Virginia)), color = "red") +
+  geom_point(data = gflu, aes(x = Date, y = Virginia), color = "red") +
   geom_point(data = gflu, aes(x = Date, y = obs_in_fit), color = "black") +
   labs(x = "Date", y = "log(flu cases)", title = "Google Flu Trends for Virginia") +
   theme_bw()
