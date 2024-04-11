@@ -1,4 +1,4 @@
-# Parameter calibration: Applying to process model {#sec-bayes-process}
+# Parameter calibration: Applying Bayesian methods to process model {#sec-bayes-process}
 
 ## Running MCMC on the forest process model
 
@@ -305,4 +305,4 @@ The calibrated parameter chains will be used in later chapters.
 
 ### TO DO
 
-add information about joint distributions and identifiablity 
+add information about joint distributions and identifiablity
