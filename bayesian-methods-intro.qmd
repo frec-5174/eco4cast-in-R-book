@@ -1,6 +1,6 @@
 # Parameter calibration: Bayesian methods {#sec-bayes}
 
-Including parameter uncertainty in forecasts as demonstrated in @sec-prop-unc-pars requires having a probability distribute for the parameters.  The previous chapter shows how to estimate parameters using likelihood methods.  While likelihood methods are designed to find optimal values, they are not designed to estimate the probability distribution of the parameters.  By finding optimal values likelihood methods can reduce process uncertainty because a better calibrated model has a better match to historical data and smaller residual error.  This chapter introduces the use of Bayesian methods to estimate parameter distributions.
+Including parameter uncertainty in forecasts as demonstrated in @sec-prop-unc-pars requires having a probability distribute for the parameters. The previous chapter shows how to estimate parameters using likelihood methods. While likelihood methods are designed to find optimal values, they are not designed to estimate the probability distribution of the parameters. By finding optimal values likelihood methods can reduce process uncertainty because a better calibrated model has a better match to historical data and smaller residual error. This chapter introduces the use of Bayesian methods to estimate parameter distributions.
 
 ## Introduction to Bayesian statistics
 
@@ -575,31 +575,32 @@ ggplot(d, aes(x = x)) +
   theme_bw()
 
 ```
+
 ## Important considerations
 
 ### Joint vs marginal distributions
 
 If you have multiple parameters your MCMC chain, you randomly draw `posterior_sample_indices` and use values for all the parameters at that iteration. By doing this you are representing the joint distribution of the parameter - e.g., if parameter 1 is high, parameter 2 is always low. If you select `posterior_sample_indices` for each parameter, you break the correlations of parameters that the MCMC method estimated and, as a result, overestimate the uncertainty.
 
-### Identifiablity 
+### Identifiablity
 
 Imagine you have a model that predicts water temperature as a linear function of air temperature but uses the following equation:
 
-water temperature = m + a * b * air temperature 
+water temperature = m + a \* b \* air temperature
 
-in this toy example the slope has been separated into two parameters (a and b).  As a result, you can get the same value for a slope with a large value `a` and a small value for `b` as when you have small value for `a` and a large value for `b`.  Consequentially it is impossible to find a value for either a or b and these parameters are unidentifiable.  Obviously, if you collapse the a*b down into a single parameter (m) then that parameter is identifiable.
+in this toy example the slope has been separated into two parameters (a and b). As a result, you can get the same value for a slope with a large value `a` and a small value for `b` as when you have small value for `a` and a large value for `b`. Consequentially it is impossible to find a value for either a or b and these parameters are unidentifiable. Obviously, if you collapse the a\*b down into a single parameter (m) then that parameter is identifiable.
 
-In a ecosystem example, we often use net fluxes (like net ecosystem exchange) to calibrate models. Since NEE is the net of respiration and photosynthesis, the same NEE can emerge from a system with large values for respiration and photosynthes as a system with small values for respiration and photosynthesis.  Therefore the parameters that govern respiration and photosynthesis are not identifiable using only NEE data for parameter estimation.   
+In a ecosystem example, we often use net fluxes (like net ecosystem exchange) to calibrate models. Since NEE is the net of respiration and photosynthesis, the same NEE can emerge from a system with large values for respiration and photosynthes as a system with small values for respiration and photosynthesis. Therefore the parameters that govern respiration and photosynthesis are not identifiable using only NEE data for parameter estimation.
 
-Identifiablity issues can be addressed by adding additional data sources for parameter estimation.  For example, in the next chapter we use NEE and LAI in the calibration.  The LAI data helps separate out the low production from the high production system because ...
+Identifiablity issues can be addressed by adding additional data sources for parameter estimation. For example, in the next chapter we use NEE and LAI in the calibration. The LAI data helps separate out the low production from the high production system because a lower production system can not be associated with high LAI values in the model. 
 
-Identifiablity issues can be addressed by using "stronger" priors that have distributions with less spread. These informed priors can come from data synthesis, surveying experts, or measurements. In some cases they are so informed that you assume they are a fixed value.  Justification for the parameter value choice when fixing a parameter or using a strong prior.   
+Identifiablity issues can be addressed by using "stronger" priors that have distributions with less spread. These informed priors can come from data synthesis, surveying experts, or measurements. In some cases they are so informed that you assume they are a fixed value. Justification for the parameter value choice when fixing a parameter or using a strong prior.
+
 ### Data leakage
 
-Data that contributed to the prior distribution can be me used in the likelihood (data leaking from the prior to posterior).  This will result in artificial re-enforcement of the prior and will give artificially large confidence in the posterior.  Similarly, data that you collected that will be used in the likelihood can not be used to develop the prior. 
+Data that contributed to the prior distribution can be me used in the likelihood (data leaking from the prior to posterior). This will result in artificial re-enforcement of the prior and will give artificially large confidence in the posterior. Similarly, data that you collected that will be used in the likelihood can not be used to develop the prior.
 
-You can use data that you will use in your likelihood calculate to involve the starting point of your MCMC chain.  In some cases, a maximum likelihood fit of your model, like in Chapter XXX, will yield starting points that are very close mean of the posterior (just without the uncertainty estimation).  By starting your MCMC chain at this maximum likelihood estimates for the parameters, you will reduce the burn-in iterations and increase the computationally efficiency of your Bayesian analysis.  This is not data leakage.
-
+You can use data that you will use in your likelihood calculate to involve the starting point of your MCMC chain. In some cases, a maximum likelihood fit of your model, like in @sec-likelihood, will yield starting points that are very close mean of the posterior (just without the uncertainty estimation). By starting your MCMC chain at this maximum likelihood estimates for the parameters, you will reduce the burn-in iterations and increase the computationally efficiency of your Bayesian analysis. This is not data leakage.
 
 ## Reading
 

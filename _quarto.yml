@@ -51,6 +51,8 @@ book:
         - bayesian-process-models.qmd
         - particle-filter.qmd
         - particle-filter-process-model.qmd
+    - part: Real-time iterative forecast
+      chapters:
         - process-model-forecast.qmd
         - process-model-forecast-evaluation.qmd
     - part: "Project 2"
