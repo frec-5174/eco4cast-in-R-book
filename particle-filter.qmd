@@ -308,7 +308,7 @@ combined %>%
   ggplot(aes(x = time, y = mean)) +
   geom_line(aes(color = type)) +
   geom_ribbon(aes(ymin = lower, ymax = upper, color = type, fill = type), alpha = 0.2) +
-  geom_point(data = gflu, aes(x = Date, y = Virginia), color = "red") +
+  geom_point(data = gflu, aes(x = Date, y = log(Virginia)), color = "red") +
   geom_point(data = gflu, aes(x = Date, y = obs_in_fit), color = "black") +
   labs(x = "Date", y = "log(flu cases)", title = "Google Flu Trends for Virginia") +
   theme_bw()
@@ -343,9 +343,32 @@ sd_obs <- 0.2
 x <- array(NA, dim = c(num_time_steps, num_particles))
 x[1, ] <- rnorm(num_particles, mean = y[1], sd = sd_obs)
 
-output <- particle_filter(x)
-x <- output$x
-x_prior <- output$x_prior
+x_prior <- x 
+x_prior[1, ] <- x[1, ]
+
+for(t in 2:num_time_steps){
+  
+  ## forward step
+  for(m in 1:num_particles){
+    x[t, m ] <- x[t - 1, m  ] + rnorm(1, mean = 0, sd = sd_add)
+  }
+  
+  x_prior[t, ] <- x[t, ]
+ 
+  ## analysis step
+  if(!is.na(y[t])){ 
+
+      ## calculate Likelihood (weights)
+      wt <- dnorm(y[t], mean = x[t, ], sd = sd_obs)    ## calculate likelihood (weight)
+      
+      wt_norm <- wt / sum(wt)
+      
+      ## resample ensemble members in proportion to their weight
+      resample_index <- sample(1:num_particles, num_particles, replace = TRUE, prob = wt_norm) 
+      
+      x[t, ] <- x[t, resample_index]  ## update state
+  }
+}
 
 priors <- tibble(time = 1:num_time_steps,
        as_tibble(x_prior)) %>% 
