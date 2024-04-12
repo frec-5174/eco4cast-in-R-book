@@ -35,7 +35,7 @@ If you get an error at this step it is likely due to your computer not having Gi
 
 4.  Set up your GitHub credentials on your computer. Follow the instructions [here](https://happygitwithr.com/https-pat.html#tldr) about using `usethis::create_github_token()` and `gitcreds::gitcreds_set()` functions. Also, save your GitHub PAT to a password manager so that you can find it in the future (in case you need to interact with GitHub from a different computer).
 
-If you are having issues (i.e., your computer does not seem to have Git installed), [here](https://happygitwithr.com/index.html) is an excellent resource to help you debug your git + Rstudio issues.  
+If you are having issues (i.e., your computer does not seem to have Git installed), [here](https://happygitwithr.com/index.html) is an excellent resource to help you debug your git + Rstudio issues.
 
 ### Working with GitHub: a quarto example
 
@@ -47,17 +47,17 @@ This section provides instructions on working with Git and GitHub in Rstudio in 
 
 3.  Under the green "Code" button, select the local tab, and copy the https link.
 
-4.  Open Rstudio on your computer and create a new project. First, File -\> New Project -\> Version Control -\> Git. Paste the URL from you repo in the first box, hit tab to fill in the repo name in the second, and then use Browse to select where you want the project on your computer (I recommend having a directory on your computer where you keep all repositories we use in the class).  If you don't see a `Version Control` option then you may not have Git install on your computer (use the instructions [here](https://happygitwithr.com/index.html) to install Git)
+4.  Open Rstudio on your computer and create a new project. First, File -\> New Project -\> Version Control -\> Git. Paste the URL from you repo in the first box, hit tab to fill in the repo name in the second, and then use Browse to select where you want the project on your computer (I recommend having a directory on your computer where you keep all repositories we use in the class). If you don't see a `Version Control` option then you may not have Git install on your computer (use the instructions [here](https://happygitwithr.com/index.html) to install Git)
 
 5.  Your project will load. Then go to File -\> New -\> New File -\> Quarto Document
 
-6. In the prompt use Title = "Assignment 1" and Author = \[Your name\]
+6.  In the prompt use Title = "Assignment 1" and Author = \[Your name\]
 
-7. Save file as "assignment1.qmd" in the **assignment subdirectory** of the Project.
+7.  Save file as "assignment1.qmd" in the **assignment subdirectory** of the Project.
 
-8. Commit your `assignment1.qmd` file using the Git tab at the top right pane using a useful commit message. You will need to check the box for the files that you want to commit. A useful message helps you broadly remember what you did to the files that are included in the commit. The Git tab may not be in the top right panel if you have moved the panels around.  If you don't have the Git tab on pane, then you may not have created a project from GitHub correctly or you do not have Git installed on your computer.
+8.  Commit your `assignment1.qmd` file using the Git tab at the top right pane using a useful commit message. You will need to check the box for the files that you want to commit. A useful message helps you broadly remember what you did to the files that are included in the commit. The Git tab may not be in the top right panel if you have moved the panels around. If you don't have the Git tab on pane, then you may not have created a project from GitHub correctly or you do not have Git installed on your computer.
 
-9. Find the Sources / Visual buttons right above the document. Select Source (which is the code view).
+9.  Find the Sources / Visual buttons right above the document. Select Source (which is the code view).
 
 10. Copy the code chunk on lines 21-24 and paste at end of document. Change to `echo: TRUE`.
 
@@ -81,27 +81,3 @@ format:
 15. Push to your repository on GitHub.
 16. Go to `https://github.com/[your-user-name]/git-rmd-intro` You should also see your two most recent commits.
 
-## Docker Skills
-
-Docker is tool that the activities in the book use for improving the reproduciblity and automation of data analysis and forecasting workflows. Below are the instructions for setting up and interacting with a Docker container (instructions are from Freya Olsson's workshop)
-
-Go to <https://docs.docker.com/get-docker/> to install the relevant install for your platform (available for PC, Mac and Linux). Also see <https://docs.docker.com/desktop/>.
-
-NOTE: \* If you're running Windows, you will need WSL (Windows Subsystem for Linux) \* If you're running a Linux distribution, you may have to enable Viritualization on your computer (see [here](https://stackoverflow.com/questions/76646465/unable-to-launch-docker-desktop-on-ubuntu/76655270#76655270))
-
-## Running a docker container
-
-1.  Launch Docker Desktop (either from the Command Line or by starting the GUI)
-2.  At the command line run the following command which tells docker to `run` the container with the name `eco4cast/rocker-neon4cast` that has all the packages and libraries installed already. The `PASSWORD=yourpassword` sets a simple password that you will use to open the container. The `-ti` option starts both a terminal and an interactive session.
-
-```         
-docker run --rm -ti -e PASSWORD=yourpassword -p 8787:8787 eco4cast/rocker-neon4cast
-```
-
-This can take a few minutes to download and install. It will be quicker the next time you launch it.
-
-3.  Open up a web browser and navigate to `http://localhost:8787/`
-4.  Enter the username: `rstudio` and password: `yourpassword`
-5.  You should see a R Studio interface with all the packages etc. pre-installed and ready to go.
-
-You can close this localhost window (and then come back to it) but if you close the container from Docker (turn off your computer etc.) any changes will be lost unless you push them to Github or exported to your local environment.
