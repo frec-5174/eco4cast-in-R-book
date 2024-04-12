@@ -644,7 +644,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>split</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;Training/Testing/Total&gt;
-&lt;3687/922/4609&gt;</code></pre>
+&lt;3688/923/4611&gt;</code></pre>
 </div>
 </div>
 <p>To actually get the training and testing data we need to apply the <code>training()</code> and <code>testing()</code> functions to the split.</p>
@@ -656,7 +656,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>train_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 3,687 × 5
+<pre><code># A tibble: 3,688 × 5
    datetime   site_id temperature air_temperature   doy
    &lt;date&gt;     &lt;chr&gt;         &lt;dbl&gt;           &lt;dbl&gt; &lt;dbl&gt;
  1 2017-08-27 BARC           31.5              NA   239
@@ -669,7 +669,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  8 2017-09-03 BARC           31.1              NA   246
  9 2017-09-06 BARC           30.8              NA   249
 10 2017-09-07 BARC           30.5              NA   250
-# ℹ 3,677 more rows</code></pre>
+# ℹ 3,678 more rows</code></pre>
 </div>
 </div>
 <p><em>Feature engineering using a recipe</em></p>
@@ -799,7 +799,7 @@ stats::lm(formula = ..y ~ ., data = data)
 
 Coefficients:
     (Intercept)      site_idSUGG  air_temperature              doy  
-       5.305987        -0.763256         0.856825         0.003941  </code></pre>
+       5.161235        -0.757243         0.865705         0.003559  </code></pre>
 </div>
 </div>
 <p><em>Step 5: Predict Test Data</em></p>
@@ -811,7 +811,7 @@ Coefficients:
 <div class="cell">
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>predictions</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 922 × 1
+<pre><code># A tibble: 923 × 1
    .pred
    &lt;dbl&gt;
  1    NA
@@ -824,7 +824,7 @@ Coefficients:
  8    NA
  9    NA
 10    NA
-# ℹ 912 more rows</code></pre>
+# ℹ 913 more rows</code></pre>
 </div>
 </div>
 <p>We need to combine the <code>.pred</code> column with the testing data using the <code>bind_cols</code> function</p>
@@ -835,7 +835,7 @@ Coefficients:
 <div class="cell">
 <div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>pred_test</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 922 × 6
+<pre><code># A tibble: 923 × 6
    datetime   site_id temperature air_temperature   doy .pred
    &lt;date&gt;     &lt;chr&gt;         &lt;dbl&gt;           &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
  1 2017-09-04 BARC           31.4              NA   247    NA
@@ -848,7 +848,7 @@ Coefficients:
  8 2017-10-10 BARC           29.5              NA   283    NA
  9 2017-10-11 BARC           29.6              NA   284    NA
 10 2017-10-14 BARC           28.5              NA   287    NA
-# ℹ 912 more rows</code></pre>
+# ℹ 913 more rows</code></pre>
 </div>
 </div>
 <p><em>Step 6: Evaluate model</em></p>
@@ -866,8 +866,8 @@ Coefficients:
 <pre><code># A tibble: 2 × 3
   .metric .estimator .estimate
   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
-1 rmse    standard       2.41 
-2 rsq     standard       0.791</code></pre>
+1 rmse    standard       2.40 
+2 rsq     standard       0.796</code></pre>
 </div>
 </div>
 <p><em>Step 7: Deploy model</em></p>
@@ -887,16 +887,16 @@ Coefficients:
 <pre><code># A tibble: 68 × 5
    datetime   site_id air_temperature temperature   doy
    &lt;date&gt;     &lt;chr&gt;             &lt;dbl&gt; &lt;lgl&gt;       &lt;dbl&gt;
- 1 2024-04-11 SUGG               21.9 NA            102
- 2 2024-04-12 SUGG               19.9 NA            103
- 3 2024-04-13 SUGG               19.2 NA            104
- 4 2024-04-14 SUGG               19.6 NA            105
- 5 2024-04-15 SUGG               20.8 NA            106
- 6 2024-04-16 SUGG               22.5 NA            107
- 7 2024-04-17 SUGG               24.3 NA            108
- 8 2024-04-18 SUGG               24.1 NA            109
- 9 2024-04-19 SUGG               24.1 NA            110
-10 2024-04-20 SUGG               24.5 NA            111
+ 1 2024-04-12 SUGG               19.4 NA            103
+ 2 2024-04-13 SUGG               18.7 NA            104
+ 3 2024-04-14 SUGG               20.4 NA            105
+ 4 2024-04-15 SUGG               22.3 NA            106
+ 5 2024-04-16 SUGG               23.9 NA            107
+ 6 2024-04-17 SUGG               24.7 NA            108
+ 7 2024-04-18 SUGG               24.8 NA            109
+ 8 2024-04-19 SUGG               26.0 NA            110
+ 9 2024-04-20 SUGG               25.4 NA            111
+10 2024-04-21 SUGG               23.6 NA            112
 # ℹ 58 more rows</code></pre>
 </div>
 </div>
@@ -997,7 +997,7 @@ Coefficients:
 <pre><code># A tibble: 1 × 2
   start_date     h
   &lt;date&gt;     &lt;dbl&gt;
-1 2024-04-10    36</code></pre>
+1 2024-04-11    36</code></pre>
 </div>
 </div>
 <p>The targets have to be converted into a time-series tibble (called a <code>tsibble</code>). To make a <code>tsibble</code> you need to defined the grouping variables (<code>key</code>) and the common that defines the time-series (<code>index</code>). Many modeling approaches require the datetime to be continuous (no gaps) but allow na values for values in the gaps. The <code>fill_gaps()</code> function fills the gaps with <code>NA</code>s.</p>
