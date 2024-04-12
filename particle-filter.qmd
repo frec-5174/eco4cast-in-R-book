@@ -156,13 +156,14 @@ sd_add <- 0.2
 sd_obs <- 0.2
 
 x <- array(NA, dim = c(num_time_steps, num_particles))
-x_prior <- x 
-
-
 x[1, ] <- rnorm(num_particles, mean = y[1], sd = sd_obs)
-x_prior[1, ] <- x[1, ]
 
 ### resampling bootstrap particle filter
+
+particle_filter <- function(x){
+  
+x_prior <- x 
+x_prior[1, ] <- x[1, ]
 
 for(t in 2:num_time_steps){
   
@@ -185,7 +186,9 @@ for(t in 2:num_time_steps){
       resample_index <- sample(1:num_particles, num_particles, replace = TRUE, prob = wt_norm) 
       
       x[t, ] <- x[t, resample_index]  ## update state
-    }
+  }
+  return(list(x = x, x_prior = x_prior))
+}
 }
 ```
 
@@ -232,37 +235,10 @@ sd_add <- 0.2
 sd_obs <- 0.2
 
 x <- array(NA, dim = c(num_time_steps, num_particles))
-x_prior <- x 
-
-
 x[1, ] <- rnorm(num_particles, mean = y[1], sd = sd_obs)
-x_prior[1, ] <- x[1, ]
 
-### resampling bootstrap particle filter
-
-for(t in 2:num_time_steps){
-  
-  ## forward step
-  for(m in 1:num_particles){
-    x[t, m ] <- x[t - 1, m  ] + rnorm(1, mean = 0, sd = sd_add)
-  }
-  
-  x_prior[t, ] <- x[t, ]
- 
-  ## analysis step
-  if(!is.na(y[t])){ 
-
-      ## calculate Likelihood (weights)
-      wt <- dnorm(y[t], mean = x[t, ], sd = sd_obs)    ## calculate likelihood (weight)
-      
-      wt_norm <- wt / sum(wt)
-      
-      ## resample ensemble members in proportion to their weight
-      resample_index <- sample(1:num_particles, num_particles, replace = TRUE, prob = wt_norm) 
-      
-      x[t, ] <- x[t, resample_index]  ## update state
-    }
-}
+output <- particle_filter(x) #function from previous chunk
+x <- output$x
 ```
 
 @fig-sim-prior-post2 shows the particles with the observations. You can see how the particles are adjusted when data are present.
@@ -328,7 +304,7 @@ The particle filter is fundamentally a Bayesian analysis.
 -   Likelihood: the distribution of the data with uncertainty
 -   Posterior: The ensemble and weights after data assimilation.
 
-The figure below illustrates these Bayesian concepts. In the figure, the ensemble predictions are converted to a smoothed histogram and the observations are converted normal distributions using the observation standard deviation. Data are assimilated at time step 5 and 10.  The prior, likelihood, and posterior are shown on the days that data are assimilated.  Only prior is show on the other days because no data are available to convert to a posterior.  
+The figure below illustrates these Bayesian concepts. In the figure, the ensemble predictions are converted to a smoothed histogram and the observations are converted normal distributions using the observation standard deviation. Data are assimilated at time step 5 and 10. The prior, likelihood, and posterior are shown on the days that data are assimilated. Only prior is show on the other days because no data are available to convert to a posterior.
 
 ```{r}
 #| echo: false
@@ -347,37 +323,11 @@ sd_add <- 0.1
 sd_obs <- 0.2
 
 x <- array(NA, dim = c(num_time_steps, num_particles))
-x_prior <- x 
-
-
 x[1, ] <- rnorm(num_particles, mean = y[1], sd = sd_obs)
-x_prior[1, ] <- x[1, ]
 
-### resampling bootstrap particle filter
-
-for(t in 2:num_time_steps){
-  
-  ## forward step
-  for(m in 1:num_particles){
-    x[t, m ] <- x[t - 1, m  ] + rnorm(1, mean = 0, sd = sd_add)
-  }
-  
-  x_prior[t, ] <- x[t, ]
- 
-  ## analysis step
-  if(!is.na(y[t])){ 
-
-      ## calculate Likelihood (weights)
-      wt <- dnorm(y[t], mean = x[t, ], sd = sd_obs)    ## calculate likelihood (weight)
-      
-      wt_norm <- wt / sum(wt)
-      
-      ## resample ensemble members in proportion to their weight
-      resample_index <- sample(1:num_particles, num_particles, replace = TRUE, prob = wt_norm) 
-      
-      x[t, ] <- x[t, resample_index]  ## update state
-    }
-}
+output <- particle_filter(x)
+x <- output$x
+x_prior <- output$x_prior
 
 priors <- tibble(time = 1:num_time_steps,
        as_tibble(x_prior)) %>% 
@@ -511,7 +461,7 @@ Importantly, the distribution of b1 carries through from the previous time-step.
 
 for(t in 2:num_time_steps){
   
-  ## forward step
+  ## The new model is here
   for(m in 1:num_particles){
     
     pred <- x[t-1, m] + b0 + b1[t-1, m] * Tmin[t] + b2*x[t-1, m]
@@ -558,7 +508,7 @@ tibble(time = 1:num_time_steps,
 And visualize the time-evolution of the parameter (@fig-parameter-timeseries). There are two new concepts illustrated below:
 
 1.  parameters distributions evolve through time. As a result the distribution of parameters is strongly influenced by the most recent observations. The distributions produced by a PF are not the same as the distributions produced by MCMC chain.\
-2.  particles can have degeneracy, whereby the values of the parameters collapse down to one or a few values. This occurs because the PF does not propose new parameter values, it only selects (through resampling) parameter values from the initial set that you started with. Over the time-step the PF weeds out bad parameters and only a few ones are left. This is a major issue with a PF. Degeneracy can also occur in the states but since we are adding process uncertainty (`sd_add`) the particles are able to separate through time. There are a couple of ways to solve degeneracy - increase the number of particles so you sample more initial parameter values or add random noise to each parameter between times-steps, similar to adding process noise to model states.  Finding the right account of random noise to allow parameters to evolve through time but too much where the spread becomes unreasonable if data is not available to assimilate and reduce the spread.
+2.  particles can have degeneracy, whereby the values of the parameters collapse down to one or a few values. This occurs because the PF does not propose new parameter values, it only selects (through resampling) parameter values from the initial set that you started with. Over the time-step the PF weeds out bad parameters and only a few ones are left. This is a major issue with a PF. Degeneracy can also occur in the states but since we are adding process uncertainty (`sd_add`) the particles are able to separate through time. There are a couple of ways to solve degeneracy - increase the number of particles so you sample more initial parameter values or add random noise to each parameter between times-steps, similar to adding process noise to model states. Finding the right account of random noise to allow parameters to evolve through time but too much where the spread becomes unreasonable if data is not available to assimilate and reduce the spread.
 
 ```{r}
 #| echo: false
@@ -735,9 +685,9 @@ bind_rows(pf_low, pf_high) %>%
 
 ## Key points
 
-It is important to consider the relative balance of model uncertainty and observation uncertainty. If the Observation uncertainty > Model uncertainty, the data assimilation ignores the observations.  In this case, the "posteriors" are the prior (the model prediction are favored). If model uncertainty > observation uncertainty, the posterior follows the data and ignores the model predictions when the predictions are different from the observations.  In this case, the data distribution (likelihood) is the posterior.  Evenly balanced uncertainty will result in posteriors that are a blend of the model ensemble distribution and data distribution.
+It is important to consider the relative balance of model uncertainty and observation uncertainty. If the Observation uncertainty \> Model uncertainty, the data assimilation ignores the observations. In this case, the "posteriors" are the prior (the model prediction are favored). If model uncertainty \> observation uncertainty, the posterior follows the data and ignores the model predictions when the predictions are different from the observations. In this case, the data distribution (likelihood) is the posterior. Evenly balanced uncertainty will result in posteriors that are a blend of the model ensemble distribution and data distribution.
 
-As another way to view the balance of uncertainty, you are only able to use the set of particle ensemble members (priors) for resampling (or re-weighting) to generate the posteriors.  Therefore, it is important to consider how the spread in your ensemble is generated. If your ensemble lacks any particles near the data then it can't sample particles near the data.  Therefore, if it is critical for your predictions to follow the data, then you need to generate more spread in your particle ensemble so that there are at least a few particles that are near observations.  
+As another way to view the balance of uncertainty, you are only able to use the set of particle ensemble members (priors) for resampling (or re-weighting) to generate the posteriors. Therefore, it is important to consider how the spread in your ensemble is generated. If your ensemble lacks any particles near the data then it can't sample particles near the data. Therefore, if it is critical for your predictions to follow the data, then you need to generate more spread in your particle ensemble so that there are at least a few particles that are near observations.
 
 ## Reading
 
