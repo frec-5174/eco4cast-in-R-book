@@ -158,10 +158,6 @@ sd_obs <- 0.2
 x <- array(NA, dim = c(num_time_steps, num_particles))
 x[1, ] <- rnorm(num_particles, mean = y[1], sd = sd_obs)
 
-### resampling bootstrap particle filter
-
-particle_filter <- function(x){
-  
 x_prior <- x 
 x_prior[1, ] <- x[1, ]
 
@@ -187,8 +183,6 @@ for(t in 2:num_time_steps){
       
       x[t, ] <- x[t, resample_index]  ## update state
   }
-  return(list(x = x, x_prior = x_prior))
-}
 }
 ```
 
@@ -237,8 +231,32 @@ sd_obs <- 0.2
 x <- array(NA, dim = c(num_time_steps, num_particles))
 x[1, ] <- rnorm(num_particles, mean = y[1], sd = sd_obs)
 
-output <- particle_filter(x) #function from previous chunk
-x <- output$x
+x_prior <- x 
+x_prior[1, ] <- x[1, ]
+
+for(t in 2:num_time_steps){
+  
+  ## forward step
+  for(m in 1:num_particles){
+    x[t, m ] <- x[t - 1, m  ] + rnorm(1, mean = 0, sd = sd_add)
+  }
+  
+  x_prior[t, ] <- x[t, ]
+ 
+  ## analysis step
+  if(!is.na(y[t])){ 
+
+      ## calculate Likelihood (weights)
+      wt <- dnorm(y[t], mean = x[t, ], sd = sd_obs)    ## calculate likelihood (weight)
+      
+      wt_norm <- wt / sum(wt)
+      
+      ## resample ensemble members in proportion to their weight
+      resample_index <- sample(1:num_particles, num_particles, replace = TRUE, prob = wt_norm) 
+      
+      x[t, ] <- x[t, resample_index]  ## update state
+  }
+}
 ```
 
 @fig-sim-prior-post2 shows the particles with the observations. You can see how the particles are adjusted when data are present.
@@ -461,7 +479,7 @@ Importantly, the distribution of b1 carries through from the previous time-step.
 
 for(t in 2:num_time_steps){
   
-  ## The new model is here
+  ## The new 
   for(m in 1:num_particles){
     
     pred <- x[t-1, m] + b0 + b1[t-1, m] * Tmin[t] + b2*x[t-1, m]
