@@ -394,7 +394,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#aggregated-scores-1" id="toc-aggregated-scores-1" class="nav-link" data-scroll-target="#aggregated-scores-1"><span class="header-section-number">22.4</span> Aggregated scores</a></li>
   <li><a href="#by-horizon" id="toc-by-horizon" class="nav-link" data-scroll-target="#by-horizon"><span class="header-section-number">22.5</span> By horizon</a></li>
   <li><a href="#by-reference-datetime" id="toc-by-reference-datetime" class="nav-link" data-scroll-target="#by-reference-datetime"><span class="header-section-number">22.6</span> By reference datetime</a></li>
-  <li><a href="#additional-comparsions" id="toc-additional-comparsions" class="nav-link" data-scroll-target="#additional-comparsions"><span class="header-section-number">22.7</span> Additional comparsions</a></li>
+  <li><a href="#additional-comparisons" id="toc-additional-comparisons" class="nav-link" data-scroll-target="#additional-comparisons"><span class="header-section-number">22.7</span> Additional comparisons</a></li>
   <li><a href="#reading" id="toc-reading" class="nav-link" data-scroll-target="#reading"><span class="header-section-number">22.8</span> Reading</a></li>
   </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/frec-5174/eco4cast-in-R-book/issues/new" class="toc-action">Report an issue</a></p><p><a href="https://github.com/frec-5174/eco4cast-in-R-book/blob/main/process-model-forecast-evaluation.qmd" class="toc-action">View source</a></p></div></div></nav>
@@ -426,8 +426,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>all_results <span class="ot">&lt;-</span> arrow<span class="sc">::</span><span class="fu">open_dataset</span>(<span class="st">"s3://anonymous@bio230014-bucket01/challenges/scores/parquet/project_id=neon4cast/duration=P1D/variable=nee/model_id=bookcast_forest?endpoint_override=sdsc.osn.xsede.org"</span>)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> all_results <span class="sc">|&gt;</span> </span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(site_id <span class="sc">==</span> <span class="st">"OSBS"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(site_id <span class="sc">==</span> <span class="st">"OSBS"</span>,</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>         reference_datetime <span class="sc">&gt;</span> <span class="fu">as_date</span>(<span class="st">"2024-03-15"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The code above can be found in the catalog link at the top of the page.</p>
 </section>
@@ -441,7 +442,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code># A tibble: 1 × 1
   mean_crps
       &lt;dbl&gt;
-1      1.04</code></pre>
+1     0.612</code></pre>
 </div>
 </div>
 </section>
@@ -452,13 +453,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>all_results <span class="ot">&lt;-</span> arrow<span class="sc">::</span><span class="fu">open_dataset</span>(<span class="st">"s3://anonymous@bio230014-bucket01/challenges/scores/parquet/project_id=neon4cast/duration=P1D/variable=nee?endpoint_override=sdsc.osn.xsede.org"</span>)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>df_with_baselines <span class="ot">&lt;-</span> all_results <span class="sc">|&gt;</span> </span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(site_id <span class="sc">==</span> <span class="st">"OSBS"</span>,</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>         model_id <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"bookcast_forest"</span>, <span class="st">"climatology"</span>, <span class="st">"persistenceRW"</span>)) <span class="sc">|&gt;</span> </span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>         reference_datetime <span class="sc">&gt;</span> <span class="fu">as_date</span>(<span class="st">"2024-03-15"</span>), </span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>         model_id <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"bookcast_forest"</span>, <span class="st">"climatology"</span>, <span class="st">"persistenceRW"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="aggregated-scores-1" class="level2" data-number="22.4">
 <h2 data-number="22.4" class="anchored" data-anchor-id="aggregated-scores-1"><span class="header-section-number">22.4</span> Aggregated scores</h2>
-<p>We can first look at the aggregated scores (all reference_datetime and datetime combinations). Importantly, the code below uses <code>pivot_wider</code> and <code>pivot_longer</code> to ensure we only include datetimes where all three models provided forecasts. Otherwise there would be different periods from the three models in the aggregated score.</p>
+<p>We can first look at the aggregated scores (all reference_datetime and datetime combinations). Importantly, the code below uses <code>pivot_wider</code> and <code>pivot_longer</code> to ensure we only include <code>datetime</code> values where all three models provided forecasts. Otherwise there would be different periods from the three models in the aggregated score.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>df_with_baselines <span class="sc">|&gt;</span> </span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(model_id, crps, datetime, reference_datetime) <span class="sc">|&gt;</span> </span>
@@ -508,8 +510,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="additional-comparsions" class="level2" data-number="22.7">
-<h2 data-number="22.7" class="anchored" data-anchor-id="additional-comparsions"><span class="header-section-number">22.7</span> Additional comparsions</h2>
+<section id="additional-comparisons" class="level2" data-number="22.7">
+<h2 data-number="22.7" class="anchored" data-anchor-id="additional-comparisons"><span class="header-section-number">22.7</span> Additional comparisons</h2>
 <p>Forecasts can be compared across <code>site_id</code> (aggregating across all <code>reference_datetime</code> and <code>horizon</code>) if there are multiple sites and <code>datetime</code> (aggregating across all <code>horizon</code>). Since CRPS is in the naive units of the variable, it can not be compared across variables.</p>
 </section>
 <section id="reading" class="level2" data-number="22.8">

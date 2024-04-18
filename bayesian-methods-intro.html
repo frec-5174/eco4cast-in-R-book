@@ -402,8 +402,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#identifiablity" id="toc-identifiablity" class="nav-link" data-scroll-target="#identifiablity"><span class="header-section-number">17.4.2</span> Identifiablity</a></li>
   <li><a href="#data-leakage" id="toc-data-leakage" class="nav-link" data-scroll-target="#data-leakage"><span class="header-section-number">17.4.3</span> Data leakage</a></li>
   </ul></li>
-  <li><a href="#reading" id="toc-reading" class="nav-link" data-scroll-target="#reading"><span class="header-section-number">17.5</span> Reading</a></li>
-  <li><a href="#problem-set" id="toc-problem-set" class="nav-link" data-scroll-target="#problem-set"><span class="header-section-number">17.6</span> Problem Set</a></li>
+  <li><a href="#priors" id="toc-priors" class="nav-link" data-scroll-target="#priors"><span class="header-section-number">17.5</span> Priors</a></li>
+  <li><a href="#reading" id="toc-reading" class="nav-link" data-scroll-target="#reading"><span class="header-section-number">17.6</span> Reading</a></li>
+  <li><a href="#problem-set" id="toc-problem-set" class="nav-link" data-scroll-target="#problem-set"><span class="header-section-number">17.7</span> Problem Set</a></li>
   </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/frec-5174/eco4cast-in-R-book/issues/new" class="toc-action">Report an issue</a></p><p><a href="https://github.com/frec-5174/eco4cast-in-R-book/blob/main/bayesian-methods-intro.qmd" class="toc-action">View source</a></p></div></div></nav>
     </div>
@@ -1009,8 +1010,7 @@ P(mean | data) \simeq likelihood \cdot prior
 <p>water temperature = m + a * b * air temperature</p>
 <p>in this toy example the slope has been separated into two parameters (a and b). As a result, you can get the same value for a slope with a large value <code>a</code> and a small value for <code>b</code> as when you have small value for <code>a</code> and a large value for <code>b</code>. Consequentially it is impossible to find a value for either a or b and these parameters are unidentifiable. Obviously, if you collapse the a*b down into a single parameter (m) then that parameter is identifiable.</p>
 <p>In a ecosystem example, we often use net fluxes (like net ecosystem exchange) to calibrate models. Since NEE is the net of respiration and photosynthesis, the same NEE can emerge from a system with large values for respiration and photosynthes as a system with small values for respiration and photosynthesis. Therefore the parameters that govern respiration and photosynthesis are not identifiable using only NEE data for parameter estimation.</p>
-<p>Identifiablity issues can be addressed by adding additional data sources for parameter estimation. For example, in the next chapter we use NEE and LAI in the calibration. The LAI data helps separate out the low production from the high production system because a lower production system can not be associated with high LAI values in the model.</p>
-<p>Identifiablity issues can be addressed by using “stronger” priors that have distributions with less spread. These informed priors can come from data synthesis, surveying experts, or measurements. In some cases they are so informed that you assume they are a fixed value. Justification for the parameter value choice when fixing a parameter or using a strong prior.</p>
+<p>Identifiablity issues can be addressed by 1) adding additional data sources for parameter estimation. For example, in the next chapter we use NEE and LAI in the calibration. The LAI data helps separate out the low production from the high production system because a lower production system can not be associated with high LAI values in the model. 2) by using “stronger” priors that have distributions with less spread (see below) or 3) modifying the equation(s) of the model to reduce the trade-off in parameters.</p>
 </section>
 <section id="data-leakage" class="level3" data-number="17.4.3">
 <h3 data-number="17.4.3" class="anchored" data-anchor-id="data-leakage"><span class="header-section-number">17.4.3</span> Data leakage</h3>
@@ -1018,11 +1018,19 @@ P(mean | data) \simeq likelihood \cdot prior
 <p>You can use data that you will use in your likelihood calculate to involve the starting point of your MCMC chain. In some cases, a maximum likelihood fit of your model, like in <a href="likelihood-methods.html" class="quarto-xref"><span>Chapter&nbsp;16</span></a>, will yield starting points that are very close mean of the posterior (just without the uncertainty estimation). By starting your MCMC chain at this maximum likelihood estimates for the parameters, you will reduce the burn-in iterations and increase the computationally efficiency of your Bayesian analysis. This is not data leakage.</p>
 </section>
 </section>
-<section id="reading" class="level2" data-number="17.5">
-<h2 data-number="17.5" class="anchored" data-anchor-id="reading"><span class="header-section-number">17.5</span> Reading</h2>
+<section id="priors" class="level2" data-number="17.5">
+<h2 data-number="17.5" class="anchored" data-anchor-id="priors"><span class="header-section-number">17.5</span> Priors</h2>
+<p>Informed, strong vs.&nbsp;uninformed, vague, weak</p>
+<p>The parameters of the distribution determines how informed the prior is. For example a normal distribution with a mean = 0 and sd = 0.1 is much more informed than one with the sd = 1000 (the later has similar a probability densities across a large range of parameter values). It is also important to consider the range of support in a distribution. For example a normal distribution as non-zero densities for parameter values from -infinity to +infinity. Therefore the prior density for a parameter value will never by 0 (thus resulting the prior * likelihood = 0, and the MCMC never accepting that parameter value). In contrast, a uniform distribution has hard bounds that are user provided. If the prior is uniform from 0 to 1, then no parameter values less that 0 or greater than 1 will be considered even if the data supports thus values. Other proablity distribution has embedded bounds. For example the log-normal distribution can have values less than 0. Overall, hard bounds can be desired because of biophysical constraints on the parameter (e.g., a rate parameter or a proportion parameter can’t be negative).</p>
+<p>In some cases they are so informed that you assume they are a fixed value. Justification for the parameter value choice when fixing a parameter or using a strong prior.</p>
+<p>Remember that the priors are for specific parameters in the model. It is important that the information used to develop informed priors comes from comparable information about the same parameter. - Literature review - databases - expert options/survey - What about parameter used in previous applications of the model?</p>
+<p>When to use informed vs.&nbsp;uninformed priors. - Identifiable - Physical constants - Process models where there is considerable information on a parameter. - A desire to have the analysis reflect the data only.</p>
 </section>
-<section id="problem-set" class="level2" data-number="17.6">
-<h2 data-number="17.6" class="anchored" data-anchor-id="problem-set"><span class="header-section-number">17.6</span> Problem Set</h2>
+<section id="reading" class="level2" data-number="17.6">
+<h2 data-number="17.6" class="anchored" data-anchor-id="reading"><span class="header-section-number">17.6</span> Reading</h2>
+</section>
+<section id="problem-set" class="level2" data-number="17.7">
+<h2 data-number="17.7" class="anchored" data-anchor-id="problem-set"><span class="header-section-number">17.7</span> Problem Set</h2>
 <p>The problem set is located in <code>bayesian_problem_set.qmd</code> in https://github.com/frec-5174/book-problem-sets. You can fork the repository or copy the <a href="https://github.com/frec-5174/book-problem-sets/blob/main/bayesian_problem_set.qmd">code</a> into your own quarto document</p>
 
 
