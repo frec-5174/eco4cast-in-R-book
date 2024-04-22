@@ -388,14 +388,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#intro-to-probability-and-likelihood" id="toc-intro-to-probability-and-likelihood" class="nav-link active" data-scroll-target="#intro-to-probability-and-likelihood"><span class="header-section-number">16.1</span> Intro to probability and likelihood</a>
+  <li><a href="#intro-to-probability-and-likelihood" id="toc-intro-to-probability-and-likelihood" class="nav-link active" data-scroll-target="#intro-to-probability-and-likelihood"><span class="header-section-number">16.1</span> Intro to probability and likelihood</a></li>
+  <li><a href="#applying-likelihood-to-linear-regression" id="toc-applying-likelihood-to-linear-regression" class="nav-link" data-scroll-target="#applying-likelihood-to-linear-regression"><span class="header-section-number">16.2</span> Applying likelihood to linear regression</a></li>
+  <li><a href="#key-steps-in-likelihood-analysis" id="toc-key-steps-in-likelihood-analysis" class="nav-link" data-scroll-target="#key-steps-in-likelihood-analysis"><span class="header-section-number">16.3</span> Key steps in Likelihood analysis</a></li>
+  <li><a href="#fitting-parameters-in-the-probability-model" id="toc-fitting-parameters-in-the-probability-model" class="nav-link" data-scroll-target="#fitting-parameters-in-the-probability-model"><span class="header-section-number">16.4</span> Fitting parameters in the probability model</a></li>
+  <li><a href="#applying-likelihood-to-mechanistic-equations" id="toc-applying-likelihood-to-mechanistic-equations" class="nav-link" data-scroll-target="#applying-likelihood-to-mechanistic-equations"><span class="header-section-number">16.5</span> Applying likelihood to mechanistic equations</a>
   <ul class="collapse">
-  <li><a href="#take-home-messages" id="toc-take-home-messages" class="nav-link" data-scroll-target="#take-home-messages"><span class="header-section-number">16.1.1</span> Take home messages</a></li>
-  <li><a href="#brief-introduction-to-other-components-of-a-likelihood-analysis" id="toc-brief-introduction-to-other-components-of-a-likelihood-analysis" class="nav-link" data-scroll-target="#brief-introduction-to-other-components-of-a-likelihood-analysis"><span class="header-section-number">16.1.2</span> Brief introduction to other components of a likelihood analysis</a></li>
-  <li><a href="#key-point" id="toc-key-point" class="nav-link" data-scroll-target="#key-point"><span class="header-section-number">16.1.3</span> Key point</a></li>
+  <li><a href="#take-home-messages" id="toc-take-home-messages" class="nav-link" data-scroll-target="#take-home-messages"><span class="header-section-number">16.5.1</span> Take home messages</a></li>
+  <li><a href="#brief-introduction-to-other-components-of-a-likelihood-analysis" id="toc-brief-introduction-to-other-components-of-a-likelihood-analysis" class="nav-link" data-scroll-target="#brief-introduction-to-other-components-of-a-likelihood-analysis"><span class="header-section-number">16.5.2</span> Brief introduction to other components of a likelihood analysis</a></li>
+  <li><a href="#key-point" id="toc-key-point" class="nav-link" data-scroll-target="#key-point"><span class="header-section-number">16.5.3</span> Key point</a></li>
   </ul></li>
-  <li><a href="#reading" id="toc-reading" class="nav-link" data-scroll-target="#reading"><span class="header-section-number">16.2</span> Reading</a></li>
-  <li><a href="#problem-set" id="toc-problem-set" class="nav-link" data-scroll-target="#problem-set"><span class="header-section-number">16.3</span> Problem set</a></li>
+  <li><a href="#reading" id="toc-reading" class="nav-link" data-scroll-target="#reading"><span class="header-section-number">16.6</span> Reading</a></li>
+  <li><a href="#problem-set" id="toc-problem-set" class="nav-link" data-scroll-target="#problem-set"><span class="header-section-number">16.7</span> Problem set</a></li>
   </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/frec-5174/eco4cast-in-R-book/issues/new" class="toc-action">Report an issue</a></p><p><a href="https://github.com/frec-5174/eco4cast-in-R-book/blob/main/likelihood-methods.qmd" class="toc-action">View source</a></p></div></div></nav>
     </div>
@@ -721,6 +725,9 @@ NULL</code></pre>
 </div>
 </div>
 <p>Sweet it works! I know you are thinking “Wow a complicated way to calculate a mean…great thanks!”. But the power is that we can replace the direct estimation of the mean with a “process” model that predicts the mean.</p>
+</section>
+<section id="applying-likelihood-to-linear-regression" class="level2" data-number="16.2">
+<h2 data-number="16.2" class="anchored" data-anchor-id="applying-likelihood-to-linear-regression"><span class="header-section-number">16.2</span> Applying likelihood to linear regression</h2>
 <p>Here is a simple model that predicts y using a regression <code>y = par[1] + par[2] * x</code></p>
 <p>First we are going to create some simulated data from the regression and add normally distributed noise.</p>
 <div class="cell">
@@ -793,6 +800,9 @@ NULL</code></pre>
 <pre><code>[1] 3.0 1.2</code></pre>
 </div>
 </div>
+</section>
+<section id="key-steps-in-likelihood-analysis" class="level2" data-number="16.3">
+<h2 data-number="16.3" class="anchored" data-anchor-id="key-steps-in-likelihood-analysis"><span class="header-section-number">16.3</span> Key steps in Likelihood analysis</h2>
 <p>A key take home is that defining the likelihood function requires two steps</p>
 <ol type="1">
 <li>Write down your <em>process</em> model. This is a deterministic model (meaning that it doesn’t have any random component)</li>
@@ -812,6 +822,9 @@ NULL</code></pre>
 <span id="cb83-3"><a href="#cb83-3" aria-hidden="true" tabindex="-1"></a>  <span class="sc">-</span><span class="fu">sum</span>(<span class="fu">dnorm</span>(y, <span class="at">mean =</span> <span class="fu">pred_linear</span>(x, par), <span class="at">sd =</span> <span class="dv">1</span>, <span class="at">log =</span> <span class="cn">TRUE</span>))</span>
 <span id="cb83-4"><a href="#cb83-4" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+</section>
+<section id="fitting-parameters-in-the-probability-model" class="level2" data-number="16.4">
+<h2 data-number="16.4" class="anchored" data-anchor-id="fitting-parameters-in-the-probability-model"><span class="header-section-number">16.4</span> Fitting parameters in the probability model</h2>
 <p>There is one more assumption in our likelihood calculation that we have not addressed: we are assuming the standard deviation in the data is known (sd = 1). In reality we don’t know what the sd is. This assumption is simple to fix. All we need to do is make the sd a parameter that we estimate.</p>
 <p>Now there is a par[3] in in the likelihood function (but it isn’t in the process model function)</p>
 <div class="cell">
@@ -915,6 +928,9 @@ F-statistic: 569.4 on 1 and 98 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div>
 <p>As a result, we now better represent how data is generated from the underlying process. This will often change and improve parameter estimates for the process model.</p>
+</section>
+<section id="applying-likelihood-to-mechanistic-equations" class="level2" data-number="16.5">
+<h2 data-number="16.5" class="anchored" data-anchor-id="applying-likelihood-to-mechanistic-equations"><span class="header-section-number">16.5</span> Applying likelihood to mechanistic equations</h2>
 <p>As another example, you can easily change the process model to be non-linear. For example, we will generate simulated data from a saturating function (a Michaelis-Menten function)</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb102"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb102-1"><a href="#cb102-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">100</span>)</span>
@@ -996,8 +1012,8 @@ F-statistic: 569.4 on 1 and 98 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div>
 </div>
-<section id="take-home-messages" class="level3" data-number="16.1.1">
-<h3 data-number="16.1.1" class="anchored" data-anchor-id="take-home-messages"><span class="header-section-number">16.1.1</span> Take home messages</h3>
+<section id="take-home-messages" class="level3" data-number="16.5.1">
+<h3 data-number="16.5.1" class="anchored" data-anchor-id="take-home-messages"><span class="header-section-number">16.5.1</span> Take home messages</h3>
 <ol type="1">
 <li>Think about what process produces your data. Consider deterministic mechanisms and random processes.<br>
 </li>
@@ -1006,8 +1022,8 @@ F-statistic: 569.4 on 1 and 98 DF,  p-value: &lt; 2.2e-16</code></pre>
 <li>Embed your process model as the mean for your data model and solve with an optimizing algorithm. In the normal distribution, the mean is one of the parameters of the PDF so you can use the process model prediction directory in the data model as the mean. In other distributions the parameters of the PDF are not the mean, instead the mean is a function of the parameters. Therefore you will need to convert the mean to the parameters of the distribution. This is called “moment matching.”</li>
 </ol>
 </section>
-<section id="brief-introduction-to-other-components-of-a-likelihood-analysis" class="level3" data-number="16.1.2">
-<h3 data-number="16.1.2" class="anchored" data-anchor-id="brief-introduction-to-other-components-of-a-likelihood-analysis"><span class="header-section-number">16.1.2</span> Brief introduction to other components of a likelihood analysis</h3>
+<section id="brief-introduction-to-other-components-of-a-likelihood-analysis" class="level3" data-number="16.5.2">
+<h3 data-number="16.5.2" class="anchored" data-anchor-id="brief-introduction-to-other-components-of-a-likelihood-analysis"><span class="header-section-number">16.5.2</span> Brief introduction to other components of a likelihood analysis</h3>
 <ul>
 <li>Estimating uncertainty in the parameters using the shape of the likelihood curve (you can use the shape of the likelihood curve to estimate confidence (steeper = more confidence). In the <a href="#fig-ll-unc" class="quarto-xref">Figure&nbsp;<span>16.11</span></a>, the blue line has more data in the calculation of the mean than the black line. The dashed lines are the 2-unit likelihood level (2 log(LL) units were subtracted from the highest likelihood to determine the dashed line). The values of the dashed lines where they cross the likelihood curve with the same color are approximately the 95% confidence intervals for the parameter.</li>
 </ul>
@@ -1094,16 +1110,16 @@ par3 0.08755983 0.1155966</code></pre>
 </div>
 </div>
 </section>
-<section id="key-point" class="level3" data-number="16.1.3">
-<h3 data-number="16.1.3" class="anchored" data-anchor-id="key-point"><span class="header-section-number">16.1.3</span> Key point</h3>
+<section id="key-point" class="level3" data-number="16.5.3">
+<h3 data-number="16.5.3" class="anchored" data-anchor-id="key-point"><span class="header-section-number">16.5.3</span> Key point</h3>
 <p>Likelihood approach shown here gives us the <em>likelihood of the particular set of data GIVEN the model</em>. It does <strong>not</strong> give us the probability of the model given the particular set of data (i.e., the probability distributions of the model parameters). Ultimately, we want the probability distributions of the model parameters so that we can turn it around forecast the probability of yet to be collected data. For this we need to use Bayesian statistics in <a href="bayesian-methods-intro.html" class="quarto-xref"><span>Chapter&nbsp;17</span></a>!</p>
 </section>
 </section>
-<section id="reading" class="level2" data-number="16.2">
-<h2 data-number="16.2" class="anchored" data-anchor-id="reading"><span class="header-section-number">16.2</span> Reading</h2>
+<section id="reading" class="level2" data-number="16.6">
+<h2 data-number="16.6" class="anchored" data-anchor-id="reading"><span class="header-section-number">16.6</span> Reading</h2>
 </section>
-<section id="problem-set" class="level2" data-number="16.3">
-<h2 data-number="16.3" class="anchored" data-anchor-id="problem-set"><span class="header-section-number">16.3</span> Problem set</h2>
+<section id="problem-set" class="level2" data-number="16.7">
+<h2 data-number="16.7" class="anchored" data-anchor-id="problem-set"><span class="header-section-number">16.7</span> Problem set</h2>
 <p>The problem set is located in <code>likelihood_problem_set.qmd</code> in https://github.com/frec-5174/book-problem-sets. You can fork the repository or copy the <a href="https://github.com/frec-5174/book-problem-sets/blob/main/likelihood_problem_set.qmd">code</a> into your own quarto document</p>
 
 
