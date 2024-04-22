@@ -209,6 +209,8 @@ mean(y)
 
 Sweet it works! I know you are thinking "Wow a complicated way to calculate a mean...great thanks!". But the power is that we can replace the direct estimation of the mean with a "process" model that predicts the mean.
 
+## Applying likelihood to linear regression
+
 Here is a simple model that predicts y using a regression `y = par[1] + par[2] * x`
 
 First we are going to create some simulated data from the regression and add normally distributed noise.
@@ -279,6 +281,8 @@ message("True values (those we used to generate the data)")
 par_true
 ```
 
+## Key steps in Likelihood analysis
+
 A key take home is that defining the likelihood function requires two steps
 
 1)  Write down your *process* model. This is a deterministic model (meaning that it doesn't have any random component)
@@ -298,6 +302,8 @@ LL_fn <- function(par, x, y){
   -sum(dnorm(y, mean = pred_linear(x, par), sd = 1, log = TRUE))
 }
 ```
+
+## Fitting parameters in the probability model 
 
 There is one more assumption in our likelihood calculation that we have not addressed: we are assuming the standard deviation in the data is known (sd = 1). In reality we don't know what the sd is. This assumption is simple to fix. All we need to do is make the sd a parameter that we estimate.
 
@@ -385,6 +391,8 @@ fit$par
 ```
 
 As a result, we now better represent how data is generated from the underlying process. This will often change and improve parameter estimates for the process model.
+
+## Applying likelihood to mechanistic equations
 
 As another example, you can easily change the process model to be non-linear. For example, we will generate simulated data from a saturating function (a Michaelis-Menten function)
 
