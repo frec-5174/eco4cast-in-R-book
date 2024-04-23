@@ -8,9 +8,20 @@ This chapter provides a description of metrics for evaluating forecast, includin
 
 ## Scoring metrics
 
-A scoring metric is a value that can be used to evaluate how good a forecast compares to observations.  Scores can then be compared among forecast models to evaluate relative performance.    Typically lower scores are better. Scoring metrics are also called "costs".  The most based score would be the difference between the forecast mean and observation.  However, there are a couple of issues with that score.  First, forecast below the observation will receive negative values and forecasts above will receive positive values, thus the lowest value is not the best.  Second, it does not use any information from the forecast uncertainty in the evaluation.  Metrics like absolute error (absolute value of the difference between the forecast mean and observation) and root mean-squared error (RMSE) address the first issue but still do not consider the uncertainty.  
+A scoring metric is a value that can be used to evaluate how good a forecast compares to observations. Scores can then be compared among forecast models to evaluate relative performance. Typically lower scores are better. Scoring metrics are also called "costs". 
+## Accurancy
 
-It is important to consider uncertainty because intuitively a forecast that has the create mean but a large uncertainty (so it puts very little confidence on the observed value) should have a lower score that a forecast with a mean that is slightly off but with lower uncertainty (so it actually puts more confidence on the observed value).  The Continuous Ranked Probablity Score (CRPS) is one metric that evaluates the forecast distribution
+The most basic score would be the difference between the forecast mean and observation. However, there are a couple of issues with that score. First, forecast below the observation will receive negative values and forecasts above will receive positive values, thus the lowest value is not the best. Second, it does not use any information from the forecast uncertainty in the evaluation. Metrics like absolute error (absolute value of the difference between the forecast mean and observation) and root mean-squared error (RMSE) address the first issue but still do not consider the uncertainty.
+
+## Precision
+
+Is the variance in the forecast larger than an acceptable value?  For example, if the uncertainty in a rain forecast ranges from downpour to sunny then the variance is too large to be useful since one can not make a specific decision based on the forecast (e.g., do you cancel the soccer game ahead of time).  One can also compare the variance in a forecast to a baseline variable from a simple model to see if the the spread is less, and therefor a more informative forecast.
+
+## Accuracy + Precision
+
+It is important to consider uncertainty because intuitively a forecast that has the create mean but a large uncertainty (so it puts very little confidence on the observed value) should have a lower score that a forecast with a mean that is slightly off but with lower uncertainty (so it actually puts more confidence on the observed value). The Continuous Ranked Probability Score (CRPS) is one metric that evaluates the forecast distribution. Another is the ignorance (also called the Good or the log score).  The CRPS is described below.
+
+Add concept of proper and local?
 
 ### Continuous Ranked Probability Score
 
@@ -28,7 +39,7 @@ library(tidyverse)
 
 ### Example of a CRPS calculation from an ensemble forecast
 
-The goal of this section is to provide an intuition  for the CRPS metric.
+The goal of this section is to provide an intuition for the CRPS metric.
 
 First, create a random sample from a probability distribution. This is the "forecast" for a particular point in time. For simplicity, we will use a normal distribution with a mean of 8 and standard deviation of 1
 
@@ -66,7 +77,7 @@ Second, set our observed value to 8 for simplicity
 y <- 8
 ```
 
-Now calculate the CRPS at each combination of forest mean and SD.  We used `crps_norm` because we know the forecast is normally distributed 
+Now calculate the CRPS at each combination of forest mean and SD. We used `crps_norm` because we know the forecast is normally distributed
 
 ```{r}
 combined <- array(NA, dim = c(length(forecast_mean), length(forecast_sd)))
@@ -85,7 +96,7 @@ abline(v = y, col = "red")
 abline(v = 6, col = "darkgreen")
 ```
 
-The contour surface highlights the trade-off between the mean and standard deviation.  Each isocline is the same CRPS score.  Holding the mean constant at the observed value (vertical red line at 8) but increases the uncertainty (increasing SD) results in a higher (worse) score.  However, a mean of 6 (green line) with an SD of 2 has a similar score to a mean of 8 and a standard deviation of 1.  The following figure capture this idea. The two lines are the distribution of the mean = 8, sd = 4 and mean = 6, sd = 2 forecasts.  The red line is the observation of 8.  The forecast distribution with the mean of 6 actually has more density at x = 8 (the observation) and scores slightly better.
+The contour surface highlights the trade-off between the mean and standard deviation. Each isocline is the same CRPS score. Holding the mean constant at the observed value (vertical red line at 8) but increases the uncertainty (increasing SD) results in a higher (worse) score. However, a mean of 6 (green line) with an SD of 2 has a similar score to a mean of 8 and a standard deviation of 1. The following figure capture this idea. The two lines are the distribution of the mean = 8, sd = 4 and mean = 6, sd = 2 forecasts. The red line is the observation of 8. The forecast distribution with the mean of 6 actually has more density at x = 8 (the observation) and scores slightly better.
 
 ```{r}
 plot(density(rnorm(10000, mean = 8, sd = 4)), ylim = c(0, 0.2), main = "", xlab = "forecasted value")
@@ -93,21 +104,35 @@ lines(density(rnorm(10000, mean = 6, sd = 2)), col = "darkgreen")
 abline(v = 8, col = "red")
 ```
 
-## Baseline forecasts
+## Dynamics
 
-It is a best practice in forecasting to compare forecasts generated by more complex models to thus generated by simple "naive" models so that we can understand whether the additional complexity provides any gain in forecast capacity. Two common naive models are persistence and "climatology".  
+Add discussion of shadow time and correlation.
 
-Persistence forecasts that tomorrow will be the same as today, thus capturing the inertia of the system.  Uncertainty is added to a persistence forecast by simulated it as a random walk where each ensemble member has a random trajectory without any direction (so the mean of the forecast is still previous days mean value).  Persistence models perform well in systems with real-time observations because you actually know the current value and in systems with high inertia (like the water temperatures in the bottom of a large lake). 
+## Skill scores
+
+It is a best practice in forecasting to compare forecasts generated by more complex models to thus generated by simple "naive" models so that we can understand whether the additional complexity provides any gain in forecast capacity. Two common naive models are persistence and "climatology".
+
+The skill score compared a forecast model to a baseline model using the following equation
+
+`skill_score <- 1 - (mean_metric_baseline - mean_metric_forecast)/mean_metric_baseline`
+
+The mean_metric_baseline is the mean score for the baseline model.  It can be RMSE, MAE, CPRS, etc.  The mean_metric_forecast is the same metric for the forecast that is being evaluated.
+
+The skill score ranges from -Inf - 1 where values from -Inf to 0 are forecast models that perform worse than the baseline.  Values from 0 to 1 are forecast models that improve on the baseline.  A value of 1 means that the forecast model is perfect.
+
+### Example baseline models
+
+Persistence forecasts that tomorrow will be the same as today, thus capturing the inertia of the system. Uncertainty is added to a persistence forecast by simulated it as a random walk where each ensemble member has a random trajectory without any direction (so the mean of the forecast is still previous days mean value). Persistence models perform well in systems with real-time observations because you actually know the current value and in systems with high inertia (like the water temperatures in the bottom of a large lake).
 
 ```{r}
-all_results <- arrow::open_dataset("s3://anonymous@bio230014-bucket01/challenges/forecasts/summaries/project_id=neon4cast/duration=P1D/variable=temperature/model_id=persistenceRW?endpoint_override=sdsc.osn.xsede.org") |> 
+persistence <- arrow::open_dataset("s3://anonymous@bio230014-bucket01/challenges/forecasts/summaries/project_id=neon4cast/duration=P1D/variable=temperature/model_id=persistenceRW?endpoint_override=sdsc.osn.xsede.org") |> 
   filter(site_id == "BARC",
          reference_date == "2024-01-10") |> 
   collect()
 ```
 
 ```{r}
-all_results |> 
+persistence |> 
   ggplot(aes(x = datetime)) +
   geom_ribbon(aes(ymin = quantile10, ymax = quantile90), color = "lightblue", fill = "lightblue", alpha = 0.7) +
   geom_line(aes(y = median)) +
@@ -115,17 +140,17 @@ all_results |>
   theme_bw()
 ```
 
-"Climatology" is the historical distribution of observations for the forecast days.  In seasonal system, we often represent this using the mean and standard deviation of historical data from the same day-of-year in the past.  Less seasonal systems, may represent it as the historical mean and standard deviation.  I used climatology in quotes because the meteorological definition of climatology is 30 years but most ecological systems don't have 30-years of observations.  We use the term "day-of-year mean" instead of climatology when forecasting systems with limited historical data.  Climatology forecasts capacity the long-term behavior of the system and capture seasonal patterns.  
+"Climatology" is the historical distribution of observations for the forecast days. In seasonal system, we often represent this using the mean and standard deviation of historical data from the same day-of-year in the past. Less seasonal systems, may represent it as the historical mean and standard deviation. I used climatology in quotes because the meteorological definition of climatology is 30 years but most ecological systems don't have 30-years of observations. We use the term "day-of-year mean" instead of climatology when forecasting systems with limited historical data. Climatology forecasts capacity the long-term behavior of the system and capture seasonal patterns.
 
 ```{r}
-all_results <- arrow::open_dataset("s3://anonymous@bio230014-bucket01/challenges/forecasts/summaries/project_id=neon4cast/duration=P1D/variable=temperature/model_id=climatology?endpoint_override=sdsc.osn.xsede.org") |> 
+climatology <- arrow::open_dataset("s3://anonymous@bio230014-bucket01/challenges/forecasts/project_id=neon4cast/duration=P1D/variable=temperature/model_id=climatology?endpoint_override=sdsc.osn.xsede.org") |> 
   filter(site_id == "BARC",
          reference_date == "2024-01-10") |> 
   collect()
 ```
 
 ```{r}
-all_results |> 
+climatology |> 
   ggplot(aes(x = datetime)) +
   geom_ribbon(aes(ymin = quantile10, ymax = quantile90), color = "lightblue", fill = "lightblue", alpha = 0.7) +
   geom_line(aes(y = median)) +
@@ -133,7 +158,39 @@ all_results |>
   theme_bw()
 ```
 
-Both of these models are simple to calculate and include no "knowledge" of the system that might be embedded in more complex models.  
+Both of these models are simple to calculate and include no "knowledge" of the system that might be embedded in more complex models.
+
+### Example skill score calculation
+
+This example compares the skill of the climatology forecast to the persistence baseline
+
+```{r}
+baseline_models <- arrow::open_dataset("s3://anonymous@bio230014-bucket01/challenges/scores/parquet/project_id=neon4cast/duration=P1D/variable=temperature?endpoint_override=sdsc.osn.xsede.org") |> 
+  filter(site_id == "BARC",
+         reference_datetime > lubridate::as_datetime("2024-01-10") & reference_datetime < lubridate::as_datetime("2024-03-10"),
+         model_id %in% c("climatology", "persistenceRW")) |> 
+  collect() 
+
+skill_score <- baseline_models |> 
+  mutate(horizon = as.numeric(datetime - reference_datetime)) |> 
+  summarize(mean_crps = mean(crps, na.rm = TRUE), .by = c("model_id", "horizon")) |> 
+  pivot_wider(names_from = model_id, values_from = mean_crps) |> 
+  mutate(skill_score = 1 - (climatology/persistenceRW))
+```
+
+```{r}
+ggplot(skill_score, aes(x = horizon, y = skill_score)) +
+  geom_line() +
+  geom_hline(aes(yintercept = 0)) +
+  labs(x = "Horizon (days in future)", y = "Skill score") +
+  theme_bw() +
+  annotate("text", label = "climatology is better", x = 15, y = 0.2) +
+  annotate("text", label = "baseline (persistence) is better", x = 15, y = -0.2)
+```
+
+## Take homes
+
+Different metrics evaluate different components of the forecast.  Be sure to match your evaluate metric to evaluate the aspects of the forecast that match the needs of the forecast user.  
 
 ## Reading
 
@@ -141,15 +198,15 @@ Simonis, J. L., White, E. P., & Ernest, S. K. M. (2021). Evaluating probabilisti
 
 ## Problem Set
 
-If you have forecast submissions the scores from your submitted forecasts and the climatology and persistence forecasts.  If you do not have submitted forecasts, use the `model_id = XXXX` to answer the questions  
+If you have forecast submissions the scores from your submitted forecasts and the climatology and persistence forecasts. If you do not have submitted forecasts, use the `model_id = XXXX` to answer the questions
 
 Create a new Rmarkdown document that you use to answer the questions below with a mix of code and text.
 
-1. Plot climatology, persistence, and your model for a single forecast day on the same plot
-2. Based on visual inspection of your plot, how do the medians model each forecasts differ in capacity to represent the observations.
-3. Based on visual inspection of your plot, how does the uncertainty of each model forecasts differ in capacity to represent the observations.
-4. Calculate the mean CRPS for the single day forecast (averaged across all horizons). Which model has the lower score?
-5. Calculate the mean CRPS for climatology, persistence, and your model for all reference datetimes and horizons.  Which model has the lower score when you consider all submissions?
-6. Do you think you have enough important from the mean CRPS score to determine the "best" model?  If not, what is needed to better characterize the best performing model?
+1.  Plot climatology, persistence, and your model for a single forecast day on the same plot
+2.  Based on visual inspection of your plot, how do the medians model each forecasts differ in capacity to represent the observations.
+3.  Based on visual inspection of your plot, how does the uncertainty of each model forecasts differ in capacity to represent the observations.
+4.  Calculate the mean CRPS for the single day forecast (averaged across all horizons). Which model has the lower score?
+5.  Calculate the mean CRPS for climatology, persistence, and your model for all reference datetimes and horizons. Which model has the lower score when you consider all submissions?
+6.  Do you think you have enough important from the mean CRPS score to determine the "best" model? If not, what is needed to better characterize the best performing model?
 
 Commit your Rmd and knitted html to your GitHub repository that you used in @sec-third-forecast.
