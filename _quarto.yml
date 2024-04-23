@@ -36,7 +36,7 @@ book:
         - using-data.qmd
         - third-forecast.qmd
         - decision-making.qmd
-        - visualizing.qmd
+        - evaluating-forecasts.qmd
         - best-practices.qmd
     - part: "Project 1"
       chapters:
