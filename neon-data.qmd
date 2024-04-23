@@ -11,7 +11,7 @@ In this document, we will be creating a carbon budget for a NEON site. It was de
 
 NEON data is organized by data product ID in the NEON Data Portal: <https://data.neonscience.org/static/browse.html>
 
-The chapter uses the `neonstore` packages developed by Carl Boettiger to access NEON data. The `neon_cloud` function uses the NEON data produce ID and the table within the product to download the data from NEON cloud storage. If you are new to a NEON data product, it is important to explore the data product on NEON's Data Portal before using the `neon_cloud` functionality (otherwise you don't know what tables you need to download and how they link together).
+The chapter uses the `neonstore` packages developed by Carl Boettiger to access NEON data. The `neon_cloud` function uses the NEON data product ID and the table within the product to download the data from NEON cloud storage. If you are new to a NEON data product, it is important to explore the data product on NEON's Data Portal before using the `neon_cloud` functionality (otherwise you don't know what tables you need to download and how they link together).
 
 ## NEON Project
 
@@ -23,7 +23,7 @@ The chapter uses the `neonstore` packages developed by Carl Boettiger to access 
 
 ## Download data
 
-First, we define the site ID. The four letter site code denotes NEON site. You can learn more about NEON sites here: <https://www.neonscience.org/field-sites/explore-field-sites>. The elevation, latitude, and longitude are needed to convert the diameter measurements to biomass and are found on the NEON page describing the site.
+First, we define the site ID. The four letter site code denotes individual NEON sites. You can learn more about NEON sites here: <https://www.neonscience.org/field-sites/explore-field-sites>. The elevation, latitude, and longitude are needed to convert the diameter measurements to biomass and are found on the NEON page describing the site.
 
 ```{r}
 site <- "OSBS"
@@ -36,7 +36,7 @@ longitude <- -81.993431 #-87.393259
 
 ### Calculate carbon in trees
 
-In this section, we will be calculating carbon in live and dead trees at a NEON site. At the end we will have a *site-level* mean carbon stock in *live trees* for each year that was sampled from the plots represent ecosystem under the flux tower (e.g., tower plots). We use the tower plots so correspond to same ecosystem as the NEON `nee` data.
+In this section, we will be calculating carbon in live and dead trees at a NEON site. At the end we will have a *site-level* mean carbon stock in *live trees* for each year that was sampled from the plots that represent ecosystem under the flux tower (e.g., tower plots). We use the tower plots so that it corresponds to same ecosystem as the NEON `nee` data.
 
 We will select the key variables in each table (thus only downloading those variables).
 
@@ -94,13 +94,13 @@ combined_table <- left_join(ind_table, map_tag_table, by = "individualID") |>
 combined_table <- inner_join(combined_table, plot_table, by = "plotID") |> 
   arrange(individualID)
 
-combined_table_dbh <- combined_table[which(combined_table$measurementHeight == 130),]
-
-combined_table_dbh <- combined_table_dbh[which(!is.na(combined_table_dbh$stemDiameter)),]
+combined_table_dbh <- combined_table |> 
+  filter(measurementHeight == 130,
+         !is.na(stemDiameter))
 
 ```
 
-Tidy up the individual tree data to include only live trees from the tower plots. Also create a variable that is the year of the sample date.
+Tidy up the individual tree data to include only live trees from the tower plots. Also create a variable that is the year of the sample date. We will filter the data based on measurement heights of 130 cm to only include data that had dbh measurements.
 
 ```{r}
 combined_table_live_tower <- combined_table_dbh |>  
@@ -110,11 +110,11 @@ combined_table_live_tower <- combined_table_dbh |>
   mutate(stemDiameter = as.numeric(stemDiameter))
 ```
 
-To calculate the biomass of each tree in the table, we will do this using `get_biomass` in the `allodb` package. This function takes as arguments: `dbh`, `genus`, `species`, `coords`. We have already extracted genus and species. The steps where we were subsetting based on measurement heights of 130 cm was actually subsetting to include only data that had dbh measurements.
+To calculate the biomass of each tree in the table, we will do this using the `get_biomass` function from the `allodb` package. This function takes as arguments: `dbh`, `genus`, `species`, `coords`. We have already extracted genus and species and filtered to dbh measurements.
 
-In this next section, as well as a future one where we calculate dead tree carbon, we are going to make a simplfying assumption. We will assume that the below ground biomass of a tree is some fixed proportion of its above ground biomass. In our analysis, we will assume this value is $.3$, but it is a parameter that can be changed. We also assume that carbon is 0.5 of biomass.
+In this next section, as well as a future one where we calculate dead tree carbon, we are going to make a simplfying assumption. We will assume that the below ground biomass of a tree is some fixed proportion of its above ground biomass. In our analysis, we will assume this value is $.3$ (`ag_bg_propr`), but it is a parameter that can be changed. We also assume that carbon is 0.5 of biomass.
 
-The `get_biomass` function is within the `allodb` package and returnes the biomass of each tree in units of kg.
+The `get_biomass` function is within the `allodb` package and returns the biomass of each tree in units of kg.
 
 ```{r}
 library(allodb)
@@ -122,17 +122,15 @@ library(allodb)
 ag_bg_prop <- 0.3
 
 tree_live_carbon <- combined_table_live_tower |>
-        mutate(ag_tree_kg = get_biomass(
-          dbh = combined_table_live_tower$stemDiameter,
-          genus = combined_table_live_tower$GENUS,
-          species = combined_table_live_tower$SPECIES,
-          coords = c(longitude, latitude)
-          ),
-         bg_tree_kg = ag_tree_kg * ag_bg_prop, ## assumption about ag to bg biomass
-         tree_kgC = (ag_tree_kg + bg_tree_kg) * 0.5) ## convert biomass to carbon
+  mutate(ag_tree_kg = get_biomass(dbh = combined_table_live_tower$stemDiameter,
+                                  genus = combined_table_live_tower$GENUS,
+                                  species = combined_table_live_tower$SPECIES,
+                                  coords = c(longitude, latitude)),
+  bg_tree_kg = ag_tree_kg * ag_bg_prop, ## assumption about ag to bg biomass
+  tree_kgC = (ag_tree_kg + bg_tree_kg) * 0.5) ## convert biomass to carbon
 ```
 
-Calculate the plot level biomass summing up the tree biomass in a plot and dividing by the area of plot.
+Calculate the plot level biomass by summing up the tree biomass in a plot and dividing by the area of plot.
 
 ```{r}
 
@@ -188,11 +186,11 @@ ggplot(site_live_carbon, aes(x = measure_date, y = mean_kgCperm2)) +
 
 ### Calculate carbon in dead trees
 
-We will now use `allodb` package to extract the carbon in dead trees. This is exactly like the steps above except for using the trees with a dead status.
+We will now use the `allodb` package to extract the carbon in dead trees. This is exactly like the steps above except for using the trees with a dead status.
 
 ```{r}
 combined_table_dead_tower <- combined_table_dbh |> 
-  filter(grepl("Standing dead",plantStatus),
+  filter(str_detect("Standing dead",plantStatus),
          plotType == "tower") |> 
   mutate(stemDiameter = as.numeric(stemDiameter))
 ```
@@ -279,6 +277,8 @@ cdw_tally <- neon_cloud("cdw_fieldtally",
 
 ```
 
+We will go through the same steps to calculate carbon in the course wood debris.
+
 ```{r}
 ## filter by tower plot for log table
 log_table_filter <- log_table |> 
@@ -313,7 +313,7 @@ site_cwd_carbon <- log_table_filter |>
 
 ## Calculate carbon in fine roots
 
-Here we are going to calculate the carbon stored in fine roots using the root chemistry data product. We will calculate the carbon in both dead and alive roots. Though we are interested mostly in live roots, at the time of writing this, there the 2021 NEON data for our site does not have `rootStatus` data available. Thus we will use historical data to compute an estimate of the ratio, so that we don't have to throw away perfectly good information.
+Here we are going to calculate the carbon stored in fine roots using the root chemistry data product. We will calculate the carbon in both dead and alive roots. Though we are interested mostly in live roots, at the time of writing this, the 2021 NEON data for our site does not have `rootStatus` data available. Thus we will use historical data to compute an estimate of the ratio, so that we don't have to throw away perfectly good information.
 
 ```{r}
 #| message: false
@@ -428,8 +428,9 @@ horizon_combined <- inner_join(horizon_carbon,bulk_density, by = "horizonName") 
 The soil carbon can be visualized by depth @fig-som-horizon.
 
 ```{r}
-#|fig-cap: Soil carbon by depth for the site from the megapit.
-#|label: fig-som-horizon
+#| fig-cap: Soil carbon by depth for the site from the megapit.
+#| label: fig-som-horizon
+
 ggplot(horizon_combined, map = aes(-biogeoTopDepth,horizon_C_kg_per_m2)) +
   geom_line() +
   geom_point() +
@@ -446,6 +447,8 @@ site_soil_carbon <- horizon_combined |>
 ```
 
 ## Combine together
+
+Next we will combine our estimates of carbon in each faction...
 
 ```{r}
 site_live_carbon <- site_live_carbon |> 
@@ -480,9 +483,9 @@ total_carbon_components <- bind_rows(site_live_carbon, site_dead_carbon, site_cw
 The different pools of carbon can be plotted on the same figure to compare the magnitudes @fig-all-site-carbon.
 
 ```{r}
-#|warning: false
-#|fig-cap: Site-leve carbon stocks at the focal NEON site
-#|label: fig-all-site-carbon 
+#| warning: false
+#| fig-cap: Site-leve carbon stocks at the focal NEON site
+#| label: fig-all-site-carbon 
 total_carbon_components |> 
   ggplot(aes(x = datetime, y = mean_kgCperm2, color = variable)) + 
   geom_point() +
