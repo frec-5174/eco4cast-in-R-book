@@ -18,9 +18,9 @@ y_i <- -0.2513233
 
 A random number is associated with a probability of it taking that value
 
-P(X = y_i) = p_i
+$P(X = y_i) = p_i$
 
-`p_i` is defined from a probability distribution (P). We may have an idea of the shape (i.e., normally distributed), but not the specific distribution (i.e. a normal with a mean = 0, and sd = 1). For example, @fig-simple-rnorm is a normal distribution with a mean = 0 and sd = 1. (I created it by randomly drawing 10000 samples from a normal distribution using the `rnorm` function)
+$p_i$ is defined from a probability distribution ($P$). We may have an idea of the shape (i.e., normally distributed), but not the specific distribution (i.e. a normal with a mean = 0, and sd = 1). For example, @fig-simple-rnorm is a normal distribution with a mean = 0 and sd = 1. (I created it by randomly drawing 10000 samples from a normal distribution using the `rnorm` function)
 
 ```{r}
 #| fig-cap: Normal distribution with mean = 0 and sd = 1
@@ -52,7 +52,7 @@ abline(v = y_i, col = "red")
 
 We can numerically compare the answer to the two questions using the "Probability Density Function". In R the PDF is represented by the `dnorm` function (d representing "density"). The `dnorm` function allows us to answer the question: Which mean is more likely given the data point?
 
-```{r}
+```{r echo=F}
 message("mean of 0")
 dnorm(x = y_i, mean = 0, sd = 1)
 message("mean of 2")
@@ -112,7 +112,7 @@ message("log likelihood: mean = 2")
 LL2
 ```
 
-The separate calls to `dnorm` can be combined into one call by using the vectorization capacities of R. If a vector of observation is passed to the function, it will return a vector that was evaluated as each value of the vector. Then the vector can be used in a call to the `sum` function to get a single value.
+The separate calls to `dnorm` can be combined into one call by using the vectorization capacities of R. If a vector of observation is passed to the function, it will return a vector that was evaluated as each value of the vector. The vector can be used in a call to the `sum` function to get a single value.
 
 ```{r}
 message("log likelihood: mean = 0")
@@ -144,7 +144,7 @@ LL
 
 The relationship between the different mean values and the likelihood is a curve (@fig-ll1)
 
-IMPORTANT: This curve may look like a probability density function (PDF) but it is not! Why? Because the area under the curve does not sum to 1. As a result 1) we use the term likelihood rather than density and 2) while the curve gives us the most likelihood estimate for the parameter, it does **not** give us the PDF of the parameter (even if we really really want the PDF, Bayesian statistics are needed for that)
+IMPORTANT: This curve may look like a probability density function (PDF) but it is not! Why? Because the area under the curve does not sum to 1. As a result 1) we use the term likelihood rather than density and 2) while the curve gives us the most likely estimate for the parameter, it does **not** give us the PDF of the parameter (even if we really really want the PDF, Bayesian statistics are needed for that)
 
 ```{r}
 #| fig-cap: The likelihood curve over different values of the mean
@@ -167,7 +167,7 @@ mean(y)
 
 We just calculated the **likelihood of the data GIVEN our model** where our model was that "the data are normally distributed with a specific mean". We found the most likely value for a parameter in the model (the parameter being the mean of the PDF).
 
-For use in R tools that find the minimum of a function, you can find the minimum of the negative log likelihood curve (@fig-ll2)
+For use in R where we want to find the minimum of a function, you can find the minimum of the negative log likelihood curve (@fig-ll2)
 
 ```{r}
 #| fig-cap: The likelihood curve over different values of the mean with minimium shown
@@ -176,7 +176,7 @@ plot(x = mean_values, y = -LL, type = "o", xlab = "mean", ylab = "-1 * log(likel
 abline(v = mean(y), col = "red")
 ```
 
-To use optimizer function in R, we first need to create a function that defines our likelihood (this is the same as above with the mean being \`par\[1\]\`). The likelihood is also called the cost function where worse values for the parameter have higher cost scores.
+To use the optimizer function in R, we first need to create a function that defines our likelihood (this is the same as above with the mean being \`par\[1\]\`). The likelihood is also called the cost function where worse values for the parameter have higher cost scores.
 
 ```{r}
 LL_fn <- function(y, par){
@@ -185,13 +185,13 @@ LL_fn <- function(y, par){
 }
 ```
 
-This likelihood function is then used in an optimization function that finds the minimum (don't worry about the details)
+This likelihood function is then used in an optimization function that finds the minimum (don't worry about the details).
 
 ```{r}
 #| warning: FALSE
 #@par are the starting values for the search
 #@fn is the function that is minimized (find parameters that yield the lowest -log(LL)) 
-#@ anything else like x are arguments needed by the LL_fn
+#@ anything else, like y, are arguments needed by the LL_fn
 fit <- optim(par = 4, fn = LL_fn, method = "BFGS", y = y)
 fit
 ```
@@ -207,7 +207,7 @@ message("From the mean function")
 mean(y)
 ```
 
-Sweet it works! I know you are thinking "Wow a complicated way to calculate a mean...great thanks!". But the power is that we can replace the direct estimation of the mean with a "process" model that predicts the mean.
+Sweet, it works! I know you are thinking "Wow a complicated way to calculate a mean...great thanks!". But the power is that we can replace the direct estimation of the mean with a "process" model that predicts the mean.
 
 ## Applying likelihood to linear regression
 
@@ -232,7 +232,7 @@ The fake data are shown in @fig-fake-data1.
 plot(x, y)
 ```
 
-Now we need a function to make the regression calculation from the parameters and inputs (x)
+Now we need a function that does the regression calculation from the parameters and inputs (x)
 
 ```{r}
 pred_linear <- function(x, par){
@@ -303,7 +303,7 @@ LL_fn <- function(par, x, y){
 }
 ```
 
-## Fitting parameters in the probability model 
+## Fitting parameters in the probability model
 
 There is one more assumption in our likelihood calculation that we have not addressed: we are assuming the standard deviation in the data is known (sd = 1). In reality we don't know what the sd is. This assumption is simple to fix. All we need to do is make the sd a parameter that we estimate.
 
@@ -545,7 +545,7 @@ confint(fit)
 
 ### Key point
 
-Likelihood approach shown here gives us the *likelihood of the particular set of data GIVEN the model*. It does **not** give us the probability of the model given the particular set of data (i.e., the probability distributions of the model parameters). Ultimately, we want the probability distributions of the model parameters so that we can turn it around forecast the probability of yet to be collected data. For this we need to use Bayesian statistics in @sec-bayes!
+Likelihood approach shown here gives us the *likelihood of the particular set of data GIVEN the model*. It does **not** give us the probability of the model given the particular set of data (i.e., the probability distributions of the model parameters). Ultimately, we want the probability distributions of the model parameters so that we can turn it around to forecast the probability of yet to be collected data. For this we need to use Bayesian statistics in @sec-bayes!
 
 ## Reading
 

@@ -1,6 +1,6 @@
 # Parameter calibration: Bayesian methods {#sec-bayes}
 
-Including parameter uncertainty in forecasts as demonstrated in @sec-prop-unc-pars requires having a probability distribute for the parameters. The previous chapter shows how to estimate parameters using likelihood methods. While likelihood methods are designed to find optimal values, they are not designed to estimate the probability distribution of the parameters. By finding optimal values likelihood methods can reduce process uncertainty because a better calibrated model has a better match to historical data and smaller residual error. This chapter introduces the use of Bayesian methods to estimate parameter distributions.
+Including parameter uncertainty in forecasts, as demonstrated in @sec-prop-unc-pars, requires having a probability distribution for the parameters. The previous chapter shows how to estimate parameters using likelihood methods. While likelihood methods are designed to find optimal values, they are not designed to estimate the probability distribution of the parameters. By finding optimal values likelihood methods can reduce process uncertainty because a better calibrated model has a better match to historical data and smaller residual error. This chapter introduces the use of Bayesian methods to estimate parameter distributions.
 
 ## Introduction to Bayesian statistics
 
@@ -83,7 +83,7 @@ ggplot(data = d, aes(x = x, y = likelihood)) +
   theme_bw()
 ```
 
-Remember that this curve is the P(data \| mean = x). We want the P(mean = x \| data).
+Remember that this curve is the $P(data \| mean = x)$ - probability of the data given the model. We want the $P(mean = x \| data)$ - probability of the model given the data.
 
 Following Bayes rule where the $P(data | model)$ is the likelihood and $P(model)$ is our guess for the mean before seeing the data (called the prior)
 
@@ -142,6 +142,7 @@ prior_times_likelihood <- density_prior * density_likelihood
 
 ```{r}
 #| label: fig-post-unscaled
+#| fig-cap: likelihood of the x given the prior distribution and likelihood of the model.
 d <- tibble(x = x,
             prior_times_likelihood = prior_times_likelihood)
 ggplot(d, aes(x = x, y = prior_times_likelihood)) +
@@ -149,14 +150,14 @@ ggplot(d, aes(x = x, y = prior_times_likelihood)) +
   theme_bw()
 ```
 
-But from Bayes rule we can rescale the prior x likelihood by the area under the curve to convert to a probability density function.
+But from Bayes rule we can rescale the prior \* likelihood by the area under the curve to convert to a probability density function.
 
 ```{r}
 area_under_curve <- sum(prior_times_likelihood * delta_x)  #sum(Width * Height) = total probability of the data given all possible values of the parameter
 normalized_posterior <- prior_times_likelihood / area_under_curve
 ```
 
-The probability of the data is (i.e., area under likelihood x prior curve): `r area_under_curve`
+The probability of the data is (i.e., area under likelihood \* prior curve): `r area_under_curve`
 
 Now we can visualize the rescaled likelihood (remember that the un-scaled likelihood was actually used in the calculations), the prior, and the normalized posterior.
 
@@ -176,7 +177,7 @@ tibble(x = x,
   theme_bw()
 ```
 
-Here is a function that will allow us to explore how the posterior is sensitive to the likelihood and the prior
+Here is a function that will allow us to explore how the posterior is sensitive to the likelihood and the prior.
 
 ```{r}
 explore_senstivity <- function(num_data_points, mean_data, sd_data, mean_prior, sd_prior, title){
@@ -223,35 +224,35 @@ Now we can explore how the posterior is sensitive to 1) prior sd (i.e., confiden
 ```{r}
 #Baseline
 p1 <- explore_senstivity(num_data_points = 5,
-                        mean_data = 3,
-                        sd_data = 2,
-                        mean_prior = 0,
-                        sd_prior = 1.0,
-                        title = "Baseline\n")
+                         mean_data = 3,
+                         sd_data = 2,
+                         mean_prior = 0,
+                         sd_prior = 1.0,
+                         title = "Baseline\n")
 
 #Increase confidence in prior
 p2 <- explore_senstivity(num_data_points = 5,
-                        mean_data = 3,
-                        sd_data = 2,
-                        mean_prior = 0,
-                        sd_prior = 0.1,
-                        title = "Increase confidence\nin prior")
+                         mean_data = 3,
+                         sd_data = 2,
+                         mean_prior = 0,
+                         sd_prior = 0.1,
+                         title = "Increase confidence\nin prior")
 
 #Increase number of data points
 p3 <- explore_senstivity(num_data_points = 50,
-                        mean_data = 3,
-                        sd_data = 2,
-                        mean_prior = 0,
-                        sd_prior = 1.0,
-                        title = "Increase data\n")
+                         mean_data = 3,
+                         sd_data = 2,
+                         mean_prior = 0,
+                         sd_prior = 1.0,
+                         title = "Increase data\n")
 
 #Make likelihood mean closer to prior
 p4 <- explore_senstivity(num_data_points = 5,
-                        mean_data = 0,
-                        sd_data = 2,
-                        mean_prior = 0,
-                        sd_prior = 1.0,
-                        title = "Make likelihood mean\ncloser to prior")
+                         mean_data = 0,
+                         sd_data = 2,
+                         mean_prior = 0,
+                         sd_prior = 1.0,
+                         title = "Make likelihood mean\ncloser to prior")
 
 
 p4 <- explore_senstivity(num_data_points = 1,
@@ -356,9 +357,9 @@ ggplot(d, aes(x = x, y = prediction, col = distribution)) +
 
 ## Solving a Bayesian model
 
-The example above is designed to build an intuition for how a Bayesian analysis works but is not how the parameters in a Bayesian model are estimated in practice. For one thing, if there are multiple parameters being estimated, it is very hard to estimate the area under the curve. Second, the area is very very small if there are many data points (so small that the computer can't hold it well)
+The example above is designed to build an intuition for how a Bayesian analysis works but is not how the parameters in a Bayesian model are estimated in practice. For one thing, if there are multiple parameters being estimated, it is very hard to estimate the area under the curve. Second, the area is very very small if there are many data points (so small that the computer can't hold it well).
 
-There are two common methods for estimating posterior distributions that involve numerical computation. Both methods involve randomly sampling from an unknown posterior distribution and saving the samples. The sequence of saved sample for the parameters is called a Markov chain Monte Carlo (MCMC). The distribution of parameter values in the MCMC chain is your posterior distribution.
+There are two common methods for estimating posterior distributions that involve numerical computation. Both methods involve randomly sampling from an unknown posterior distribution and saving the samples. The sequence of saved sample of the parameters is called a Markov chain Monte Carlo (MCMC). The distribution of parameter values in the MCMC chain is your posterior distribution.
 
 The first is called Gibbs sampling and is used when you know the probability distribution type for the posterior but not the parameter values of the distribution. For example, if your prior is normally distributed and your likelihood is normally distributed then you know (from math that others have already done for you) that the posterior is normally distributed. Therefore, you can randomly draw from that distribution to build your MCMC chain that generates your posterior distribution. We will not go over this in detail but know that this method will give you an answer quicker but requires you (or the software you are using) to know that your prior and likelihood are conjunct (i.e., someone else has worked out that the posterior always has a certain PDF if the prior and likelihood are of certain PDF - see pages 86-89 and Table A3 in Hobbs and Hooten).
 
@@ -377,14 +378,14 @@ The second is called MCMC Metropolis--Hastings (MCMC-MH) and is a rejection samp
 5)  If `prob_proposed` from Step 3 is greater than `z` from Step 4 then save the proposed parameter for that iteration of MCMC chain. If it is less, then assign the previous parameter value for that iteration of the MCMC chain. As a result of Step 5:
 
 -   All parameters that improve the probability will have `prob_proposed/prob_current` \> 1. Therefore all improvements will be accepted since z (by definition in Step 4) can never be greater than 1.
--   Worse parameters where `prob_proposed/prob_current` \< 1, will be accepted in proportion to how worse they are. For example if `prob_proposed/prob_current` = 0.9, 90% of the time z will be less the 0.90 so the worse parameters than are worse by 10% will be accepted 90% of the time. If `prob_proposed/prob_current` = 0.01 (i.e., the new parameters are much worse), only 1% of the time will z be less then 0.01. Therefore it is possible but not common to save these worse parameters. As a result, the MCMC-MH approach explores the full distribution by spending more time at more likely parameter values. This is different than maximum likelihood optimization methods like `optim'` that only save parameters that are better than previous (thus finds the peak of the mountain rather than the shape of the mountain). The MCMC-HM approach requires taking a lot samples so that it spends some time at very unlikely values - a necessity for estimating the tails of a distribution.
+-   Worse parameters where `prob_proposed/prob_current` \< 1, will be accepted in proportion to how worse they are. For example if `prob_proposed/prob_current` = 0.9, 90% of the time z will be less the 0.90 so the worse parameters than are worse by 10% will be accepted 90% of the time. If `prob_proposed/prob_current` = 0.01 (i.e., the new parameters are much worse), only 1% of the time will z be less then 0.01. Therefore it is possible but not common to save these worse parameters. As a result, the MCMC-MH approach explores the full distribution by spending more time at more likely parameter values. This is different than maximum likelihood optimization methods like `optim` that only save parameters that are better than previous (thus finds the peak of the mountain rather than the shape of the mountain). The MCMC-HM approach requires taking a lot samples so that it spends some time at very unlikely values - a necessity for estimating the tails of a distribution.
 -   You want to accept \~40% percent of all proposed parameter values. If your jump parameter from #1 is too large, you won't be able two explore the area around the most likely values (i.e., you won't get a lot of `prob_proposed/prob_current` values near 1). If your jump parameter from #1 is too small, you won't be able to explore the tails of the distribution (i.e., you won't get a lot of `prob_proposed/prob_current` values near 0 that have a random chance of being accepted).
 
-*Note:* there is a step that is ignored here that just confuses at this stage. Your proposal distribution in #1 doesn't have to be normal, which is symmetric (i.e., your probability of jumping from a value of X to Y is the same as jumping from Y to X). There is adjustment for non-symmetric proposals that is on page page 71 in Dietze and page 158 in Hobbs and Hooten.
+**Note:** there is a step that is ignored here that just confuses at this stage. Your proposal distribution in #1 doesn't have to be normal, which is symmetric (i.e., your probability of jumping from a value of X to Y is the same as jumping from Y to X). There is adjustment for non-symmetric proposals that is on page 71 in Dietze and page 158 in Hobbs and Hooten.
 
 Here is an example of the MCMC-MH method:
 
-(note: the example below should use logged probability densities for numerical reasons but uses the non-logged densities so that the method is more clear. The example in assignment uses logged densities)
+(**Note**: the example below should use logged probability densities for numerical reasons but uses the non-logged densities so that the method is more clear. The example in assignment uses logged densities).
 
 Set up data (same as above)
 
@@ -467,7 +468,7 @@ for(i in 2:num_iter){
 }
 ```
 
-The `pars` variable is our MCMC chain estimating the posterior distribution . We can visualize it in two ways. The first is with iteration number on the axis. The second is as a histogram. A chain is that ready for analysis will have a constant mean and variance. The variance is important because it is the exploration of the posterior distribution. The histogram shows the posterior distribution.
+The `pars` variable is our MCMC chain estimating the posterior distribution. We can visualize it in two ways. The first is with iteration number on the x axis. The second is as a histogram. A chain that is ready for analysis will have a constant mean and variance. The variance is important because it is the exploration of the posterior distribution. The histogram shows the posterior distribution.
 
 ```{r}
 #| warning: FALSE
@@ -485,7 +486,7 @@ p2 <- ggplot(d, aes(x = par1)) +
 p1 | p2
 ```
 
-You should notice that the chain starts at 2 before moving to a mean of 3. The starting value of 2 was arbitrary. Since it was far from 3, the proposed new parameter values often resulted in improvements and accepting values that were more likely. As a result the chain moves to the part with a mean of 3 and constant variance (i.e., where the chain has converged). This transition from the starting value to the point where the chain has converged should be discard. We call this the "burn-in". Here are the same plots with the burn-in removed
+You should notice that the chain starts at 2 before moving to a mean of 3. The starting value of 2 was arbitrary. Since it was far from 3, the proposed new parameter values often resulted in improvements and accepting values that were more likely. As a result the chain moves to the part with a mean of 3 and constant variance (i.e., where the chain has converged). This transition from the starting value to the point where the chain has converged should be discard. We call this the "burn-in". Here are the same plots with the burn-in removed.
 
 ```{r}
 #| warning: FALSE
@@ -537,11 +538,11 @@ hist(random_draws)
 
 Finally we can use the idea of randomly drawing from the posterior to develop predictions from the posterior. This is just like the Logistic growth module where you randomly sampled from the parameter uncertainty and used the random samples in the logistic equation.
 
-Here we are calculating two things 1) `pred_posterior_mean` just has uncertainty in the M-M model parameter. Think about this as generating uncertainty around the mean prediction at each value of x. 2) `y_posterior` is the prediction of am observation. Therefore you take the value from #1 and add the uncertainty in the observations from `sd_data` that was set above. This is your predictive or forecast uncertainty.
+Here we are calculating two things 1) `pred_posterior_mean` just has uncertainty in the M-M model parameter. Think about this as generating uncertainty around the mean prediction at each value of x. 2) `y_posterior` is the prediction of an observation. Therefore, you take the value from #1 and add the uncertainty in the observations from `sd_data` that was set above. This is your predictive or forecast uncertainty.
 
 ```{r}
 num_samples <- 1000
-x_new = x
+x_new <- x
 pred_posterior_mean <- matrix(NA, num_samples, length(x_new))   # storage for all simulations
 y_posterior <- matrix(NA, num_samples, length(x_new)) 
 
@@ -580,7 +581,7 @@ ggplot(d, aes(x = x)) +
 
 ### Joint vs marginal distributions
 
-If you have multiple parameters your MCMC chain, you randomly draw `posterior_sample_indices` and use values for all the parameters at that iteration. By doing this you are representing the joint distribution of the parameter - e.g., if parameter 1 is high, parameter 2 is always low. If you select `posterior_sample_indices` for each parameter, you break the correlations of parameters that the MCMC method estimated and, as a result, overestimate the uncertainty.
+If you have multiple parameters in your MCMC chain, you randomly draw `posterior_sample_indices` and use values for all the parameters at that iteration. By doing this you are representing the joint distribution of the parameter - e.g., if parameter 1 is high, parameter 2 is always low. If you select `posterior_sample_indices` for each parameter, you break the correlations of parameters that the MCMC method estimated and, as a result, overestimate the uncertainty.
 
 ### Identifiablity
 
@@ -590,7 +591,7 @@ water temperature = m + a \* b \* air temperature
 
 in this toy example the slope has been separated into two parameters (a and b). As a result, you can get the same value for a slope with a large value `a` and a small value for `b` as when you have small value for `a` and a large value for `b`. Consequentially it is impossible to find a value for either a or b and these parameters are unidentifiable. Obviously, if you collapse the a\*b down into a single parameter (m) then that parameter is identifiable.
 
-In a ecosystem example, we often use net fluxes (like net ecosystem exchange) to calibrate models. Since NEE is the net of respiration and photosynthesis, the same NEE can emerge from a system with large values for respiration and photosynthes as a system with small values for respiration and photosynthesis. Therefore the parameters that govern respiration and photosynthesis are not identifiable using only NEE data for parameter estimation.
+In an ecosystem example, we often use net fluxes (like net ecosystem exchange) to calibrate models. Since NEE is the net of respiration and photosynthesis, the same NEE can emerge from a system with large values for respiration and photosynthesis as a system with small values for respiration and photosynthesis. Therefore the parameters that govern respiration and photosynthesis are not identifiable using only NEE data for parameter estimation.
 
 Identifiablity issues can be addressed by 1) adding additional data sources for parameter estimation. For example, in the next chapter we use NEE and LAI in the calibration. The LAI data helps separate out the low production from the high production system because a lower production system can not be associated with high LAI values in the model. 2) by using "stronger" priors that have distributions with less spread (see below) or 3) modifying the equation(s) of the model to reduce the trade-off in parameters.
 
@@ -598,32 +599,35 @@ Identifiablity issues can be addressed by 1) adding additional data sources for 
 
 Data that contributed to the prior distribution can be me used in the likelihood (data leaking from the prior to posterior). This will result in artificial re-enforcement of the prior and will give artificially large confidence in the posterior. Similarly, data that you collected that will be used in the likelihood can not be used to develop the prior.
 
-You can use data that you will use in your likelihood calculate to involve the starting point of your MCMC chain. In some cases, a maximum likelihood fit of your model, like in @sec-likelihood, will yield starting points that are very close mean of the posterior (just without the uncertainty estimation). By starting your MCMC chain at this maximum likelihood estimates for the parameters, you will reduce the burn-in iterations and increase the computationally efficiency of your Bayesian analysis. This is not data leakage.
+You can use data that you will use in your likelihood calculation to involve the starting point of your MCMC chain. In some cases, a maximum likelihood fit of your model, like in @sec-likelihood, will yield starting points that are very close mean of the posterior (just without the uncertainty estimation). By starting your MCMC chain at this maximum likelihood estimates for the parameters, you will reduce the burn-in iterations and increase the computationally efficiency of your Bayesian analysis. This is not data leakage.
 
 ## Priors
 
 Informed, strong vs. uninformed, vague, weak
 
-The parameters of the distribution determines how informed the prior is.  For example a normal distribution with a mean = 0 and sd = 0.1 is much more informed than one with the sd = 1000 (the later has similar a probability densities across a large range of parameter values).  It is also important to consider the range of support in a distribution.  For example a normal distribution as non-zero densities for parameter values from -infinity to +infinity.  Therefore the prior density for a parameter value will never by 0 (thus resulting the prior * likelihood = 0, and the MCMC never accepting that parameter value).  In contrast, a uniform distribution has hard bounds that are user provided.  If the prior is uniform from 0 to 1, then no parameter values less that 0 or greater than 1 will be considered even if the data supports thus values. Other proablity distribution has embedded bounds.  For example the log-normal distribution can have values less than 0.  Overall, hard bounds can be desired because of biophysical constraints on the parameter (e.g., a rate parameter or a proportion parameter can't be negative). 
+The parameters of the distribution determines how informed the prior is. For example a normal distribution with a mean = 0 and sd = 0.1 is much more informed than one with the sd = 1000 (the later has similar a probability densities across a large range of parameter values). It is also important to consider the range of support in a distribution. For example a normal distribution has non-zero densities for parameter values from -infinity to +infinity. Therefore the prior density for a parameter value will never by 0 (thus resulting the prior \* likelihood = 0, and the MCMC never accepting that parameter value). In contrast, a uniform distribution has hard bounds that are user provided. If the prior is uniform from 0 to 1, then no parameter values less that 0 or greater than 1 will be considered even if the data supports thus values. Other probability distribution has embedded bounds. For example the log-normal distribution can have values less than 0. Overall, hard bounds can be desired because of biophysical constraints on the parameter (e.g., a rate parameter or a proportion parameter can't be negative).
 
 In some cases they are so informed that you assume they are a fixed value. Justification for the parameter value choice when fixing a parameter or using a strong prior.
 
-Remember that the priors are for specific parameters in the model. It is important that the information used to develop informed priors comes from comparable information about the same parameter. 
-- Literature review
-- databases
-- expert options/survey
-- What about parameter used in previous applications of the model?
+Remember that the priors are for specific parameters in the model. It is important that the information used to develop informed priors comes from comparable information about the same parameter.
+
+-   Literature review
+
+-   Databases
+
+-   Expert options/survey
+
+-   What about parameters used in previous applications of the model?
 
 When to use informed vs. uninformed priors.
-- Identifiable
-- Physical constants
-- Process models where there is considerable information on a parameter. 
-- A desire to have the analysis reflect the data only.
 
+-   Identifiable
 
+-   Physical constants
 
+-   Process models where there is considerable information on a parameter
 
-
+-   A desire to have the analysis reflect the data only.
 
 ## Reading
 

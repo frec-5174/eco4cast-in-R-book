@@ -30,7 +30,7 @@ for(i in 1:num_iterations){
 }
 ```
 
-Above you see that the outermost for-loop is looping over the number of iterations (`num_iterations`). The inner loop is looping over the length of the time series (`length_of_time_series`). Therefore this approach tests each parameter value choose in an iteration (and latent state if using a state space model) over **ALL** time points in the time series. As a result, we all this a **batch** method because it considers all data as a single "batch" of data.
+Above, you see that the outermost for-loop is looping over the number of iterations (`num_iterations`). The inner loop is looping over the length of the time series (`length_of_time_series`). Therefore, this approach tests each parameter value choice in an iteration (and latent state if using a state space model) over **ALL** time points in the time series. As a result, we call this a **batch** method because it considers all data as a single "batch" of data.
 
 Strengths of the batch method are:\
 - The parameters are consistent with all data\
@@ -69,13 +69,13 @@ In the sequential method we can restart at any time point, as long as we have th
 
 There are many sequential data assimilation methods that make different assumptions about data and model distributions in order to simplify the analysis. Many of the methods emerged before the our massive computational resources or were developed for **HUGE** problems like assimilating terabytes of data into a global weather model that simulates the physics of the atmosphere at 25 km vertical resolution. Examples include the Kalman Filter, Extended Kalman Filter, Ensemble Kalman Filter, and 4D-var. These methods all heavily use matrix algebra which I have not introduced in this class. Since these methods commonly assume that the data and model errors are normally distributed, the numerical version (Ensemble Kalman Filter) can run fewer particles (in this case: ensemble members) because it doesn't take as many samples to estimate the mean and variance of a distribution than it does to estimate the full distribution
 
-Here I introduce the particle filter. The particle filter is a sequential method that will be more familiar to those that have learned the Bayesian methods that we have covered in the earlier chapters (@sec-bayes). It has the concept of a likelihood, of which you are well versed (@sec-likelihood). The particle filter does not assume a specific distribution of the data and model error so it requires more particles to estimate the full distributions. As a result, it is more appropriate for "smaller" problems like the ones we are tackling in this book
+Here, I introduce the particle filter. The particle filter is a sequential method that will be more familiar to those that have learned the Bayesian methods that we have covered in the earlier chapters (@sec-bayes). It has the concept of a likelihood, of which you are well versed (@sec-likelihood). The particle filter does not assume a specific distribution of the data and model error so it requires more particles to estimate the full distributions. As a result, it is more appropriate for "smaller" problems like the ones we are tackling in this book
 
 The particle filter is quite simple
 
 1.  Initialize a set of particles: Set the initial distribution of the states for each particle and, if estimating parameters, initial distribution of parameters that you want to estimate. Think of this as your initial priors.
 2.  Predict the next time step using your process model for each particle. Add process uncertainty to each particle (i.e., `rnorm`)
-3.  If there are observations at the time-step, calculate the likelihood of the data given the particle just like we calculated the likelihood in the likelihood and Bayesian exercises. For example: `LL <- dnorm(obs, mean = pred, sd_obs)`. You will typically use the uncertainty of the observations in the likelihood because you have already included the process uncertainty in #2. If observations are not available at the time step, then continue to the time step.
+3.  If there are observations at the time-step, calculate the likelihood of the data given the particle just like we calculated the likelihood in the likelihood and Bayesian exercises. For example: `LL <- dnorm(obs, mean = pred, sd = sd_obs)`. You will typically use the uncertainty of the observations in the likelihood because you have already included the process uncertainty in #2. If observations are not available at the time step, then continue to the time step.
 4.  If there are observations at the time-step, resample the particles using the likelihood as the weights (don't forget to exponentiate the likelihood if you logged it in #3, the weights must be probabilities rather than log probabilities). The weighted sampling, with replacement, will randomly pick the more likely particles more often. You will keep the same number of particles but the values for each particle will change. Less likely particles will be replaced with more likely particles (though the less likelihood particles can still be selected). Be sure to resample all states together and, if also estimating parameters, the parameters as well. The key to resampling is the following:
 
 ```         
@@ -99,11 +99,11 @@ The particle filter is quite simple
 
 Fundamentally, the particle filter depends on two concepts that you have already been exposed to: likelihood and sampling from a set of particles (you sampled iterations from MCMC in previous exercises).
 
-Specifically we refer to the particle filter described above as a bootstrap particle filter
+Specifically we refer to the particle filter described above as a bootstrap particle filter.
 
 ## Example of Particle Filter
 
-Here is an example of the particle filter applied to the [Google Flu data](https://en.wikipedia.org/wiki/Google_Flu_Trends), project that has been since stopped by Google due to [accuracy issues](https://www.science.org/doi/abs/10.1126/science.1248506). It is still a good dataset for illustrative purposes here. The exercises from Mike Dietze's Ecological Forecasting book also use Google Flu data.
+Here is an example of the particle filter applied to the [Google Flu data](https://en.wikipedia.org/wiki/Google_Flu_Trends), although the project has since been stopped by Google due to [accuracy issues](https://www.science.org/doi/abs/10.1126/science.1248506). However, it is still a good dataset for our illustrative purposes The exercises from Mike Dietze's Ecological Forecasting book also use Google Flu data.
 
 First load in data. We are only going to focus on the first 15 weeks of the data so that you can see the particles more easily
 
@@ -129,7 +129,7 @@ ggplot(data = gflu, aes(x = Date, y = log(Virginia))) +
   theme_bw()
 ```
 
-### PF with no-observations
+### Particle Filter with no-observations
 
 First we are going to run the particle filter with all data missing. This is equal to the random walk.
 
@@ -169,24 +169,25 @@ for(t in 2:num_time_steps){
   }
   
   x_prior[t, ] <- x[t, ]
- 
+  
   ## analysis step
   if(!is.na(y[t])){ 
-
-      ## calculate Likelihood (weights)
-      wt <- dnorm(y[t], mean = x[t, ], sd = sd_obs)    ## calculate likelihood (weight)
-      
-      wt_norm <- wt / sum(wt)
-      
-      ## resample ensemble members in proportion to their weight
-      resample_index <- sample(1:num_particles, num_particles, replace = TRUE, prob = wt_norm) 
-      
-      x[t, ] <- x[t, resample_index]  ## update state
+    
+    ## calculate Likelihood (weights)
+    wt <- dnorm(y[t], mean = x[t, ], sd = sd_obs)    
+    ## calculate likelihood (weight)
+    
+    wt_norm <- wt / sum(wt)
+    
+    ## resample ensemble members in proportion to their weight
+    resample_index <- sample(1:num_particles, num_particles, replace = TRUE, prob = wt_norm) 
+    
+    x[t, ] <- x[t, resample_index]  ## update state
   }
 }
 ```
 
-@fig-parts-alone particles individually
+@fig-parts-alone shows each individual particle. 
 
 ```{r}
 #| warning: false
@@ -198,12 +199,12 @@ for(t in 2:num_time_steps){
   pivot_longer(cols = -time, names_to = "ensemble", values_to = "x") |> 
   #mutate(x = exp(x)) |> 
   ggplot(aes(x = time, y = x, group = factor(ensemble))) +
-  geom_line()
+  geom_line() +
   labs(x = "Date", y = "log(Flu cases)", title = "State of Virginia") +
   theme_bw()
 ```
 
-Lets save the output as a different name so we can compare to a PF with observations
+Lets save the output as a different name so we can compare to a PF with observations.
 
 ```{r}
 x_no_obs <- x
@@ -220,7 +221,7 @@ y <- log(gflu$Virginia)
 
 num_time_steps <- length(y)
 
-#This sets all the observations to NA after the first
+#This sets all the observations to NA after the first, fifth and tenth
 y[2:num_time_steps] <- NA
 y[c(5, 10)] <- log(gflu$Virginia)[c(5, 10)]
 
@@ -266,7 +267,7 @@ for(t in 2:num_time_steps){
 #| fig-cap: Results of the particle filter with each particle shown. Observations are included
 #| label: fig-sim-prior-post2
 
-  tibble(time = 1:num_time_steps,
+tibble(time = 1:num_time_steps,
        as_tibble(x)) %>% 
   pivot_longer(cols = -time, names_to = "ensemble", values_to = "x") |> 
   ggplot(aes(x = time, y = x, group = factor(ensemble))) +
@@ -287,12 +288,12 @@ Now we can compare the influence of data assimilation on the last 5 weeks of the
 #| warning: false
 
 no_obs <- tibble(time = gflu$Date,
-       as_tibble(x_no_obs)) %>% 
+                 as_tibble(x_no_obs)) %>% 
   pivot_longer(cols = -c("time"), names_to = "ensemble", values_to = "x") %>% 
   mutate(type = "no obs")
 
 with_obs <- tibble(time = gflu$Date,
-       as_tibble(x_with_obs)) %>% 
+                   as_tibble(x_with_obs)) %>% 
   pivot_longer(cols = -c("time"), names_to = "ensemble", values_to = "x") %>% 
   mutate(type = "with obs")
 
@@ -318,8 +319,8 @@ combined %>%
 
 The particle filter is fundamentally a Bayesian analysis.
 
--   Prior: The ensemble predictions before data assimilation
--   Likelihood: the distribution of the data with uncertainty
+-   Prior: The ensemble predictions before data assimilation.
+-   Likelihood: the distribution of the data with uncertainty.
 -   Posterior: The ensemble and weights after data assimilation.
 
 The figure below illustrates these Bayesian concepts. In the figure, the ensemble predictions are converted to a smoothed histogram and the observations are converted normal distributions using the observation standard deviation. Data are assimilated at time step 5 and 10. The prior, likelihood, and posterior are shown on the days that data are assimilated. Only prior is show on the other days because no data are available to convert to a posterior.
@@ -436,7 +437,7 @@ combined |>
 
 ### PF with parameter estimation
 
-The estimate of parameters using PF is also straightforward. Here we will estimate the `b1` parameter in Dynamic Linear Model (DLM). The DLM uses minimum temperature as a covariate
+The estimate of parameters using a PF is also straightforward. Here we will estimate the `b1` parameter in a Dynamic Linear Model (DLM). The DLM uses minimum temperature as a covariate.
 
 First, create the observed data that includes the minimum temperature. (same as above and using the `daymetr` package from the previous exercise)
 
@@ -457,7 +458,7 @@ df <- daymetr::download_daymet(site = "Blacksburg",
 
 df$date <- as.Date(paste(df$year,df$yday,sep = "-"),"%Y-%j")
 Tmean <- mean(df$tmin..deg.c.)
-gflu$Tmin = df$tmin..deg.c.[match(gflu$Date,df$date)] - Tmean
+gflu$Tmin <- df$tmin..deg.c.[match(gflu$Date,df$date)] - Tmean
 
 gflu <- gflu[1:15, ]
 ```
@@ -549,7 +550,7 @@ tibble(time = 1:num_time_steps,
 And visualize the time-evolution of the parameter (@fig-parameter-timeseries). There are two new concepts illustrated below:
 
 1.  parameters distributions evolve through time. As a result the distribution of parameters is strongly influenced by the most recent observations. The distributions produced by a PF are not the same as the distributions produced by MCMC chain.\
-2.  particles can have degeneracy, whereby the values of the parameters collapse down to one or a few values. This occurs because the PF does not propose new parameter values, it only selects (through resampling) parameter values from the initial set that you started with. Over the time-step the PF weeds out bad parameters and only a few ones are left. This is a major issue with a PF. Degeneracy can also occur in the states but since we are adding process uncertainty (`sd_add`) the particles are able to separate through time. There are a couple of ways to solve degeneracy - increase the number of particles so you sample more initial parameter values or add random noise to each parameter between times-steps, similar to adding process noise to model states. Finding the right account of random noise to allow parameters to evolve through time but too much where the spread becomes unreasonable if data is not available to assimilate and reduce the spread.
+2.  particles can have degeneracy, whereby the values of the parameters collapse down to one or a few values. This occurs because the PF does not propose new parameter values, it only selects (through resampling) parameter values from the initial set that you started with. Over the time-step the PF weeds out bad parameters and only a few ones are left. This is a major issue with a PF. Degeneracy can also occur in the states but since we are adding process uncertainty (`sd_add`) the particles are able to separate through time. There are a couple of ways to solve degeneracy - increase the number of particles so you sample more initial parameter values or add random noise to each parameter between times-steps, similar to adding process noise to model states. It is important to find the right account of random noise to allow parameters to evolve through time but not too much where the spread becomes unreasonable if data is not available to assimilate and reduce the spread.
 
 ```{r}
 #| echo: false
@@ -568,7 +569,7 @@ tibble(time = 1:num_time_steps,
 
 ### Sensitivity to number of particles
 
-The number of particles is a key decision when using a PF. To explore the sensitivity of the PF to the number of particles, here is a function that can be reused with different numbers of particles. It is the same as the DLM above and returns the x and b1 for the particles in a list
+The number of particles is a key decision when using a PF. To explore the sensitivity of the PF to the number of particles, here is a function that can be reused with different numbers of particles. It is the same as the DLM above and returns the x and b1 for the particles in a list.
 
 ```{r}
 bootstrap_pf <- function(num_particles, sd_add = 0.2, sd_obs = 0.2){
@@ -661,8 +662,8 @@ gflu$obs_in_fit <- y
 And combine to a single plot (@fig-pf-num-sens). You see the width of the 95% confidence interval increases substantially from 10 to 1000 particles but then is similar from 1000 to 10000. This reflects what we learned from the very first exercise where you drew random samples from a distribution and found that between 1000 and 10000 random samples were required to approximate the distribution well.
 
 ```{r}
-#|warning: false
-#|fig-cap: Sensitivity of predictions to different number of particles
+#| warning: false
+#| fig-cap: Sensitivity of predictions to different number of particles
 #| label: fig-pf-num-sens
 bind_rows(p10, p100, p1000, p10000) %>% 
   group_by(time, type) %>% 
@@ -681,7 +682,7 @@ bind_rows(p10, p100, p1000, p10000) %>%
 
 ### Sensitivity to observation uncertainty
 
-We can also explore the sensitivity of the PF updating to our observation uncertainty. Intuitively, we should have stronger update (i.e., the particles are adjusted to be closer to the observation) when there is less uncertainty in the observations. The code below explores whether this intuition is correct.
+We can also explore the sensitivity of the PF to observation uncertainty. Intuitively, we should have stronger update (i.e., the particles are adjusted to be closer to the observation) when there is less uncertainty in the observations. The code below explores whether this intuition is correct.
 
 ```{r}
 #| warning: false
@@ -706,8 +707,8 @@ gflu$obs_in_fit <- y
 Does @fig-pf-obs-sens match your intuition?
 
 ```{r}
-#|warning: false
-#|fig-cap: Sensitivity of predictions to observation uncertainty
+#| warning: false
+#| fig-cap: Sensitivity of predictions to observation uncertainty
 #| label: fig-pf-obs-sens
 bind_rows(pf_low, pf_high) %>% 
   group_by(time, type) %>% 
@@ -726,7 +727,7 @@ bind_rows(pf_low, pf_high) %>%
 
 ## Key points
 
-It is important to consider the relative balance of model uncertainty and observation uncertainty. If the Observation uncertainty \> Model uncertainty, the data assimilation ignores the observations. In this case, the "posteriors" are the prior (the model prediction are favored). If model uncertainty \> observation uncertainty, the posterior follows the data and ignores the model predictions when the predictions are different from the observations. In this case, the data distribution (likelihood) is the posterior. Evenly balanced uncertainty will result in posteriors that are a blend of the model ensemble distribution and data distribution.
+It is important to consider the relative balance of model uncertainty and observation uncertainty. If the Observation uncertainty \> Model uncertainty, the data assimilation ignores the observations. In this case, the "posteriors" are the prior (the model predictions are favored). If model uncertainty \> observation uncertainty, the posterior follows the data and ignores the model predictions when the predictions are different from the observations. In this case, the data distribution (likelihood) is the posterior. Evenly balanced uncertainty will result in posteriors that are a blend of the model ensemble distribution and data distribution.
 
 As another way to view the balance of uncertainty, you are only able to use the set of particle ensemble members (priors) for resampling (or re-weighting) to generate the posteriors. Therefore, it is important to consider how the spread in your ensemble is generated. If your ensemble lacks any particles near the data then it can't sample particles near the data. Therefore, if it is critical for your predictions to follow the data, then you need to generate more spread in your particle ensemble so that there are at least a few particles that are near observations.
 
