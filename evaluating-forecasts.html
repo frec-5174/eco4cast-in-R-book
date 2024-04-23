@@ -407,15 +407,23 @@ div.csl-indent {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#scoring-metrics" id="toc-scoring-metrics" class="nav-link active" data-scroll-target="#scoring-metrics"><span class="header-section-number">10.1</span> Scoring metrics</a>
+  <li><a href="#scoring-metrics" id="toc-scoring-metrics" class="nav-link active" data-scroll-target="#scoring-metrics"><span class="header-section-number">10.1</span> Scoring metrics</a></li>
+  <li><a href="#precision" id="toc-precision" class="nav-link" data-scroll-target="#precision"><span class="header-section-number">10.2</span> Precision</a></li>
+  <li><a href="#accuracy-precision" id="toc-accuracy-precision" class="nav-link" data-scroll-target="#accuracy-precision"><span class="header-section-number">10.3</span> Accuracy + Precision</a>
   <ul class="collapse">
-  <li><a href="#continuous-ranked-probability-score" id="toc-continuous-ranked-probability-score" class="nav-link" data-scroll-target="#continuous-ranked-probability-score"><span class="header-section-number">10.1.1</span> Continuous Ranked Probability Score</a></li>
-  <li><a href="#example-of-a-crps-calculation-from-an-ensemble-forecast" id="toc-example-of-a-crps-calculation-from-an-ensemble-forecast" class="nav-link" data-scroll-target="#example-of-a-crps-calculation-from-an-ensemble-forecast"><span class="header-section-number">10.1.2</span> Example of a CRPS calculation from an ensemble forecast</a></li>
-  <li><a href="#exploring-the-scoring-surface" id="toc-exploring-the-scoring-surface" class="nav-link" data-scroll-target="#exploring-the-scoring-surface"><span class="header-section-number">10.1.3</span> Exploring the scoring surface</a></li>
+  <li><a href="#continuous-ranked-probability-score" id="toc-continuous-ranked-probability-score" class="nav-link" data-scroll-target="#continuous-ranked-probability-score"><span class="header-section-number">10.3.1</span> Continuous Ranked Probability Score</a></li>
+  <li><a href="#example-of-a-crps-calculation-from-an-ensemble-forecast" id="toc-example-of-a-crps-calculation-from-an-ensemble-forecast" class="nav-link" data-scroll-target="#example-of-a-crps-calculation-from-an-ensemble-forecast"><span class="header-section-number">10.3.2</span> Example of a CRPS calculation from an ensemble forecast</a></li>
+  <li><a href="#exploring-the-scoring-surface" id="toc-exploring-the-scoring-surface" class="nav-link" data-scroll-target="#exploring-the-scoring-surface"><span class="header-section-number">10.3.3</span> Exploring the scoring surface</a></li>
   </ul></li>
-  <li><a href="#baseline-forecasts" id="toc-baseline-forecasts" class="nav-link" data-scroll-target="#baseline-forecasts"><span class="header-section-number">10.2</span> Baseline forecasts</a></li>
-  <li><a href="#reading" id="toc-reading" class="nav-link" data-scroll-target="#reading"><span class="header-section-number">10.3</span> Reading</a></li>
-  <li><a href="#problem-set" id="toc-problem-set" class="nav-link" data-scroll-target="#problem-set"><span class="header-section-number">10.4</span> Problem Set</a></li>
+  <li><a href="#dynamics" id="toc-dynamics" class="nav-link" data-scroll-target="#dynamics"><span class="header-section-number">10.4</span> Dynamics</a></li>
+  <li><a href="#skill-scores" id="toc-skill-scores" class="nav-link" data-scroll-target="#skill-scores"><span class="header-section-number">10.5</span> Skill scores</a>
+  <ul class="collapse">
+  <li><a href="#example-baseline-models" id="toc-example-baseline-models" class="nav-link" data-scroll-target="#example-baseline-models"><span class="header-section-number">10.5.1</span> Example baseline models</a></li>
+  <li><a href="#example-skill-score-calculation" id="toc-example-skill-score-calculation" class="nav-link" data-scroll-target="#example-skill-score-calculation"><span class="header-section-number">10.5.2</span> Example skill score calculation</a></li>
+  </ul></li>
+  <li><a href="#take-homes" id="toc-take-homes" class="nav-link" data-scroll-target="#take-homes"><span class="header-section-number">10.6</span> Take homes</a></li>
+  <li><a href="#reading" id="toc-reading" class="nav-link" data-scroll-target="#reading"><span class="header-section-number">10.7</span> Reading</a></li>
+  <li><a href="#problem-set" id="toc-problem-set" class="nav-link" data-scroll-target="#problem-set"><span class="header-section-number">10.8</span> Problem Set</a></li>
   </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/frec-5174/eco4cast-in-R-book/issues/new" class="toc-action">Report an issue</a></p><p><a href="https://github.com/frec-5174/eco4cast-in-R-book/blob/main/evaluating-forecasts.qmd" class="toc-action">View source</a></p></div></div></nav>
     </div>
@@ -444,10 +452,19 @@ div.csl-indent {
 <p>This chapter provides a description of metrics for evaluating forecast, including the comparison to simple baseline forecast models.</p>
 <section id="scoring-metrics" class="level2" data-number="10.1">
 <h2 data-number="10.1" class="anchored" data-anchor-id="scoring-metrics"><span class="header-section-number">10.1</span> Scoring metrics</h2>
-<p>A scoring metric is a value that can be used to evaluate how good a forecast compares to observations. Scores can then be compared among forecast models to evaluate relative performance. Typically lower scores are better. Scoring metrics are also called “costs”. The most based score would be the difference between the forecast mean and observation. However, there are a couple of issues with that score. First, forecast below the observation will receive negative values and forecasts above will receive positive values, thus the lowest value is not the best. Second, it does not use any information from the forecast uncertainty in the evaluation. Metrics like absolute error (absolute value of the difference between the forecast mean and observation) and root mean-squared error (RMSE) address the first issue but still do not consider the uncertainty.</p>
-<p>It is important to consider uncertainty because intuitively a forecast that has the create mean but a large uncertainty (so it puts very little confidence on the observed value) should have a lower score that a forecast with a mean that is slightly off but with lower uncertainty (so it actually puts more confidence on the observed value). The Continuous Ranked Probablity Score (CRPS) is one metric that evaluates the forecast distribution</p>
-<section id="continuous-ranked-probability-score" class="level3" data-number="10.1.1">
-<h3 data-number="10.1.1" class="anchored" data-anchor-id="continuous-ranked-probability-score"><span class="header-section-number">10.1.1</span> Continuous Ranked Probability Score</h3>
+<p>A scoring metric is a value that can be used to evaluate how good a forecast compares to observations. Scores can then be compared among forecast models to evaluate relative performance. Typically lower scores are better. Scoring metrics are also called “costs”. ## Accurancy</p>
+<p>The most basic score would be the difference between the forecast mean and observation. However, there are a couple of issues with that score. First, forecast below the observation will receive negative values and forecasts above will receive positive values, thus the lowest value is not the best. Second, it does not use any information from the forecast uncertainty in the evaluation. Metrics like absolute error (absolute value of the difference between the forecast mean and observation) and root mean-squared error (RMSE) address the first issue but still do not consider the uncertainty.</p>
+</section>
+<section id="precision" class="level2" data-number="10.2">
+<h2 data-number="10.2" class="anchored" data-anchor-id="precision"><span class="header-section-number">10.2</span> Precision</h2>
+<p>Is the variance in the forecast larger than an acceptable value? For example, if the uncertainty in a rain forecast ranges from downpour to sunny then the variance is too large to be useful since one can not make a specific decision based on the forecast (e.g., do you cancel the soccer game ahead of time). One can also compare the variance in a forecast to a baseline variable from a simple model to see if the the spread is less, and therefor a more informative forecast.</p>
+</section>
+<section id="accuracy-precision" class="level2" data-number="10.3">
+<h2 data-number="10.3" class="anchored" data-anchor-id="accuracy-precision"><span class="header-section-number">10.3</span> Accuracy + Precision</h2>
+<p>It is important to consider uncertainty because intuitively a forecast that has the create mean but a large uncertainty (so it puts very little confidence on the observed value) should have a lower score that a forecast with a mean that is slightly off but with lower uncertainty (so it actually puts more confidence on the observed value). The Continuous Ranked Probability Score (CRPS) is one metric that evaluates the forecast distribution. Another is the ignorance (also called the Good or the log score). The CRPS is described below.</p>
+<p>Add concept of proper and local?</p>
+<section id="continuous-ranked-probability-score" class="level3" data-number="10.3.1">
+<h3 data-number="10.3.1" class="anchored" data-anchor-id="continuous-ranked-probability-score"><span class="header-section-number">10.3.1</span> Continuous Ranked Probability Score</h3>
 <p>Forecasts can scored using the continuous ranked probability score (CRPS), a proper scoring rule for evaluating forecasts presented as distributions or ensembles (<span class="citation" data-cites="gneitingStrictlyProperScoring2007">Gneiting and Raftery (<a href="references.html#ref-gneitingStrictlyProperScoring2007" role="doc-biblioref">2007</a>)</span>). The CRPS compares the forecast probability distribution to that of the validation observation and assigns a score based on both the accuracy and precision of the forecast. We will use the ‘crps_sample’ function from the <code>scoringRules</code> package in R to calculate the CRPS for each forecast.</p>
 <p>CRPS is calculation for each forecast - observation pair (e.g., a single datetime from a reference_datetime). CRPS can then be combined all sites and forecast horizons to understand the aggregate performance.</p>
 <p>Importantly, we use the convention for CRPS where zero is lowest and best possible score, therefore forecasts want to achieve the lowest score. CPRS can be also expressed as a negative number with zero as highest and best possible score (<span class="citation" data-cites="gneitingStrictlyProperScoring2007">Gneiting and Raftery (<a href="references.html#ref-gneitingStrictlyProperScoring2007" role="doc-biblioref">2007</a>)</span>). The <code>scoringRules</code> package that we use follows the 0 or greater convention.</p>
@@ -456,8 +473,8 @@ div.csl-indent {
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="example-of-a-crps-calculation-from-an-ensemble-forecast" class="level3" data-number="10.1.2">
-<h3 data-number="10.1.2" class="anchored" data-anchor-id="example-of-a-crps-calculation-from-an-ensemble-forecast"><span class="header-section-number">10.1.2</span> Example of a CRPS calculation from an ensemble forecast</h3>
+<section id="example-of-a-crps-calculation-from-an-ensemble-forecast" class="level3" data-number="10.3.2">
+<h3 data-number="10.3.2" class="anchored" data-anchor-id="example-of-a-crps-calculation-from-an-ensemble-forecast"><span class="header-section-number">10.3.2</span> Example of a CRPS calculation from an ensemble forecast</h3>
 <p>The goal of this section is to provide an intuition for the CRPS metric.</p>
 <p>First, create a random sample from a probability distribution. This is the “forecast” for a particular point in time. For simplicity, we will use a normal distribution with a mean of 8 and standard deviation of 1</p>
 <div class="cell">
@@ -472,12 +489,12 @@ div.csl-indent {
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(scoringRules)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">crps_sample</span>(<span class="at">y =</span> y, <span class="at">dat =</span> x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.2347769</code></pre>
+<pre><code>[1] 0.2364294</code></pre>
 </div>
 </div>
 </section>
-<section id="exploring-the-scoring-surface" class="level3" data-number="10.1.3">
-<h3 data-number="10.1.3" class="anchored" data-anchor-id="exploring-the-scoring-surface"><span class="header-section-number">10.1.3</span> Exploring the scoring surface</h3>
+<section id="exploring-the-scoring-surface" class="level3" data-number="10.3.3">
+<h3 data-number="10.3.3" class="anchored" data-anchor-id="exploring-the-scoring-surface"><span class="header-section-number">10.3.3</span> Exploring the scoring surface</h3>
 <p>Now lets see how the CRPS changes as the mean and standard deviation of the forecasted distribution change</p>
 <p>First, set vectors for the different mean and SD values we want to explore</p>
 <div class="cell">
@@ -517,18 +534,28 @@ div.csl-indent {
 </div>
 </section>
 </section>
-<section id="baseline-forecasts" class="level2" data-number="10.2">
-<h2 data-number="10.2" class="anchored" data-anchor-id="baseline-forecasts"><span class="header-section-number">10.2</span> Baseline forecasts</h2>
+<section id="dynamics" class="level2" data-number="10.4">
+<h2 data-number="10.4" class="anchored" data-anchor-id="dynamics"><span class="header-section-number">10.4</span> Dynamics</h2>
+<p>Add discussion of shadow time and correlation.</p>
+</section>
+<section id="skill-scores" class="level2" data-number="10.5">
+<h2 data-number="10.5" class="anchored" data-anchor-id="skill-scores"><span class="header-section-number">10.5</span> Skill scores</h2>
 <p>It is a best practice in forecasting to compare forecasts generated by more complex models to thus generated by simple “naive” models so that we can understand whether the additional complexity provides any gain in forecast capacity. Two common naive models are persistence and “climatology”.</p>
+<p>The skill score compared a forecast model to a baseline model using the following equation</p>
+<p><code>skill_score &lt;- 1 - (mean_metric_baseline - mean_metric_forecast)/mean_metric_baseline</code></p>
+<p>The mean_metric_baseline is the mean score for the baseline model. It can be RMSE, MAE, CPRS, etc. The mean_metric_forecast is the same metric for the forecast that is being evaluated.</p>
+<p>The skill score ranges from -Inf - 1 where values from -Inf to 0 are forecast models that perform worse than the baseline. Values from 0 to 1 are forecast models that improve on the baseline. A value of 1 means that the forecast model is perfect.</p>
+<section id="example-baseline-models" class="level3" data-number="10.5.1">
+<h3 data-number="10.5.1" class="anchored" data-anchor-id="example-baseline-models"><span class="header-section-number">10.5.1</span> Example baseline models</h3>
 <p>Persistence forecasts that tomorrow will be the same as today, thus capturing the inertia of the system. Uncertainty is added to a persistence forecast by simulated it as a random walk where each ensemble member has a random trajectory without any direction (so the mean of the forecast is still previous days mean value). Persistence models perform well in systems with real-time observations because you actually know the current value and in systems with high inertia (like the water temperatures in the bottom of a large lake).</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>all_results <span class="ot">&lt;-</span> arrow<span class="sc">::</span><span class="fu">open_dataset</span>(<span class="st">"s3://anonymous@bio230014-bucket01/challenges/forecasts/summaries/project_id=neon4cast/duration=P1D/variable=temperature/model_id=persistenceRW?endpoint_override=sdsc.osn.xsede.org"</span>) <span class="sc">|&gt;</span> </span>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>persistence <span class="ot">&lt;-</span> arrow<span class="sc">::</span><span class="fu">open_dataset</span>(<span class="st">"s3://anonymous@bio230014-bucket01/challenges/forecasts/summaries/project_id=neon4cast/duration=P1D/variable=temperature/model_id=persistenceRW?endpoint_override=sdsc.osn.xsede.org"</span>) <span class="sc">|&gt;</span> </span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(site_id <span class="sc">==</span> <span class="st">"BARC"</span>,</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>         reference_date <span class="sc">==</span> <span class="st">"2024-01-10"</span>) <span class="sc">|&gt;</span> </span>
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>all_results <span class="sc">|&gt;</span> </span>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>persistence <span class="sc">|&gt;</span> </span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> datetime)) <span class="sc">+</span></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> quantile10, <span class="at">ymax =</span> quantile90), <span class="at">color =</span> <span class="st">"lightblue"</span>, <span class="at">fill =</span> <span class="st">"lightblue"</span>, <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> median)) <span class="sc">+</span></span>
@@ -540,13 +567,13 @@ div.csl-indent {
 </div>
 <p>“Climatology” is the historical distribution of observations for the forecast days. In seasonal system, we often represent this using the mean and standard deviation of historical data from the same day-of-year in the past. Less seasonal systems, may represent it as the historical mean and standard deviation. I used climatology in quotes because the meteorological definition of climatology is 30 years but most ecological systems don’t have 30-years of observations. We use the term “day-of-year mean” instead of climatology when forecasting systems with limited historical data. Climatology forecasts capacity the long-term behavior of the system and capture seasonal patterns.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>all_results <span class="ot">&lt;-</span> arrow<span class="sc">::</span><span class="fu">open_dataset</span>(<span class="st">"s3://anonymous@bio230014-bucket01/challenges/forecasts/summaries/project_id=neon4cast/duration=P1D/variable=temperature/model_id=climatology?endpoint_override=sdsc.osn.xsede.org"</span>) <span class="sc">|&gt;</span> </span>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>climatology <span class="ot">&lt;-</span> arrow<span class="sc">::</span><span class="fu">open_dataset</span>(<span class="st">"s3://anonymous@bio230014-bucket01/challenges/forecasts/summaries/project_id=neon4cast/duration=P1D/variable=temperature/model_id=climatology?endpoint_override=sdsc.osn.xsede.org"</span>) <span class="sc">|&gt;</span> </span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(site_id <span class="sc">==</span> <span class="st">"BARC"</span>,</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>         reference_date <span class="sc">==</span> <span class="st">"2024-01-10"</span>) <span class="sc">|&gt;</span> </span>
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>all_results <span class="sc">|&gt;</span> </span>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>climatology <span class="sc">|&gt;</span> </span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> datetime)) <span class="sc">+</span></span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> quantile10, <span class="at">ymax =</span> quantile90), <span class="at">color =</span> <span class="st">"lightblue"</span>, <span class="at">fill =</span> <span class="st">"lightblue"</span>, <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
 <span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> median)) <span class="sc">+</span></span>
@@ -558,12 +585,50 @@ div.csl-indent {
 </div>
 <p>Both of these models are simple to calculate and include no “knowledge” of the system that might be embedded in more complex models.</p>
 </section>
-<section id="reading" class="level2" data-number="10.3">
-<h2 data-number="10.3" class="anchored" data-anchor-id="reading"><span class="header-section-number">10.3</span> Reading</h2>
+<section id="example-skill-score-calculation" class="level3" data-number="10.5.2">
+<h3 data-number="10.5.2" class="anchored" data-anchor-id="example-skill-score-calculation"><span class="header-section-number">10.5.2</span> Example skill score calculation</h3>
+<p>This example compares the skill of the climatology forecast to the persistence baseline</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>baseline_models <span class="ot">&lt;-</span> arrow<span class="sc">::</span><span class="fu">open_dataset</span>(<span class="st">"s3://anonymous@bio230014-bucket01/challenges/scores/parquet/project_id=neon4cast/duration=P1D/variable=temperature?endpoint_override=sdsc.osn.xsede.org"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(site_id <span class="sc">==</span> <span class="st">"BARC"</span>,</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>         reference_datetime <span class="sc">&gt;</span> lubridate<span class="sc">::</span><span class="fu">as_datetime</span>(<span class="st">"2024-01-10"</span>) <span class="sc">&amp;</span> reference_datetime <span class="sc">&lt;</span> lubridate<span class="sc">::</span><span class="fu">as_datetime</span>(<span class="st">"2024-03-10"</span>),</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>         model_id <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"climatology"</span>, <span class="st">"persistenceRW"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect</span>() </span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>skill_score <span class="ot">&lt;-</span> baseline_models <span class="sc">|&gt;</span> </span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">horizon =</span> <span class="fu">as.numeric</span>(datetime <span class="sc">-</span> reference_datetime)) <span class="sc">|&gt;</span> </span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean_crps =</span> <span class="fu">mean</span>(crps, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">.by =</span> <span class="fu">c</span>(<span class="st">"model_id"</span>, <span class="st">"horizon"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> model_id, <span class="at">values_from =</span> mean_crps) <span class="sc">|&gt;</span> </span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">skill_score =</span> <span class="dv">1</span> <span class="sc">-</span> (climatology<span class="sc">/</span>persistenceRW))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(skill_score, <span class="fu">aes</span>(<span class="at">x =</span> horizon, <span class="at">y =</span> skill_score)) <span class="sc">+</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="fu">aes</span>(<span class="at">yintercept =</span> <span class="dv">0</span>)) <span class="sc">+</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Horizon (days in future)"</span>, <span class="at">y =</span> <span class="st">"Skill score"</span>) <span class="sc">+</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">label =</span> <span class="st">"climatology is better"</span>, <span class="at">x =</span> <span class="dv">15</span>, <span class="at">y =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">label =</span> <span class="st">"baseline (persistence) is better"</span>, <span class="at">x =</span> <span class="dv">15</span>, <span class="at">y =</span> <span class="sc">-</span><span class="fl">0.2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 1 row containing missing values or values outside the scale range
+(`geom_line()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="evaluating-forecasts_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+</section>
+<section id="take-homes" class="level2" data-number="10.6">
+<h2 data-number="10.6" class="anchored" data-anchor-id="take-homes"><span class="header-section-number">10.6</span> Take homes</h2>
+<p>Different metrics evaluate different components of the forecast. Be sure to match your evaluate metric to evaluate the aspects of the forecast that match the needs of the forecast user.</p>
+</section>
+<section id="reading" class="level2" data-number="10.7">
+<h2 data-number="10.7" class="anchored" data-anchor-id="reading"><span class="header-section-number">10.7</span> Reading</h2>
 <p>Simonis, J. L., White, E. P., &amp; Ernest, S. K. M. (2021). Evaluating probabilistic ecological forecasts. Ecology, 102(8). <a href="https://doi.org/10.1002/ecy.3431" class="uri">https://doi.org/10.1002/ecy.3431</a></p>
 </section>
-<section id="problem-set" class="level2" data-number="10.4">
-<h2 data-number="10.4" class="anchored" data-anchor-id="problem-set"><span class="header-section-number">10.4</span> Problem Set</h2>
+<section id="problem-set" class="level2" data-number="10.8">
+<h2 data-number="10.8" class="anchored" data-anchor-id="problem-set"><span class="header-section-number">10.8</span> Problem Set</h2>
 <p>If you have forecast submissions the scores from your submitted forecasts and the climatology and persistence forecasts. If you do not have submitted forecasts, use the <code>model_id = XXXX</code> to answer the questions</p>
 <p>Create a new Rmarkdown document that you use to answer the questions below with a mix of code and text.</p>
 <ol type="1">

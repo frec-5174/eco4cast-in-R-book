@@ -428,7 +428,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-<p>Including parameter uncertainty in forecasts as demonstrated in <a href="process-model-prop-uncertainty.html#sec-prop-unc-pars" class="quarto-xref"><span>Section&nbsp;14.2</span></a> requires having a probability distribute for the parameters. The previous chapter shows how to estimate parameters using likelihood methods. While likelihood methods are designed to find optimal values, they are not designed to estimate the probability distribution of the parameters. By finding optimal values likelihood methods can reduce process uncertainty because a better calibrated model has a better match to historical data and smaller residual error. This chapter introduces the use of Bayesian methods to estimate parameter distributions.</p>
+<p>Including parameter uncertainty in forecasts, as demonstrated in <a href="process-model-prop-uncertainty.html#sec-prop-unc-pars" class="quarto-xref"><span>Section&nbsp;14.2</span></a>, requires having a probability distribution for the parameters. The previous chapter shows how to estimate parameters using likelihood methods. While likelihood methods are designed to find optimal values, they are not designed to estimate the probability distribution of the parameters. By finding optimal values likelihood methods can reduce process uncertainty because a better calibrated model has a better match to historical data and smaller residual error. This chapter introduces the use of Bayesian methods to estimate parameter distributions.</p>
 <section id="introduction-to-bayesian-statistics" class="level2" data-number="17.1">
 <h2 data-number="17.1" class="anchored" data-anchor-id="introduction-to-bayesian-statistics"><span class="header-section-number">17.1</span> Introduction to Bayesian statistics</h2>
 <section id="starting-with-likelihood" class="level3" data-number="17.1.1">
@@ -512,7 +512,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<p>Remember that this curve is the P(data | mean = x). We want the P(mean = x | data).</p>
+<p>Remember that this curve is the <span class="math inline">\(P(data \| mean = x)\)</span> - probability of the data given the model. We want the <span class="math inline">\(P(mean = x \| data)\)</span> - probability of the model given the data.</p>
 <p>Following Bayes rule where the <span class="math inline">\(P(data | model)\)</span> is the likelihood and <span class="math inline">\(P(model)\)</span> is our guess for the mean before seeing the data (called the prior)</p>
 <p><span class="math display">\[
 P(model | data) = \frac{P(data | model) \cdot P(model)}{P(data)}
@@ -577,17 +577,17 @@ P(mean | data) \simeq likelihood \cdot prior
 <div id="fig-post-unscaled" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="bayesian-methods-intro_files/figure-html/fig-post-unscaled-1.png" class="img-fluid figure-img" width="672"></p>
-<figcaption class="figure-caption">Figure&nbsp;17.7: <strong>?(caption)</strong></figcaption>
+<figcaption class="figure-caption">Figure&nbsp;17.7: likelihood of the x given the prior distribution and likelihood of the model.</figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p>But from Bayes rule we can rescale the prior x likelihood by the area under the curve to convert to a probability density function.</p>
+<p>But from Bayes rule we can rescale the prior * likelihood by the area under the curve to convert to a probability density function.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>area_under_curve <span class="ot">&lt;-</span> <span class="fu">sum</span>(prior_times_likelihood <span class="sc">*</span> delta_x)  <span class="co">#sum(Width * Height) = total probability of the data given all possible values of the parameter</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>normalized_posterior <span class="ot">&lt;-</span> prior_times_likelihood <span class="sc">/</span> area_under_curve</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>The probability of the data is (i.e., area under likelihood x prior curve): 2.2325827^{-6}</p>
+<p>The probability of the data is (i.e., area under likelihood * prior curve): 2.2325827^{-6}</p>
 <p>Now we can visualize the rescaled likelihood (remember that the un-scaled likelihood was actually used in the calculations), the prior, and the normalized posterior.</p>
 <p><a href="#fig-prior-ll-post" class="quarto-xref">Figure&nbsp;<span>17.8</span></a> shows how the how the posterior is a blend of the prior and the likelihood.</p>
 <div class="cell">
@@ -609,7 +609,7 @@ P(mean | data) \simeq likelihood \cdot prior
 </div>
 </div>
 </div>
-<p>Here is a function that will allow us to explore how the posterior is sensitive to the likelihood and the prior</p>
+<p>Here is a function that will allow us to explore how the posterior is sensitive to the likelihood and the prior.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>explore_senstivity <span class="ot">&lt;-</span> <span class="cf">function</span>(num_data_points, mean_data, sd_data, mean_prior, sd_prior, title){</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -653,35 +653,35 @@ P(mean | data) \simeq likelihood \cdot prior
 <div class="cell">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Baseline</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">explore_senstivity</span>(<span class="at">num_data_points =</span> <span class="dv">5</span>,</span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>                        <span class="at">mean_data =</span> <span class="dv">3</span>,</span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>                        <span class="at">sd_data =</span> <span class="dv">2</span>,</span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>                        <span class="at">mean_prior =</span> <span class="dv">0</span>,</span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>                        <span class="at">sd_prior =</span> <span class="fl">1.0</span>,</span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>                        <span class="at">title =</span> <span class="st">"Baseline</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>                         <span class="at">mean_data =</span> <span class="dv">3</span>,</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>                         <span class="at">sd_data =</span> <span class="dv">2</span>,</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>                         <span class="at">mean_prior =</span> <span class="dv">0</span>,</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>                         <span class="at">sd_prior =</span> <span class="fl">1.0</span>,</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>                         <span class="at">title =</span> <span class="st">"Baseline</span><span class="sc">\n</span><span class="st">"</span>)</span>
 <span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="co">#Increase confidence in prior</span></span>
 <span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">explore_senstivity</span>(<span class="at">num_data_points =</span> <span class="dv">5</span>,</span>
-<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>                        <span class="at">mean_data =</span> <span class="dv">3</span>,</span>
-<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>                        <span class="at">sd_data =</span> <span class="dv">2</span>,</span>
-<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>                        <span class="at">mean_prior =</span> <span class="dv">0</span>,</span>
-<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>                        <span class="at">sd_prior =</span> <span class="fl">0.1</span>,</span>
-<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>                        <span class="at">title =</span> <span class="st">"Increase confidence</span><span class="sc">\n</span><span class="st">in prior"</span>)</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>                         <span class="at">mean_data =</span> <span class="dv">3</span>,</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>                         <span class="at">sd_data =</span> <span class="dv">2</span>,</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>                         <span class="at">mean_prior =</span> <span class="dv">0</span>,</span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>                         <span class="at">sd_prior =</span> <span class="fl">0.1</span>,</span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>                         <span class="at">title =</span> <span class="st">"Increase confidence</span><span class="sc">\n</span><span class="st">in prior"</span>)</span>
 <span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a><span class="co">#Increase number of data points</span></span>
 <span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>p3 <span class="ot">&lt;-</span> <span class="fu">explore_senstivity</span>(<span class="at">num_data_points =</span> <span class="dv">50</span>,</span>
-<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>                        <span class="at">mean_data =</span> <span class="dv">3</span>,</span>
-<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a>                        <span class="at">sd_data =</span> <span class="dv">2</span>,</span>
-<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>                        <span class="at">mean_prior =</span> <span class="dv">0</span>,</span>
-<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a>                        <span class="at">sd_prior =</span> <span class="fl">1.0</span>,</span>
-<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a>                        <span class="at">title =</span> <span class="st">"Increase data</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>                         <span class="at">mean_data =</span> <span class="dv">3</span>,</span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a>                         <span class="at">sd_data =</span> <span class="dv">2</span>,</span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>                         <span class="at">mean_prior =</span> <span class="dv">0</span>,</span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a>                         <span class="at">sd_prior =</span> <span class="fl">1.0</span>,</span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a>                         <span class="at">title =</span> <span class="st">"Increase data</span><span class="sc">\n</span><span class="st">"</span>)</span>
 <span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a><span class="co">#Make likelihood mean closer to prior</span></span>
 <span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a>p4 <span class="ot">&lt;-</span> <span class="fu">explore_senstivity</span>(<span class="at">num_data_points =</span> <span class="dv">5</span>,</span>
-<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a>                        <span class="at">mean_data =</span> <span class="dv">0</span>,</span>
-<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a>                        <span class="at">sd_data =</span> <span class="dv">2</span>,</span>
-<span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a>                        <span class="at">mean_prior =</span> <span class="dv">0</span>,</span>
-<span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a>                        <span class="at">sd_prior =</span> <span class="fl">1.0</span>,</span>
-<span id="cb18-31"><a href="#cb18-31" aria-hidden="true" tabindex="-1"></a>                        <span class="at">title =</span> <span class="st">"Make likelihood mean</span><span class="sc">\n</span><span class="st">closer to prior"</span>)</span>
+<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a>                         <span class="at">mean_data =</span> <span class="dv">0</span>,</span>
+<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a>                         <span class="at">sd_data =</span> <span class="dv">2</span>,</span>
+<span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a>                         <span class="at">mean_prior =</span> <span class="dv">0</span>,</span>
+<span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a>                         <span class="at">sd_prior =</span> <span class="fl">1.0</span>,</span>
+<span id="cb18-31"><a href="#cb18-31" aria-hidden="true" tabindex="-1"></a>                         <span class="at">title =</span> <span class="st">"Make likelihood mean</span><span class="sc">\n</span><span class="st">closer to prior"</span>)</span>
 <span id="cb18-32"><a href="#cb18-32" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-33"><a href="#cb18-33" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-34"><a href="#cb18-34" aria-hidden="true" tabindex="-1"></a>p4 <span class="ot">&lt;-</span> <span class="fu">explore_senstivity</span>(<span class="at">num_data_points =</span> <span class="dv">1</span>,</span>
@@ -785,8 +785,8 @@ P(mean | data) \simeq likelihood \cdot prior
 </section>
 <section id="solving-a-bayesian-model" class="level2" data-number="17.2">
 <h2 data-number="17.2" class="anchored" data-anchor-id="solving-a-bayesian-model"><span class="header-section-number">17.2</span> Solving a Bayesian model</h2>
-<p>The example above is designed to build an intuition for how a Bayesian analysis works but is not how the parameters in a Bayesian model are estimated in practice. For one thing, if there are multiple parameters being estimated, it is very hard to estimate the area under the curve. Second, the area is very very small if there are many data points (so small that the computer can’t hold it well)</p>
-<p>There are two common methods for estimating posterior distributions that involve numerical computation. Both methods involve randomly sampling from an unknown posterior distribution and saving the samples. The sequence of saved sample for the parameters is called a Markov chain Monte Carlo (MCMC). The distribution of parameter values in the MCMC chain is your posterior distribution.</p>
+<p>The example above is designed to build an intuition for how a Bayesian analysis works but is not how the parameters in a Bayesian model are estimated in practice. For one thing, if there are multiple parameters being estimated, it is very hard to estimate the area under the curve. Second, the area is very very small if there are many data points (so small that the computer can’t hold it well).</p>
+<p>There are two common methods for estimating posterior distributions that involve numerical computation. Both methods involve randomly sampling from an unknown posterior distribution and saving the samples. The sequence of saved sample of the parameters is called a Markov chain Monte Carlo (MCMC). The distribution of parameter values in the MCMC chain is your posterior distribution.</p>
 <p>The first is called Gibbs sampling and is used when you know the probability distribution type for the posterior but not the parameter values of the distribution. For example, if your prior is normally distributed and your likelihood is normally distributed then you know (from math that others have already done for you) that the posterior is normally distributed. Therefore, you can randomly draw from that distribution to build your MCMC chain that generates your posterior distribution. We will not go over this in detail but know that this method will give you an answer quicker but requires you (or the software you are using) to know that your prior and likelihood are conjunct (i.e., someone else has worked out that the posterior always has a certain PDF if the prior and likelihood are of certain PDF - see pages 86-89 and Table A3 in Hobbs and Hooten).</p>
 <p>The second is called MCMC Metropolis–Hastings (MCMC-MH) and is a rejection sampling method. In this case you don’t know the form of the posterior. Basically the MCMC-MH is the following</p>
 <ol start="0" type="1">
@@ -799,12 +799,12 @@ P(mean | data) \simeq likelihood \cdot prior
 </ol>
 <ul>
 <li>All parameters that improve the probability will have <code>prob_proposed/prob_current</code> &gt; 1. Therefore all improvements will be accepted since z (by definition in Step 4) can never be greater than 1.</li>
-<li>Worse parameters where <code>prob_proposed/prob_current</code> &lt; 1, will be accepted in proportion to how worse they are. For example if <code>prob_proposed/prob_current</code> = 0.9, 90% of the time z will be less the 0.90 so the worse parameters than are worse by 10% will be accepted 90% of the time. If <code>prob_proposed/prob_current</code> = 0.01 (i.e., the new parameters are much worse), only 1% of the time will z be less then 0.01. Therefore it is possible but not common to save these worse parameters. As a result, the MCMC-MH approach explores the full distribution by spending more time at more likely parameter values. This is different than maximum likelihood optimization methods like <code>optim'</code> that only save parameters that are better than previous (thus finds the peak of the mountain rather than the shape of the mountain). The MCMC-HM approach requires taking a lot samples so that it spends some time at very unlikely values - a necessity for estimating the tails of a distribution.</li>
+<li>Worse parameters where <code>prob_proposed/prob_current</code> &lt; 1, will be accepted in proportion to how worse they are. For example if <code>prob_proposed/prob_current</code> = 0.9, 90% of the time z will be less the 0.90 so the worse parameters than are worse by 10% will be accepted 90% of the time. If <code>prob_proposed/prob_current</code> = 0.01 (i.e., the new parameters are much worse), only 1% of the time will z be less then 0.01. Therefore it is possible but not common to save these worse parameters. As a result, the MCMC-MH approach explores the full distribution by spending more time at more likely parameter values. This is different than maximum likelihood optimization methods like <code>optim</code> that only save parameters that are better than previous (thus finds the peak of the mountain rather than the shape of the mountain). The MCMC-HM approach requires taking a lot samples so that it spends some time at very unlikely values - a necessity for estimating the tails of a distribution.</li>
 <li>You want to accept ~40% percent of all proposed parameter values. If your jump parameter from #1 is too large, you won’t be able two explore the area around the most likely values (i.e., you won’t get a lot of <code>prob_proposed/prob_current</code> values near 1). If your jump parameter from #1 is too small, you won’t be able to explore the tails of the distribution (i.e., you won’t get a lot of <code>prob_proposed/prob_current</code> values near 0 that have a random chance of being accepted).</li>
 </ul>
-<p><em>Note:</em> there is a step that is ignored here that just confuses at this stage. Your proposal distribution in #1 doesn’t have to be normal, which is symmetric (i.e., your probability of jumping from a value of X to Y is the same as jumping from Y to X). There is adjustment for non-symmetric proposals that is on page page 71 in Dietze and page 158 in Hobbs and Hooten.</p>
+<p><strong>Note:</strong> there is a step that is ignored here that just confuses at this stage. Your proposal distribution in #1 doesn’t have to be normal, which is symmetric (i.e., your probability of jumping from a value of X to Y is the same as jumping from Y to X). There is adjustment for non-symmetric proposals that is on page 71 in Dietze and page 158 in Hobbs and Hooten.</p>
 <p>Here is an example of the MCMC-MH method:</p>
-<p>(note: the example below should use logged probability densities for numerical reasons but uses the non-logged densities so that the method is more clear. The example in assignment uses logged densities)</p>
+<p>(<strong>Note</strong>: the example below should use logged probability densities for numerical reasons but uses the non-logged densities so that the method is more clear. The example in assignment uses logged densities).</p>
 <p>Set up data (same as above)</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>num_data_points <span class="ot">&lt;-</span> <span class="dv">10</span></span>
@@ -884,7 +884,7 @@ P(mean | data) \simeq likelihood \cdot prior
 <span id="cb28-59"><a href="#cb28-59" aria-hidden="true" tabindex="-1"></a>  }</span>
 <span id="cb28-60"><a href="#cb28-60" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>The <code>pars</code> variable is our MCMC chain estimating the posterior distribution . We can visualize it in two ways. The first is with iteration number on the axis. The second is as a histogram. A chain is that ready for analysis will have a constant mean and variance. The variance is important because it is the exploration of the posterior distribution. The histogram shows the posterior distribution.</p>
+<p>The <code>pars</code> variable is our MCMC chain estimating the posterior distribution. We can visualize it in two ways. The first is with iteration number on the x axis. The second is as a histogram. A chain that is ready for analysis will have a constant mean and variance. The variance is important because it is the exploration of the posterior distribution. The histogram shows the posterior distribution.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">iter =</span> <span class="dv">1</span><span class="sc">:</span>num_iter,</span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">par1 =</span> pars)</span>
@@ -902,7 +902,7 @@ P(mean | data) \simeq likelihood \cdot prior
 <p><img src="bayesian-methods-intro_files/figure-html/unnamed-chunk-31-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>You should notice that the chain starts at 2 before moving to a mean of 3. The starting value of 2 was arbitrary. Since it was far from 3, the proposed new parameter values often resulted in improvements and accepting values that were more likely. As a result the chain moves to the part with a mean of 3 and constant variance (i.e., where the chain has converged). This transition from the starting value to the point where the chain has converged should be discard. We call this the “burn-in”. Here are the same plots with the burn-in removed</p>
+<p>You should notice that the chain starts at 2 before moving to a mean of 3. The starting value of 2 was arbitrary. Since it was far from 3, the proposed new parameter values often resulted in improvements and accepting values that were more likely. As a result the chain moves to the part with a mean of 3 and constant variance (i.e., where the chain has converged). This transition from the starting value to the point where the chain has converged should be discard. We call this the “burn-in”. Here are the same plots with the burn-in removed.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>nburn <span class="ot">&lt;-</span> <span class="dv">100</span></span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>d_burn <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">iter =</span> nburn<span class="sc">:</span>num_iter,</span>
@@ -959,10 +959,10 @@ P(mean | data) \simeq likelihood \cdot prior
 <section id="predictive-posterior-distributions" class="level2" data-number="17.3">
 <h2 data-number="17.3" class="anchored" data-anchor-id="predictive-posterior-distributions"><span class="header-section-number">17.3</span> Predictive posterior distributions</h2>
 <p>Finally we can use the idea of randomly drawing from the posterior to develop predictions from the posterior. This is just like the Logistic growth module where you randomly sampled from the parameter uncertainty and used the random samples in the logistic equation.</p>
-<p>Here we are calculating two things 1) <code>pred_posterior_mean</code> just has uncertainty in the M-M model parameter. Think about this as generating uncertainty around the mean prediction at each value of x. 2) <code>y_posterior</code> is the prediction of am observation. Therefore you take the value from #1 and add the uncertainty in the observations from <code>sd_data</code> that was set above. This is your predictive or forecast uncertainty.</p>
+<p>Here we are calculating two things 1) <code>pred_posterior_mean</code> just has uncertainty in the M-M model parameter. Think about this as generating uncertainty around the mean prediction at each value of x. 2) <code>y_posterior</code> is the prediction of an observation. Therefore, you take the value from #1 and add the uncertainty in the observations from <code>sd_data</code> that was set above. This is your predictive or forecast uncertainty.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>num_samples <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>x_new <span class="ot">=</span> x</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>x_new <span class="ot">&lt;-</span> x</span>
 <span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>pred_posterior_mean <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="cn">NA</span>, num_samples, <span class="fu">length</span>(x_new))   <span class="co"># storage for all simulations</span></span>
 <span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>y_posterior <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="cn">NA</span>, num_samples, <span class="fu">length</span>(x_new)) </span>
 <span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a></span>
@@ -1002,29 +1002,41 @@ P(mean | data) \simeq likelihood \cdot prior
 <h2 data-number="17.4" class="anchored" data-anchor-id="important-considerations"><span class="header-section-number">17.4</span> Important considerations</h2>
 <section id="joint-vs-marginal-distributions" class="level3" data-number="17.4.1">
 <h3 data-number="17.4.1" class="anchored" data-anchor-id="joint-vs-marginal-distributions"><span class="header-section-number">17.4.1</span> Joint vs marginal distributions</h3>
-<p>If you have multiple parameters your MCMC chain, you randomly draw <code>posterior_sample_indices</code> and use values for all the parameters at that iteration. By doing this you are representing the joint distribution of the parameter - e.g., if parameter 1 is high, parameter 2 is always low. If you select <code>posterior_sample_indices</code> for each parameter, you break the correlations of parameters that the MCMC method estimated and, as a result, overestimate the uncertainty.</p>
+<p>If you have multiple parameters in your MCMC chain, you randomly draw <code>posterior_sample_indices</code> and use values for all the parameters at that iteration. By doing this you are representing the joint distribution of the parameter - e.g., if parameter 1 is high, parameter 2 is always low. If you select <code>posterior_sample_indices</code> for each parameter, you break the correlations of parameters that the MCMC method estimated and, as a result, overestimate the uncertainty.</p>
 </section>
 <section id="identifiablity" class="level3" data-number="17.4.2">
 <h3 data-number="17.4.2" class="anchored" data-anchor-id="identifiablity"><span class="header-section-number">17.4.2</span> Identifiablity</h3>
 <p>Imagine you have a model that predicts water temperature as a linear function of air temperature but uses the following equation:</p>
 <p>water temperature = m + a * b * air temperature</p>
 <p>in this toy example the slope has been separated into two parameters (a and b). As a result, you can get the same value for a slope with a large value <code>a</code> and a small value for <code>b</code> as when you have small value for <code>a</code> and a large value for <code>b</code>. Consequentially it is impossible to find a value for either a or b and these parameters are unidentifiable. Obviously, if you collapse the a*b down into a single parameter (m) then that parameter is identifiable.</p>
-<p>In a ecosystem example, we often use net fluxes (like net ecosystem exchange) to calibrate models. Since NEE is the net of respiration and photosynthesis, the same NEE can emerge from a system with large values for respiration and photosynthes as a system with small values for respiration and photosynthesis. Therefore the parameters that govern respiration and photosynthesis are not identifiable using only NEE data for parameter estimation.</p>
+<p>In an ecosystem example, we often use net fluxes (like net ecosystem exchange) to calibrate models. Since NEE is the net of respiration and photosynthesis, the same NEE can emerge from a system with large values for respiration and photosynthesis as a system with small values for respiration and photosynthesis. Therefore the parameters that govern respiration and photosynthesis are not identifiable using only NEE data for parameter estimation.</p>
 <p>Identifiablity issues can be addressed by 1) adding additional data sources for parameter estimation. For example, in the next chapter we use NEE and LAI in the calibration. The LAI data helps separate out the low production from the high production system because a lower production system can not be associated with high LAI values in the model. 2) by using “stronger” priors that have distributions with less spread (see below) or 3) modifying the equation(s) of the model to reduce the trade-off in parameters.</p>
 </section>
 <section id="data-leakage" class="level3" data-number="17.4.3">
 <h3 data-number="17.4.3" class="anchored" data-anchor-id="data-leakage"><span class="header-section-number">17.4.3</span> Data leakage</h3>
 <p>Data that contributed to the prior distribution can be me used in the likelihood (data leaking from the prior to posterior). This will result in artificial re-enforcement of the prior and will give artificially large confidence in the posterior. Similarly, data that you collected that will be used in the likelihood can not be used to develop the prior.</p>
-<p>You can use data that you will use in your likelihood calculate to involve the starting point of your MCMC chain. In some cases, a maximum likelihood fit of your model, like in <a href="likelihood-methods.html" class="quarto-xref"><span>Chapter&nbsp;16</span></a>, will yield starting points that are very close mean of the posterior (just without the uncertainty estimation). By starting your MCMC chain at this maximum likelihood estimates for the parameters, you will reduce the burn-in iterations and increase the computationally efficiency of your Bayesian analysis. This is not data leakage.</p>
+<p>You can use data that you will use in your likelihood calculation to involve the starting point of your MCMC chain. In some cases, a maximum likelihood fit of your model, like in <a href="likelihood-methods.html" class="quarto-xref"><span>Chapter&nbsp;16</span></a>, will yield starting points that are very close mean of the posterior (just without the uncertainty estimation). By starting your MCMC chain at this maximum likelihood estimates for the parameters, you will reduce the burn-in iterations and increase the computationally efficiency of your Bayesian analysis. This is not data leakage.</p>
 </section>
 </section>
 <section id="priors" class="level2" data-number="17.5">
 <h2 data-number="17.5" class="anchored" data-anchor-id="priors"><span class="header-section-number">17.5</span> Priors</h2>
 <p>Informed, strong vs.&nbsp;uninformed, vague, weak</p>
-<p>The parameters of the distribution determines how informed the prior is. For example a normal distribution with a mean = 0 and sd = 0.1 is much more informed than one with the sd = 1000 (the later has similar a probability densities across a large range of parameter values). It is also important to consider the range of support in a distribution. For example a normal distribution as non-zero densities for parameter values from -infinity to +infinity. Therefore the prior density for a parameter value will never by 0 (thus resulting the prior * likelihood = 0, and the MCMC never accepting that parameter value). In contrast, a uniform distribution has hard bounds that are user provided. If the prior is uniform from 0 to 1, then no parameter values less that 0 or greater than 1 will be considered even if the data supports thus values. Other proablity distribution has embedded bounds. For example the log-normal distribution can have values less than 0. Overall, hard bounds can be desired because of biophysical constraints on the parameter (e.g., a rate parameter or a proportion parameter can’t be negative).</p>
+<p>The parameters of the distribution determines how informed the prior is. For example a normal distribution with a mean = 0 and sd = 0.1 is much more informed than one with the sd = 1000 (the later has similar a probability densities across a large range of parameter values). It is also important to consider the range of support in a distribution. For example a normal distribution has non-zero densities for parameter values from -infinity to +infinity. Therefore the prior density for a parameter value will never by 0 (thus resulting the prior * likelihood = 0, and the MCMC never accepting that parameter value). In contrast, a uniform distribution has hard bounds that are user provided. If the prior is uniform from 0 to 1, then no parameter values less that 0 or greater than 1 will be considered even if the data supports thus values. Other probability distribution has embedded bounds. For example the log-normal distribution can have values less than 0. Overall, hard bounds can be desired because of biophysical constraints on the parameter (e.g., a rate parameter or a proportion parameter can’t be negative).</p>
 <p>In some cases they are so informed that you assume they are a fixed value. Justification for the parameter value choice when fixing a parameter or using a strong prior.</p>
-<p>Remember that the priors are for specific parameters in the model. It is important that the information used to develop informed priors comes from comparable information about the same parameter. - Literature review - databases - expert options/survey - What about parameter used in previous applications of the model?</p>
-<p>When to use informed vs.&nbsp;uninformed priors. - Identifiable - Physical constants - Process models where there is considerable information on a parameter. - A desire to have the analysis reflect the data only.</p>
+<p>Remember that the priors are for specific parameters in the model. It is important that the information used to develop informed priors comes from comparable information about the same parameter.</p>
+<ul>
+<li><p>Literature review</p></li>
+<li><p>Databases</p></li>
+<li><p>Expert options/survey</p></li>
+<li><p>What about parameters used in previous applications of the model?</p></li>
+</ul>
+<p>When to use informed vs.&nbsp;uninformed priors.</p>
+<ul>
+<li><p>Identifiable</p></li>
+<li><p>Physical constants</p></li>
+<li><p>Process models where there is considerable information on a parameter</p></li>
+<li><p>A desire to have the analysis reflect the data only.</p></li>
+</ul>
 </section>
 <section id="reading" class="level2" data-number="17.6">
 <h2 data-number="17.6" class="anchored" data-anchor-id="reading"><span class="header-section-number">17.6</span> Reading</h2>
