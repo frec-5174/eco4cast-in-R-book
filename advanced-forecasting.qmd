@@ -1,5 +1,5 @@
 # Advanced forecasting
 
-The advanced forecasting section applies the concepts of the first section to a process model. The topics include an introduction to process modeling (particularly dynamic models), model fitting through likelihood and Bayesian techniques, and data assimilation using the particular filter.
+The advanced forecasting section applies the concepts of the first section to a process model. The topics include an introduction to process modeling (particularly dynamic models), model fitting through likelihood and Bayesian techniques, and data assimilation using the particle filter.
 
-Material in this section is partially derived from the [forecasting activities](https://github.com/EcoForecast/EF_Activities) associated with Mike Dietze's Ecological Modeling book (@dietzeEcologicalForecasting2017) and his [terrestrial forecasting tutorial](https://github.com/mdietze/FluxCourseForecast) that was created for the NEON Ecological Forecasting Challenge.
+Material in this section is partially derived from the [forecasting activities](https://github.com/EcoForecast/EF_Activities) associated with Mike Dietze's Ecological Forecasting book (@dietzeEcologicalForecasting2017) and his [terrestrial forecasting tutorial](https://github.com/mdietze/FluxCourseForecast) that was created for the NEON Ecological Forecasting Challenge.
