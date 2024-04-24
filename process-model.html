@@ -400,6 +400,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </ul></li>
   <li><a href="#run-model" id="toc-run-model" class="nav-link" data-scroll-target="#run-model"><span class="header-section-number">13.5</span> Run model</a></li>
   <li><a href="#plot-output" id="toc-plot-output" class="nav-link" data-scroll-target="#plot-output"><span class="header-section-number">13.6</span> Plot output</a></li>
+  <li><a href="#comprehension-questions" id="toc-comprehension-questions" class="nav-link" data-scroll-target="#comprehension-questions"><span class="header-section-number">13.7</span> <strong>Comprehension questions</strong></a></li>
   </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/frec-5174/eco4cast-in-R-book/issues/new" class="toc-action">Report an issue</a></p><p><a href="https://github.com/frec-5174/eco4cast-in-R-book/blob/main/process-model.qmd" class="toc-action">View source</a></p></div></div></nav>
     </div>
@@ -426,47 +427,48 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"R/helpers.R"</span>)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(arrow)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="overview-of-model" class="level2" data-number="13.1">
 <h2 data-number="13.1" class="anchored" data-anchor-id="overview-of-model"><span class="header-section-number">13.1</span> Overview of model</h2>
-<p>We use a simple representation of a forest ecosystem that simulates carbon using three pools (leaves, wood, and soil). The model <a href="#fig-process-model" class="quarto-xref">Figure&nbsp;<span>13.1</span></a> is a 0-D model (no horizontal and vertical dimensions) that runs at a 1 day timestep. It models carbon using the unis of MgC/ha.</p>
+<p>We use a simple representation of a forest ecosystem that simulates carbon using three pools (leaves, wood, and soil). The model in <a href="#fig-process-model" class="quarto-xref">Figure&nbsp;<span>13.1</span></a> is a 0-D model (no horizontal and vertical dimensions) that runs at a 1 day timestep. It models carbon using the units of MgC/ha.</p>
 <div id="fig-process-model" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="img/model_diagram.png" class="img-fluid figure-img"></p>
 <figcaption class="figure-caption">Figure&nbsp;13.1: Conceptual diagram of the forest model</figcaption>
 </figure>
 </div>
-<p>Photosynthesis (gross primary productivity; gpp) is modeled using a light-use efficiency approach. Photosynthetically Active Radiation (PAR) is converted to absorbed PAR by multiplying by the proportion absorbed by leaf area index (LAI). As LAI increases more light is absorbed. The absorbed PAR is multiplied by a light use efficiency parameter (<code>alpha</code>). LAI is determined by multiplying leave carbon by the specific leaf area parameter (<code>SLA</code>).</p>
+<p>Photosynthesis (gross primary productivity; <code>gpp</code>) is modeled using a light-use efficiency approach. Photosynthetically Active Radiation (PAR) is converted to absorbed PAR by multiplying by the proportion absorbed by leaf area index (LAI) <!--# this is confusing; do you mean PAR is converted to absorbed PAR by multiplying by 1) the proportion absorbed and 2) by LAI? could you rephrase to: the proportion of PAR that is absorbed by leaves is a function of LAI, where as LAI increases, the proportion of absorbed PAR increases, or something like that?  -->. As LAI increases more light is absorbed. The absorbed PAR is multiplied by a light use efficiency parameter (<code>alpha</code>). LAI is determined by multiplying leaf carbon by the specific leaf area parameter (<code>SLA</code>). <!--# I think in this section it would be helpful to have a couple of rendered equations for the more complex processes, specifically GPP and Q10, below their corresponding paragraphs; or maybe you could do it in code if you think that is more approachable; or even plot a curve of the function? just something besides text to help students understand how the process works before they get to the code would be good I think --></p>
 <p>Autotrophic respiration (<code>ra</code>) is modeled as a constant proportion of GPP using the <code>Ra_frac</code> parameter. Net primary productivity (<code>npp</code>) is the carbon that is not used for autotrophic respiration (<code>gpp - ra</code>).</p>
 <p>NPP is allocated to the two vegetation carbon states (<code>wood</code> and <code>leaves</code>) based on a constant proportion parameter. <code>leaf_frac</code> is the proportion that is allocated to leaves and <code>1-leaf_frac</code> is the allocation to wood.</p>
-<p>Litterfall is occurs between a starting day-of-year (<code>litterfall_start</code>) and an ending day-of-year (<code>litterfall_start + litterfall_length</code>). The annual proportion of leaves (<code>litterfall_rate</code>) that are dropped is removed during this period.</p>
+<p>Litterfall occurs between a starting day-of-year (<code>litterfall_start</code>) and an ending day-of-year (<code>litterfall_start + litterfall_length</code>). The annual proportion of leaves (<code>litterfall_rate</code>) that are dropped is removed during this period.</p>
 <p>Tree mortality is modeled as a constant proportion of wood (<code>mortality</code>) that is lost each day.</p>
-<p>Heterotrophic respiration is modeled as a constant proportion of soil carbon (<code>Rbasal</code>) that is adjusted by the temperature using a Q10 function that is governed by a Q10 parameter (<code>Q10</code>)</p>
-<p>The change is leaves in each time step is modeled as leaf allocation - litterfall. The change in wood in each timestep is modeled as wood allocation - mortality. The change in soil carbon in each timestep is modeled as litterfall + mortality - heterotrophic respiration.</p>
+<p>Heterotrophic respiration is modeled as a constant proportion of soil carbon (<code>Rbasal</code>) that is adjusted by the temperature using a Q10 function <!--# do we assume students know the form of a Q10 function and what it is? otherwise can you provide equation below? --> that is governed by a Q10 parameter (<code>Q10</code>)</p>
+<p>The change in leaves at each time step is modeled as leaf allocation - litterfall. The change in wood in each timestep is modeled as wood allocation - mortality. The change in soil carbon in each timestep is modeled as litterfall + mortality - heterotrophic respiration.</p>
 <p>Finally, net ecosystem exchange (<code>nee</code>) is modeled as <code>ra + rh - gpp</code> with negative values corresponding to net gain in carbon by the ecosystem.</p>
 <p>The model requires inputs of photosynthetic active radiation (<code>PAR</code>), air temperature (<code>temp</code>), and day-of-year (<code>doy</code>).</p>
 </section>
 <section id="solving-the-model" class="level2" data-number="13.2">
 <h2 data-number="13.2" class="anchored" data-anchor-id="solving-the-model"><span class="header-section-number">13.2</span> Solving the model</h2>
-<p>At each time-step, the processes that results in the change in the model states are calculate (i.e., photosynthesis, mortality, respiration, etc.). The process rates are then combined to determine the net rate of change for each model state (i.e., the derivatives).</p>
+<p>At each time step, the processes that result in change in the model states are calculated (i.e., photosynthesis, mortality, respiration, etc.). The process rates are then combined to determine the net rate of change (i.e., the derivative) for each model state.</p>
 <pre><code>  dleaves_dt &lt;- leaf_alloc  - litterfall
   dwood_dt &lt;- wood_alloc  - mortality
   dSOM_dt &lt;- litterfall + mortality - rh</code></pre>
-<p>The net rate of change for each time-step is added to the value of the state at the previous time-step to calculate the update state.</p>
+<p>The net rate of change for each time step is added to the value of the state at the previous time step to calculate the update state.</p>
 <pre><code>  states[, 1] &lt;- states[, 1] + dleaves_dt
   states[, 2] &lt;- states[, 2] + dwood_dt
   states[, 3] &lt;- states[, 3] + dSOM_dt</code></pre>
-<p>This process is repeated at each time-step to create the time-series model output. This method is called the Euler method for solving ordinary differential equations and assumed a constant change in time (dt = 1 day) in each time-step.</p>
+<p>This process is repeated at each time step to create a time series of model output. This method is called the Euler method for solving ordinary differential equations and assumes a constant change in time (dt = 1 day) at each time step.</p>
 </section>
 <section id="model-as-a-function" class="level2" data-number="13.3">
 <h2 data-number="13.3" class="anchored" data-anchor-id="model-as-a-function"><span class="header-section-number">13.3</span> Model as a function</h2>
-<p>The code below describes the model as a R function. The function predicts one time-step at a time. The same function is found in the <code>R/forecast_model.R</code> script in the book repository. The inputs to the function are:</p>
+<p>The code below describes the model as a R function. The function predicts one time step at a time. The same function is found in the <code>R/forecast_model.R</code> script in the book repository. The inputs to the function are:</p>
 <ul>
 <li><p><code>t</code>: the index of the current model time-step</p></li>
-<li><p><code>states</code>: a matrix of the states (rows = ensemble member, columns = state)</p></li>
-<li><p><code>parms</code>: a data frame of parameters (rows = ensemble member, columns = parameter)</p></li>
-<li><p><code>inputs</code>: a matrix of drivers (rows = ensemble member, columns = driver)</p></li>
+<li><p><code>states</code>: a matrix of the states (rows = ensemble members, columns = states)</p></li>
+<li><p><code>parms</code>: a data frame of parameters (rows = ensemble members, columns = parameters)</p></li>
+<li><p><code>inputs</code>: a matrix of drivers (rows = ensemble members, columns = drivers)</p></li>
 </ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>forest_model <span class="ot">&lt;-</span> <span class="cf">function</span>(t, states, parms, inputs){</span>
@@ -521,13 +523,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a>  states[, <span class="dv">2</span>] <span class="ot">&lt;-</span> states[, <span class="dv">2</span>] <span class="sc">+</span> dwood_dt</span>
 <span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a>  states[, <span class="dv">3</span>] <span class="ot">&lt;-</span> states[, <span class="dv">3</span>] <span class="sc">+</span> dSOM_dt</span>
 <span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Add normally distributed random noise to states</span></span>
+<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Add normally distributed random noise to states - WHY? please explain this!</span></span>
 <span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a>  <span class="do">## pmax ensures states never goes negative</span></span>
 <span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a>  states[, <span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fu">pmax</span>(<span class="fu">rnorm</span>(ens_members, states[, <span class="dv">1</span>] , parms<span class="sc">$</span>sigma.leaf), <span class="dv">0</span>)</span>
 <span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a>  states[, <span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="fu">pmax</span>(<span class="fu">rnorm</span>(ens_members, states[, <span class="dv">2</span>], parms<span class="sc">$</span>sigma.stem), <span class="dv">0</span>)</span>
 <span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a>  states[, <span class="dv">3</span>] <span class="ot">&lt;-</span> <span class="fu">pmax</span>(<span class="fu">rnorm</span>(ens_members, states[, <span class="dv">3</span>], parms<span class="sc">$</span>sigma.soil), <span class="dv">0</span>)</span>
 <span id="cb4-58"><a href="#cb4-58" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb4-59"><a href="#cb4-59" aria-hidden="true" tabindex="-1"></a>  <span class="co">#Dervived variables (LAI and net ecosystem exchange)</span></span>
+<span id="cb4-59"><a href="#cb4-59" aria-hidden="true" tabindex="-1"></a>  <span class="co">#Derived variables (LAI and net ecosystem exchange)</span></span>
 <span id="cb4-60"><a href="#cb4-60" aria-hidden="true" tabindex="-1"></a>  lai <span class="ot">&lt;-</span> states[, <span class="dv">1</span>]  <span class="sc">*</span> parms<span class="sc">$</span>SLA <span class="sc">*</span> <span class="fl">0.1</span></span>
 <span id="cb4-61"><a href="#cb4-61" aria-hidden="true" tabindex="-1"></a>  nee <span class="ot">&lt;-</span> ra <span class="sc">+</span> rh <span class="sc">-</span> gpp</span>
 <span id="cb4-62"><a href="#cb4-62" aria-hidden="true" tabindex="-1"></a>  </span>
@@ -550,7 +552,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 data-number="13.4" class="anchored" data-anchor-id="set-up-model-run"><span class="header-section-number">13.4</span> Set up model run</h2>
 <section id="time-frame-site-id-and-number-of-ensembles" class="level3" data-number="13.4.1">
 <h3 data-number="13.4.1" class="anchored" data-anchor-id="time-frame-site-id-and-number-of-ensembles"><span class="header-section-number">13.4.1</span> Time frame, site id, and number of ensembles</h3>
-<p>In this chapter, we are running a deterministic simulation (no uncertainty) so we only have one ensemble member. The simulation is for a single NEON site (OSBS). The simulation will run from <code>2020-09-30</code> to two days ago.</p>
+<p>In this chapter, we are running a deterministic simulation (no uncertainty) so we only have one ensemble member. The simulation is for a single NEON site (Ordway-Swisher Biological Station; OSBS), which is a longleaf pine ecosystem located in Florida, USA. The simulation will run from <code>2020-09-30</code> to two days ago.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>site <span class="ot">&lt;-</span> <span class="st">"OSBS"</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>ens_members <span class="ot">&lt;-</span> <span class="dv">1</span></span>
@@ -559,7 +561,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="set-drivers" class="level3" data-number="13.4.2">
 <h3 data-number="13.4.2" class="anchored" data-anchor-id="set-drivers"><span class="header-section-number">13.4.2</span> Set drivers</h3>
-<p>I have provided a custom function to access the weather drivers. You can learn more about the function in the appendix (add link). They are provided in the chapter as a function rather than the full code to avoid unnecessary detraction from the focus on the process model.</p>
+<p>I have provided a custom function to access the weather drivers. You can learn more about the function in the appendix (add link) <!--# remember to add the link! -->. My choice to provide a custom function here rather than writing out the complete code is intentional, to avoid unnecessary distraction from the focus on the process model.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>inputs <span class="ot">&lt;-</span> <span class="fu">get_historical_met</span>(<span class="at">site =</span> site, sim_dates, <span class="at">use_mean =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>inputs_ensemble <span class="ot">&lt;-</span> <span class="fu">assign_met_ensembles</span>(inputs, ens_members)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -573,7 +575,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="set-parameters" class="level3" data-number="13.4.3">
 <h3 data-number="13.4.3" class="anchored" data-anchor-id="set-parameters"><span class="header-section-number">13.4.3</span> Set parameters</h3>
-<p>The model has 10 process parameters and 3 parameters representing the process uncertainty. Each of the parameters is set below to reasonable values. The process uncertainty standard deviations are set to 0.0 since our simulation is deterministic.</p>
+<p>The model has 10 process parameters and 3 parameters representing the process uncertainty <!--# I think the 3 process uc parameters need to be mentioned above where the model function is defined to avoid confusion -->. Each of the parameters is set below to reasonable values. The process uncertainty standard deviations are set to 0.0 since our simulation is deterministic.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Set parameters</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>params <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
@@ -595,18 +597,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="set-initial-condition" class="level3" data-number="13.4.4">
 <h3 data-number="13.4.4" class="anchored" data-anchor-id="set-initial-condition"><span class="header-section-number">13.4.4</span> Set initial condition</h3>
-<p>Next we set the starting point of the simulation. All three states need a starting point.</p>
+<p>Next we set the starting point of the simulation. All three states need a starting point. To do this, we create a three-dimensional array to hold the model output, with the dimensions corresponding to: 1) the number of simulated time steps; 2) the number of ensemble members (which in our case is 1 because this simulation is deterministic); and 3) the number of output variables. We then populate the first time step in the output array with the initial condition for each state.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>output <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="cn">NA</span>, <span class="at">dim =</span> <span class="fu">c</span>(<span class="fu">length</span>(sim_dates), ens_members, <span class="dv">12</span>)) <span class="co">#12 is the number of output variables (states + fluxes + derived variables)</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>output[<span class="dv">1</span>, , <span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="dv">5</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>output[<span class="dv">1</span>, , <span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="dv">140</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>output[<span class="dv">1</span>, , <span class="dv">3</span>] <span class="ot">&lt;-</span> <span class="dv">140</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>output[<span class="dv">1</span>, , <span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="dv">5</span> <span class="co"># air temperature; degrees C</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>output[<span class="dv">1</span>, , <span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="dv">140</span> <span class="co"># PAR; umol/m2/sec</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>output[<span class="dv">1</span>, , <span class="dv">3</span>] <span class="ot">&lt;-</span> <span class="dv">140</span> <span class="co"># day of year</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
 <section id="run-model" class="level2" data-number="13.5">
 <h2 data-number="13.5" class="anchored" data-anchor-id="run-model"><span class="header-section-number">13.5</span> Run model</h2>
-<p>Loop over the <code>sim_dates</code> vector that includes the dates of the simulation. The loop starts on index of 2 because index of 1 was set as the initial conditions above. The <code>forest_model</code> function is the the process model above. Save the output at each time-step to the output array.</p>
+<p>Loop over the <code>sim_dates</code> vector that includes the dates of the simulation. The loop starts on index of 2 because index of 1 was set as the initial conditions above. The <code>forest_model</code> function is the process model above. At each time step, the output is saved to the output array.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(t <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="fu">length</span>(sim_dates)){</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  output[t, , ]  <span class="ot">&lt;-</span> <span class="fu">forest_model</span>(t, </span>
@@ -639,6 +641,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
+</section>
+<section id="comprehension-questions" class="level2" data-number="13.7">
+<h2 data-number="13.7" class="anchored" data-anchor-id="comprehension-questions"><span class="header-section-number">13.7</span> <strong>Comprehension questions</strong></h2>
+<p>[insert as appropriate/desired; maybe ask students to interpret the model output figure?]</p>
 
 
 </section>
