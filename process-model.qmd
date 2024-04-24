@@ -5,27 +5,28 @@
 source("R/helpers.R")
 library(tidyverse)
 library(lubridate)
+library(arrow)
 ```
 
 ## Overview of model
 
-We use a simple representation of a forest ecosystem that simulates carbon using three pools (leaves, wood, and soil). The model @fig-process-model is a 0-D model (no horizontal and vertical dimensions) that runs at a 1 day timestep. It models carbon using the unis of MgC/ha.
+We use a simple representation of a forest ecosystem that simulates carbon using three pools (leaves, wood, and soil). The model in @fig-process-model is a 0-D model (no horizontal and vertical dimensions) that runs at a 1 day timestep. It models carbon using the units of MgC/ha.
 
 ![Conceptual diagram of the forest model](img/model_diagram.png){#fig-process-model fig-align="center"}
 
-Photosynthesis (gross primary productivity; gpp) is modeled using a light-use efficiency approach. Photosynthetically Active Radiation (PAR) is converted to absorbed PAR by multiplying by the proportion absorbed by leaf area index (LAI). As LAI increases more light is absorbed. The absorbed PAR is multiplied by a light use efficiency parameter (`alpha`). LAI is determined by multiplying leave carbon by the specific leaf area parameter (`SLA`).
+Photosynthesis (gross primary productivity; `gpp`) is modeled using a light-use efficiency approach. Photosynthetically Active Radiation (PAR) is converted to absorbed PAR by multiplying by the proportion absorbed by leaf area index (LAI) <!--# this is confusing; do you mean PAR is converted to absorbed PAR by multiplying by 1) the proportion absorbed and 2) by LAI? could you rephrase to: the proportion of PAR that is absorbed by leaves is a function of LAI, where as LAI increases, the proportion of absorbed PAR increases, or something like that?  -->. As LAI increases more light is absorbed. The absorbed PAR is multiplied by a light use efficiency parameter (`alpha`). LAI is determined by multiplying leaf carbon by the specific leaf area parameter (`SLA`). <!--# I think in this section it would be helpful to have a couple of rendered equations for the more complex processes, specifically GPP and Q10, below their corresponding paragraphs; or maybe you could do it in code if you think that is more approachable; or even plot a curve of the function? just something besides text to help students understand how the process works before they get to the code would be good I think -->
 
 Autotrophic respiration (`ra`) is modeled as a constant proportion of GPP using the `Ra_frac` parameter. Net primary productivity (`npp`) is the carbon that is not used for autotrophic respiration (`gpp - ra`).
 
 NPP is allocated to the two vegetation carbon states (`wood` and `leaves`) based on a constant proportion parameter. `leaf_frac` is the proportion that is allocated to leaves and `1-leaf_frac` is the allocation to wood.
 
-Litterfall is occurs between a starting day-of-year (`litterfall_start`) and an ending day-of-year (`litterfall_start + litterfall_length`). The annual proportion of leaves (`litterfall_rate`) that are dropped is removed during this period.
+Litterfall occurs between a starting day-of-year (`litterfall_start`) and an ending day-of-year (`litterfall_start + litterfall_length`). The annual proportion of leaves (`litterfall_rate`) that are dropped is removed during this period.
 
 Tree mortality is modeled as a constant proportion of wood (`mortality`) that is lost each day.
 
-Heterotrophic respiration is modeled as a constant proportion of soil carbon (`Rbasal`) that is adjusted by the temperature using a Q10 function that is governed by a Q10 parameter (`Q10`)
+Heterotrophic respiration is modeled as a constant proportion of soil carbon (`Rbasal`) that is adjusted by the temperature using a Q10 function <!--# do we assume students know the form of a Q10 function and what it is? otherwise can you provide equation below? --> that is governed by a Q10 parameter (`Q10`)
 
-The change is leaves in each time step is modeled as leaf allocation - litterfall. The change in wood in each timestep is modeled as wood allocation - mortality. The change in soil carbon in each timestep is modeled as litterfall + mortality - heterotrophic respiration.
+The change in leaves at each time step is modeled as leaf allocation - litterfall. The change in wood in each timestep is modeled as wood allocation - mortality. The change in soil carbon in each timestep is modeled as litterfall + mortality - heterotrophic respiration.
 
 Finally, net ecosystem exchange (`nee`) is modeled as `ra + rh - gpp` with negative values corresponding to net gain in carbon by the ecosystem.
 
@@ -33,7 +34,7 @@ The model requires inputs of photosynthetic active radiation (`PAR`), air temper
 
 ## Solving the model
 
-At each time-step, the processes that results in the change in the model states are calculate (i.e., photosynthesis, mortality, respiration, etc.). The process rates are then combined to determine the net rate of change for each model state (i.e., the derivatives).
+At each time step, the processes that result in change in the model states are calculated (i.e., photosynthesis, mortality, respiration, etc.). The process rates are then combined to determine the net rate of change (i.e., the derivative) for each model state.
 
 ```         
   dleaves_dt <- leaf_alloc  - litterfall
@@ -41,7 +42,7 @@ At each time-step, the processes that results in the change in the model states 
   dSOM_dt <- litterfall + mortality - rh
 ```
 
-The net rate of change for each time-step is added to the value of the state at the previous time-step to calculate the update state.
+The net rate of change for each time step is added to the value of the state at the previous time step to calculate the update state.
 
 ```         
   states[, 1] <- states[, 1] + dleaves_dt
@@ -49,19 +50,19 @@ The net rate of change for each time-step is added to the value of the state at 
   states[, 3] <- states[, 3] + dSOM_dt
 ```
 
-This process is repeated at each time-step to create the time-series model output. This method is called the Euler method for solving ordinary differential equations and assumed a constant change in time (dt = 1 day) in each time-step.
+This process is repeated at each time step to create a time series of model output. This method is called the Euler method for solving ordinary differential equations and assumes a constant change in time (dt = 1 day) at each time step.
 
 ## Model as a function
 
-The code below describes the model as a R function. The function predicts one time-step at a time. The same function is found in the `R/forecast_model.R` script in the book repository. The inputs to the function are:
+The code below describes the model as a R function. The function predicts one time step at a time. The same function is found in the `R/forecast_model.R` script in the book repository. The inputs to the function are:
 
 -   `t`: the index of the current model time-step
 
--   `states`: a matrix of the states (rows = ensemble member, columns = state)
+-   `states`: a matrix of the states (rows = ensemble members, columns = states)
 
--   `parms`: a data frame of parameters (rows = ensemble member, columns = parameter)
+-   `parms`: a data frame of parameters (rows = ensemble members, columns = parameters)
 
--   `inputs`: a matrix of drivers (rows = ensemble member, columns = driver)
+-   `inputs`: a matrix of drivers (rows = ensemble members, columns = drivers)
 
 ```{r}
 forest_model <- function(t, states, parms, inputs){
@@ -116,13 +117,13 @@ forest_model <- function(t, states, parms, inputs){
   states[, 2] <- states[, 2] + dwood_dt
   states[, 3] <- states[, 3] + dSOM_dt
   
-  ## Add normally distributed random noise to states
+  ## Add normally distributed random noise to states - WHY? please explain this!
   ## pmax ensures states never goes negative
   states[, 1] <- pmax(rnorm(ens_members, states[, 1] , parms$sigma.leaf), 0)
   states[, 2] <- pmax(rnorm(ens_members, states[, 2], parms$sigma.stem), 0)
   states[, 3] <- pmax(rnorm(ens_members, states[, 3], parms$sigma.soil), 0)
   
-  #Dervived variables (LAI and net ecosystem exchange)
+  #Derived variables (LAI and net ecosystem exchange)
   lai <- states[, 1]  * parms$SLA * 0.1
   nee <- ra + rh - gpp
   
@@ -145,7 +146,7 @@ forest_model <- function(t, states, parms, inputs){
 
 ### Time frame, site id, and number of ensembles
 
-In this chapter, we are running a deterministic simulation (no uncertainty) so we only have one ensemble member. The simulation is for a single NEON site (OSBS). The simulation will run from `2020-09-30` to two days ago.
+In this chapter, we are running a deterministic simulation (no uncertainty) so we only have one ensemble member. The simulation is for a single NEON site (Ordway-Swisher Biological Station; OSBS), which is a longleaf pine ecosystem located in Florida, USA. The simulation will run from `2020-09-30` to two days ago.
 
 ```{r}
 site <- "OSBS"
@@ -155,7 +156,7 @@ sim_dates <- seq(as_date("2020-09-30"), Sys.Date() - lubridate::days(2), by = "1
 
 ### Set drivers
 
-I have provided a custom function to access the weather drivers. You can learn more about the function in the appendix (add link). They are provided in the chapter as a function rather than the full code to avoid unnecessary detraction from the focus on the process model.
+I have provided a custom function to access the weather drivers. You can learn more about the function in the appendix (add link) <!--# remember to add the link! -->. My choice to provide a custom function here rather than writing out the complete code is intentional, to avoid unnecessary distraction from the focus on the process model.
 
 ```{r}
 inputs <- get_historical_met(site = site, sim_dates, use_mean = TRUE)
@@ -173,7 +174,7 @@ ggplot(inputs, aes(x = datetime, y = prediction)) +
 
 ### Set parameters
 
-The model has 10 process parameters and 3 parameters representing the process uncertainty. Each of the parameters is set below to reasonable values. The process uncertainty standard deviations are set to 0.0 since our simulation is deterministic.
+The model has 10 process parameters and 3 parameters representing the process uncertainty <!--# I think the 3 process uc parameters need to be mentioned above where the model function is defined to avoid confusion -->. Each of the parameters is set below to reasonable values. The process uncertainty standard deviations are set to 0.0 since our simulation is deterministic.
 
 ```{r}
 #Set parameters
@@ -196,18 +197,18 @@ params <- as.data.frame(params)
 
 ### Set initial condition
 
-Next we set the starting point of the simulation. All three states need a starting point.
+Next we set the starting point of the simulation. All three states need a starting point. To do this, we create a three-dimensional array to hold the model output, with the dimensions corresponding to: 1) the number of simulated time steps; 2) the number of ensemble members (which in our case is 1 because this simulation is deterministic); and 3) the number of output variables. We then populate the first time step in the output array with the initial condition for each state.
 
 ```{r}
 output <- array(NA, dim = c(length(sim_dates), ens_members, 12)) #12 is the number of output variables (states + fluxes + derived variables)
-output[1, , 1] <- 5
-output[1, , 2] <- 140
-output[1, , 3] <- 140
+output[1, , 1] <- 5 # air temperature; degrees C
+output[1, , 2] <- 140 # PAR; umol/m2/sec
+output[1, , 3] <- 140 # day of year
 ```
 
 ## Run model
 
-Loop over the `sim_dates` vector that includes the dates of the simulation. The loop starts on index of 2 because index of 1 was set as the initial conditions above. The `forest_model` function is the the process model above. Save the output at each time-step to the output array.
+Loop over the `sim_dates` vector that includes the dates of the simulation. The loop starts on index of 2 because index of 1 was set as the initial conditions above. The `forest_model` function is the process model above. At each time step, the output is saved to the output array.
 
 ```{r}
 for(t in 2:length(sim_dates)){
@@ -240,3 +241,7 @@ output_df |>
   facet_wrap(~variable, scale = "free") +
   theme_bw()
 ```
+
+## **Comprehension questions**
+
+\[insert as appropriate/desired; maybe ask students to interpret the model output figure?\]
