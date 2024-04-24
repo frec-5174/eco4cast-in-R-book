@@ -81,7 +81,7 @@ The particle filter is quite simple
 ```         
 ## calculate likelihood (weight) for one state with an observation at that time-step
 ## The dimensiosn of x
-wt <- dnorm(y[t], mean = x[t, ], sd = sd_data)
+wt <- dnorm(obs[t], mean = x[t, ], sd = sd_data)
 
 # Normalize the weights
 wt_norm <- wt / sum(wt)
@@ -434,7 +434,7 @@ r_mean <- 0.04 #0.025
 r_sd <- 0.01
 
 x <- array(NA, dim = c(num_time_steps, num_particles))
-x[1, ] <- rnorm(num_particles, y[1], sd = sd_init)
+x[1, ] <- rnorm(num_particles, obs[1], sd = sd_init)
 
 r <- array(NA, dim = c(num_time_steps, num_particles))
 r[1, ] <- rnorm(num_particles, mean = r_mean, sd = r_sd)
@@ -523,7 +523,7 @@ The number of particles is a key decision when using a PF. To explore the sensit
 bootstrap_pf <- function(num_particles, sd_add = 0.005, sd_obs = 0.01){
   
   x <- array(NA, dim = c(num_time_steps, num_particles))
-  x[1, ] <- rnorm(num_particles, y[1], sd = sd_init)
+  x[1, ] <- rnorm(num_particles, obs[1], sd = sd_init)
   
   r <- array(NA, dim = c(num_time_steps, num_particles))
   r[1, ] <- rnorm(num_particles, mean = r_mean, sd = r_sd)
