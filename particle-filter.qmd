@@ -14,18 +14,18 @@ Before beginning the introduction of the particle filter it is important to revi
 ```         
 for(i in 1:num_iterations){
 
-    Choose new parameters based on previous parameters
+Choose new parameters based on previous parameters
 
-    for(t in 1:length_of_time_series){
-    
-      Make predictions over full time series
-    
-    }
-    
-    Calculate likelihood of data given model and current parameters
-    Calculate probability of priors given current parameters
-    
-    Accept or reject parameters
+for(t in 1:length_of_time_series){
+
+Make predictions over full time series
+
+}
+
+Calculate likelihood of data given model and current parameters
+Calculate probability of priors given current parameters
+
+Accept or reject parameters
 
 }
 ```
@@ -48,17 +48,17 @@ Calculate prior distribution of parameters
 
 for(t in 1:length_of_time_series){
 
-    for(i in 1:num_of_particles){
-    
-      Make predictions for each particle based on previous value for particle
-    
-    }
-    
-    Compare particle to data (likelihood or other technique)
+for(i in 1:num_of_particles){
 
-    Weight particles based on the comparsion to the data
-    
-    Adjust particles based on weights
+Make predictions for each particle based on previous value for particle
+
+}
+
+Compare particle to data (likelihood or other technique)
+
+Weight particles based on the comparsion to the data
+
+Adjust particles based on weights
 
 }
 ```
@@ -79,20 +79,20 @@ The particle filter is quite simple
 4.  If there are observations at the time-step, resample the particles using the likelihood as the weights (don't forget to exponentiate the likelihood if you logged it in #3, the weights must be probabilities rather than log probabilities). The weighted sampling, with replacement, will randomly pick the more likely particles more often. You will keep the same number of particles but the values for each particle will change. Less likely particles will be replaced with more likely particles (though the less likelihood particles can still be selected). Be sure to resample all states together and, if also estimating parameters, the parameters as well. The key to resampling is the following:
 
 ```         
-  ## calculate likelihood (weight) for one state with an observation at that time-step
-  ## The dimensiosn of x
-  wt <- dnorm(y[t], mean = x[t, ], sd = sd_data)
-  
-  # Normalize the weights
-  wt_norm <- wt / sum(wt)
-  
-  ## resample ensemble members in proportion to their weight.  
-  ## Since the total number of samples = the number of particles then you will preserve the 
-  ## Same number of particles
-  resample_index <- sample(1:num_particles, num_particles, replace = TRUE, prob = wt_norm) 
-  
-  ##Use the index to resample
-  x[t, ] <- x[t, resample_index]
+## calculate likelihood (weight) for one state with an observation at that time-step
+## The dimensiosn of x
+wt <- dnorm(y[t], mean = x[t, ], sd = sd_data)
+
+# Normalize the weights
+wt_norm <- wt / sum(wt)
+
+## resample ensemble members in proportion to their weight.  
+## Since the total number of samples = the number of particles then you will preserve the 
+## Same number of particles
+resample_index <- sample(1:num_particles, num_particles, replace = TRUE, prob = wt_norm) 
+
+##Use the index to resample
+x[t, ] <- x[t, resample_index]
 ```
 
 4.  Continue to next time step.
@@ -103,29 +103,27 @@ Specifically we refer to the particle filter described above as a bootstrap part
 
 ## Example of Particle Filter
 
-Here is an example of the particle filter applied to the [Google Flu data](https://en.wikipedia.org/wiki/Google_Flu_Trends), although the project has since been stopped by Google due to [accuracy issues](https://www.science.org/doi/abs/10.1126/science.1248506). However, it is still a good dataset for our illustrative purposes The exercises from Mike Dietze's Ecological Forecasting book also use Google Flu data.
+Here is an example of the particle filter applied to canopy greenness data at a NEON site.  Canopy greenness is the relative greenness of a photograph take by a camera located above the vegetation canopy (called a phenocam).  Greenness is qualified using the 90% percentile of the daily GCC (GCC = green / (green + red + blue)), called the gcc_90.  gcc_90 measures spring changes in vegetation.  
 
-First load in data. We are only going to focus on the first 15 weeks of the data so that you can see the particles more easily
+First load in data. We are only going to focus on the 13 weeks of the data at a single site (CPER).
 
 ```{r}
 #| warning: false
-gflu <- read_csv("data/gflu_data.txt", skip = 11, show_col_types = FALSE) %>% 
-  select(Date, Virginia) |> 
-  mutate(Date = as.Date(Date))
-         
-         
-gflu <- gflu[1:15, ]
+library(tidyverse)
+df <- read_csv("https://sdsc.osn.xsede.org/bio230014-bucket01/challenges/targets/project_id=neon4cast/duration=P1D/phenology-targets.csv.gz", show_col_types = FALSE) |>
+  filter(variable == "gcc_90" & site_id == "CPER",
+         datetime > as_date("2023-04-01") & datetime < as_date("2023-06-30"),
+         wday(datetime) == 1)
 ```
 
-@fig-glu-va shows the data for Virginia
+@fig-glu-va shows the data for CPER
 
 ```{r}
-#| fig-cap: Google flu data for Virginia
+#| fig-cap: Greeness from phenocam data at CPER
 #| label: fig-glu-va
-ggplot(data = gflu, aes(x = Date, y = log(Virginia))) +
-  geom_line() +
+ggplot(df, aes(x = datetime, y = observation)) +
   geom_point() +
-  labs(x = "Date", y = "Log(flu cases)", title = "Virginia Google Flu Trends") +
+  labs(x = "Datetime", y = "gcc 90", title = "Canopy greenness") +
   theme_bw()
 ```
 
@@ -144,19 +142,18 @@ The key decision is the `num_particles`. More is always better but it comes at a
 ```{r}
 num_particles <- 25
 
-y <- log(gflu$Virginia)
+obs <- df$observation
 
-num_time_steps <- length(y)
+num_time_steps <- length(obs)
 
 #This sets all the observations to NA after the first
-y[2:num_time_steps] <- NA
+obs[2:num_time_steps] <- NA
 
-sd_init <- 0.5
-sd_add <- 0.2
-sd_obs <- 0.2
+sd_add <- 0.005
+sd_obs <- 0.01
 
 x <- array(NA, dim = c(num_time_steps, num_particles))
-x[1, ] <- rnorm(num_particles, mean = y[1], sd = sd_obs)
+x[1, ] <- rnorm(num_particles, mean = obs[1], sd = sd_obs)
 
 x_prior <- x 
 x_prior[1, ] <- x[1, ]
@@ -171,10 +168,10 @@ for(t in 2:num_time_steps){
   x_prior[t, ] <- x[t, ]
   
   ## analysis step
-  if(!is.na(y[t])){ 
+  if(!is.na(obs[t])){ 
     
     ## calculate Likelihood (weights)
-    wt <- dnorm(y[t], mean = x[t, ], sd = sd_obs)    
+    wt <- dnorm(obs[t], mean = x[t, ], sd = sd_obs)    
     ## calculate likelihood (weight)
     
     wt_norm <- wt / sum(wt)
@@ -194,13 +191,13 @@ for(t in 2:num_time_steps){
 #| fig-cap: Results of the particle filter with each particle shown
 #| label: fig-parts-alone
 
- tibble(time = 1:num_time_steps,
+tibble(time = df$datetime,
        as_tibble(x)) %>% 
   pivot_longer(cols = -time, names_to = "ensemble", values_to = "x") |> 
   #mutate(x = exp(x)) |> 
   ggplot(aes(x = time, y = x, group = factor(ensemble))) +
   geom_line() +
-  labs(x = "Date", y = "log(Flu cases)", title = "State of Virginia") +
+  labs(x = "Datetime", y = "gcc 90", title = "Canopy greenness") +
   theme_bw()
 ```
 
@@ -215,22 +212,10 @@ x_no_obs <- x
 Now we can examine how the PF uses observations to update the model and modify the trajectory. The following is the same as above except that there are data at week 1, 5, and 10.
 
 ```{r}
-num_particles <- 25
-
-y <- log(gflu$Virginia)
-
-num_time_steps <- length(y)
-
-#This sets all the observations to NA after the first, fifth and tenth
-y[2:num_time_steps] <- NA
-y[c(5, 10)] <- log(gflu$Virginia)[c(5, 10)]
-
-sd_init <- 0.5
-sd_add <- 0.2
-sd_obs <- 0.2
+obs[c(5, 10)] <- df$observation[c(5, 10)]
 
 x <- array(NA, dim = c(num_time_steps, num_particles))
-x[1, ] <- rnorm(num_particles, mean = y[1], sd = sd_obs)
+x[1, ] <- rnorm(num_particles, mean = obs[1], sd = sd_obs)
 
 x_prior <- x 
 x_prior[1, ] <- x[1, ]
@@ -243,19 +228,20 @@ for(t in 2:num_time_steps){
   }
   
   x_prior[t, ] <- x[t, ]
- 
+  
   ## analysis step
-  if(!is.na(y[t])){ 
-
-      ## calculate Likelihood (weights)
-      wt <- dnorm(y[t], mean = x[t, ], sd = sd_obs)    ## calculate likelihood (weight)
-      
-      wt_norm <- wt / sum(wt)
-      
-      ## resample ensemble members in proportion to their weight
-      resample_index <- sample(1:num_particles, num_particles, replace = TRUE, prob = wt_norm) 
-      
-      x[t, ] <- x[t, resample_index]  ## update state
+  if(!is.na(obs[t])){ 
+    
+    ## calculate Likelihood (weights)
+    wt <- dnorm(obs[t], mean = x[t, ], sd = sd_obs)    ## calculate likelihood (weight)
+    
+    wt_norm <- wt / sum(wt)
+    
+    ## resample ensemble members in proportion to their weight
+    resample_index <- sample(1:num_particles, num_particles, replace = TRUE, prob = wt_norm) 
+    
+    x[t, ] <- x[t, resample_index]  ## update state
+    
   }
 }
 ```
@@ -267,12 +253,12 @@ for(t in 2:num_time_steps){
 #| fig-cap: Results of the particle filter with each particle shown. Observations are included
 #| label: fig-sim-prior-post2
 
-tibble(time = 1:num_time_steps,
+tibble(time = df$datetime,
        as_tibble(x)) %>% 
   pivot_longer(cols = -time, names_to = "ensemble", values_to = "x") |> 
   ggplot(aes(x = time, y = x, group = factor(ensemble))) +
   geom_line() +
-  labs(x = "Date", y = "log(Flu cases)", title = "State of Virginia") +
+  labs(x = "Datetime", y = "gcc 90", title = "Canopy greenness") +
   theme_bw()
 ```
 
@@ -282,24 +268,24 @@ Save the output as a different object to compare to other PF simulations
 x_with_obs <- x
 ```
 
-Now we can compare the influence of data assimilation on the last 5 weeks of the time-series (think of this as a 5-week forecast)
+Now we can compare the influence of data assimilation on the last 3 weeks of the time-series (think of this as a 3-week forecast)
 
 ```{r}
 #| warning: false
 
-no_obs <- tibble(time = gflu$Date,
+no_obs <- tibble(time = df$datetime,
                  as_tibble(x_no_obs)) %>% 
   pivot_longer(cols = -c("time"), names_to = "ensemble", values_to = "x") %>% 
   mutate(type = "no obs")
 
-with_obs <- tibble(time = gflu$Date,
+with_obs <- tibble(time = df$datetime,
                    as_tibble(x_with_obs)) %>% 
   pivot_longer(cols = -c("time"), names_to = "ensemble", values_to = "x") %>% 
   mutate(type = "with obs")
 
 combined <- bind_rows(no_obs, with_obs)
 
-gflu$obs_in_fit <- y
+df$obs_in_fit <- obs
 
 combined %>% 
   group_by(time, type) %>% 
@@ -309,9 +295,9 @@ combined %>%
   ggplot(aes(x = time, y = mean)) +
   geom_line(aes(color = type)) +
   geom_ribbon(aes(ymin = lower, ymax = upper, color = type, fill = type), alpha = 0.2) +
-  geom_point(data = gflu, aes(x = Date, y = log(Virginia)), color = "red") +
-  geom_point(data = gflu, aes(x = Date, y = obs_in_fit), color = "black") +
-  labs(x = "Date", y = "log(flu cases)", title = "Google Flu Trends for Virginia") +
+  geom_point(data = df, aes(x = datetime, y = observation), color = "red") +
+  geom_point(data = df, aes(x = datetime, y = obs_in_fit), color = "black") +
+  labs(x = "Datetime", y = "gcc 90", title = "Canopy greenness") +
   theme_bw()
 ```
 
@@ -329,20 +315,8 @@ The figure below illustrates these Bayesian concepts. In the figure, the ensembl
 #| echo: false
 num_particles <- 2000
 
-y <- log(gflu$Virginia)
-
-num_time_steps <- length(y)
-
-#This sets all the observations to NA after the first
-y[2:num_time_steps] <- NA
-y[c(5, 10)] <- log(gflu$Virginia)[c(5, 10)]
-
-sd_init <- 0.5
-sd_add <- 0.1
-sd_obs <- 0.2
-
 x <- array(NA, dim = c(num_time_steps, num_particles))
-x[1, ] <- rnorm(num_particles, mean = y[1], sd = sd_obs)
+x[1, ] <- rnorm(num_particles, mean = obs[1], sd = sd_obs)
 
 x_prior <- x 
 x_prior[1, ] <- x[1, ]
@@ -355,69 +329,67 @@ for(t in 2:num_time_steps){
   }
   
   x_prior[t, ] <- x[t, ]
- 
+  
   ## analysis step
-  if(!is.na(y[t])){ 
-
-      ## calculate Likelihood (weights)
-      wt <- dnorm(y[t], mean = x[t, ], sd = sd_obs)    ## calculate likelihood (weight)
-      
-      wt_norm <- wt / sum(wt)
-      
-      ## resample ensemble members in proportion to their weight
-      resample_index <- sample(1:num_particles, num_particles, replace = TRUE, prob = wt_norm) 
-      
-      x[t, ] <- x[t, resample_index]  ## update state
+  if(!is.na(obs[t])){ 
+    
+    ## calculate Likelihood (weights)
+    wt <- dnorm(obs[t], mean = x[t, ], sd = sd_obs)    ## calculate likelihood (weight)
+    
+    wt_norm <- wt / sum(wt)
+    
+    ## resample ensemble members in proportion to their weight
+    resample_index <- sample(1:num_particles, num_particles, replace = TRUE, prob = wt_norm) 
+    
+    x[t, ] <- x[t, resample_index]  ## update state
   }
 }
 
 priors <- tibble(time = 1:num_time_steps,
-       as_tibble(x_prior)) %>% 
+                 as_tibble(x_prior)) %>% 
   pivot_longer(cols = -time, names_to = "ensemble", values_to = "x") |> 
   mutate(ensemble = paste0(ensemble,"_prior"),
          simulation = "prior")
 
 post <- tibble(time = 1:num_time_steps,
-       as_tibble(x)) %>% 
+               as_tibble(x)) %>% 
   pivot_longer(cols = -time, names_to = "ensemble", values_to = "x") |> 
   mutate(ensemble = paste0(ensemble,"_posterior"),
          simulation = "posterior") 
 
 combined <- NULL
 for(i in 1:num_time_steps){
-
-df1 <- priors |> 
-  filter(time == i)
-
-prior_hist <- tibble(x = density(df1$x)$y*0.3+i,
-              y = density(df1$x)$x,
-              type = "prior (forecast)",
-              date = i)
-
-
-
-if(!is.na(y[i]) & i > 1){
   
-  df2 <- post |> 
-  filter(time == i)
-
-post_hist <- tibble(x = density(df2$x)$y*0.3+i,
-              y = density(df2$x)$x,
-              type = "posterior (analysis)",
-              date = i)
-
-obs <- rnorm(1000, y[i], sd = sd_obs)
-obs_hist <- tibble(x = density(obs)$y*0.3 + i,
-              y = density(obs)$x,
-              type = "likelihood (data)",
-              date = i)
-}else{
-  obs_hist <- NULL
-  post_hist <- NULL
-}
-
-
-combined <- bind_rows(combined, prior_hist, post_hist, obs_hist)
+  df1 <- priors |> 
+    filter(time == i)
+  
+  prior_hist <- tibble(x = density(df1$x)$y*0.01+i,
+                       y = density(df1$x)$x,
+                       type = "prior (forecast)",
+                       date = i)
+  
+  if(!is.na(obs[i]) & i > 1){
+    
+    df2 <- post |> 
+      filter(time == i)
+    
+    post_hist <- tibble(x = density(df2$x)$y*0.01+i,
+                        y = density(df2$x)$x,
+                        type = "posterior (analysis)",
+                        date = i)
+    
+    obs2 <- rnorm(1000, obs[i], sd = sd_obs)
+    obs_hist <- tibble(x = density(obs2)$y*0.01 + i,
+                       y = density(obs2)$x,
+                       type = "likelihood (data)",
+                       date = i)
+  }else{
+    obs_hist <- NULL
+    post_hist <- NULL
+  }
+  
+  
+  combined <- bind_rows(combined, prior_hist, post_hist, obs_hist)
 }
 
 combined$type <- factor(combined$type, levels = c("prior (forecast)", "likelihood (data)", "posterior (analysis)"))
@@ -429,102 +401,78 @@ combined$type <- factor(combined$type, levels = c("prior (forecast)", "likelihoo
 #| label: fig-sim-prior-post3
 #| 
 combined |> 
-  ggplot(aes(x = x, y = y, color = type, group = date)) + 
+ggplot(aes(x = x, y = y, color = type, group = date)) + 
   geom_point(size = 0.4) + 
-  labs(x = "Day", y = "log(flu cases)") +
+  labs(x = "Datetime", y = "gcc 90", title = "Canopy greenness") +
   theme_bw()
 ```
 
 ### PF with parameter estimation
 
-The estimate of parameters using a PF is also straightforward. Here we will estimate the `b1` parameter in a Dynamic Linear Model (DLM). The DLM uses minimum temperature as a covariate.
+The estimate of parameters using a PF is also straightforward. Here we model the change in gcc_90 using an equation with a growth term included.  The growth rate is highest for a defined day of the year (doy) with a bell shape around that doy.  
 
-First, create the observed data that includes the minimum temperature. (same as above and using the `daymetr` package from the previous exercise)
-
-```{r}
-#| warning: false
-
-gflu <- read_csv("data/gflu_data.txt", skip = 11, show_col_types = FALSE)  %>% 
-  select(Date, Virginia) |> 
-  mutate(Date = as.Date(Date))
-
-
-df <- daymetr::download_daymet(site = "Blacksburg",
-                               lat = 37.22,
-                               lon = -80.41,
-                               start = 2003,
-                               end = 2016,
-                               internal = TRUE)$data
-
-df$date <- as.Date(paste(df$year,df$yday,sep = "-"),"%Y-%j")
-Tmean <- mean(df$tmin..deg.c.)
-gflu$Tmin <- df$tmin..deg.c.[match(gflu$Date,df$date)] - Tmean
-
-gflu <- gflu[1:15, ]
+```
+x[t-1, m] + r[t, m] * exp(-(1 / (2 * b)) * (doy[t] - a)^2)
 ```
 
-Now modify the PF with the DLM model instead of the random walk. This should be familiar to you.
+The values for `a` (the peak doy) and `b` (the width of the bell shape) are provided.  
 
-The values for `b0`, `b2`, and `sd_add` are the mean values from the prior model calibration.
-
-We are estimating `b1` (the sensitivity to minimum temperature). Just like we need to initialize the states at the first time step, we will initialize the distribution of the b1 at the first time step using a normal distribution with a `mean = b1_mean` and `sd = b1_sd`. This were the mean an sd of b1 from the MCMC chain in the previous assignment.
+We are estimating `r`, (the maximum growth rate). Just like we need to initialize the states at the first time step, we will initialize the distribution of the b1 at the first time step using a normal distribution with a `mean = r_mean` and `sd = r_sd`.
 
 ```{r}
-y <- log(gflu$Virginia)
 num_particles <- 25
-num_time_steps <- length(y)
+obs <- rep(NA, length(df$observation))
+obs[1] <- df$observation[1]
+obs[c(5, 7, 10)] <- df$observation[c(5, 7, 10)]
 
-y[2:num_time_steps] <- NA
-y[c(5, 10)] <- log(gflu$Virginia)[c(5, 10)]
+sd_add <- 0.005
+sd_obs <- 0.01
 
-sd_init <- 0.5
-sd_add <- 0.130144
-sd_obs <- 0.2
-
-b0 <- 0.482462
-b2 <- -0.063887
-b1_mean <- -0.002479
-b1_sd <- 0.01
+a <- 141
+b <- 30
+r_mean <- 0.04 #0.025
+r_sd <- 0.01
 
 x <- array(NA, dim = c(num_time_steps, num_particles))
 x[1, ] <- rnorm(num_particles, y[1], sd = sd_init)
 
-b1 <- array(NA, dim = c(num_time_steps, num_particles))
-b1[1, ] <- rnorm(num_particles, mean = b1_mean, sd = b1_sd)
+r <- array(NA, dim = c(num_time_steps, num_particles))
+r[1, ] <- rnorm(num_particles, mean = r_mean, sd = r_sd)
 
-Tmin <- gflu$Tmin
+doy <- yday(df$datetime)
 ```
 
-Now run the PF with the DLM model. You need to also carry through the values for b1.
+Now run the PF with the model. You need to also carry through the values for `r`.
 
-Importantly, the distribution of b1 carries through from the previous time-step. When there is an observation, b1 is resampled using the same index that the states are resampled. This ensures that the parameters match the states from the same particle.
+Importantly, the distribution of `r` carries through from the previous time-step. When there is an observation, `r` is resampled using the same index that the states are resampled. This ensures that the parameters match the states from the same particle.
 
 ```{r}
-
 for(t in 2:num_time_steps){
   
-  ## The new 
   for(m in 1:num_particles){
     
-    pred <- x[t-1, m] + b0 + b1[t-1, m] * Tmin[t] + b2*x[t-1, m]
-    
+    r[t, m] <- r[t-1, m]
+    pred <- x[t-1, m] + r[t, m] * exp(-(1 / (2 * b)) * (doy[t] - a)^2)
     x[t, m ] <- pred + rnorm(1, mean = 0, sd = sd_add)
-    b1[t, m] <- b1[t-1, m]
+    
   }
   
   ## analysis step
-  if(!is.na(y[t])){
+  if(!is.na(obs[t])){
     
     ## calculate Likelihood (weights)
-    wt <- dnorm(y[t], mean = x[t, ], sd = sd_obs)    ## calculate likelihood (weight)
+    wt <- dnorm(obs[t], mean = x[t, ], sd = sd_obs)    ## calculate likelihood (weight)
     
     wt_norm <- wt / sum(wt)
     
     ## resample ensemble members in proportion to their weight
-    resample_index <- sample(1:num_particles, num_particles, replace = TRUE, prob = wt_norm) 
-
+    resample_index <- sample(1:num_particles, 
+                             num_particles, 
+                             replace = TRUE, 
+                             prob = wt_norm) 
+    
     x[t, ] <- x[t, resample_index]  ## update state
-    b1[t, ] <- b1[t, resample_index] ## Parameter update
+    r[t, ] <- r[t, resample_index] ## Parameter update
   }
 }
 ```
@@ -536,14 +484,14 @@ for(t in 2:num_time_steps){
 #| fig-cap: Results of the particle filter when parameter fitting is included
 #| label: fig-pf-parameters
 
-tibble(time = 1:num_time_steps,
-       obs = y,
+tibble(time = df$datetime,
+       obs = obs,
        as_tibble(x)) %>% 
-  pivot_longer(cols = -c(time,obs), names_to = "ensemble", values_to = "x") %>% 
+  pivot_longer(cols = -c(time, obs), names_to = "ensemble", values_to = "x") %>% 
   ggplot() +
   geom_line(aes(x = time, y = x, group = factor(ensemble))) +
   geom_point(aes(x = time, y = obs), color = "red") +
-  labs(x = "Date", y = "log(flu cases)", title = "State of Virginia") +
+  labs(x = "Datetime", y = "gcc 90", title = "Canopy greenness") +
   theme_bw()
 ```
 
@@ -558,62 +506,46 @@ And visualize the time-evolution of the parameter (@fig-parameter-timeseries). T
 #| fig-cap: Timing evolution of the parameters
 #| label: fig-parameter-timeseries
 
-tibble(time = 1:num_time_steps,
-       as_tibble(b1)) %>% 
-  pivot_longer(cols = -c(time), names_to = "ensemble", values_to = "b1") %>% 
+tibble(time = df$datetime,
+       as_tibble(r)) %>% 
+  pivot_longer(cols = -c(time), names_to = "ensemble", values_to = "r") %>% 
   ggplot() +
-  geom_line(aes(x = time, y = b1, group = factor(ensemble))) +
-  labs(x = "Date", y = "B1", title = "State of Virginia") +
+  geom_line(aes(x = time, y = r, group = factor(ensemble))) +
+  labs(x = "datetime", y = "value", title = "Parameter values for r") +
   theme_bw()
 ```
 
 ### Sensitivity to number of particles
 
-The number of particles is a key decision when using a PF. To explore the sensitivity of the PF to the number of particles, here is a function that can be reused with different numbers of particles. It is the same as the DLM above and returns the x and b1 for the particles in a list.
+The number of particles is a key decision when using a PF. To explore the sensitivity of the PF to the number of particles, here is a function that can be reused with different numbers of particles. It is the same as the dynamic model above and returns the `r` and `r` for the particles in a list.
 
 ```{r}
-bootstrap_pf <- function(num_particles, sd_add = 0.2, sd_obs = 0.2){
-  y <- log(gflu$Virginia)
-  num_time_steps <- length(y)
-  
-  y[2:num_time_steps] <- NA
-  y[c(5, 10)] <- log(gflu$Virginia)[c(5, 10)]
-  
-  sd_init <- 0.5
-
-  b0 <- 0.482462
-  b2 <- -0.063887
-  b1_mean <- -0.002479
-  b1_sd <- 0.01
-  sd_add <- 0.130144
+bootstrap_pf <- function(num_particles, sd_add = 0.005, sd_obs = 0.01){
   
   x <- array(NA, dim = c(num_time_steps, num_particles))
+  x[1, ] <- rnorm(num_particles, y[1], sd = sd_init)
   
-  x[1, ] <- rnorm(num_particles, mean = y[1], sd = sd_init)
-  
-  b1 <- array(NA, dim = c(num_time_steps, num_particles))
-  b1[1, ] <- rnorm(num_particles, b1_mean, sd = b1_sd)
-  
-  Tmin <- gflu$Tmin
+  r <- array(NA, dim = c(num_time_steps, num_particles))
+  r[1, ] <- rnorm(num_particles, mean = r_mean, sd = r_sd)
   
   ### resampling bootstrap particle filter
   
   for(t in 2:num_time_steps){
     
-    ## forward step
+    ## The new 
     for(m in 1:num_particles){
       
-      pred <- x[t-1, m] + b0 + b1[t-1, m] * Tmin[t] + b2*x[t-1, m]
-      
+      r[t, m] <- r[t-1, m]
+      pred <- x[t-1, m] + r[t, m] * exp(-(1 / (2 * b)) * (doy[t] - a)^2)
       x[t, m ] <- pred + rnorm(1, mean = 0, sd = sd_add)
-      b1[t, m] <- b1[t-1, m]
+      
     }
     
     ## analysis step
-    if(!is.na(y[t])){
+    if(!is.na(obs[t])){
       
-      ## calulate Likelihood (weights)
-      wt <- dnorm(y[t], mean = x[t, ], sd = sd_obs)    ## calculate likelihood (weight)
+      ## calculate Likelihood (weights)
+      wt <- dnorm(obs[t], mean = x[t, ], sd = sd_obs)    ## calculate likelihood (weight)
       
       wt_norm <- wt / sum(wt)
       
@@ -621,42 +553,37 @@ bootstrap_pf <- function(num_particles, sd_add = 0.2, sd_obs = 0.2){
       resample_index <- sample(1:num_particles, num_particles, replace = TRUE, prob = wt_norm) 
       
       x[t, ] <- x[t, resample_index]  ## update state
-      b1[t, ] <- b1[t, resample_index] ## Parameter update
+      r[t, ] <- r[t, resample_index] ## Parameter update
     }
   }
-  return(list(x = x, b1 = b1))
+  return(list(x = x, r = r))
 }
 ```
 
-First, run the PF using 10, 100, 1000, and 10000 particles
+First, run the PF using 10, 100, and 1000 particles
 
 ```{r}
 pf_10 <- bootstrap_pf(10)
 pf_100 <- bootstrap_pf(100)
 pf_1000 <- bootstrap_pf(1000)
-pf_10000 <- bootstrap_pf(10000)
 
-p10 <- tibble(time = gflu$Date,
-       as_tibble(pf_10$x)) %>% 
+p10 <- tibble(time = df$datetime,
+              as_tibble(pf_10$x)) %>% 
   pivot_longer(cols = -c("time"), names_to = "ensemble", values_to = "x") %>% 
   mutate(type = "pf_10")
 
-p100 <- tibble(time = gflu$Date,
-       as_tibble(pf_100$x)) %>% 
+p100 <- tibble(time = df$datetime,
+               as_tibble(pf_100$x)) %>% 
   pivot_longer(cols = -c("time"), names_to = "ensemble", values_to = "x") %>% 
   mutate(type = "pf_100")
 
-p1000 <- tibble(time = gflu$Date,
-       as_tibble(pf_1000$x)) %>% 
+p1000 <- tibble(time = df$datetime,
+                as_tibble(pf_1000$x)) %>% 
   pivot_longer(cols = -c("time"), names_to = "ensemble", values_to = "x") %>% 
   mutate(type = "pf_1000")
 
-p10000 <- tibble(time = gflu$Date,
-       as_tibble(pf_10000$x)) %>% 
-  pivot_longer(cols = -c("time"), names_to = "ensemble", values_to = "x") %>% 
-  mutate(type = "pf_10000")
 
-gflu$obs_in_fit <- y
+df$obs_in_fit <- obs
 ```
 
 And combine to a single plot (@fig-pf-num-sens). You see the width of the 95% confidence interval increases substantially from 10 to 1000 particles but then is similar from 1000 to 10000. This reflects what we learned from the very first exercise where you drew random samples from a distribution and found that between 1000 and 10000 random samples were required to approximate the distribution well.
@@ -665,7 +592,7 @@ And combine to a single plot (@fig-pf-num-sens). You see the width of the 95% co
 #| warning: false
 #| fig-cap: Sensitivity of predictions to different number of particles
 #| label: fig-pf-num-sens
-bind_rows(p10, p100, p1000, p10000) %>% 
+bind_rows(p10, p100, p1000) %>% 
   group_by(time, type) %>% 
   summarise(mean = mean(x),
             upper = quantile(x, 0.975),
@@ -673,9 +600,9 @@ bind_rows(p10, p100, p1000, p10000) %>%
   ggplot(aes(x = time, y = mean)) +
   geom_line(aes(color = type)) +
   geom_ribbon(aes(ymin = lower, ymax = upper, color = type, fill = type), alpha = 0.2) +
-  geom_point(data = gflu, aes(x = Date, y = log(Virginia)), color = "red") +
-  geom_point(data = gflu, aes(x = Date, y = obs_in_fit), color = "black") +
-  labs(x = "Date", y = "log(flu cases)", title = "Google Flu Trends for Virginia") +
+  geom_point(data = df, aes(x = datetime, y = observation), color = "red") +
+  geom_point(data = df, aes(x = datetime, y = obs_in_fit), color = "black") +
+  labs(x = "Datetime", y = "gcc 90", title = "Canopy greenness") +
   theme_bw()
 
 ```
@@ -687,21 +614,21 @@ We can also explore the sensitivity of the PF to observation uncertainty. Intuit
 ```{r}
 #| warning: false
 
-pf_low_obs <- bootstrap_pf(5000, sd_obs = 0.1)
+pf_low_obs <- bootstrap_pf(5000, sd_obs = 0.001)
 
-pf_high_obs <- bootstrap_pf(5000, sd_obs = 0.5)
+pf_high_obs <- bootstrap_pf(5000, sd_obs = 0.1)
 
-pf_low <- tibble(time = gflu$Date,
-       as_tibble(pf_low_obs$x)) %>% 
+pf_low <- tibble(time = df$datetime,
+                 as_tibble(pf_low_obs$x)) %>% 
   pivot_longer(cols = -c("time"), names_to = "ensemble", values_to = "x") %>% 
   mutate(type = "low obs uncertainity")
 
-pf_high <- tibble(time = gflu$Date,
-       as_tibble(pf_high_obs$x)) %>% 
+pf_high <- tibble(time = df$datetime,
+                  as_tibble(pf_high_obs$x)) %>% 
   pivot_longer(cols = -c("time"), names_to = "ensemble", values_to = "x") %>% 
   mutate(type = "high obs uncertainity")
 
-gflu$obs_in_fit <- y
+df$obs_in_fit <- obs
 ```
 
 Does @fig-pf-obs-sens match your intuition?
@@ -718,9 +645,9 @@ bind_rows(pf_low, pf_high) %>%
   ggplot(aes(x = time, y = mean)) +
   geom_line(aes(color = type)) +
   geom_ribbon(aes(ymin = lower, ymax = upper, color = type, fill = type), alpha = 0.2) +
-  geom_point(data = gflu, aes(x = Date, y = log(Virginia)), color = "red") +
-  geom_point(data = gflu, aes(x = Date, y = obs_in_fit), color = "black") +
-  labs(x = "Date", y = "log(flu cases)", title = "Google Flu Trends for Virginia") +
+  geom_point(data = df, aes(x = datetime, y = observation), color = "red") +
+  geom_point(data = df, aes(x = datetime, y = obs_in_fit), color = "black") +
+  labs(x = "Datetime", y = "gcc 90", title = "Canopy greenness") +
   theme_bw()
 
 ```
