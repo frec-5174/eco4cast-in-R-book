@@ -395,7 +395,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#simulation-with-posterior-parameter-distributions" id="toc-simulation-with-posterior-parameter-distributions" class="nav-link" data-scroll-target="#simulation-with-posterior-parameter-distributions"><span class="header-section-number">18.2.2</span> Simulation with posterior parameter distributions</a></li>
   <li><a href="#visualize-influence-of-optimization" id="toc-visualize-influence-of-optimization" class="nav-link" data-scroll-target="#visualize-influence-of-optimization"><span class="header-section-number">18.2.3</span> Visualize influence of optimization</a></li>
   <li><a href="#save-posteriors-for-future-use" id="toc-save-posteriors-for-future-use" class="nav-link" data-scroll-target="#save-posteriors-for-future-use"><span class="header-section-number">18.2.4</span> Save posteriors for future use</a></li>
-  <li><a href="#to-do" id="toc-to-do" class="nav-link" data-scroll-target="#to-do"><span class="header-section-number">18.2.5</span> TO DO</a></li>
+  <li><a href="#section" id="toc-section" class="nav-link" data-scroll-target="#section"><span class="header-section-number">18.2.5</span> </a></li>
   </ul></li>
   </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/frec-5174/eco4cast-in-R-book/issues/new" class="toc-action">Report an issue</a></p><p><a href="https://github.com/frec-5174/eco4cast-in-R-book/blob/main/bayesian-process-models.qmd" class="toc-action">View source</a></p></div></div></nav>
@@ -566,7 +566,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>accept <span class="sc">/</span> (num_iter <span class="sc">*</span> num_pars)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.4933333</code></pre>
+<pre><code>[1] 0.4795556</code></pre>
 </div>
 </div>
 <p>Process MCMC chain by removing the first 500 iterations and pivoting to a long format</p>
@@ -712,9 +712,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>  <span class="fu">write_csv</span>(parameter_MCMC, <span class="st">"data/saved_parameter_chain.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="to-do" class="level3" data-number="18.2.5">
-<h3 data-number="18.2.5" class="anchored" data-anchor-id="to-do"><span class="header-section-number">18.2.5</span> TO DO</h3>
-<p>add information about joint distributions and identifiablity</p>
+<section id="section" class="level3" data-number="18.2.5">
+<h3 data-number="18.2.5" class="anchored" data-anchor-id="section"><span class="header-section-number">18.2.5</span> </h3>
 
 
 </section>
