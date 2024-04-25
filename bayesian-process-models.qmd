@@ -303,6 +303,4 @@ The calibrated parameter chains will be used in later chapters.
   write_csv(parameter_MCMC, "data/saved_parameter_chain.csv")
 ```
 
-### TO DO
-
-add information about joint distributions and identifiablity
+### 

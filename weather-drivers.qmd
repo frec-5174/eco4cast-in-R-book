@@ -1,4 +1,4 @@
-# Accessing weather drivers
+# Accessing weather drivers {#sec-driver-functions}
 
 ## "Historical weather"
 

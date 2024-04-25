@@ -133,9 +133,7 @@ First we are going to run the particle filter with all data missing. This is equ
 
 The `sd_add` is the model process uncertainty.
 
-The `sd_obs` is the observation uncertainty.
-
-The `sd_init` sets the initial uncertainty in the model states (you could use the distribution from an observation with observation uncertainty added)
+The `sd_obs` is the observation uncertainty.  It is also used to set the initial condition uncertainity since we start the particle filter on a day with an observation.
 
 The key decision is the `num_particles`. More is always better but it comes at a computational and computer memory cost.
 
@@ -434,7 +432,7 @@ r_mean <- 0.04 #0.025
 r_sd <- 0.01
 
 x <- array(NA, dim = c(num_time_steps, num_particles))
-x[1, ] <- rnorm(num_particles, obs[1], sd = sd_init)
+x[1, ] <- rnorm(num_particles, obs[1], sd = sd_obs)
 
 r <- array(NA, dim = c(num_time_steps, num_particles))
 r[1, ] <- rnorm(num_particles, mean = r_mean, sd = r_sd)
@@ -523,7 +521,7 @@ The number of particles is a key decision when using a PF. To explore the sensit
 bootstrap_pf <- function(num_particles, sd_add = 0.005, sd_obs = 0.01){
   
   x <- array(NA, dim = c(num_time_steps, num_particles))
-  x[1, ] <- rnorm(num_particles, obs[1], sd = sd_init)
+  x[1, ] <- rnorm(num_particles, obs[1], sd = sd_obs)
   
   r <- array(NA, dim = c(num_time_steps, num_particles))
   r[1, ] <- rnorm(num_particles, mean = r_mean, sd = r_sd)
