@@ -402,9 +402,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#identifiablity" id="toc-identifiablity" class="nav-link" data-scroll-target="#identifiablity"><span class="header-section-number">17.4.2</span> Identifiablity</a></li>
   <li><a href="#data-leakage" id="toc-data-leakage" class="nav-link" data-scroll-target="#data-leakage"><span class="header-section-number">17.4.3</span> Data leakage</a></li>
   </ul></li>
-  <li><a href="#priors" id="toc-priors" class="nav-link" data-scroll-target="#priors"><span class="header-section-number">17.5</span> Priors</a></li>
-  <li><a href="#reading" id="toc-reading" class="nav-link" data-scroll-target="#reading"><span class="header-section-number">17.6</span> Reading</a></li>
-  <li><a href="#problem-set" id="toc-problem-set" class="nav-link" data-scroll-target="#problem-set"><span class="header-section-number">17.7</span> Problem Set</a></li>
+  <li><a href="#priors" id="toc-priors" class="nav-link" data-scroll-target="#priors"><span class="header-section-number">17.5</span> Priors</a>
+  <ul class="collapse">
+  <li><a href="#prior-key-points" id="toc-prior-key-points" class="nav-link" data-scroll-target="#prior-key-points"><span class="header-section-number">17.5.1</span> Prior key points</a></li>
+  </ul></li>
+  <li><a href="#additional-bayesian-topics" id="toc-additional-bayesian-topics" class="nav-link" data-scroll-target="#additional-bayesian-topics"><span class="header-section-number">17.6</span> Additional Bayesian topics</a></li>
+  <li><a href="#reading" id="toc-reading" class="nav-link" data-scroll-target="#reading"><span class="header-section-number">17.7</span> Reading</a></li>
+  <li><a href="#problem-set" id="toc-problem-set" class="nav-link" data-scroll-target="#problem-set"><span class="header-section-number">17.8</span> Problem Set</a></li>
   </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/frec-5174/eco4cast-in-R-book/issues/new" class="toc-action">Report an issue</a></p><p><a href="https://github.com/frec-5174/eco4cast-in-R-book/blob/main/bayesian-methods-intro.qmd" class="toc-action">View source</a></p></div></div></nav>
     </div>
@@ -1029,23 +1033,38 @@ P(mean | data) \simeq likelihood \cdot prior
 <li><p>Databases</p></li>
 <li><p>Expert options/survey</p></li>
 </ul>
+<section id="prior-key-points" class="level3" data-number="17.5.1">
+<h3 data-number="17.5.1" class="anchored" data-anchor-id="prior-key-points"><span class="header-section-number">17.5.1</span> Prior key points</h3>
 <p>You may want to consider informed priors if</p>
 <ul>
 <li><p>There are known issues with parameter identifiablity in your model</p></li>
 <li><p>The parameter is a physical constant (like gravity constant)</p></li>
 <li><p>There is considerable prior research on a parameter</p></li>
+<li><p>There are physical constraints to a parameter (e.g., it can’t be a negative value)</p></li>
 </ul>
 <p>You may consider using informed priors if there is a history of using a set of parameter values in previous applications of the model. In this case, be aware of zombie parameters, that is parameters whose values appear from the literature to be known because everyone uses it, but are in fact a relic of a modelers decision in the past that has carried through many model applications without being closely examined. The parameter may be less certain than the literature indicates.</p>
 <p>You may want to consider uninformed priors if</p>
 <ul>
-<li>There is a desire to have the analysis reflect the data only.</li>
+<li>You need a prior for parameter but do not have any information about it.</li>
+<li>There is a desire to have the analysis reflect the data only</li>
 </ul>
 </section>
-<section id="reading" class="level2" data-number="17.6">
-<h2 data-number="17.6" class="anchored" data-anchor-id="reading"><span class="header-section-number">17.6</span> Reading</h2>
 </section>
-<section id="problem-set" class="level2" data-number="17.7">
-<h2 data-number="17.7" class="anchored" data-anchor-id="problem-set"><span class="header-section-number">17.7</span> Problem Set</h2>
+<section id="additional-bayesian-topics" class="level2" data-number="17.6">
+<h2 data-number="17.6" class="anchored" data-anchor-id="additional-bayesian-topics"><span class="header-section-number">17.6</span> Additional Bayesian topics</h2>
+<p>This chapter is a introduction to the concepts and numerical techniques used in Bayesian analysis. There are more advance topics that may be of interest but are not covered here. These include:</p>
+<ul>
+<li><p>State-space modeling: state-space models are used to estimate process uncertainty for dynamic models like the forest model in <a href="process-model.html" class="quarto-xref"><span>Chapter&nbsp;13</span></a>. When estimating process uncertainty using a state-space model, the uncertainty represents the uncertainty that accumulates between time-steps in the model.</p></li>
+<li><p>Hierarchical models: Hierarchical models are used when you want a parameter to vary over time and space but don’t want to estimate unique parameters for every space and time point. Hierarchical models allow for you to estimate a “global” parameter distribution whereby the individual parameters at a site or a point in time are samples from the global distribution. Hierarchical models allow information from one site to help inform parameter values for another site with considering them independent.</p></li>
+<li><p>Packages for posterior estimation: Many packages exist to estimate posteriors in Bayesian models that differ their algorithms, capacities for complex applications, and avialable documentation. These include <a href="https://cran.r-project.org/web/packages/rstan/vignettes/rstan.html">Stan</a>, <a href="https://www.r-bloggers.com/2012/04/getting-started-with-jags-rjags-and-bayesian-modelling/">JAGS</a>, <a href="https://r-nimble.org">Nimble</a>, and <a href="https://greta-stats.org">greta</a>. All packages can solve simple Bayesian problems like the M-M example above. Packages have different strengths for solving more complex problems. Some are also more well-suited for use with custom functions and dynamic models like the forest model in this book.</p></li>
+<li><p>More robust algorithms for estimating posteriors and the use of conjecture priors to speed posterior estimation.</p></li>
+</ul>
+</section>
+<section id="reading" class="level2" data-number="17.7">
+<h2 data-number="17.7" class="anchored" data-anchor-id="reading"><span class="header-section-number">17.7</span> Reading</h2>
+</section>
+<section id="problem-set" class="level2" data-number="17.8">
+<h2 data-number="17.8" class="anchored" data-anchor-id="problem-set"><span class="header-section-number">17.8</span> Problem Set</h2>
 <p>The problem set is located in <code>bayesian_problem_set.qmd</code> in https://github.com/frec-5174/book-problem-sets. You can fork the repository or copy the <a href="https://github.com/frec-5174/book-problem-sets/blob/main/bayesian_problem_set.qmd">code</a> into your own quarto document</p>
 
 
