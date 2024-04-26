@@ -74,7 +74,7 @@ The combined weather drivers with the concept of the look back is shown in the f
   theme_bw()
 ```
 
-The object with yesterday's forecast also has the parameters values.  Load the fixed parameter values and initialize the parameters that are being fit by the particle filter with the values from the analysis. 
+The object with yesterday's forecast also has the parameters values. Load the fixed parameter values and initialize the parameters that are being fit by the particle filter with the values from the analysis.
 
 ```{r}
 params <- analysis$params
@@ -149,7 +149,7 @@ parameter_df <- parameters_to_df(params_weighted, sim_dates, sim_name = "simple_
 
 ```
 
-@fig-step4 is a Visualization of the forecast. The vertical line is where the look back period transitions to the future.
+@fig-step4 is a visualization of the forecast. The vertical line is where the look back period transitions to the future.
 
 ```{r}
 #| echo: false
@@ -212,7 +212,7 @@ neon4cast::submit(file_name, ask = FALSE)
 
 ## Step 5: Repeat Steps 2 - 4
 
-Wait for a day to pass and then use yesterday's analysis today for initial conditions and parameter distributions.  This particular forecast uses GitHub actions to automatically render the book each day and rendering this chapter results in generating, saving, and submitted the latest forecast.
+Wait for a day to pass and then use yesterday's analysis today for initial conditions and parameter distributions. This particular forecast uses GitHub actions to automatically render the book each day and rendering this chapter results in generating, saving, and submitted the latest forecast.
 
 ```{r}
 load("data/PF_analysis_1.Rdata")

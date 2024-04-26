@@ -42,7 +42,7 @@ params$litterfall_start <- rep(200, ens_members)
 params$litterfall_length<- rep(70, ens_members)
 params$mortality <- rep(0.00015, ens_members) #Wood lives about 18 years on average (all trees, branches, roots, course roots)
 params$sigma.leaf <- rep(0.0, ens_members) #0.01 
-params$sigma.stem <- rep(0.0, ens_members) #0.01 ## wood biomass
+params$sigma.wood <- rep(0.0, ens_members) #0.01 ## wood biomass
 params$sigma.soil <- rep(0.0, ens_members)# 0.01
 params <- as.data.frame(params)
 ```
@@ -126,14 +126,14 @@ parameter_df |>
 
 ## Process uncertainty
 
-Process uncertainty arises because all models are simplifications of reality. We can use random noise to capture the dynamics that are missing from the model. The random noise is added to each state at the end of the model time step. The random noise is normally distributed with a mean equal to the model prediction for that time step and the standard deviation equal to the parameters `sigma.leaf` (or leaves), `sigma.stem` (for wood), and `sigma.soil` (SOM). The result is a random walk <!--# is the term random walk previously introduced? --> that is guided by the mean prediction of the process model.
+Process uncertainty arises because all models are simplifications of reality. We can use random noise to capture the dynamics that are missing from the model. The random noise is added to each state at the end of the model time step. The random noise is normally distributed with a mean equal to the model prediction for that time step and the standard deviation equal to the parameters `sigma.leaf` (or leaves), `sigma.wood` (for wood), and `sigma.soil` (SOM). The result is a random walk <!--# is the term random walk previously introduced? --> that is guided by the mean prediction of the process model.
 
-Process uncertainty can be removed by setting the standard deviations equal to 0. Here we add in process uncertainty by setting the standard deviation to a non-zero value. The standard deviations (i.e., the values of `sigma.leaf`, `sigma.stem`, and `sigma.soil`) can be determined using state-space calibration of the ecosystem model. You can learn more about state-space modeling in @dietzeEcologicalForecasting2017
+Process uncertainty can be removed by setting the standard deviations equal to 0. Here we add in process uncertainty by setting the standard deviation to a non-zero value. The standard deviations (i.e., the values of `sigma.leaf`, `sigma.wood`, and `sigma.soil`) can be determined using state-space calibration of the ecosystem model. You can learn more about state-space modeling in @dietzeEcologicalForecasting2017
 
 ```{r}
 new_params <- params
 new_params$sigma.leaf <- rep(0.1, ens_members)
-new_params$sigma.stem <- rep(1, ens_members) #0.01 ## wood biomass
+new_params$sigma.wood <- rep(1, ens_members) #0.01 ## wood biomass
 new_params$sigma.soil <- rep(1, ens_members)# 0.01
 ```
 
@@ -291,34 +291,6 @@ drivers_df |>
   theme_bw()
 ```
 
-## Problem Set <!--# Love this! If you do questions/problem sets for a lot of the chapters, consider formatting them similarly and adopting question naming conventions that differentiate between chapters, similar to figures (e.g., Question 14.1) -->
+## Problem set
 
-### Part 1
-
-Using a data set that combines each of the uncertainty data frames into a single data frame:
-
-```{r}
-combined_df <- bind_rows(parameter_df, process_df, initial_conditions_df, drivers_df)
-```
-
-Answer, with text, code, and plots, the following questions:
-
-1)  One day ahead, what the largest source of uncertainty for a flux (`nee`)? and for a state (`wood`)?
-2)  Ten days ahead, what is the largest source of uncertainty for a flux (`nee`)? and for a state (`wood`)?
-3)  Thirty days ahead, what is the largest source of uncertainty for a flux (`nee`)? and for a state (`wood`)?
-
-To answer the questions above, you will calculate the variance across ensemble members for each uncertainty type for each date. This table can be plotted to visually compare the magnitude of each source of uncertainty.
-
-```{r}
-
-
-```
-
-### Part 2
-
-Using the code above as a guide, create code to estimate uncertainty based on the propagation of all uncertainty sources at the same time (unlike the one-at-a-time approach above). Plot the forecast with the combined uncertainty.
-
-```{r}
-
-
-```
+The problem set is located in `process-model-uncert.qmd` in https://github.com/frec-5174/book-problem-sets. You can fork the repository or copy the [code](https://github.com/frec-5174/book-problem-sets/blob/main/process-model-uncert.qmd) into your own quarto document

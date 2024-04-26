@@ -14,7 +14,18 @@ We use a simple representation of a forest ecosystem that simulates carbon using
 
 ![Conceptual diagram of the forest model](img/model_diagram.png){#fig-process-model fig-align="center"}
 
-Photosynthesis (gross primary productivity; `gpp`) is modeled using a light-use efficiency (LUE) approach. The goal an LUE model is to convert light energy into carbon. First, Photosynthetically Active Radiation (PAR) is converted to absorbed PAR by multiplying by the proportion absorbed by leaf area index (LAI) <!--# this is confusing; do you mean PAR is converted to absorbed PAR by multiplying by 1) the proportion absorbed and 2) by LAI? could you rephrase to: the proportion of PAR that is absorbed by leaves is a function of LAI, where as LAI increases, the proportion of absorbed PAR increases, or something like that?  -->. As LAI increases more light is absorbed. The absorbed PAR is multiplied by a light use efficiency parameter (`alpha`). LAI is determined by multiplying leaf carbon by the specific leaf area parameter (`SLA`). <!--# I think in this section it would be helpful to have a couple of rendered equations for the more complex processes, specifically GPP and Q10, below their corresponding paragraphs; or maybe you could do it in code if you think that is more approachable; or even plot a curve of the function? just something besides text to help students understand how the process works before they get to the code would be good I think -->
+Photosynthesis (gross primary productivity; `gpp`) is modeled using a light-use efficiency (LUE) approach. The goal an LUE model is to convert light energy into carbon. First, Photosynthetically Active Radiation (PAR) is converted to absorbed PAR. Since more PAR is absorbed when more leaves are present, the absorbed PAR increases with LAI. However, due to self-shading there is a diminishing return on PAR absorbed as LAI increasing. The function use looks like the following:
+
+```{r}
+#| echo: false
+tibble(lai = seq(0,8, by = 0.1)) |> 
+  mutate(aPAR = 1 - exp(-0.5 * lai)) |> 
+  ggplot(aes(x = lai, y = aPAR)) +
+  geom_line() +
+  labs(x = "Leaf area index (LAI)", y = "Fraction of PAR absorbed (aPAR)", title = "aPAR = 1 - exp(-0.5 * lai)") +
+  theme_bw()
+```
+The absorbed PAR is multiplied by a light use efficiency parameter (`alpha`) that converts the absorbed PAR to carbon.  LAI is determined by multiplying leaf carbon by the specific leaf area parameter (`SLA`). 
 
 Autotrophic respiration (`ra`) is modeled as a constant proportion of GPP using the `Ra_frac` parameter. Net primary productivity (`npp`) is the carbon that is not used for autotrophic respiration (`gpp - ra`).
 
@@ -24,7 +35,17 @@ Litterfall occurs between a starting day-of-year (`litterfall_start`) and an end
 
 Tree mortality is modeled as a constant proportion of wood (`mortality`) that is lost each day.
 
-Heterotrophic respiration is modeled as a constant proportion of soil carbon (`Rbasal`) that is adjusted by the temperature using a Q10 function <!--# do we assume students know the form of a Q10 function and what it is? otherwise can you provide equation below? --> that is governed by a Q10 parameter (`Q10`)
+Heterotrophic respiration is modeled as a constant proportion of soil carbon (`Rbasal`) that is adjusted by the temperature using a Q10 function that is governed by a Q10 parameter (`Q10`).  The Q10 function represents how much respiration increases per 10 degree C increase in temperature.  A Q10 parameter (`Q10`) of 2 corresponds to a doubling of respiration per 10 degree C increase in temperature.  The Q10 function requires a base temperature (here, 20 degree C) where the function evaluates to 1 and the represent rate equals the rate specified by `Rbasal`.  The Q10 function looks like the following (using a `Q10` of 2):
+
+```{r}
+#| echo: false
+tibble(temp = seq(10,40, by = 0.1)) |> 
+  mutate(scaler = 2 ^ ((temp - 20)/10)) |> 
+  ggplot(aes(x = temp, y = scaler)) +
+  geom_line() +
+  labs(x = "Temperature (C)", y = "Respriation multipler", title = "multiplier = Q10 ^ ((temperature - 20)/10); Q10 = 2") +
+  theme_bw()
+```
 
 The change in leaves at each time step is modeled as leaf allocation - litterfall. The change in wood in each timestep is modeled as wood allocation - mortality. The change in soil carbon in each timestep is modeled as litterfall + mortality - heterotrophic respiration.
 
@@ -32,9 +53,21 @@ Finally, net ecosystem exchange (`nee`) is modeled as `ra + rh - gpp` with negat
 
 The model requires inputs of photosynthetic active radiation (`PAR`), air temperature (`temp`), and day-of-year (`doy`).
 
+## Uncertainty
+
+Uncertainty can be represented in the model through its use of multiple ensemble members and the addition of random noise to each model state at each time step.  The ensemble members can differ in their initial starting point, their parameters, and their meteorological inputs.  The ensembles members are represented in the model code using the vector capacities in R.  For example `states[, 1]` represents all ensemble members (the rows of the state matrix) for state number 3 (the columns of the state matrix).  A similar concept applies to the drivers (`inputs[, 1]`). The parameters (e.g. `parms$alpha`) are vectors with one value for each ensemble member.  
+
+Normally distributed random noise can be added to each state at each time step to represent "process uncertainty" (e.g., uncertainty due to the capacity of the model structure to reproduce the system).  A unique value is drawn for each ensemble member following
+
+```
+rnorm(ens_members, states[, 1] , parms$sigma.leaf)
+```
+
+where the mean of the normal distribution is the predicted value for the state at that time step and the standard deviation (e.g., `parms$sigma.leaf`) control how much noise is added.  `parms$sigma.leaf`, `parms$sigma.wood`, and `parms$sigma.soil` are parameters that are set by the user or estimated from a model calibration.  Setting the sigma parameters to 0 removes the random noise (as done below). See @sec-prop-unc for more details on how uncertainty is represented and propagated through time in the model.
+
 ## Solving the model
 
-At each time step, the processes that result in change in the model states are calculated (i.e., photosynthesis, mortality, respiration, etc.). The process rates are then combined to determine the net rate of change (i.e., the derivative) for each model state.
+At each time step, the processes that result in change in the model states are calculated (i.e., photosynthesis, mortality, respiration, etc.). The process rates are then combined to determine the net rate of change (i.e., the derivative) for each model state.  
 
 ```         
   dleaves_dt <- leaf_alloc  - litterfall
@@ -117,10 +150,10 @@ forest_model <- function(t, states, parms, inputs){
   states[, 2] <- states[, 2] + dwood_dt
   states[, 3] <- states[, 3] + dSOM_dt
   
-  ## Add normally distributed random noise to states - WHY? please explain this!
+  ## Add normally distributed random noise to states
   ## pmax ensures states never goes negative
-  states[, 1] <- pmax(rnorm(ens_members, states[, 1] , parms$sigma.leaf), 0)
-  states[, 2] <- pmax(rnorm(ens_members, states[, 2], parms$sigma.stem), 0)
+  states[, 1] <- pmax(rnorm(ens_members, states[, 1], parms$sigma.leaf), 0)
+  states[, 2] <- pmax(rnorm(ens_members, states[, 2], parms$sigma.wood), 0)
   states[, 3] <- pmax(rnorm(ens_members, states[, 3], parms$sigma.soil), 0)
   
   #Derived variables (LAI and net ecosystem exchange)
@@ -174,7 +207,7 @@ ggplot(inputs, aes(x = datetime, y = prediction)) +
 
 ### Set parameters
 
-The model has 10 process parameters and 3 parameters representing the process uncertainty <!--# I think the 3 process uc parameters need to be mentioned above where the model function is defined to avoid confusion -->. Each of the parameters is set below to reasonable values. The process uncertainty standard deviations are set to 0.0 since our simulation is deterministic.
+The model has 10 process parameters and 3 parameters representing the process uncertainty. Each of the parameters is set below to reasonable values. The process uncertainty standard deviations are set to 0.0 since our simulation is deterministic.
 
 ```{r}
 #Set parameters
@@ -189,9 +222,9 @@ params$litterfall_rate <- rep(1/(2.0*365), ens_members) #Two year leaf lifespan
 params$litterfall_start <- rep(200, ens_members)
 params$litterfall_length<- rep(60, ens_members)
 params$mortality <- rep(0.00015, ens_members) #Wood lives about 18 years on average (all trees, branches, roots, course roots)
-params$sigma.leaf <- rep(0.0, ens_members) #0.01 
-params$sigma.stem <- rep(0.0, ens_members) #0.01 ## wood biomass
-params$sigma.soil <- rep(0.0, ens_members)# 0.01
+params$sigma.leaf <- rep(0.0, ens_members) # leaf carbon process uncertainty
+params$sigma.wood <- rep(0.0, ens_members) # wood carbon process uncertainty
+params$sigma.soil <- rep(0.0, ens_members) #soil carbon process uncertainty
 params <- as.data.frame(params)
 ```
 
@@ -200,7 +233,8 @@ params <- as.data.frame(params)
 Next we set the starting point of the simulation. All three states need a starting point. To do this, we create a three-dimensional array to hold the model output, with the dimensions corresponding to: 1) the number of simulated time steps; 2) the number of ensemble members (which in our case is 1 because this simulation is deterministic); and 3) the number of output variables. We then populate the first time step in the output array with the initial condition for each state.
 
 ```{r}
-output <- array(NA, dim = c(length(sim_dates), ens_members, 12)) #12 is the number of output variables (states + fluxes + derived variables)
+output <- array(NA, dim = c(length(sim_dates), ens_members, 12)) 
+#12 is the number of output variables (states + fluxes + derived variables)
 output[1, , 1] <- 5 # air temperature; degrees C
 output[1, , 2] <- 140 # PAR; umol/m2/sec
 output[1, , 3] <- 140 # day of year
@@ -235,13 +269,20 @@ output_df <- output_to_df(output, sim_dates, sim_name = "baseline")
 #| fig-cap: Output without uncertainty from the process model 
 #| label: fig-determ-output
 output_df |> 
-  filter(variable %in% c("lai", "wood", "som", "nee")) |> 
+  filter(variable %in% c("leaf", "wood", "som", "nee")) |> 
   ggplot(aes(x = datetime)) +
   geom_point(aes(y = prediction, group = ensemble)) +
   facet_wrap(~variable, scale = "free") +
   theme_bw()
 ```
 
-## **Comprehension questions**
+## Problem set
 
-\[insert as appropriate/desired; maybe ask students to interpret the model output figure?\]
+Use the visualization of the simulation above to answer the following questions:
+
+1. Which carbon state is changing the most over the simulation (wood or som). 
+2. Why does wood carbon increase in the summer and decrease over the winter?
+3. Is carbon stored or released by the ecosystem when NEE is negative?  What time of year is NEE positive?
+4. All models are simplifications of the system: What important ecosystem processes are missing from this forest ecosystem model?
+
+

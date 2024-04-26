@@ -45,7 +45,7 @@ forest_model <- function(t, states, parms, inputs){
 
   ## update states
   states[, 1] <- pmax(rnorm(ens_members, states[, 1] , parms$sigma.leaf), 0)
-  states[, 2] <- pmax(rnorm(ens_members, states[, 2], parms$sigma.stem), 0)
+  states[, 2] <- pmax(rnorm(ens_members, states[, 2], parms$sigma.wood), 0)
   states[, 3] <- pmax(rnorm(ens_members, states[, 3], parms$sigma.soil), 0)
 
   #Extra variables

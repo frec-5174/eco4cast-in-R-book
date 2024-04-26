@@ -41,7 +41,7 @@ params$litterfall_start <- rep(250, ens_members)
 params$litterfall_length<- rep(60, ens_members)
 params$mortality <- rep(0.00015, ens_members) #Wood lives about 18 years on average (all trees, branches, roots, course roots)
 params$sigma.leaf <- rep(0.0, ens_members) #0.01 
-params$sigma.stem <- rep(0.0, ens_members) #0.01 ## wood biomass
+params$sigma.wood <- rep(0.0, ens_members) #0.01 ## wood biomass
 params$sigma.soil <- rep(0.0, ens_members)# 0.01
 params <- as.data.frame(params)
 
@@ -219,7 +219,7 @@ params$litterfall_start <- rep(200, ens_members)
 params$litterfall_length<- rep(70, ens_members)
 params$mortality <- rep(0.00015, ens_members) #Wood lives about 18 years on average (all trees, branches, roots, course roots)
 params$sigma.leaf <- rep(0.0, ens_members) #0.01 
-params$sigma.stem <- rep(0.0, ens_members) #0.01 ## wood biomass
+params$sigma.wood <- rep(0.0, ens_members) #0.01 ## wood biomass
 params$sigma.soil <- rep(0.0, ens_members)# 0.01
 params <- as.data.frame(params)
 
