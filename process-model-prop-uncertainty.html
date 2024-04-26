@@ -417,11 +417,7 @@ div.csl-indent {
   <li><a href="#process-uncertainty" id="toc-process-uncertainty" class="nav-link" data-scroll-target="#process-uncertainty"><span class="header-section-number">14.3</span> Process uncertainty</a></li>
   <li><a href="#initial-conditions-uncertainty" id="toc-initial-conditions-uncertainty" class="nav-link" data-scroll-target="#initial-conditions-uncertainty"><span class="header-section-number">14.4</span> Initial conditions uncertainty</a></li>
   <li><a href="#driver-uncertainty" id="toc-driver-uncertainty" class="nav-link" data-scroll-target="#driver-uncertainty"><span class="header-section-number">14.5</span> Driver uncertainty</a></li>
-  <li><a href="#problem-set" id="toc-problem-set" class="nav-link" data-scroll-target="#problem-set"><span class="header-section-number">14.6</span> Problem Set <!--# Love this! If you do questions/problem sets for a lot of the chapters, consider formatting them similarly and adopting question naming conventions that differentiate between chapters, similar to figures (e.g., Question 14.1) --></a>
-  <ul class="collapse">
-  <li><a href="#part-1" id="toc-part-1" class="nav-link" data-scroll-target="#part-1"><span class="header-section-number">14.6.1</span> Part 1</a></li>
-  <li><a href="#part-2" id="toc-part-2" class="nav-link" data-scroll-target="#part-2"><span class="header-section-number">14.6.2</span> Part 2</a></li>
-  </ul></li>
+  <li><a href="#problem-set" id="toc-problem-set" class="nav-link" data-scroll-target="#problem-set"><span class="header-section-number">14.6</span> Problem set</a></li>
   </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/frec-5174/eco4cast-in-R-book/issues/new" class="toc-action">Report an issue</a></p><p><a href="https://github.com/frec-5174/eco4cast-in-R-book/blob/main/process-model-prop-uncertainty.qmd" class="toc-action">View source</a></p></div></div></nav>
     </div>
@@ -479,7 +475,7 @@ div.csl-indent {
 <span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>litterfall_length<span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">70</span>, ens_members)</span>
 <span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>mortality <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fl">0.00015</span>, ens_members) <span class="co">#Wood lives about 18 years on average (all trees, branches, roots, course roots)</span></span>
 <span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>sigma.leaf <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fl">0.0</span>, ens_members) <span class="co">#0.01 </span></span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>sigma.stem <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fl">0.0</span>, ens_members) <span class="co">#0.01 ## wood biomass</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>sigma.wood <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fl">0.0</span>, ens_members) <span class="co">#0.01 ## wood biomass</span></span>
 <span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>sigma.soil <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fl">0.0</span>, ens_members)<span class="co"># 0.01</span></span>
 <span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>params <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(params)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -561,12 +557,12 @@ div.csl-indent {
 </section>
 <section id="process-uncertainty" class="level2" data-number="14.3">
 <h2 data-number="14.3" class="anchored" data-anchor-id="process-uncertainty"><span class="header-section-number">14.3</span> Process uncertainty</h2>
-<p>Process uncertainty arises because all models are simplifications of reality. We can use random noise to capture the dynamics that are missing from the model. The random noise is added to each state at the end of the model time step. The random noise is normally distributed with a mean equal to the model prediction for that time step and the standard deviation equal to the parameters <code>sigma.leaf</code> (or leaves), <code>sigma.stem</code> (for wood), and <code>sigma.soil</code> (SOM). The result is a random walk <!--# is the term random walk previously introduced? --> that is guided by the mean prediction of the process model.</p>
-<p>Process uncertainty can be removed by setting the standard deviations equal to 0. Here we add in process uncertainty by setting the standard deviation to a non-zero value. The standard deviations (i.e., the values of <code>sigma.leaf</code>, <code>sigma.stem</code>, and <code>sigma.soil</code>) can be determined using state-space calibration of the ecosystem model. You can learn more about state-space modeling in <span class="citation" data-cites="dietzeEcologicalForecasting2017">Dietze (<a href="references.html#ref-dietzeEcologicalForecasting2017" role="doc-biblioref">2017</a>)</span></p>
+<p>Process uncertainty arises because all models are simplifications of reality. We can use random noise to capture the dynamics that are missing from the model. The random noise is added to each state at the end of the model time step. The random noise is normally distributed with a mean equal to the model prediction for that time step and the standard deviation equal to the parameters <code>sigma.leaf</code> (or leaves), <code>sigma.wood</code> (for wood), and <code>sigma.soil</code> (SOM). The result is a random walk <!--# is the term random walk previously introduced? --> that is guided by the mean prediction of the process model.</p>
+<p>Process uncertainty can be removed by setting the standard deviations equal to 0. Here we add in process uncertainty by setting the standard deviation to a non-zero value. The standard deviations (i.e., the values of <code>sigma.leaf</code>, <code>sigma.wood</code>, and <code>sigma.soil</code>) can be determined using state-space calibration of the ecosystem model. You can learn more about state-space modeling in <span class="citation" data-cites="dietzeEcologicalForecasting2017">Dietze (<a href="references.html#ref-dietzeEcologicalForecasting2017" role="doc-biblioref">2017</a>)</span></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>new_params <span class="ot">&lt;-</span> params</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>new_params<span class="sc">$</span>sigma.leaf <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fl">0.1</span>, ens_members)</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>new_params<span class="sc">$</span>sigma.stem <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">1</span>, ens_members) <span class="co">#0.01 ## wood biomass</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>new_params<span class="sc">$</span>sigma.wood <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">1</span>, ens_members) <span class="co">#0.01 ## wood biomass</span></span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>new_params<span class="sc">$</span>sigma.soil <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">1</span>, ens_members)<span class="co"># 0.01</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>As an example, <a href="#fig-process-unc" class="quarto-xref">Figure&nbsp;<span>14.3</span></a> shows the distribution in the noise that is added the leaf state at each time step.</p>
@@ -724,24 +720,8 @@ div.csl-indent {
 </div>
 </section>
 <section id="problem-set" class="level2" data-number="14.6">
-<h2 data-number="14.6" class="anchored" data-anchor-id="problem-set"><span class="header-section-number">14.6</span> Problem Set <!--# Love this! If you do questions/problem sets for a lot of the chapters, consider formatting them similarly and adopting question naming conventions that differentiate between chapters, similar to figures (e.g., Question 14.1) --></h2>
-<section id="part-1" class="level3" data-number="14.6.1">
-<h3 data-number="14.6.1" class="anchored" data-anchor-id="part-1"><span class="header-section-number">14.6.1</span> Part 1</h3>
-<p>Using a data set that combines each of the uncertainty data frames into a single data frame:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>combined_df <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(parameter_df, process_df, initial_conditions_df, drivers_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Answer, with text, code, and plots, the following questions:</p>
-<ol type="1">
-<li>One day ahead, what the largest source of uncertainty for a flux (<code>nee</code>)? and for a state (<code>wood</code>)?</li>
-<li>Ten days ahead, what is the largest source of uncertainty for a flux (<code>nee</code>)? and for a state (<code>wood</code>)?</li>
-<li>Thirty days ahead, what is the largest source of uncertainty for a flux (<code>nee</code>)? and for a state (<code>wood</code>)?</li>
-</ol>
-<p>To answer the questions above, you will calculate the variance across ensemble members for each uncertainty type for each date. This table can be plotted to visually compare the magnitude of each source of uncertainty.</p>
-</section>
-<section id="part-2" class="level3" data-number="14.6.2">
-<h3 data-number="14.6.2" class="anchored" data-anchor-id="part-2"><span class="header-section-number">14.6.2</span> Part 2</h3>
-<p>Using the code above as a guide, create code to estimate uncertainty based on the propagation of all uncertainty sources at the same time (unlike the one-at-a-time approach above). Plot the forecast with the combined uncertainty.</p>
+<h2 data-number="14.6" class="anchored" data-anchor-id="problem-set"><span class="header-section-number">14.6</span> Problem set</h2>
+<p>The problem set is located in <code>process-model-uncert.qmd</code> in https://github.com/frec-5174/book-problem-sets. You can fork the repository or copy the <a href="https://github.com/frec-5174/book-problem-sets/blob/main/process-model-uncert.qmd">code</a> into your own quarto document</p>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
@@ -749,7 +729,6 @@ div.csl-indent {
 Dietze, Michael C. 2017. <em>Ecological <span>Forecasting</span></em>. <span>Princeton</span>: <span>Princeton University Press</span>.
 </div>
 </div>
-</section>
 </section>
 
 </main> <!-- /main -->
