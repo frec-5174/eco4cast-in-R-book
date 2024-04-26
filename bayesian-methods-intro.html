@@ -1028,14 +1028,17 @@ P(mean | data) \simeq likelihood \cdot prior
 <li><p>Literature review</p></li>
 <li><p>Databases</p></li>
 <li><p>Expert options/survey</p></li>
-<li><p>What about parameters used in previous applications of the model?</p></li>
 </ul>
-<p>When to use informed vs.&nbsp;uninformed priors.</p>
+<p>You may want to consider informed priors if</p>
 <ul>
-<li><p>Identifiable</p></li>
-<li><p>Physical constants</p></li>
-<li><p>Process models where there is considerable information on a parameter</p></li>
-<li><p>A desire to have the analysis reflect the data only.</p></li>
+<li><p>There are known issues with parameter identifiablity in your model</p></li>
+<li><p>The parameter is a physical constant (like gravity constant)</p></li>
+<li><p>There is considerable prior research on a parameter</p></li>
+</ul>
+<p>You may consider using informed priors if there is a history of using a set of parameter values in previous applications of the model. In this case, be aware of zombie parameters, that is parameters whose values appear from the literature to be known because everyone uses it, but are in fact a relic of a modelers decision in the past that has carried through many model applications without being closely examined. The parameter may be less certain than the literature indicates.</p>
+<p>You may want to consider uninformed priors if</p>
+<ul>
+<li>There is a desire to have the analysis reflect the data only.</li>
 </ul>
 </section>
 <section id="reading" class="level2" data-number="17.6">
