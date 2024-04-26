@@ -617,6 +617,8 @@ Remember that the priors are for specific parameters in the model. It is importa
 
 -   Expert options/survey
 
+### Prior key points
+
 You may want to consider informed priors if
 
 -   There are known issues with parameter identifiablity in your model
@@ -625,11 +627,14 @@ You may want to consider informed priors if
 
 -   There is considerable prior research on a parameter
 
-You may consider using informed priors if there is a history of using a set of parameter values in previous applications of the model.  In this case, be aware of zombie parameters, that is parameters whose values appear from the literature to be known because everyone uses it, but are in fact a relic of a modelers decision in the past that has carried through many model applications without being closely examined. The parameter may be less certain than the literature indicates.  
+-   There are physical constraints to a parameter (e.g., it can't be a negative value)
+
+You may consider using informed priors if there is a history of using a set of parameter values in previous applications of the model. In this case, be aware of zombie parameters, that is parameters whose values appear from the literature to be known because everyone uses it, but are in fact a relic of a modelers decision in the past that has carried through many model applications without being closely examined. The parameter may be less certain than the literature indicates.
 
 You may want to consider uninformed priors if
 
--   There is a desire to have the analysis reflect the data only.
+-   You need a prior for parameter but do not have any information about it.
+-   There is a desire to have the analysis reflect the data only
 
 ## Reading
 
