@@ -269,7 +269,7 @@ output_df <- output_to_df(output, sim_dates, sim_name = "baseline")
 #| fig-cap: Output without uncertainty from the process model 
 #| label: fig-determ-output
 output_df |> 
-  filter(variable %in% c("leaf", "wood", "som", "nee")) |> 
+  filter(variable %in% c("lai", "wood", "som", "nee")) |> 
   ggplot(aes(x = datetime)) +
   geom_point(aes(y = prediction, group = ensemble)) +
   facet_wrap(~variable, scale = "free") +

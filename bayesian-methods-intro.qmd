@@ -617,17 +617,19 @@ Remember that the priors are for specific parameters in the model. It is importa
 
 -   Expert options/survey
 
--   What about parameters used in previous applications of the model?
+You may want to consider informed priors if
 
-When to use informed vs. uninformed priors.
+-   There are known issues with parameter identifiablity in your model
 
--   Identifiable
+-   The parameter is a physical constant (like gravity constant)
 
--   Physical constants
+-   There is considerable prior research on a parameter
 
--   Process models where there is considerable information on a parameter
+You may consider using informed priors if there is a history of using a set of parameter values in previous applications of the model.  In this case, be aware of zombie parameters, that is parameters whose values appear from the literature to be known because everyone uses it, but are in fact a relic of a modelers decision in the past that has carried through many model applications without being closely examined. The parameter may be less certain than the literature indicates.  
 
--   A desire to have the analysis reflect the data only.
+You may want to consider uninformed priors if
+
+-   There is a desire to have the analysis reflect the data only.
 
 ## Reading
 
