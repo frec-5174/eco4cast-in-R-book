@@ -291,7 +291,7 @@ bind_rows(output_df_no_optim, output_df_optim) |>
   geom_ribbon(aes(ymin = lower90, ymax = upper90, fill = model_id), alpha = 0.7) +
   geom_line(aes(y = median, color = model_id)) +
   geom_point(data = obs_filtered, aes(x = datetime, y = observation), color = "blue", alpha = 0.5) +
-  facet_wrap(~variable, scale = "free") +
+  facet_wrap(~variable, scale = "free", ncol = 1) +
   theme_bw()
 ```
 
