@@ -38,25 +38,21 @@ book:
         - decision-making.qmd
         - evaluating-forecasts.qmd
         - best-practices.qmd
-    - part: "Project 1"
-      chapters:
         - project1.qmd
     - part: advanced-forecasting.qmd
+      chapters:
+        - likelihood-methods.qmd
+        - bayesian-methods-intro.qmd
+        - particle-filter.qmd
+    - part: A real-time iterative forecast
       chapters:
         - process-model.qmd
         - process-model-prop-uncertainty.qmd
         - neon-data.qmd
-        - likelihood-methods.qmd
-        - bayesian-methods-intro.qmd
         - bayesian-process-models.qmd
-        - particle-filter.qmd
         - particle-filter-process-model.qmd
-    - part: Real-time iterative forecast
-      chapters:
         - process-model-forecast.qmd
         - process-model-forecast-evaluation.qmd
-    - part: "Project 2"
-      chapters:
         - project2.qmd
     - references.qmd
     - part: "Appendix"

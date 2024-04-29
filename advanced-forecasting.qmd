@@ -1,5 +1,5 @@
-# Advanced forecasting
+# Advanced forecasting techniques
 
-The advanced forecasting section applies the concepts of the first section to a process model. The topics include an introduction to process modeling (particularly dynamic models), model fitting through likelihood and Bayesian techniques, and data assimilation using the particle filter.
+The advanced forecasting section introduces techniques for improving forecasting, quantifying, and reducing uncertainty. First, likelihood methods are used to improve the calibration of ecological models. Better calibrations reduce uncertainty associated with the capacity of model to reproduce data (process uncertainty). Second, Bayesian methods are used to calibrate parameters and estimate parameter uncertainty in ecological models. Finally, data assimilation with the particle filter is used to reduce estimate initial conditions and reduce initial condition uncertainty.
 
-Material in this section is partially derived from the [forecasting activities](https://github.com/EcoForecast/EF_Activities) associated with Mike Dietze's Ecological Forecasting book (@dietzeEcologicalForecasting2017) and his [terrestrial forecasting tutorial](https://github.com/mdietze/FluxCourseForecast) that was created for the NEON Ecological Forecasting Challenge.
+This section focuses on the use of non-linear ecological models, rather than statistic or machine learning models like in the first section. The concepts in this section are applied to a process-based ecological model in the third section of the book.

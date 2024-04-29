@@ -1,4 +1,4 @@
-# Project 1: Create model and submit {#sec-project1}
+# Extend knowledge: generate forecast {#sec-project1}
 
 Project is challenges you to build a new model the forecasts NEON water temperature using the foundations that have been taught thus far in the book. You will be automatically submitting forecasts to the NEON Ecological Forecasting Challenge.
 
@@ -72,7 +72,7 @@ Remember that the lag needs to be calculated **within an ensemble member**.
 
 ### Reforecasting
 
-A good way to evaluate your forecast model is to generate forecasts for a starting date (e.g., `reference_datetime`) in the past.  These "reforecasts" or "retroactive forecasts" use NOAA forecasts as inputs (or other forecasts) just like it was a real-time forecast so they mimic a genuine forecast of the future.  Importantly, you should only use target data before the reforecast start date to train your forecast model. The key difference is that you can immediately compare the results to observations.  
+A good way to evaluate your forecast model is to generate forecasts for a starting date (e.g., `reference_datetime`) in the past. These "reforecasts" or "retroactive forecasts" use NOAA forecasts as inputs (or other forecasts) just like it was a real-time forecast so they mimic a genuine forecast of the future. Importantly, you should only use target data before the reforecast start date to train your forecast model. The key difference is that you can immediately compare the results to observations.
 
 ## Intro to Tidymodels
 
