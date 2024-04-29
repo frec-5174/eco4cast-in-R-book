@@ -1,4 +1,4 @@
-# Third forecast: automatically updating second forecast {#sec-third-forecast}
+# Automated, iterative forecasting {#sec-third-forecast}
 
 In the third forecast generation assignment, you will be automating the submission of your forecast. By running your forecast code each day, you will be updating your model with the latest data, which is a simple form of data assimilation.
 

@@ -40,7 +40,6 @@ book:
         - second-forecast.qmd
         - third-forecast.qmd
         - evaluating-forecasts.qmd
-        - best-practices.qmd
         - project1.qmd
     - part: advanced-forecasting.qmd
       chapters:

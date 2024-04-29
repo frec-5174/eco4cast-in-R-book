@@ -8,18 +8,17 @@ This chapter provides a description of metrics for evaluating forecast, includin
 
 ## Scoring metrics
 
-A scoring metric is a value that can be used to evaluate how good a forecast compares to observations. Scores can then be compared among forecast models to evaluate relative performance. Typically lower scores are better. Scoring metrics are also called "costs". 
-## Accurancy
+A scoring metric is a value that can be used to evaluate how good a forecast compares to observations. Scores can then be compared among forecast models to evaluate relative performance. Typically lower scores are better. Scoring metrics are also called "costs". \## Accurancy
 
 The most basic score would be the difference between the forecast mean and observation. However, there are a couple of issues with that score. First, forecast below the observation will receive negative values and forecasts above will receive positive values, thus the lowest value is not the best. Second, it does not use any information from the forecast uncertainty in the evaluation. Metrics like absolute error (absolute value of the difference between the forecast mean and observation) and root mean-squared error (RMSE) address the first issue but still do not consider the uncertainty.
 
 ## Precision
 
-Is the variance in the forecast larger than an acceptable value?  For example, if the uncertainty in a rain forecast ranges from downpour to sunny then the variance is too large to be useful since one can not make a specific decision based on the forecast (e.g., do you cancel the soccer game ahead of time).  One can also compare the variance in a forecast to a baseline variable from a simple model to see if the the spread is less, and therefor a more informative forecast.
+Is the variance in the forecast larger than an acceptable value? For example, if the uncertainty in a rain forecast ranges from downpour to sunny then the variance is too large to be useful since one can not make a specific decision based on the forecast (e.g., do you cancel the soccer game ahead of time). One can also compare the variance in a forecast to a baseline variable from a simple model to see if the the spread is less, and therefor a more informative forecast.
 
 ## Accuracy + Precision
 
-It is important to consider uncertainty because intuitively a forecast that has the create mean but a large uncertainty (so it puts very little confidence on the observed value) should have a lower score that a forecast with a mean that is slightly off but with lower uncertainty (so it actually puts more confidence on the observed value). The Continuous Ranked Probability Score (CRPS) is one metric that evaluates the forecast distribution. Another is the ignorance (also called the Good or the log score).  The CRPS is described below.
+It is important to consider uncertainty because intuitively a forecast that has the create mean but a large uncertainty (so it puts very little confidence on the observed value) should have a lower score that a forecast with a mean that is slightly off but with lower uncertainty (so it actually puts more confidence on the observed value). The Continuous Ranked Probability Score (CRPS) is one metric that evaluates the forecast distribution. Another is the ignorance (also called the Good or the log score). The CRPS is described below.
 
 Add concept of proper and local?
 
@@ -116,9 +115,9 @@ The skill score compared a forecast model to a baseline model using the followin
 
 `skill_score <- 1 - (mean_metric_baseline - mean_metric_forecast)/mean_metric_baseline`
 
-The mean_metric_baseline is the mean score for the baseline model.  It can be RMSE, MAE, CPRS, etc.  The mean_metric_forecast is the same metric for the forecast that is being evaluated.
+The mean_metric_baseline is the mean score for the baseline model. It can be RMSE, MAE, CPRS, etc. The mean_metric_forecast is the same metric for the forecast that is being evaluated.
 
-The skill score ranges from -Inf - 1 where values from -Inf to 0 are forecast models that perform worse than the baseline.  Values from 0 to 1 are forecast models that improve on the baseline.  A value of 1 means that the forecast model is perfect.
+The skill score ranges from -Inf - 1 where values from -Inf to 0 are forecast models that perform worse than the baseline. Values from 0 to 1 are forecast models that improve on the baseline. A value of 1 means that the forecast model is perfect.
 
 ### Example baseline models
 
@@ -190,7 +189,7 @@ ggplot(skill_score, aes(x = horizon, y = skill_score)) +
 
 ## Take homes
 
-Different metrics evaluate different components of the forecast.  Be sure to match your evaluate metric to evaluate the aspects of the forecast that match the needs of the forecast user.  
+Different metrics evaluate different components of the forecast. Be sure to match your evaluate metric to evaluate the aspects of the forecast that match the needs of the forecast user.
 
 ## Reading
 
