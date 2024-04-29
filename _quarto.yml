@@ -30,12 +30,15 @@ book:
     - part: setting-the-stage.qmd
       chapters:
         - intro-ecoforecast.qmd
-        - first-forecast.qmd
         - understand-uncertainty.qmd
-        - second-forecast.qmd
         - using-data.qmd
-        - third-forecast.qmd
         - decision-making.qmd
+        - best-practices.qmd
+    - part: Iterative forecasting using empirical models
+      chapters:
+        - first-forecast.qmd
+        - second-forecast.qmd
+        - third-forecast.qmd
         - evaluating-forecasts.qmd
         - best-practices.qmd
         - project1.qmd
@@ -44,7 +47,7 @@ book:
         - likelihood-methods.qmd
         - bayesian-methods-intro.qmd
         - particle-filter.qmd
-    - part: A real-time iterative forecast
+    - part: Iterative forecasting using process-models
       chapters:
         - process-model.qmd
         - process-model-prop-uncertainty.qmd
