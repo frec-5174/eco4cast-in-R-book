@@ -1,4 +1,4 @@
-# Extend knowledge: generate process-based forecast {#sec-project1}
+# Build your own process-based forecast {#sec-project2}
 
 Project 2 challenges you to
 

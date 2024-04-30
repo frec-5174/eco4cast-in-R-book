@@ -1,0 +1,3 @@
+# Iterative forecasting using process-models
+
+This section builds on the concepts in the book to demonstrate how to develop forecasts using process-based ecosystem models.  First model is introduced, the key components of its uncertainty are examined, and data are obtained for calibration. Second, the model is calibrated using a Bayesian approach and initial conditions are determined using a particle filter.  Finally, the forecast is iteratively submitted to the NEON Ecological Forecasting Challenge and past forecasts submitted to the challenge are evaluate.  It is designed to be a practical guide for similar forecasting applications using other process models.  The final chapter provides an example problem set for applying the skills in different contexts.  

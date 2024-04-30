@@ -1,4 +1,4 @@
-# Parameter calibration: Applying Bayesian methods to process model {#sec-bayes-process}
+# Applying Bayesian calibration methods to process model {#sec-bayes-process}
 
 ## Running MCMC on the forest process model
 

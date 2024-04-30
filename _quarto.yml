@@ -34,7 +34,7 @@ book:
         - using-data.qmd
         - decision-making.qmd
         - best-practices.qmd
-    - part: Iterative forecasting using empirical models
+    - part: emprical-forecasting.qmd
       chapters:
         - first-forecast.qmd
         - second-forecast.qmd
@@ -46,7 +46,7 @@ book:
         - likelihood-methods.qmd
         - bayesian-methods-intro.qmd
         - particle-filter.qmd
-    - part: Iterative forecasting using process-models
+    - part: process-forecasting.qmd
       chapters:
         - process-model.qmd
         - process-model-prop-uncertainty.qmd
