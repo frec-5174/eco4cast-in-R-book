@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>A Practical Guide to Ecosystem Forecasting - 9&nbsp; Adding uncertainty to forecasts</title>
+<title>A Practical Guide to Ecosystem Forecasting - Introduction to forecasting</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -30,8 +30,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./third-forecast.html" rel="next">
-<link href="./first-forecast.html" rel="prev">
+<link href="./intro-ecoforecast.html" rel="next">
+<link href="./background-skills.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -79,7 +79,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./section-emprical-forecasting.html">Iterative forecasting using empirical models</a></li><li class="breadcrumb-item"><a href="./second-forecast.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Adding uncertainty to forecasts</span></a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./section-introduction.html">Introduction to forecasting</a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -130,7 +130,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="./section-introduction.html" class="sidebar-item-text sidebar-link">
+            <a href="./section-introduction.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Introduction to forecasting</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
@@ -186,7 +186,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./second-forecast.html" class="sidebar-item-text sidebar-link active">
+  <a href="./second-forecast.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Adding uncertainty to forecasts</span></span></a>
   </div>
 </li>
@@ -339,22 +339,14 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">Table of contents</h2>
-   
-  <ul>
-  <li><a href="#reading" id="toc-reading" class="nav-link active" data-scroll-target="#reading"><span class="header-section-number">9.1</span> Reading</a></li>
-  <li><a href="#assignment" id="toc-assignment" class="nav-link" data-scroll-target="#assignment"><span class="header-section-number">9.2</span> Assignment</a></li>
-  <li><a href="#module-reference" id="toc-module-reference" class="nav-link" data-scroll-target="#module-reference"><span class="header-section-number">9.3</span> Module reference</a></li>
-  </ul>
-<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/frec-5174/eco4cast-in-R-book/issues/new" class="toc-action">Report an issue</a></p><p><a href="https://github.com/frec-5174/eco4cast-in-R-book/blob/main/second-forecast.qmd" class="toc-action">View source</a></p></div></div></nav>
+        
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span id="sec-second-forecast" class="quarto-section-identifier"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Adding uncertainty to forecasts</span></span></h1>
+<h1 class="title">Introduction to forecasting</h1>
 </div>
 
 
@@ -369,28 +361,9 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<p>The forecast you generated in <a href="first-forecast.html" class="quarto-xref"><span>Chapter&nbsp;8</span></a> included uncertainty introduced by the uncertainty in the future weather. As you learned in <a href="understand-uncertainty.html" class="quarto-xref"><span>Chapter&nbsp;4</span></a>, there are many other sources of uncertainty that could be included in your forecast. Your task is to apply the techniques in <a href="understand-uncertainty.html" class="quarto-xref"><span>Chapter&nbsp;4</span></a> to generate additional sources of uncertainty in the forecast model from <a href="first-forecast.html" class="quarto-xref"><span>Chapter&nbsp;8</span></a>. When you are finished, your model from <a href="first-forecast.html" class="quarto-xref"><span>Chapter&nbsp;8</span></a> should have driver, parameter, and process uncertainty. You will submit the assignment as an updated GitHub repository with the code and plot of your forecast with all uncertainty sources included.</p>
-<p>You will be generating forecasts of water temperature at NEON aquatics sites.</p>
-<p>A <a href="https://github.com/frec-5174/book-problem-sets/blob/main/forecast_code_template_mod6.Rmd">version of the template</a> from <a href="first-forecast.html" class="quarto-xref"><span>Chapter&nbsp;8</span></a> is provided that recodes the template to match the approach in <a href="understand-uncertainty.html" class="quarto-xref"><span>Chapter&nbsp;4</span></a>. You should add your model from <a href="first-forecast.html" class="quarto-xref"><span>Chapter&nbsp;8</span></a> to this template before adding the uncertainty sources from <a href="understand-uncertainty.html" class="quarto-xref"><span>Chapter&nbsp;4</span></a>.</p>
-<section id="reading" class="level2" data-number="9.1">
-<h2 data-number="9.1" class="anchored" data-anchor-id="reading"><span class="header-section-number">9.1</span> Reading</h2>
-<p>Thomas, R. Q., Boettiger, C., Carey, C. C., Dietze, M. C., Johnson, L. R., Kenney, M. A., et al.&nbsp;(2023). The NEON Ecological Forecasting Challenge. Frontiers in Ecology and the Environment, 21(3), 112–113. <a href="https://doi.org/10.1002/fee.2616" class="uri">https://doi.org/10.1002/fee.2616</a></p>
-</section>
-<section id="assignment" class="level2" data-number="9.2">
-<h2 data-number="9.2" class="anchored" data-anchor-id="assignment"><span class="header-section-number">9.2</span> Assignment</h2>
-<p>Pre-assignment set up: Complete <a href="first-forecast.html" class="quarto-xref"><span>Chapter&nbsp;8</span></a> and <a href="understand-uncertainty.html" class="quarto-xref"><span>Chapter&nbsp;4</span></a></p>
-<ol type="1">
-<li>Modify your template code to include the additional sources of uncertainty</li>
-<li>Knit the template Rmd to html.</li>
-<li>Commit template and html to GitHub</li>
-</ol>
-</section>
-<section id="module-reference" class="level2" data-number="9.3">
-<h2 data-number="9.3" class="anchored" data-anchor-id="module-reference"><span class="header-section-number">9.3</span> Module reference</h2>
-<p>Olsson, F., C. Boettiger, C.C. Carey, M.E. Lofton, and R.Q. Thomas. Can you predict the future? A tutorial for the National Ecological Observatory Network Ecological Forecasting Challenge. In review at <em>Journal of Open Source Education</em>.</p>
+<p>The first section of the book is focused on introducing key concepts in ecological forecasting using modules from the <a href="Macrosystem EDDIE project">Macrosystems EDDIE project</a> The concepts are taught using Rshiny applications and do not require coding.</p>
 
 
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -692,13 +665,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./first-forecast.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Introduction to NEON Ecological Forecasting Challenge</span></span>
+      <a href="./background-skills.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Background skills</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./third-forecast.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Automated, iterative forecasting</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./intro-ecoforecast.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Introduction to Ecological Forecasting</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -707,4 +680,4 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
-</body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/frec-5174/eco4cast-in-R-book/issues/new" class="toc-action">Report an issue</a></p><p><a href="https://github.com/frec-5174/eco4cast-in-R-book/blob/main/section-introduction.qmd" class="toc-action">View source</a></p></div></div></div></div></footer></body></html>
