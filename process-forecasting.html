@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>A Practical Guide to Ecosystem Forecasting - 10&nbsp; Automated, iterative forecasting</title>
+<title>A Practical Guide to Ecosystem Forecasting - Iterative forecasting using process-models</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -30,8 +30,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./evaluating-forecasts.html" rel="next">
-<link href="./second-forecast.html" rel="prev">
+<link href="./process-model.html" rel="next">
+<link href="./particle-filter.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -79,7 +79,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./emprical-forecasting.html">Iterative forecasting using empirical models</a></li><li class="breadcrumb-item"><a href="./third-forecast.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Automated, iterative forecasting</span></a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./process-forecasting.html">Iterative forecasting using process-models</a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -192,7 +192,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./third-forecast.html" class="sidebar-item-text sidebar-link active">
+  <a href="./third-forecast.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Automated, iterative forecasting</span></span></a>
   </div>
 </li>
@@ -241,7 +241,7 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="./process-forecasting.html" class="sidebar-item-text sidebar-link">
+            <a href="./process-forecasting.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Iterative forecasting using process-models</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
@@ -339,25 +339,14 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">Table of contents</h2>
-   
-  <ul>
-  <li><a href="#key-concepts" id="toc-key-concepts" class="nav-link active" data-scroll-target="#key-concepts"><span class="header-section-number">10.1</span> Key concepts</a></li>
-  <li><a href="#docker-skills" id="toc-docker-skills" class="nav-link" data-scroll-target="#docker-skills"><span class="header-section-number">10.2</span> Docker Skills</a></li>
-  <li><a href="#running-a-docker-container" id="toc-running-a-docker-container" class="nav-link" data-scroll-target="#running-a-docker-container"><span class="header-section-number">10.3</span> Running a docker container</a></li>
-  <li><a href="#reading" id="toc-reading" class="nav-link" data-scroll-target="#reading"><span class="header-section-number">10.4</span> Reading</a></li>
-  <li><a href="#assignment" id="toc-assignment" class="nav-link" data-scroll-target="#assignment"><span class="header-section-number">10.5</span> Assignment</a></li>
-  <li><a href="#module-reference" id="toc-module-reference" class="nav-link" data-scroll-target="#module-reference"><span class="header-section-number">10.6</span> Module reference</a></li>
-  </ul>
-<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/frec-5174/eco4cast-in-R-book/issues/new" class="toc-action">Report an issue</a></p><p><a href="https://github.com/frec-5174/eco4cast-in-R-book/blob/main/third-forecast.qmd" class="toc-action">View source</a></p></div></div></nav>
+        
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span id="sec-third-forecast" class="quarto-section-identifier"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Automated, iterative forecasting</span></span></h1>
+<h1 class="title">Iterative forecasting using process-models</h1>
 </div>
 
 
@@ -372,56 +361,9 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<p>In the third forecast generation assignment, you will be automating the submission of your forecast. By running your forecast code each day, you will be updating your model with the latest data, which is a simple form of data assimilation.</p>
-<p><a href="https://github.com/OlssonF/NEON-forecast-challenge-workshop/blob/main/Automate_forecasts/automation_tutorial.Rmd"><strong>Automation tutorial</strong></a></p>
-<p>You will be generating forecasts of water temperature at NEON aquatics sites.</p>
-<section id="key-concepts" class="level2" data-number="10.1">
-<h2 data-number="10.1" class="anchored" data-anchor-id="key-concepts"><span class="header-section-number">10.1</span> Key concepts</h2>
-<p>GitHub Actions is used to execute the forecast each day in the “cloud”. The “cloud” are small computers that are run somewhere in a Microsoft data center (Microsoft owns GitHub). You create a yaml file in the <code>.github/workflows</code> in your github repo that defines the time of day that your job is run, the environment (type of operating system and Docker container), and the steps in the job.</p>
-<p>You will use Docker container (<code>eco4cast/neon4cast-rocker</code>) to ensure consistent computation environment each day. The Docker is based on a rocker container that already has R, Rstudio, and many common packages (e.g., tidyverse). It also contains packages that are specific to the NEON Forecasting Challenge.</p>
-<p>Pulling data include the Docker container and export the results. Nothing persists in container after it finishes in GitHub Actions. You will use the <code>neon4cast::stage2</code> and <code>neon4cast::stage3</code> to read in the meteorology data. You will use read_csv and a weblink to read in the targets. You will export your forecasts using the <code>neon4cast::submit</code> function that uploads your forecast to the NEON Ecological Forecasting Challenge S3 submission bucket.</p>
-</section>
-<section id="docker-skills" class="level2" data-number="10.2">
-<h2 data-number="10.2" class="anchored" data-anchor-id="docker-skills"><span class="header-section-number">10.2</span> Docker Skills</h2>
-<p>Docker is tool that the activities in the book use for improving the reproduciblity and automation of data analysis and forecasting workflows. Below are the instructions for setting up and interacting with a Docker container (instructions are from Freya Olsson’s workshop)</p>
-<p>Go to <a href="https://docs.docker.com/get-docker/" class="uri">https://docs.docker.com/get-docker/</a> to install the relevant install for your platform (available for PC, Mac and Linux). Also see <a href="https://docs.docker.com/desktop/" class="uri">https://docs.docker.com/desktop/</a>.</p>
-<p>NOTE: * If you’re running Windows, you will need WSL (Windows Subsystem for Linux) * If you’re running a Linux distribution, you may have to enable Viritualization on your computer (see <a href="https://stackoverflow.com/questions/76646465/unable-to-launch-docker-desktop-on-ubuntu/76655270#76655270">here</a>)</p>
-</section>
-<section id="running-a-docker-container" class="level2" data-number="10.3">
-<h2 data-number="10.3" class="anchored" data-anchor-id="running-a-docker-container"><span class="header-section-number">10.3</span> Running a docker container</h2>
-<ol type="1">
-<li>Launch Docker Desktop (either from the Command Line or by starting the GUI)</li>
-<li>At the command line run the following command which tells docker to <code>run</code> the container with the name <code>eco4cast/rocker-neon4cast</code> that has all the packages and libraries installed already. The <code>PASSWORD=yourpassword</code> sets a simple password that you will use to open the container. The <code>-ti</code> option starts both a terminal and an interactive session.</li>
-</ol>
-<pre><code>docker run --rm -ti -e PASSWORD=yourpassword -p 8787:8787 eco4cast/rocker-neon4cast</code></pre>
-<p>This can take a few minutes to download and install. It will be quicker the next time you launch it.</p>
-<ol start="3" type="1">
-<li>Open up a web browser and navigate to <code>http://localhost:8787/</code></li>
-<li>Enter the username: <code>rstudio</code> and password: <code>yourpassword</code></li>
-<li>You should see a R Studio interface with all the packages etc. pre-installed and ready to go.</li>
-</ol>
-<p>You can close this localhost window (and then come back to it) but if you close the container from Docker (turn off your computer etc.) any changes will be lost unless you push them to Github or exported to your local environment.</p>
-</section>
-<section id="reading" class="level2" data-number="10.4">
-<h2 data-number="10.4" class="anchored" data-anchor-id="reading"><span class="header-section-number">10.4</span> Reading</h2>
-<p>Thomas, R. Q., Boettiger, C., Carey, C. C., Dietze, M. C., Johnson, L. R., Kenney, M. A., et al.&nbsp;(2023). The NEON Ecological Forecasting Challenge. Frontiers in Ecology and the Environment, 21(3), 112–113. <a href="https://doi.org/10.1002/fee.2616" class="uri">https://doi.org/10.1002/fee.2616</a></p>
-</section>
-<section id="assignment" class="level2" data-number="10.5">
-<h2 data-number="10.5" class="anchored" data-anchor-id="assignment"><span class="header-section-number">10.5</span> Assignment</h2>
-<p>Pre-assignment set up: Complete <a href="second-forecast.html" class="quarto-xref"><span>Chapter&nbsp;9</span></a></p>
-<ol type="1">
-<li>Convert your template markdown code to a .R script</li>
-<li>Update your repository to include the GitHub Action files</li>
-<li>Commit updated files to GitHub</li>
-<li>Provide instructor with link to GitHub repository that demonstrates multiple successful automated execution of forecasting code.</li>
-</ol>
-</section>
-<section id="module-reference" class="level2" data-number="10.6">
-<h2 data-number="10.6" class="anchored" data-anchor-id="module-reference"><span class="header-section-number">10.6</span> Module reference</h2>
-<p>Olsson, F., C. Boettiger, C.C. Carey, M.E. Lofton, and R.Q. Thomas. Can you predict the future? A tutorial for the National Ecological Observatory Network Ecological Forecasting Challenge. In review at <em>Journal of Open Source Education</em>.</p>
+<p>This section builds on the concepts in the book to demonstrate how to develop forecasts using process-based ecosystem models. First model is introduced, the key components of its uncertainty are examined, and data are obtained for calibration. Second, the model is calibrated using a Bayesian approach and initial conditions are determined using a particle filter. Finally, the forecast is iteratively submitted to the NEON Ecological Forecasting Challenge and past forecasts submitted to the challenge are evaluate. It is designed to be a practical guide for similar forecasting applications using other process models. The final chapter provides an example problem set for applying the skills in different contexts.</p>
 
 
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -723,13 +665,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./second-forecast.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Adding uncertainty to forecasts</span></span>
+      <a href="./particle-filter.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Data assimilation: particle filter</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./evaluating-forecasts.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Evaluating forecasts</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./process-model.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Process model</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -738,4 +680,4 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
-</body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/frec-5174/eco4cast-in-R-book/issues/new" class="toc-action">Report an issue</a></p><p><a href="https://github.com/frec-5174/eco4cast-in-R-book/blob/main/process-forecasting.qmd" class="toc-action">View source</a></p></div></div></div></div></footer></body></html>
