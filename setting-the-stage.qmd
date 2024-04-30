@@ -1,3 +1,0 @@
-# Introduction to forecasting
-
-The first section of the book is focused on introducing key concepts in ecological forecasting using Rshiny applications.

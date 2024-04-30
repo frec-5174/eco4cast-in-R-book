@@ -1,4 +1,4 @@
-# Data assimilation: particle filter {#sec-particle-filter}
+# Data assimilation using the particle filter {#sec-particle-filter}
 
 ```{r}
 #| echo: false
@@ -103,7 +103,7 @@ Specifically we refer to the particle filter described above as a bootstrap part
 
 ## Example of Particle Filter
 
-Here is an example of the particle filter applied to canopy greenness data at a NEON site.  Canopy greenness is the relative greenness of a photograph take by a camera located above the vegetation canopy (called a phenocam).  Greenness is qualified using the 90% percentile of the daily GCC (GCC = green / (green + red + blue)), called the gcc_90.  gcc_90 measures spring changes in vegetation.  
+Here is an example of the particle filter applied to canopy greenness data at a NEON site. Canopy greenness is the relative greenness of a photograph take by a camera located above the vegetation canopy (called a phenocam). Greenness is qualified using the 90% percentile of the daily GCC (GCC = green / (green + red + blue)), called the gcc_90. gcc_90 measures spring changes in vegetation.
 
 First load in data. We are only going to focus on the 13 weeks of the data at a single site (CPER).
 
@@ -133,7 +133,7 @@ First we are going to run the particle filter with all data missing. This is equ
 
 The `sd_add` is the model process uncertainty.
 
-The `sd_obs` is the observation uncertainty.  It is also used to set the initial condition uncertainity since we start the particle filter on a day with an observation.
+The `sd_obs` is the observation uncertainty. It is also used to set the initial condition uncertainity since we start the particle filter on a day with an observation.
 
 The key decision is the `num_particles`. More is always better but it comes at a computational and computer memory cost.
 
@@ -182,7 +182,7 @@ for(t in 2:num_time_steps){
 }
 ```
 
-@fig-parts-alone shows each individual particle. 
+@fig-parts-alone shows each individual particle.
 
 ```{r}
 #| warning: false
@@ -407,13 +407,13 @@ ggplot(aes(x = x, y = y, color = type, group = date)) +
 
 ### PF with parameter estimation
 
-The estimate of parameters using a PF is also straightforward. Here we model the change in gcc_90 using an equation with a growth term included.  The growth rate is highest for a defined day of the year (doy) with a bell shape around that doy.  
+The estimate of parameters using a PF is also straightforward. Here we model the change in gcc_90 using an equation with a growth term included. The growth rate is highest for a defined day of the year (doy) with a bell shape around that doy.
 
-```
+```         
 x[t-1, m] + r[t, m] * exp(-(1 / (2 * b)) * (doy[t] - a)^2)
 ```
 
-The values for `a` (the peak doy) and `b` (the width of the bell shape) are provided.  
+The values for `a` (the peak doy) and `b` (the width of the bell shape) are provided.
 
 We are estimating `r`, (the maximum growth rate). Just like we need to initialize the states at the first time step, we will initialize the distribution of the b1 at the first time step using a normal distribution with a `mean = r_mean` and `sd = r_sd`.
 

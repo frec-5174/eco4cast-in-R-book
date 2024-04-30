@@ -1,4 +1,4 @@
-# Applying to dta assimilation to process model {#sec-pf2}
+# Applying to data assimilation to process model {#sec-pf2}
 
 ```{r}
 #| echo: false

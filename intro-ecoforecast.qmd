@@ -18,5 +18,6 @@ Complete activities A, B, and C in the R Shiny application and submit answers to
 
 Moore, T.N., R.Q. Thomas, W.M. Woelmer, C.C Carey. 2022. Integrating ecological forecasting into undergraduate ecology curricula with an R Shiny application-based teaching module. *Forecasting* 4:604-633. <https://doi.org/10.3390/forecast4030033>
 
-This module was developed by Moore, T.N., Lofton, M.E., C.C. Carey, and R.Q. Thomas. 03 July 2023. Macrosystems EDDIE: Introduction to Ecological Forecasting. Macrosystems EDDIE Module 5, Version 2. <http://module5.macrosystemseddie.org>. Module development was supported by NSF grants DEB-1926050 and DBI-1933016.
+Lofton, M.E., T.N. Moore, W.M. Woelmer, R.Q. Thomas, and C.C. Carey. A modular curriculum to teach undergraduates ecological forecasting improves student and instructor confidence in their data science skills. ESS Open Archive. [https://doi.org/10.22541/essoar.171269260.08508117/v1](https://doi.org/10.22541/essoar.171269260.08508117/v1)
 
+This module was developed by Moore, T.N., Lofton, M.E., C.C. Carey, and R.Q. Thomas. 03 July 2023. Macrosystems EDDIE: Introduction to Ecological Forecasting. Macrosystems EDDIE Module 5, Version 2. <http://module5.macrosystemseddie.org>. Module development was supported by NSF grants DEB-1926050 and DBI-1933016.

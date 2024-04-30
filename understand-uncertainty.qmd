@@ -4,9 +4,13 @@ Ecological forecasting is a tool that can be used for understanding and predicti
 
 [**Background presentation**](https://cdn.serc.carleton.edu/files/eddie/teaching_materials/modules/instructor_powerpoint_module6.pptx)
 
-The assignment will require you to create a GitHub repository with your completed code from the NEON Forecasting Challenge workshop. You will build on this repository throughout the rest of section 1 of the book. You can learn more about setting up Git and GitHub in @sec-github.
+[**Rshiny App**](https://macrosystemseddie.shinyapps.io/module6/)
 
-This chapter sets the foundation for @sec-second-forecast.  In @sec-second-forecast, you will use code and concepts in this chapter to add uncertainty to your forecast from @sec-first-forecast.
+## Option: code based assignment
+
+This chapter sets the foundation for @sec-second-forecast. In prep for @sec-second-forecast, there is code-based version of this chapter that provides example code and introduces key that will guide your work adding uncertainty to your forecast from @sec-first-forecast.
+
+The code-based assignment will require you to create a GitHub repository with your completed code from the NEON Forecasting Challenge workshop @sec-first-forecast. You will build on this repository throughout the rest of section 1 of the book. You can learn more about setting up Git and GitHub in @sec-github.
 
 ## Reading
 
@@ -21,6 +25,6 @@ Dietze, M. C., Fox, A., Beck-Johnson, L. M., Betancourt, J. L., Hooten, M. B., J
 
 ## Module Reference
 
-Lofton,M., T. Moore, W. Woelmer, R. Q. Thomas, and C.C. Carey. In Prep. Macrosystems EDDIE: A modular curriculum to teach undergraduates ecological forecasting improves student and instructor confidence in their data science skills.
+Lofton, M.E., T.N. Moore, W.M. Woelmer, R.Q. Thomas, and C.C. Carey. A modular curriculum to teach undergraduates ecological forecasting improves student and instructor confidence in their data science skills. ESS Open Archive. [https://doi.org/10.22541/essoar.171269260.08508117/v1](https://doi.org/10.22541/essoar.171269260.08508117/v1)
 
 This module was developed by Moore, T. N., Lofton, M.E., Carey, C.C. and Thomas, R. Q. 24 July 2023. Macrosystems EDDIE: Understanding Uncertainty in Ecological Forecasts. Macrosystems EDDIE Module 6, Version 2. http://module6.macrosystemseddie.org. Module development was supported by NSF grants DEB-1926050 and DBI-1933016.

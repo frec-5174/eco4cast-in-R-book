@@ -1,4 +1,4 @@
-# Parameter calibration: Bayesian methods {#sec-bayes}
+# Parameter calibration using Bayesian methods {#sec-bayes}
 
 Including parameter uncertainty in forecasts, as demonstrated in @sec-prop-unc-pars, requires having a probability distribution for the parameters. The previous chapter shows how to estimate parameters using likelihood methods. While likelihood methods are designed to find optimal values, they are not designed to estimate the probability distribution of the parameters. By finding optimal values likelihood methods can reduce process uncertainty because a better calibrated model has a better match to historical data and smaller residual error. This chapter introduces the use of Bayesian methods to estimate parameter distributions.
 
@@ -644,9 +644,9 @@ This chapter is a introduction to the concepts and numerical techniques used in 
 
 -   Hierarchical models: Hierarchical models are used when you want a parameter to vary over time and space but don't want to estimate unique parameters for every space and time point. Hierarchical models allow for you to estimate a "global" parameter distribution whereby the individual parameters at a site or a point in time are samples from the global distribution. Hierarchical models allow information from one site to help inform parameter values for another site with considering them independent.
 
-- Packages for posterior estimation: Many packages exist to estimate posteriors in Bayesian models that differ their algorithms, capacities for complex applications, and avialable documentation.  These include [Stan](https://cran.r-project.org/web/packages/rstan/vignettes/rstan.html), [JAGS](https://www.r-bloggers.com/2012/04/getting-started-with-jags-rjags-and-bayesian-modelling/), [Nimble](https://r-nimble.org), and [greta](https://greta-stats.org).  All packages can solve simple Bayesian problems like the M-M example above.  Packages have different strengths for solving more complex problems.  Some are also more well-suited for use with custom functions and dynamic models like the forest model in this book.
+-   Packages for posterior estimation: Many packages exist to estimate posteriors in Bayesian models that differ their algorithms, capacities for complex applications, and avialable documentation. These include [Stan](https://cran.r-project.org/web/packages/rstan/vignettes/rstan.html), [JAGS](https://www.r-bloggers.com/2012/04/getting-started-with-jags-rjags-and-bayesian-modelling/), [Nimble](https://r-nimble.org), and [greta](https://greta-stats.org). All packages can solve simple Bayesian problems like the M-M example above. Packages have different strengths for solving more complex problems. Some are also more well-suited for use with custom functions and dynamic models like the forest model in this book.
 
-- More robust algorithms for estimating posteriors and the use of conjecture priors to speed posterior estimation.  
+-   More robust algorithms for estimating posteriors and the use of conjecture priors to speed posterior estimation.
 
 ## Reading
 

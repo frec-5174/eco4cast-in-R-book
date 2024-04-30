@@ -6,8 +6,6 @@ To be useful for management, ecological forecasts need to be both accurate enoug
 
 [**Rshiny App**](https://macrosystemseddie.shinyapps.io/module7/)
 
-
-
 ## Reading
 
 Niu, S., Luo, Y., Dietze, M. C., Keenan, T. F., Shi, Z., Li, J., & III, F. S. C. (2014). The role of data assimilation in predictive ecology. Ecosphere, 5(5), art65-16. <https://doi.org/10.1890/ES13-00273.1>
@@ -18,7 +16,7 @@ Complete activities A, B, and C in the R Shiny application and submit answers to
 
 ## Module references
 
-Lofton,M., T. Moore, W. Woelmer, R. Q. Thomas, and C.C. Carey. In Prep. Macrosystems EDDIE: A modular curriculum to teach undergraduates ecological forecasting improves student and instructor confidence in their data science skills.
+Lofton, M.E., T.N. Moore, W.M. Woelmer, R.Q. Thomas, and C.C. Carey. A modular curriculum to teach undergraduates ecological forecasting improves student and instructor confidence in their data science skills. ESS Open Archive. [https://doi.org/10.22541/essoar.171269260.08508117/v1](https://doi.org/10.22541/essoar.171269260.08508117/v1)
 
 This module was developed by: Lofton, M.E., T.N. Moore, Thomas, R.Q., and C.C. Carey. 20 September 2022. Macrosystems EDDIE: Using Data to Improve Ecological Forecasts. Macrosystems EDDIE Module 7, Version 1. <https://macrosystemseddie.shinyapps.io/module7>. Module development was supported by NSF grants DEB-1926050 and DBI-1933016.
 

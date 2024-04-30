@@ -27,26 +27,26 @@ book:
     - index.qmd
     - intro.qmd
     - background-skills.qmd
-    - part: setting-the-stage.qmd
+    - part: section-introduction.qmd
       chapters:
         - intro-ecoforecast.qmd
         - understand-uncertainty.qmd
         - using-data.qmd
         - decision-making.qmd
         - best-practices.qmd
-    - part: emprical-forecasting.qmd
+    - part: section-emprical-forecasting.qmd
       chapters:
         - first-forecast.qmd
         - second-forecast.qmd
         - third-forecast.qmd
         - evaluating-forecasts.qmd
         - project1.qmd
-    - part: advanced-forecasting.qmd
+    - part: section-advanced.qmd
       chapters:
         - likelihood-methods.qmd
         - bayesian-methods-intro.qmd
         - particle-filter.qmd
-    - part: process-forecasting.qmd
+    - part: section-process-models.qmd
       chapters:
         - process-model.qmd
         - process-model-prop-uncertainty.qmd

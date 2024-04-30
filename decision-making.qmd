@@ -18,6 +18,8 @@ Complete activities A, B, and C in the [R Shiny application](https://macrosystem
 
 Woelmer, W.M., T.N. Moore, M.E. Lofton, R.Q. Thomas, and C.C. Carey. 2023. Embedding communication concepts in forecasting training increases students' understanding of ecological uncertainty Ecosphere 14: e4628 <https://doi.org/10.1002/ecs2.4628>
 
+Lofton, M.E., T.N. Moore, W.M. Woelmer, R.Q. Thomas, and C.C. Carey. A modular curriculum to teach undergraduates ecological forecasting improves student and instructor confidence in their data science skills. ESS Open Archive. [https://doi.org/10.22541/essoar.171269260.08508117/v1](https://doi.org/10.22541/essoar.171269260.08508117/v1)
+
 This module was developed by W.M. Woelmer, R.Q. Thomas, T.N. Moore and C.C. Carey. 21 January 2021. Macrosystems EDDIE: Using Ecological Forecasts to Guide Decision-Making. Macrosystems EDDIE Module 8, Version 1. http://module8.macrosystemseddie.org. Module development was supported by NSF grants DEB-1926050 and DBI-1933016.
 
 This module has been peer-reviewed and included in the ["On the Cutting Edge Exemplary Teaching Activities"](https://serc.carleton.edu/teachearth/exemplary.html) collection.

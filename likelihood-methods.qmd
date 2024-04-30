@@ -1,4 +1,4 @@
-# Parameter calibration: likelihood methods {#sec-likelihood}
+# Parameter calibration using likelihood methods {#sec-likelihood}
 
 ## Intro to probability and likelihood
 
