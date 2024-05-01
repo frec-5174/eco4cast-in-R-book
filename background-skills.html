@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>A Practical Guide to Ecosystem Forecasting - 2&nbsp; Background skills</title>
+<title>A Practical Guide to Ecosystem Forecasting - 7&nbsp; Background skills</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -30,8 +30,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./section-introduction.html" rel="next">
-<link href="./intro.html" rel="prev">
+<link href="./first-forecast.html" rel="next">
+<link href="./section-emprical-forecasting.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -79,7 +79,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./background-skills.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Background skills</span></a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./section-emprical-forecasting.html">Iterative forecasting using empirical models</a></li><li class="breadcrumb-item"><a href="./background-skills.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Background skills</span></a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -122,12 +122,6 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
   </div>
 </li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./background-skills.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Background skills</span></span></a>
-  </div>
-</li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a href="./section-introduction.html" class="sidebar-item-text sidebar-link">
@@ -140,31 +134,31 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./intro-ecoforecast.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Introduction to Ecological Forecasting</span></span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction to Ecological Forecasting</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./understand-uncertainty.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Understanding Uncertainty in Ecological Forecasts</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Understanding Uncertainty in Ecological Forecasts</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./using-data.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Using data to improve ecological forecasts</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Using data to improve ecological forecasts</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./decision-making.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Using Ecological Forecasts to Guide Decision Making</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Using Ecological Forecasts to Guide Decision Making</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./best-practices.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Best Practices in Ecological Forecasting</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Best Practices in Ecological Forecasting</span></span></a>
   </div>
 </li>
       </ul>
@@ -178,6 +172,12 @@ ul.task-list li input[type="checkbox"] {
           </a> 
       </div>
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./background-skills.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Background skills</span></span></a>
+  </div>
+</li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./first-forecast.html" class="sidebar-item-text sidebar-link">
@@ -343,12 +343,12 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#rrstudio-installation" id="toc-rrstudio-installation" class="nav-link active" data-scroll-target="#rrstudio-installation"><span class="header-section-number">2.1</span> R/Rstudio Installation</a></li>
-  <li><a href="#r-skills" id="toc-r-skills" class="nav-link" data-scroll-target="#r-skills"><span class="header-section-number">2.2</span> R skills</a></li>
-  <li><a href="#sec-github" id="toc-sec-github" class="nav-link" data-scroll-target="#sec-github"><span class="header-section-number">2.3</span> Git Skills</a>
+  <li><a href="#rrstudio-installation" id="toc-rrstudio-installation" class="nav-link active" data-scroll-target="#rrstudio-installation"><span class="header-section-number">7.1</span> R/Rstudio Installation</a></li>
+  <li><a href="#r-skills" id="toc-r-skills" class="nav-link" data-scroll-target="#r-skills"><span class="header-section-number">7.2</span> R skills</a></li>
+  <li><a href="#sec-github" id="toc-sec-github" class="nav-link" data-scroll-target="#sec-github"><span class="header-section-number">7.3</span> Git Skills</a>
   <ul class="collapse">
-  <li><a href="#setting-up-git-and-github" id="toc-setting-up-git-and-github" class="nav-link" data-scroll-target="#setting-up-git-and-github"><span class="header-section-number">2.3.1</span> Setting up Git and GitHub</a></li>
-  <li><a href="#working-with-github-a-quarto-example" id="toc-working-with-github-a-quarto-example" class="nav-link" data-scroll-target="#working-with-github-a-quarto-example"><span class="header-section-number">2.3.2</span> Working with GitHub: a quarto example</a></li>
+  <li><a href="#setting-up-git-and-github" id="toc-setting-up-git-and-github" class="nav-link" data-scroll-target="#setting-up-git-and-github"><span class="header-section-number">7.3.1</span> Setting up Git and GitHub</a></li>
+  <li><a href="#working-with-github-a-quarto-example" id="toc-working-with-github-a-quarto-example" class="nav-link" data-scroll-target="#working-with-github-a-quarto-example"><span class="header-section-number">7.3.2</span> Working with GitHub: a quarto example</a></li>
   </ul></li>
   </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/frec-5174/eco4cast-in-R-book/issues/new" class="toc-action">Report an issue</a></p><p><a href="https://github.com/frec-5174/eco4cast-in-R-book/blob/main/background-skills.qmd" class="toc-action">View source</a></p></div></div></nav>
@@ -358,7 +358,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Background skills</span></h1>
+<h1 class="title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Background skills</span></h1>
 </div>
 
 
@@ -374,19 +374,19 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 <p>This chapter provides information about data science skills that are crucial completing the activities in the book (aka prerequisites).</p>
-<section id="rrstudio-installation" class="level2" data-number="2.1">
-<h2 data-number="2.1" class="anchored" data-anchor-id="rrstudio-installation"><span class="header-section-number">2.1</span> R/Rstudio Installation</h2>
+<section id="rrstudio-installation" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="rrstudio-installation"><span class="header-section-number">7.1</span> R/Rstudio Installation</h2>
 <p>The R for Data Science book provides instructions for <a href="https://r4ds.hadley.nz/intro#prerequisites">installing R and Rstudio</a>.</p>
 </section>
-<section id="r-skills" class="level2" data-number="2.2">
-<h2 data-number="2.2" class="anchored" data-anchor-id="r-skills"><span class="header-section-number">2.2</span> R skills</h2>
+<section id="r-skills" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="r-skills"><span class="header-section-number">7.2</span> R skills</h2>
 <p>The book uses R as the focal programming language and generate uses the Tidyverse approach when working with and visualizing data. The following functions are commonly used: <code>read_csv</code>, <code>write_csv</code>, <code>mutate</code>, <code>filter</code>, <code>group_by</code>, <code>summarize</code>, <code>ggplot</code>, <code>select</code>, pipes (<code>|&gt;</code> or <code>%&gt;</code>), <code>pivot_wider</code>, <code>pivot_longer</code>, <code>arrange</code>, <code>left_join</code>). If you are new R and Tidyverse there are many great materials on the internet. The Data Carpentry “Data Analysis and Visualization in R for Ecologists” is an excellent starting point for learning. The <a href="https://r4ds.hadley.nz">R for Data Science book</a> is an especially useful reference for learning the Tidyverse commands. Finally, I have created an <a href="https://github.com/frec3044/tidyvere-intro">introductory to tidyverse module</a> for my undergraduate Environmental Data Science class. You can use the module as a “test” of your Tidyverse skills</p>
 </section>
-<section id="sec-github" class="level2" data-number="2.3">
-<h2 data-number="2.3" class="anchored" data-anchor-id="sec-github"><span class="header-section-number">2.3</span> Git Skills</h2>
+<section id="sec-github" class="level2" data-number="7.3">
+<h2 data-number="7.3" class="anchored" data-anchor-id="sec-github"><span class="header-section-number">7.3</span> Git Skills</h2>
 <p>You will be required to use Git and GitHub to complete the assignments in the book. In particular, Git and GitHub are uses for the generation and submission of forecasts to the NEON Ecological Forecasting Challenge. Below are instructions for setting up Git and GitHub on your computer.</p>
-<section id="setting-up-git-and-github" class="level3" data-number="2.3.1">
-<h3 data-number="2.3.1" class="anchored" data-anchor-id="setting-up-git-and-github"><span class="header-section-number">2.3.1</span> Setting up Git and GitHub</h3>
+<section id="setting-up-git-and-github" class="level3" data-number="7.3.1">
+<h3 data-number="7.3.1" class="anchored" data-anchor-id="setting-up-git-and-github"><span class="header-section-number">7.3.1</span> Setting up Git and GitHub</h3>
 <ol type="1">
 <li><p>Create a GitHub user account at <a href="https://github.com" class="uri">https://github.com</a>, if you don’t already have one. <a href="https://happygitwithr.com/github-acct.html#username-advice">Here is advice about choosing a user name</a>, because choosing a good user name is critical.</p></li>
 <li><p>Go to Rstudio and install the <code>usethis</code> package.</p></li>
@@ -403,8 +403,8 @@ use_git_config(user.name = "Jane Doe", user.email = "jane@example.org")</code></
 </ol>
 <p>If you are having issues (i.e., your computer does not seem to have Git installed), <a href="https://happygitwithr.com/index.html">here</a> is an excellent resource to help you debug your git + Rstudio issues.</p>
 </section>
-<section id="working-with-github-a-quarto-example" class="level3" data-number="2.3.2">
-<h3 data-number="2.3.2" class="anchored" data-anchor-id="working-with-github-a-quarto-example"><span class="header-section-number">2.3.2</span> Working with GitHub: a quarto example</h3>
+<section id="working-with-github-a-quarto-example" class="level3" data-number="7.3.2">
+<h3 data-number="7.3.2" class="anchored" data-anchor-id="working-with-github-a-quarto-example"><span class="header-section-number">7.3.2</span> Working with GitHub: a quarto example</h3>
 <p>This section provides instructions on working with Git and GitHub in Rstudio in the context of creating, modifying, and rendering a Quarto document.</p>
 <ol type="1">
 <li><p>Go to <a href="https://github.com/frec3044/git-rmd-intro" class="uri">https://github.com/frec3044/git-rmd-intro</a>. Find the “fork” bottom near the top right. Click “Fork” and tell it to fork to your personal GitHub account.</p></li>
@@ -736,13 +736,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./intro.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span>
+      <a href="./section-emprical-forecasting.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Iterative forecasting using empirical models</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./section-introduction.html" class="pagination-link">
-        <span class="nav-page-text">Introduction to forecasting</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./first-forecast.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Introduction to NEON Ecological Forecasting Challenge</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

@@ -156,12 +156,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
   </div>
 </li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./background-skills.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Background skills</span></span></a>
-  </div>
-</li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a href="./section-introduction.html" class="sidebar-item-text sidebar-link">
@@ -174,31 +168,31 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./intro-ecoforecast.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Introduction to Ecological Forecasting</span></span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction to Ecological Forecasting</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./understand-uncertainty.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Understanding Uncertainty in Ecological Forecasts</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Understanding Uncertainty in Ecological Forecasts</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./using-data.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Using data to improve ecological forecasts</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Using data to improve ecological forecasts</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./decision-making.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Using Ecological Forecasts to Guide Decision Making</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Using Ecological Forecasts to Guide Decision Making</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./best-practices.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Best Practices in Ecological Forecasting</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Best Practices in Ecological Forecasting</span></span></a>
   </div>
 </li>
       </ul>
@@ -212,6 +206,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           </a> 
       </div>
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./background-skills.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Background skills</span></span></a>
+  </div>
+</li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./first-forecast.html" class="sidebar-item-text sidebar-link">
@@ -633,7 +633,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>split</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;Training/Testing/Total&gt;
-&lt;3715/930/4645&gt;</code></pre>
+&lt;3717/930/4647&gt;</code></pre>
 </div>
 </div>
 <p>To actually get the training and testing data we need to apply the <code>training()</code> and <code>testing()</code> functions to the split.</p>
@@ -645,7 +645,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>train_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 3,715 x 5
+<pre><code># A tibble: 3,717 x 5
    datetime   site_id temperature air_temperature   doy
    &lt;date&gt;     &lt;chr&gt;         &lt;dbl&gt;           &lt;dbl&gt; &lt;dbl&gt;
  1 2017-08-27 BARC           31.5              NA   239
@@ -658,7 +658,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  8 2017-09-03 BARC           31.1              NA   246
  9 2017-09-06 BARC           30.8              NA   249
 10 2017-09-07 BARC           30.5              NA   250
-# i 3,705 more rows</code></pre>
+# i 3,707 more rows</code></pre>
 </div>
 </div>
 <p><em>Feature engineering using a recipe</em></p>
@@ -788,7 +788,7 @@ stats::lm(formula = ..y ~ ., data = data)
 
 Coefficients:
     (Intercept)      site_idSUGG  air_temperature              doy  
-       5.125572        -0.694467         0.874367         0.002833  </code></pre>
+       4.952265        -0.735158         0.878518         0.003307  </code></pre>
 </div>
 </div>
 <p><em>Step 5: Predict Test Data</em></p>
@@ -855,8 +855,8 @@ Coefficients:
 <pre><code># A tibble: 2 x 3
   .metric .estimator .estimate
   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
-1 rmse    standard       2.52 
-2 rsq     standard       0.794</code></pre>
+1 rmse    standard       2.38 
+2 rsq     standard       0.800</code></pre>
 </div>
 </div>
 <p><em>Step 7: Deploy model</em></p>
@@ -876,16 +876,16 @@ Coefficients:
 <pre><code># A tibble: 68 x 5
    datetime   site_id air_temperature temperature   doy
    &lt;date&gt;     &lt;chr&gt;             &lt;dbl&gt; &lt;lgl&gt;       &lt;dbl&gt;
- 1 2024-04-30 BARC               24.1 NA            121
- 2 2024-05-01 BARC               24.5 NA            122
- 3 2024-05-02 BARC               25.5 NA            123
- 4 2024-05-03 BARC               24.4 NA            124
- 5 2024-05-04 BARC               25.6 NA            125
- 6 2024-05-05 BARC               25.6 NA            126
- 7 2024-05-06 BARC               25.9 NA            127
- 8 2024-05-07 BARC               25.9 NA            128
- 9 2024-05-08 BARC               26.6 NA            129
-10 2024-05-09 BARC               26.8 NA            130
+ 1 2024-05-01 SUGG               24.5 NA            122
+ 2 2024-05-02 SUGG               23.9 NA            123
+ 3 2024-05-03 SUGG               24.0 NA            124
+ 4 2024-05-04 SUGG               24.0 NA            125
+ 5 2024-05-05 SUGG               24.0 NA            126
+ 6 2024-05-06 SUGG               24.4 NA            127
+ 7 2024-05-07 SUGG               24.2 NA            128
+ 8 2024-05-08 SUGG               25.5 NA            129
+ 9 2024-05-09 SUGG               26.1 NA            130
+10 2024-05-10 SUGG               26.3 NA            131
 # i 58 more rows</code></pre>
 </div>
 </div>
@@ -986,7 +986,7 @@ Coefficients:
 <pre><code># A tibble: 1 x 2
   start_date     h
   &lt;date&gt;     &lt;dbl&gt;
-1 2024-04-29    36</code></pre>
+1 2024-04-30    36</code></pre>
 </div>
 </div>
 <p>The targets have to be converted into a time-series tibble (called a <code>tsibble</code>). To make a <code>tsibble</code> you need to defined the grouping variables (<code>key</code>) and the common that defines the time-series (<code>index</code>). Many modeling approaches require the datetime to be continuous (no gaps) but allow na values for values in the gaps. The <code>fill_gaps()</code> function fills the gaps with <code>NA</code>s.</p>
