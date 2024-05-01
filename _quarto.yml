@@ -26,7 +26,6 @@ book:
   chapters:
     - index.qmd
     - intro.qmd
-    - background-skills.qmd
     - part: section-introduction.qmd
       chapters:
         - intro-ecoforecast.qmd
@@ -36,6 +35,7 @@ book:
         - best-practices.qmd
     - part: section-emprical-forecasting.qmd
       chapters:
+        - background-skills.qmd
         - first-forecast.qmd
         - second-forecast.qmd
         - third-forecast.qmd
