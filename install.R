@@ -18,3 +18,4 @@ install.packages("lubridate")
 install.packages("tidyverse")
 install.packages("rmarkdown")
 install.packages("remotes")
+# where can the allodb package be found? it's not available for R 4.3.1
