@@ -1,5 +1,11 @@
 # NEON data {#sec-neon}
 
+What is the overarching goal of this chapter and why is it placed here in the sequence? Consider whether it would come better just before the NEON-EFI challenge tutorial? (In that case maybe consider adding in videos on the aquatic program - OR leave it here but put the section 18.1 video + the aquatic program video in Ch. 8 with the tutorial?)
+
+This chapter relates to the previous chapter by.....\[need to fill in\]
+
+This chapter will relate to the next chapter by.... \[need to fill in\]
+
 ```{r}
 #| message: FALSE
 library(tidyverse)
@@ -7,7 +13,7 @@ library(lubridate)
 library(neonstore)
 ```
 
-In this document, we will be creating a carbon budget for a NEON site. It was developed in collaboration with John Smith at Montana State University.
+In this document, we will be creating a carbon budget for a NEON site. <!--# insert text or list describing learning objectives and chapter roadmap here --> This activity was developed in collaboration with John Smith at Montana State University.
 
 NEON data is organized by data product ID in the NEON Data Portal: <https://data.neonscience.org/static/browse.html>
 
@@ -21,13 +27,19 @@ The chapter uses the `neonstore` packages developed by Carl Boettiger to access 
 
 {{< video https://www.youtube.com/embed/FXpqf89w6QU?si=_wGoKN0i13yJbd5S >}}
 
+## Carbon budgets
+
+Short paragraph on the purpose of forest carbon budgets and how one creates them at a high level, paired with a simple conceptual figure.
+
 ## Download data
 
-First, we define the site ID. The four letter site code denotes individual NEON sites. You can learn more about NEON sites here: <https://www.neonscience.org/field-sites/explore-field-sites>. The elevation, latitude, and longitude are needed to convert the diameter measurements to biomass and are found on the NEON page describing the site.
+First, we define the site ID. The four letter site code denotes individual NEON sites. You can learn more about NEON sites here: <https://www.neonscience.org/field-sites/explore-field-sites>.
+
+The elevation, latitude, and longitude are needed to convert the tree diameter measurements to biomass <!--# this is why I think you need a short paragraph introducing carbon budgets - this is the first mention of tree diameter measurements! --> and are found on the NEON page describing the site.
 
 ```{r}
 site <- "OSBS"
-elevation <- 46 #166	
+elevation <- 46 #166	what are these commented out numbers?
 latitude <- 29.689282 #32.95047
 longitude <- -81.993431 #-87.393259	
 ```
@@ -36,7 +48,7 @@ longitude <- -81.993431 #-87.393259
 
 ### Calculate carbon in trees
 
-In this section, we will be calculating carbon in live and dead trees at a NEON site. At the end we will have a *site-level* mean carbon stock in *live trees* for each year that was sampled from the plots that represent ecosystem under the flux tower (e.g., tower plots). We use the tower plots so that it corresponds to same ecosystem as the NEON `nee` data.
+In this section, we will be calculating carbon in live and dead trees at a NEON site <!--# this is where you could refer back to a conceptual carbon budget figure to help students understand the states you are estimating -->. At the end we will have a *site-level* mean carbon stock in *live trees* for each year that was sampled from the plots that represent ecosystem under the flux tower (e.g., tower plots). We use the tower plots so that it corresponds to same ecosystem as the NEON `nee` data.
 
 We will select the key variables in each table (thus only downloading those variables).
 
@@ -74,7 +86,7 @@ plot_table <- neon_cloud("perplotperyear",
 
 ```
 
-The species names in the mapping and tagging table need to be separated into the genus and species so that we can calculate the biomass.
+The species names in the mapping and tagging table need to be separated into the genus and species so that we can calculate the biomass <!--# is that because you calculate biomass by genus? need to clarify -->.
 
 ```{r}
 genus_species <- unlist(str_split_fixed(map_tag_table$scientificName, " ", 3))
@@ -100,7 +112,7 @@ combined_table_dbh <- combined_table |>
 
 ```
 
-Tidy up the individual tree data to include only live trees from the tower plots. Also create a variable that is the year of the sample date. We will filter the data based on measurement heights of 130 cm to only include data that had dbh measurements.
+Tidy up the individual tree data to include only live trees from the tower plots. Also create a variable that is the year of the sample date. We will filter the data based on measurement heights of 130 cm to only include data that had diameter at breast height (dbh) measurements. <!--# I didn't know that 130 cm was the official height for dbh so this was confusing at first - maybe mention this above in new carbon budget overview section and define dbh? -->
 
 ```{r}
 combined_table_live_tower <- combined_table_dbh |>  
@@ -110,11 +122,13 @@ combined_table_live_tower <- combined_table_dbh |>
   mutate(stemDiameter = as.numeric(stemDiameter))
 ```
 
-To calculate the biomass of each tree in the table, we will do this using the `get_biomass` function from the `allodb` package. This function takes as arguments: `dbh`, `genus`, `species`, `coords`. We have already extracted genus and species and filtered to dbh measurements.
+To calculate the biomass of each tree in the table, we will use the `get_biomass` function from the `allodb` package, which is a package that.... <!--# what is the allodb package?  --> This function takes as arguments: `dbh`, `genus`, `species`, and `coords`. We have already extracted genus and species and filtered to dbh measurements.
 
-In this next section, as well as a future one where we calculate dead tree carbon, we are going to make a simplfying assumption. We will assume that the below ground biomass of a tree is some fixed proportion of its above ground biomass. In our analysis, we will assume this value is $.3$ (`ag_bg_propr`), but it is a parameter that can be changed. We also assume that carbon is 0.5 of biomass.
+In this next section, as well as a future one where we calculate dead tree carbon, we are going to make a simplifying assumption. We will assume that the below ground biomass of a tree is some fixed proportion of its above ground biomass. In our analysis, we will assume this value is $0.3$ (`ag_bg_propr`), but it is a parameter that can be changed. We also assume that carbon is $0.5$ of biomass.
 
 The `get_biomass` function is within the `allodb` package and returns the biomass of each tree in units of kg.
+
+<!--# I can't run the code past here because the allodb package is not available for R 4.3.1. this package needs to be added to install.R I think -->
 
 ```{r}
 library(allodb)
@@ -154,7 +168,7 @@ ggplot(plot_live_carbon, aes(x = measure_date, y = plot_kgCm2, color = plotID)) 
   theme_bw()
 ```
 
-Only a subset of plots are measured each year and we only want the plots have annual measurements. This code determines the set of plots that are measured each year (a subset, n = 5) are measured each year, while all the plots are measured every 5 years.
+Only a subset of plots are measured each year and we only want the plots that have annual measurements. This code determines the set of plots that are measured each year (a subset, n = 5), while all the other plots are measured every 5 years.
 
 ```{r}
 last_plots <- plot_live_carbon |> 
@@ -209,7 +223,7 @@ tree_dead_carbon <- combined_table_dead_tower |>
          tree_kgC = (ag_tree_kg + bg_tree_kg) * 0.5)
 ```
 
-Calculate the plot level carbon
+Calculate the plot level carbon.
 
 ```{r}
 measurement_dates <- tree_dead_carbon |> 
@@ -277,7 +291,7 @@ cdw_tally <- neon_cloud("cdw_fieldtally",
 
 ```
 
-We will go through the same steps to calculate carbon in the course wood debris.
+We will go through the same steps to calculate carbon in the coarse woody debris.
 
 ```{r}
 ## filter by tower plot for log table
@@ -376,7 +390,11 @@ site_roots <- rootmass |>
 
 ## Calculate carbon in soils
 
+The video below provides an introduction to the science of soil carbon and methods for measuring it.
+
 {{< video https://www.youtube.com/embed/khfIC5TpyPQ?si=f1ldTnTVpA8UWbb7 >}}
+
+Soil carbon data in contained in two NEON data products: product A and product B. <!--# briefly describe products here -->
 
 ```{r}
 #| message: false
@@ -395,6 +413,8 @@ mgp_perbulksample <- neon_cloud("mgp_perbulksample",
   collect()
 ```
 
+<!--# what is this code chunk doing? -->
+
 ```{r}
 bulk_density <- mgp_perbulksample |> 
     filter(bulkDensSampleType == "Regular") |> 
@@ -407,6 +427,8 @@ horizon_carbon <- mgc_perbiogeosample |>
 
 year <- year(as_date(mgp_perbulksample$collectDate[1]))
 ```
+
+<!--# what is this code chunk doing? -->
 
 ```{r}
   #Unit notes
@@ -448,7 +470,7 @@ site_soil_carbon <- horizon_combined |>
 
 ## Combine together
 
-Next we will combine our estimates of carbon in each faction...
+Next we will combine our estimates of carbon in each fraction... <!--# in order to calculate the total carbon stored in the ecosystem? -->
 
 ```{r}
 site_live_carbon <- site_live_carbon |> 
@@ -492,7 +514,7 @@ total_carbon_components |>
   theme_bw()
 ```
 
-Combine pools of carbon together to match the stocks used in our simple process model. This converts it to a long data format.
+Combine pools of carbon together to match the stocks used in our simple process model. This converts it to a long data format. <!--# Now, we will be able to use the data to....? (how does this relate back to process model) -->
 
 ```{r}
 total_carbon_simple <- total_carbon_components |> 
@@ -506,7 +528,7 @@ total_carbon_simple <- total_carbon_components |>
 
 ## MODIS LAI
 
-We can use leaf area index (LAI) from the MODIS satellite sensor to constrain and evaluate LAI predictions. MODIS LAI product is a 8-day mean for a 500m grid cell.
+<!--# this came out of nowhere a bit - can you set up that you need this at the beginning of the chapter when you explain how this chapter relates to preceding and subsequent chapters? -->We can use leaf area index (LAI) from the MODIS satellite sensor to constrain and evaluate LAI predictions. MODIS LAI product is a 8-day mean for a 500m grid cell.
 
 {{< video https://www.youtube.com/embed/n9t_ANefhjU?si=U4OYgoq83Uu2nu57 >}}
 
@@ -551,7 +573,7 @@ lai_cleaned |>
 
 ## Flux data
 
-Learn about flux data used to calibrate and evaluate NEE fluxes in the model
+<!--# same comment as for MODIS - can you introduce the need/use of these data up front? -->Learn about flux data used to calibrate and evaluate NEE fluxes in the model
 
 {{< video https://www.youtube.com/embed/CR4Anc8Mkas?si=45r0mDvamjYGWq1E >}}
 
@@ -604,7 +626,7 @@ obs |>
   theme_bw()
 ```
 
-Save the observations to a csv file for use in later chapters.
+<!--# Now, we have a complete carbon budget file that is stored in a format compatible with our simple forest process model. This will allow us to do XX, YY, and ZZ. -->Save the observations to a csv file for use in later chapters.
 
 ```{r}
 write_csv(obs, "data/site_carbon_data.csv")

@@ -1,4 +1,6 @@
-# Applying Bayesian calibration methods to process model {#sec-bayes-process}
+# Applying Bayesian calibration methods to a process model {#sec-bayes-process}
+
+In @sec-bayes, you learned how to estimate parameter values using Bayesian methods. Now, we will apply these methods to estimate parameters in our forest process model from @sec-process-model. Recall that the advantage of the Bayesian approach is that it estimates the parameters given the data, whereas likelihood approaches technically estimate the data given the parameters.
 
 ## Running MCMC on the forest process model
 
