@@ -297,13 +297,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./neon-data.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">NEON data</span></span></a>
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Data to constrain process model</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./bayesian-process-models.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Applying Bayesian calibration methods to process model</span></span></a>
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Applying Bayesian calibration methods to a process model</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -633,7 +633,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>split</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;Training/Testing/Total&gt;
-&lt;3717/930/4647&gt;</code></pre>
+&lt;3718/931/4649&gt;</code></pre>
 </div>
 </div>
 <p>To actually get the training and testing data we need to apply the <code>training()</code> and <code>testing()</code> functions to the split.</p>
@@ -645,7 +645,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>train_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 3,717 x 5
+<pre><code># A tibble: 3,718 x 5
    datetime   site_id temperature air_temperature   doy
    &lt;date&gt;     &lt;chr&gt;         &lt;dbl&gt;           &lt;dbl&gt; &lt;dbl&gt;
  1 2017-08-27 BARC           31.5              NA   239
@@ -658,7 +658,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  8 2017-09-03 BARC           31.1              NA   246
  9 2017-09-06 BARC           30.8              NA   249
 10 2017-09-07 BARC           30.5              NA   250
-# i 3,707 more rows</code></pre>
+# i 3,708 more rows</code></pre>
 </div>
 </div>
 <p><em>Feature engineering using a recipe</em></p>
@@ -788,7 +788,7 @@ stats::lm(formula = ..y ~ ., data = data)
 
 Coefficients:
     (Intercept)      site_idSUGG  air_temperature              doy  
-       4.952265        -0.735158         0.878518         0.003307  </code></pre>
+       5.135876        -0.729007         0.867569         0.003704  </code></pre>
 </div>
 </div>
 <p><em>Step 5: Predict Test Data</em></p>
@@ -800,7 +800,7 @@ Coefficients:
 <div class="cell">
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>predictions</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 930 x 1
+<pre><code># A tibble: 931 x 1
    .pred
    &lt;dbl&gt;
  1    NA
@@ -813,7 +813,7 @@ Coefficients:
  8    NA
  9    NA
 10    NA
-# i 920 more rows</code></pre>
+# i 921 more rows</code></pre>
 </div>
 </div>
 <p>We need to combine the <code>.pred</code> column with the testing data using the <code>bind_cols</code> function</p>
@@ -824,7 +824,7 @@ Coefficients:
 <div class="cell">
 <div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>pred_test</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 930 x 6
+<pre><code># A tibble: 931 x 6
    datetime   site_id temperature air_temperature   doy .pred
    &lt;date&gt;     &lt;chr&gt;         &lt;dbl&gt;           &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
  1 2017-09-04 BARC           31.4              NA   247    NA
@@ -837,7 +837,7 @@ Coefficients:
  8 2017-10-11 BARC           29.6              NA   284    NA
  9 2017-10-14 BARC           28.5              NA   287    NA
 10 2017-10-25 BARC           25.9              NA   298    NA
-# i 920 more rows</code></pre>
+# i 921 more rows</code></pre>
 </div>
 </div>
 <p><em>Step 6: Evaluate model</em></p>
@@ -855,8 +855,8 @@ Coefficients:
 <pre><code># A tibble: 2 x 3
   .metric .estimator .estimate
   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
-1 rmse    standard       2.38 
-2 rsq     standard       0.800</code></pre>
+1 rmse    standard       2.36 
+2 rsq     standard       0.819</code></pre>
 </div>
 </div>
 <p><em>Step 7: Deploy model</em></p>
@@ -876,16 +876,16 @@ Coefficients:
 <pre><code># A tibble: 68 x 5
    datetime   site_id air_temperature temperature   doy
    &lt;date&gt;     &lt;chr&gt;             &lt;dbl&gt; &lt;lgl&gt;       &lt;dbl&gt;
- 1 2024-05-01 SUGG               24.5 NA            122
- 2 2024-05-02 SUGG               23.9 NA            123
- 3 2024-05-03 SUGG               24.0 NA            124
- 4 2024-05-04 SUGG               24.0 NA            125
- 5 2024-05-05 SUGG               24.0 NA            126
- 6 2024-05-06 SUGG               24.4 NA            127
- 7 2024-05-07 SUGG               24.2 NA            128
- 8 2024-05-08 SUGG               25.5 NA            129
- 9 2024-05-09 SUGG               26.1 NA            130
-10 2024-05-10 SUGG               26.3 NA            131
+ 1 2024-05-02 BARC               25.6 NA            123
+ 2 2024-05-03 BARC               24.1 NA            124
+ 3 2024-05-04 BARC               23.8 NA            125
+ 4 2024-05-05 BARC               24.5 NA            126
+ 5 2024-05-06 BARC               25.4 NA            127
+ 6 2024-05-07 BARC               25.2 NA            128
+ 7 2024-05-08 BARC               26.1 NA            129
+ 8 2024-05-09 BARC               25.9 NA            130
+ 9 2024-05-10 BARC               27.6 NA            131
+10 2024-05-11 BARC               29.7 NA            132
 # i 58 more rows</code></pre>
 </div>
 </div>
@@ -986,7 +986,7 @@ Coefficients:
 <pre><code># A tibble: 1 x 2
   start_date     h
   &lt;date&gt;     &lt;dbl&gt;
-1 2024-04-30    36</code></pre>
+1 2024-05-01    36</code></pre>
 </div>
 </div>
 <p>The targets have to be converted into a time-series tibble (called a <code>tsibble</code>). To make a <code>tsibble</code> you need to defined the grouping variables (<code>key</code>) and the common that defines the time-series (<code>index</code>). Many modeling approaches require the datetime to be continuous (no gaps) but allow na values for values in the gaps. The <code>fill_gaps()</code> function fills the gaps with <code>NA</code>s.</p>

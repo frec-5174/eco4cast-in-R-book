@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>A Practical Guide to Ecosystem Forecasting - 19&nbsp; Applying Bayesian calibration methods to process model</title>
+<title>A Practical Guide to Ecosystem Forecasting - 19&nbsp; Applying Bayesian calibration methods to a process model</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -113,7 +113,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./section-process-models.html">Iterative forecasting using process-models</a></li><li class="breadcrumb-item"><a href="./bayesian-process-models.html"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Applying Bayesian calibration methods to process model</span></a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./section-process-models.html">Iterative forecasting using process-models</a></li><li class="breadcrumb-item"><a href="./bayesian-process-models.html"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Applying Bayesian calibration methods to a process model</span></a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -297,13 +297,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./neon-data.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">NEON data</span></span></a>
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Data to constrain process model</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./bayesian-process-models.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Applying Bayesian calibration methods to process model</span></span></a>
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Applying Bayesian calibration methods to a process model</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -394,7 +394,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span id="sec-bayes-process" class="quarto-section-identifier"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Applying Bayesian calibration methods to process model</span></span></h1>
+<h1 class="title"><span id="sec-bayes-process" class="quarto-section-identifier"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Applying Bayesian calibration methods to a process model</span></span></h1>
 </div>
 
 
@@ -409,6 +409,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
+<p>In <a href="bayesian-methods-intro.html" class="quarto-xref"><span>Chapter&nbsp;14</span></a>, you learned how to estimate parameter values using Bayesian methods. Now, we will apply these methods to estimate parameters in our forest process model from <a href="process-model.html" class="quarto-xref"><span>Chapter&nbsp;16</span></a>. Recall that the advantage of the Bayesian approach is that it estimates the parameters given the data, whereas likelihood approaches technically estimate the data given the parameters.</p>
 <section id="running-mcmc-on-the-forest-process-model" class="level2" data-number="19.1">
 <h2 data-number="19.1" class="anchored" data-anchor-id="running-mcmc-on-the-forest-process-model"><span class="header-section-number">19.1</span> Running MCMC on the forest process model</h2>
 <div class="cell">
@@ -555,7 +556,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>accept <span class="sc">/</span> (num_iter <span class="sc">*</span> num_pars)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.4693333</code></pre>
+<pre><code>[1] 0.4748889</code></pre>
 </div>
 </div>
 <p>Process MCMC chain by removing the first 500 iterations and pivoting to a long format</p>
@@ -1009,7 +1010,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="./neon-data.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">NEON data</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Data to constrain process model</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">

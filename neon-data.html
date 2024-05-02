@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>A Practical Guide to Ecosystem Forecasting - 18&nbsp; NEON data</title>
+<title>A Practical Guide to Ecosystem Forecasting - 18&nbsp; Data to constrain process model</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -115,7 +115,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./section-process-models.html">Iterative forecasting using process-models</a></li><li class="breadcrumb-item"><a href="./neon-data.html"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">NEON data</span></a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./section-process-models.html">Iterative forecasting using process-models</a></li><li class="breadcrumb-item"><a href="./neon-data.html"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Data to constrain process model</span></a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -299,13 +299,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./neon-data.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">NEON data</span></span></a>
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Data to constrain process model</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./bayesian-process-models.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Applying Bayesian calibration methods to process model</span></span></a>
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Applying Bayesian calibration methods to a process model</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -384,7 +384,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#download-data" id="toc-download-data" class="nav-link" data-scroll-target="#download-data"><span class="header-section-number">18.3</span> Download data</a></li>
   <li><a href="#wood-carbon" id="toc-wood-carbon" class="nav-link" data-scroll-target="#wood-carbon"><span class="header-section-number">18.4</span> Wood carbon</a>
   <ul class="collapse">
-  <li><a href="#calculate-carbon-in-trees" id="toc-calculate-carbon-in-trees" class="nav-link" data-scroll-target="#calculate-carbon-in-trees"><span class="header-section-number">18.4.1</span> Calculate carbon in trees</a></li>
+  <li><a href="#calculate-carbon-in-live-trees" id="toc-calculate-carbon-in-live-trees" class="nav-link" data-scroll-target="#calculate-carbon-in-live-trees"><span class="header-section-number">18.4.1</span> Calculate carbon in live trees</a></li>
   <li><a href="#calculate-carbon-in-dead-trees" id="toc-calculate-carbon-in-dead-trees" class="nav-link" data-scroll-target="#calculate-carbon-in-dead-trees"><span class="header-section-number">18.4.2</span> Calculate carbon in dead trees</a></li>
   </ul></li>
   <li><a href="#calculate-carbon-in-trees-on-the-ground-coarse-woody-debris" id="toc-calculate-carbon-in-trees-on-the-ground-coarse-woody-debris" class="nav-link" data-scroll-target="#calculate-carbon-in-trees-on-the-ground-coarse-woody-debris"><span class="header-section-number">18.5</span> Calculate carbon in trees on the ground (coarse woody debris)</a></li>
@@ -402,7 +402,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span id="sec-neon" class="quarto-section-identifier"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">NEON data</span></span></h1>
+<h1 class="title"><span id="sec-neon" class="quarto-section-identifier"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Data to constrain process model</span></span></h1>
 </div>
 
 
@@ -419,10 +419,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(neonstore)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(neonstore)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>In this document, we will be creating a carbon budget for a NEON site. It was developed in collaboration with John Smith at Montana State University.</p>
+<p>The goal of this chapter is to access and process data from the National Ecological Observatory Network (NEON) to calibrate parameters, estimate parameter uncertainty, assimilate data, and evaluate output from the forest carbon model in <a href="process-model.html" class="quarto-xref"><span>Chapter&nbsp;16</span></a>. The data that is prepared for use in the forest carbon model is used in subsequent chapters.</p>
+<p>In this document, we will be calculating the carbon in tree wood, tree leaves, and soil for a NEON site (matching the model states in <a href="process-model.html" class="quarto-xref"><span>Chapter&nbsp;16</span></a>).</p>
+<ul>
+<li><p>The carbon in wood is based on the conversion of tree diameter measurements to carbon in stems and coarse woody roots. Since our simple forest model does not have a specific representation of fine-roots, we lump fine roots with the wood stock.</p></li>
+<li><p>The carbon in tree leaves is represented by data measuring leaf area index (which is related to leave carbon through a mass-to-area conversion).</p></li>
+<li><p>The carbon in soil represents all dead organic matter (both soil and vegetation) and lumps together standing dead trees, dead trees that have fallen (coarse woody debris), and soil organic matter measured using soil pits.</p></li>
+<li><p>Fluxes of carbon are represented by net ecosystem exchange (nee), as measured by eddy covariance towers.</p></li>
+</ul>
+<p>Much of the code in this chapter is specific to NEON and the particular carbon pools and fluxes analyzed. While the chapter focuses on a single NEON site, the code and concepts can be applied to developing carbon budgets at other forested NEON sites. Additional carbon stock collections are needed at grassland sites (e.g., the non-woody vegetation sampling needs to be processed).</p>
+<p>This chapter was developed in collaboration with John Smith at Montana State University.</p>
 <p>NEON data is organized by data product ID in the NEON Data Portal: <a href="https://data.neonscience.org/static/browse.html" class="uri">https://data.neonscience.org/static/browse.html</a></p>
 <p>The chapter uses the <code>neonstore</code> packages developed by Carl Boettiger to access NEON data. The <code>neon_cloud</code> function uses the NEON data product ID and the table within the product to download the data from NEON cloud storage. If you are new to a NEON data product, it is important to explore the data product on NEON’s Data Portal before using the <code>neon_cloud</code> functionality (otherwise you don’t know what tables you need to download and how they link together).</p>
 <section id="neon-project" class="level2" data-number="18.1">
@@ -435,19 +443,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="download-data" class="level2" data-number="18.3">
 <h2 data-number="18.3" class="anchored" data-anchor-id="download-data"><span class="header-section-number">18.3</span> Download data</h2>
-<p>First, we define the site ID. The four letter site code denotes individual NEON sites. You can learn more about NEON sites here: <a href="https://www.neonscience.org/field-sites/explore-field-sites" class="uri">https://www.neonscience.org/field-sites/explore-field-sites</a>. The elevation, latitude, and longitude are needed to convert the diameter measurements to biomass and are found on the NEON page describing the site.</p>
+<p>First, we define the site ID. The four letter site code denotes individual NEON sites. You can learn more about NEON sites here: <a href="https://www.neonscience.org/field-sites/explore-field-sites" class="uri">https://www.neonscience.org/field-sites/explore-field-sites</a>.</p>
+<p>The elevation, latitude, and longitude are needed to convert the tree diameter measurements to biomass and are found on the NEON page describing the site.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>site <span class="ot">&lt;-</span> <span class="st">"OSBS"</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>elevation <span class="ot">&lt;-</span> <span class="dv">46</span> <span class="co">#166    </span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>latitude <span class="ot">&lt;-</span> <span class="fl">29.689282</span> <span class="co">#32.95047</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>longitude <span class="ot">&lt;-</span> <span class="sc">-</span><span class="fl">81.993431</span> <span class="co">#-87.393259 </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>elevation <span class="ot">&lt;-</span> <span class="dv">46</span> </span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>latitude <span class="ot">&lt;-</span> <span class="fl">29.689282</span> </span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>longitude <span class="ot">&lt;-</span> <span class="sc">-</span><span class="fl">81.993431</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="wood-carbon" class="level2" data-number="18.4">
 <h2 data-number="18.4" class="anchored" data-anchor-id="wood-carbon"><span class="header-section-number">18.4</span> Wood carbon</h2>
-<section id="calculate-carbon-in-trees" class="level3" data-number="18.4.1">
-<h3 data-number="18.4.1" class="anchored" data-anchor-id="calculate-carbon-in-trees"><span class="header-section-number">18.4.1</span> Calculate carbon in trees</h3>
-<p>In this section, we will be calculating carbon in live and dead trees at a NEON site. At the end we will have a <em>site-level</em> mean carbon stock in <em>live trees</em> for each year that was sampled from the plots that represent ecosystem under the flux tower (e.g., tower plots). We use the tower plots so that it corresponds to same ecosystem as the NEON <code>nee</code> data.</p>
+<p>In this section, we will be calculating carbon in live and dead trees at a NEON site. The carbon in live trees represents the wood carbon stock in <a href="process-model.html#fig-process-model" class="quarto-xref">Figure&nbsp;<span>16.1</span></a> and the dead trees represent a component of the soil organic matter stock in <a href="process-model.html#fig-process-model" class="quarto-xref">Figure&nbsp;<span>16.1</span></a>. At the end we will have a <em>site-level</em> mean carbon stock in <em>live trees</em> and <em>dead trees</em>for each year that was sampled from the plots that represent ecosystem under the flux tower (e.g., tower plots). We use the tower plots so that it corresponds to same ecosystem as the NEON <code>nee</code> data.</p>
 <p>We will select the key variables in each table (thus only downloading those variables).</p>
 <p>The code below reads the data directly from NEON’s cloud storage.</p>
 <div class="cell">
@@ -478,7 +485,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(plotID, <span class="at">.keep_all =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> </span>
 <span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>The species names in the mapping and tagging table need to be separated into the genus and species so that we can calculate the biomass.</p>
+<p>The equations that convert diameter at breast height (DBH), where breast height is defined at 130 cm above the base of the tree, differ by species and location. Therefore the scientific name (both genus and species components) are needed. The species names in the mapping and tagging table need to be separated into the genus and species so that we can calculate the biomass using an R function that expects them to be separate.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>genus_species <span class="ot">&lt;-</span> <span class="fu">unlist</span>(<span class="fu">str_split_fixed</span>(map_tag_table<span class="sc">$</span>scientificName, <span class="st">" "</span>, <span class="dv">3</span>))</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -498,7 +505,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(measurementHeight <span class="sc">==</span> <span class="dv">130</span>,</span>
 <span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>         <span class="sc">!</span><span class="fu">is.na</span>(stemDiameter))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Tidy up the individual tree data to include only live trees from the tower plots. Also create a variable that is the year of the sample date. We will filter the data based on measurement heights of 130 cm to only include data that had dbh measurements.</p>
+<section id="calculate-carbon-in-live-trees" class="level3" data-number="18.4.1">
+<h3 data-number="18.4.1" class="anchored" data-anchor-id="calculate-carbon-in-live-trees"><span class="header-section-number">18.4.1</span> Calculate carbon in live trees</h3>
+<p>Tidy up the individual tree data to include only live trees from the tower plots. Also create a variable that is the year of the sample date. We will filter the data based on measurement heights of 130 cm to only include data that had diameter at breast height (dbh) measurements.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>combined_table_live_tower <span class="ot">&lt;-</span> combined_table_dbh <span class="sc">|&gt;</span>  </span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">str_detect</span>(plantStatus,<span class="st">"Live"</span>),</span>
@@ -506,8 +515,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>         measurementHeight <span class="sc">==</span> <span class="dv">130</span>) <span class="sc">|&gt;</span> </span>
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">stemDiameter =</span> <span class="fu">as.numeric</span>(stemDiameter))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>To calculate the biomass of each tree in the table, we will do this using the <code>get_biomass</code> function from the <code>allodb</code> package. This function takes as arguments: <code>dbh</code>, <code>genus</code>, <code>species</code>, <code>coords</code>. We have already extracted genus and species and filtered to dbh measurements.</p>
-<p>In this next section, as well as a future one where we calculate dead tree carbon, we are going to make a simplfying assumption. We will assume that the below ground biomass of a tree is some fixed proportion of its above ground biomass. In our analysis, we will assume this value is <span class="math inline">\(.3\)</span> (<code>ag_bg_propr</code>), but it is a parameter that can be changed. We also assume that carbon is 0.5 of biomass.</p>
+<p>To calculate the biomass of each tree in the table, we will use the <code>get_biomass</code> function from the <code>allodb</code> package (Gonzalex-Akre https://doi.org/10.1111/2041-210X.13756), which is a package that converts DBH measurements to tree biomass estimates. This function takes as arguments: <code>dbh</code>, <code>genus</code>, <code>species</code>, and <code>coords</code>. We have already extracted genus and species and filtered to dbh measurements. (note <code>allodb</code> is not on CRAN but can be downloaded using <code>remotes::install_github("ropensci/allodb")</code>)</p>
+<p>In this next section, as well as a future one where we calculate dead tree carbon, we are going to make a simplifying assumption. We will assume that the below ground biomass of a tree is some fixed proportion of its above ground biomass. In our analysis, we will assume this value is <span class="math inline">\(0.3\)</span> (<code>ag_bg_propr</code>), but it is a parameter that can be changed. We also assume that carbon is <span class="math inline">\(0.5\)</span> of biomass.</p>
 <p>The <code>get_biomass</code> function is within the <code>allodb</code> package and returns the biomass of each tree in units of kg.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(allodb)</span>
@@ -547,7 +556,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<p>Only a subset of plots are measured each year and we only want the plots have annual measurements. This code determines the set of plots that are measured each year (a subset, n = 5) are measured each year, while all the plots are measured every 5 years.</p>
+<p>Only a subset of plots are measured each year and we only want the plots that have annual measurements. This code determines the set of plots that are measured each year (a subset, n = 5), while all the other plots are measured every 5 years.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>last_plots <span class="ot">&lt;-</span> plot_live_carbon <span class="sc">|&gt;</span> </span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(measure_date <span class="sc">==</span> <span class="fu">max</span>(measure_date)) <span class="sc">|&gt;</span> </span>
@@ -600,7 +609,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">bg_tree_kg =</span> ag_tree_kg <span class="sc">*</span> ag_bg_prop,</span>
 <span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>         <span class="at">tree_kgC =</span> (ag_tree_kg <span class="sc">+</span> bg_tree_kg) <span class="sc">*</span> <span class="fl">0.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Calculate the plot level carbon</p>
+<p>Calculate the plot level carbon.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>measurement_dates <span class="ot">&lt;-</span> tree_dead_carbon <span class="sc">|&gt;</span> </span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">measure_date =</span> <span class="fu">max</span>(date), <span class="at">.by =</span> eventID)</span>
@@ -652,6 +661,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="calculate-carbon-in-trees-on-the-ground-coarse-woody-debris" class="level2" data-number="18.5">
 <h2 data-number="18.5" class="anchored" data-anchor-id="calculate-carbon-in-trees-on-the-ground-coarse-woody-debris"><span class="header-section-number">18.5</span> Calculate carbon in trees on the ground (coarse woody debris)</h2>
+<p>While the code above calculates the carbon in standing dead trees, it misses the carbon in dead trees that are no longer standing (called coarse woody debris). The coarse woody debris is another component of SOM in our simple forest model.</p>
 <p>The data needed to calculate carbon in trees that are laying on the ground are in two NEON data products.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>cdw_density <span class="ot">&lt;-</span> <span class="fu">neon_cloud</span>(<span class="st">"cdw_densitydisk"</span>,</span>
@@ -669,7 +679,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>                        <span class="at">site =</span> site) <span class="sc">|&gt;</span> </span>
 <span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>We will go through the same steps to calculate carbon in the course wood debris.</p>
+<p>We will go through the same steps to calculate carbon in the coarse woody debris.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="do">## filter by tower plot for log table</span></span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>log_table_filter <span class="ot">&lt;-</span> log_table <span class="sc">|&gt;</span> </span>
@@ -704,7 +714,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="calculate-carbon-in-fine-roots" class="level2" data-number="18.6">
 <h2 data-number="18.6" class="anchored" data-anchor-id="calculate-carbon-in-fine-roots"><span class="header-section-number">18.6</span> Calculate carbon in fine roots</h2>
-<p>Here we are going to calculate the carbon stored in fine roots using the root chemistry data product. We will calculate the carbon in both dead and alive roots. Though we are interested mostly in live roots, at the time of writing this, the 2021 NEON data for our site does not have <code>rootStatus</code> data available. Thus we will use historical data to compute an estimate of the ratio, so that we don’t have to throw away perfectly good information.</p>
+<p>We lump fine root carbon into the wood stem stock in the simple forest model. Here we are going to calculate the carbon stored in fine roots using the root chemistry data product. We will calculate the carbon in both dead and alive roots. Though we are interested mostly in live roots, at the time of writing this, the 2021 NEON data for our site does not have <code>rootStatus</code> data available. Thus we will use historical data to compute an estimate of the ratio, so that we don’t have to throw away perfectly good information.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="do">## root chemistry data product</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>bbc_percore <span class="ot">&lt;-</span> <span class="fu">neon_cloud</span>(<span class="st">"bbc_percore"</span>,</span>
@@ -762,7 +772,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="calculate-carbon-in-soils" class="level2" data-number="18.7">
 <h2 data-number="18.7" class="anchored" data-anchor-id="calculate-carbon-in-soils"><span class="header-section-number">18.7</span> Calculate carbon in soils</h2>
+<p>The video below provides an introduction to the science of soil carbon and methods for measuring it.</p>
 <div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/khfIC5TpyPQ?si=f1ldTnTVpA8UWbb7" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
+<p>Soil carbon data in contained in two NEON data products: one that describes the physical characteristics of the soil (depth and density) and another the describes the carbon concentration of the soil. Ultimately multiplying the density by the carbon concentration gives the total carbon.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Download bieogeochemistry soil data to get carbon concentration</span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="co">#data_product1 &lt;- "DP1.00097.001"</span></span>
@@ -778,6 +790,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>                        <span class="at">site =</span> site) <span class="sc">|&gt;</span> </span>
 <span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>This code pulls out the relevant columns from the data that were read in above.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>bulk_density <span class="ot">&lt;-</span> mgp_perbulksample <span class="sc">|&gt;</span> </span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(bulkDensSampleType <span class="sc">==</span> <span class="st">"Regular"</span>) <span class="sc">|&gt;</span> </span>
@@ -790,6 +803,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>year <span class="ot">&lt;-</span> <span class="fu">year</span>(<span class="fu">as_date</span>(mgp_perbulksample<span class="sc">$</span>collectDate[<span class="dv">1</span>]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>The code below</p>
+<ul>
+<li><p>joins the bulk density table into the table with the carbon concentration</p></li>
+<li><p>Determines the height of the horizon (<code>biogeoBottomDepth - biogeoTopDepth</code>) and coverts to total mass of soil in the horizon using the bulk density.</p></li>
+<li><p>Multiply the carbon concentration (carbonTot) by the mass of soil (along with unit conversion) to get the soil carbon in kg C / m2.</p></li>
+</ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">#Unit notes</span></span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">#bulkDensExclCoarseFrag = gramsPerCubicCentimeter</span></span>
@@ -831,7 +850,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="combine-together" class="level2" data-number="18.8">
 <h2 data-number="18.8" class="anchored" data-anchor-id="combine-together"><span class="header-section-number">18.8</span> Combine together</h2>
-<p>Next we will combine our estimates of carbon in each faction…</p>
+<p>Next we will combine our estimates of carbon in each component for visualization and to aggregated into the wood and som stocks below.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>site_live_carbon <span class="ot">&lt;-</span> site_live_carbon <span class="sc">|&gt;</span> </span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">variable =</span> <span class="st">"live_tree"</span>) <span class="sc">|&gt;</span> </span>
@@ -876,7 +895,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<p>Combine pools of carbon together to match the stocks used in our simple process model. This converts it to a long data format.</p>
+<p>Combine pools of carbon together to match the stocks used in our simple process model. - wood = live trees (stem and coarse roots) + fine roots - som = dead trees + down wood + soil carbon</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>total_carbon_simple <span class="ot">&lt;-</span> total_carbon_components <span class="sc">|&gt;</span> </span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> variable, <span class="at">values_from =</span> mean_kgCperm2) <span class="sc">|&gt;</span> </span>
@@ -889,7 +908,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="modis-lai" class="level2" data-number="18.9">
 <h2 data-number="18.9" class="anchored" data-anchor-id="modis-lai"><span class="header-section-number">18.9</span> MODIS LAI</h2>
-<p>We can use leaf area index (LAI) from the MODIS satellite sensor to constrain and evaluate LAI predictions. MODIS LAI product is a 8-day mean for a 500m grid cell.</p>
+<p>Leaf area index can be used a proxy for leaf carbon. The forest model convert leaf carbon into LAI using a leaf mass to area parameter. As a result, we can use leaf area index (LAI) from the MODIS satellite sensor to constrain and evaluate LAI predictions. MODIS LAI product is a 8-day mean for a 500m grid cell.</p>
 <div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/n9t_ANefhjU?si=U4OYgoq83Uu2nu57" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
 <p>Download the leaf area index for the focal NEON site using the <code>MODISTools</code> package.</p>
 <div class="cell">
@@ -934,7 +953,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="flux-data" class="level2" data-number="18.10">
 <h2 data-number="18.10" class="anchored" data-anchor-id="flux-data"><span class="header-section-number">18.10</span> Flux data</h2>
-<p>Learn about flux data used to calibrate and evaluate NEE fluxes in the model</p>
+<p>NEE flux data is used to help constrain the net of the photosynthesis and respiration in the simple forest model. It is already processed for used in the NEON Ecological Forecasting Challenge. Here we read in that data.</p>
+<p>Learn about flux data here:</p>
 <div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/CR4Anc8Mkas?si=45r0mDvamjYGWq1E" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="st">"https://sdsc.osn.xsede.org/bio230014-bucket01/challenges/targets/project_id=neon4cast/duration=P1D/terrestrial_daily-targets.csv.gz"</span></span>
@@ -984,10 +1004,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<p>Save the observations to a csv file for use in later chapters.</p>
+<p>Save the observations to a csv file.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(obs, <span class="st">"data/site_carbon_data.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>Now, we have a complete, up-to-date carbon budget file that is stored in a format compatible with our simple forest process model. This will allow us to calibrate parameters, assimilate data, and evaluate forecasts. We will use this file in the subsequent chapters.</p>
 
 
 </section>
@@ -1298,7 +1319,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   </div>
   <div class="nav-page nav-page-next">
       <a href="./bayesian-process-models.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Applying Bayesian calibration methods to process model</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Applying Bayesian calibration methods to a process model</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
