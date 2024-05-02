@@ -25,7 +25,8 @@ tibble(lai = seq(0,8, by = 0.1)) |>
   labs(x = "Leaf area index (LAI)", y = "Fraction of PAR absorbed (aPAR)", title = "aPAR = 1 - exp(-0.5 * lai)") +
   theme_bw()
 ```
-The absorbed PAR is multiplied by a light use efficiency parameter (`alpha`) that converts the absorbed PAR to carbon.  LAI is determined by multiplying leaf carbon by the specific leaf area parameter (`SLA`). 
+
+The absorbed PAR is multiplied by a light use efficiency parameter (`alpha`) that converts the absorbed PAR to carbon. LAI is determined by multiplying leaf carbon by the specific leaf area parameter (`SLA`).
 
 Autotrophic respiration (`ra`) is modeled as a constant proportion of GPP using the `Ra_frac` parameter. Net primary productivity (`npp`) is the carbon that is not used for autotrophic respiration (`gpp - ra`).
 
@@ -35,7 +36,7 @@ Litterfall occurs between a starting day-of-year (`litterfall_start`) and an end
 
 Tree mortality is modeled as a constant proportion of wood (`mortality`) that is lost each day.
 
-Heterotrophic respiration is modeled as a constant proportion of soil carbon (`Rbasal`) that is adjusted by the temperature using a Q10 function that is governed by a Q10 parameter (`Q10`).  The Q10 function represents how much respiration increases per 10 degree C increase in temperature.  A Q10 parameter (`Q10`) of 2 corresponds to a doubling of respiration per 10 degree C increase in temperature.  The Q10 function requires a base temperature (here, 20 degree C) where the function evaluates to 1 and the represent rate equals the rate specified by `Rbasal`.  The Q10 function looks like the following (using a `Q10` of 2):
+Heterotrophic respiration is modeled as a constant proportion of soil carbon (`Rbasal`) that is adjusted by the temperature using a Q10 function that is governed by a Q10 parameter (`Q10`). The Q10 function represents how much respiration increases per 10 degree C increase in temperature. A Q10 parameter (`Q10`) of 2 corresponds to a doubling of respiration per 10 degree C increase in temperature. The Q10 function requires a base temperature (here, 20 degree C) where the function evaluates to 1 and the represent rate equals the rate specified by `Rbasal`. The Q10 function looks like the following (using a `Q10` of 2):
 
 ```{r}
 #| echo: false
@@ -55,19 +56,19 @@ The model requires inputs of photosynthetic active radiation (`PAR`), air temper
 
 ## Uncertainty
 
-Uncertainty can be represented in the model through its use of multiple ensemble members and the addition of random noise to each model state at each time step.  The ensemble members can differ in their initial starting point, their parameters, and their meteorological inputs.  The ensembles members are represented in the model code using the vector capacities in R.  For example `states[, 1]` represents all ensemble members (the rows of the state matrix) for state number 3 (the columns of the state matrix).  A similar concept applies to the drivers (`inputs[, 1]`). The parameters (e.g. `parms$alpha`) are vectors with one value for each ensemble member.  
+Uncertainty can be represented in the model through its use of multiple ensemble members and the addition of random noise to each model state at each time step. The ensemble members can differ in their initial starting point, their parameters, and their meteorological inputs. The ensembles members are represented in the model code using the vector capacities in R. For example `states[, 1]` represents all ensemble members (the rows of the state matrix) for state number 3 (the columns of the state matrix). A similar concept applies to the drivers (`inputs[, 1]`). The parameters (e.g. `parms$alpha`) are vectors with one value for each ensemble member.
 
-Normally distributed random noise can be added to each state at each time step to represent "process uncertainty" (e.g., uncertainty due to the capacity of the model structure to reproduce the system).  A unique value is drawn for each ensemble member following
+Normally distributed random noise can be added to each state at each time step to represent "process uncertainty" (e.g., uncertainty due to the capacity of the model structure to reproduce the system). A unique value is drawn for each ensemble member following
 
-```
+```         
 rnorm(ens_members, states[, 1] , parms$sigma.leaf)
 ```
 
-where the mean of the normal distribution is the predicted value for the state at that time step and the standard deviation (e.g., `parms$sigma.leaf`) control how much noise is added.  `parms$sigma.leaf`, `parms$sigma.wood`, and `parms$sigma.soil` are parameters that are set by the user or estimated from a model calibration.  Setting the sigma parameters to 0 removes the random noise (as done below). See @sec-prop-unc for more details on how uncertainty is represented and propagated through time in the model.
+where the mean of the normal distribution is the predicted value for the state at that time step and the standard deviation (e.g., `parms$sigma.leaf`) control how much noise is added. `parms$sigma.leaf`, `parms$sigma.wood`, and `parms$sigma.soil` are parameters that are set by the user or estimated from a model calibration. Setting the sigma parameters to 0 removes the random noise (as done below). See @sec-prop-unc for more details on how uncertainty is represented and propagated through time in the model.
 
 ## Solving the model
 
-At each time step, the processes that result in change in the model states are calculated (i.e., photosynthesis, mortality, respiration, etc.). The process rates are then combined to determine the net rate of change (i.e., the derivative) for each model state.  
+At each time step, the processes that result in change in the model states are calculated (i.e., photosynthesis, mortality, respiration, etc.). The process rates are then combined to determine the net rate of change (i.e., the derivative) for each model state.
 
 ```         
   dleaves_dt <- leaf_alloc  - litterfall
@@ -280,9 +281,7 @@ output_df |>
 
 Use the visualization of the simulation above to answer the following questions:
 
-1. Which carbon state is changing the most over the simulation (wood or som). 
-2. Why does wood carbon increase in the summer and decrease over the winter?
-3. Is carbon stored or released by the ecosystem when NEE is negative?  What time of year is NEE positive?
-4. All models are simplifications of the system: What important ecosystem processes are missing from this forest ecosystem model?
-
-
+1.  Which carbon state is changing the most over the simulation (wood or som).
+2.  Why does wood carbon increase in the summer and decrease over the winter?
+3.  Is carbon stored or released by the ecosystem when NEE is negative? What time of year is NEE positive?
+4.  All models are simplifications of the system: What important ecosystem processes are missing from this forest ecosystem model?

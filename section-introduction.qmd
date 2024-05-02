@@ -1,3 +1,3 @@
 # Introduction to forecasting
 
-The first section of the book is focused on introducing key concepts in ecological forecasting using modules from the [Macrosystems EDDIE project](Macrosystem EDDIE project) The concepts are taught using Rshiny applications and do not require coding.
+The first section of the book is focused on introducing key concepts in ecological forecasting using modules from the [Macrosystems EDDIE project](Macrosystem%20EDDIE%20project) The concepts are taught using Rshiny applications and do not require coding.
