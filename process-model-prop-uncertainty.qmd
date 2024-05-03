@@ -1,4 +1,4 @@
-# Propagating uncertainty {#sec-prop-unc}
+# Propagating uncertainty in the process model {#sec-prop-unc}
 
 ```{r}
 #| message: FALSE
