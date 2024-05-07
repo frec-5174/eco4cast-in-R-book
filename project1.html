@@ -633,7 +633,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>split</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;Training/Testing/Total&gt;
-&lt;3727/932/4659&gt;</code></pre>
+&lt;3728/933/4661&gt;</code></pre>
 </div>
 </div>
 <p>To actually get the training and testing data we need to apply the <code>training()</code> and <code>testing()</code> functions to the split.</p>
@@ -645,7 +645,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>train_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 3,727 x 5
+<pre><code># A tibble: 3,728 × 5
    datetime   site_id temperature air_temperature   doy
    &lt;date&gt;     &lt;chr&gt;         &lt;dbl&gt;           &lt;dbl&gt; &lt;dbl&gt;
  1 2017-08-27 BARC           31.5              NA   239
@@ -658,7 +658,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  8 2017-09-03 BARC           31.1              NA   246
  9 2017-09-06 BARC           30.8              NA   249
 10 2017-09-07 BARC           30.5              NA   250
-# i 3,717 more rows</code></pre>
+# ℹ 3,718 more rows</code></pre>
 </div>
 </div>
 <p><em>Feature engineering using a recipe</em></p>
@@ -690,32 +690,32 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code></code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>-- Recipe ----------------------------------------------------------------------</code></pre>
+<pre><code>── Recipe ──────────────────────────────────────────────────────────────────────</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
 <pre><code></code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>-- Inputs </code></pre>
+<pre><code>── Inputs </code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Number of variables by role</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>outcome: &lt;U+00A0&gt;&lt;U+00A0&gt;1
+<pre><code>outcome:   1
 predictor: 4</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
 <pre><code></code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>-- Operations </code></pre>
+<pre><code>── Operations </code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>* Variables removed: datetime</code></pre>
+<pre><code>• Variables removed: datetime</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>* Removing rows with NA values in: air_temperature and temperature</code></pre>
+<pre><code>• Removing rows with NA values in: air_temperature and temperature</code></pre>
 </div>
 </div>
 <p><em>Step 3: Specify model, engine, and workflow</em></p>
@@ -745,17 +745,17 @@ Computational engine: lm </code></pre>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>wflow</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>== Workflow ====================================================================
+<pre><code>══ Workflow ════════════════════════════════════════════════════════════════════
 Preprocessor: Recipe
 Model: linear_reg()
 
--- Preprocessor ----------------------------------------------------------------
+── Preprocessor ────────────────────────────────────────────────────────────────
 2 Recipe Steps
 
-* step_rm()
-* step_naomit()
+• step_rm()
+• step_naomit()
 
--- Model -----------------------------------------------------------------------
+── Model ───────────────────────────────────────────────────────────────────────
 Linear Regression Model Specification (regression)
 
 Computational engine: lm </code></pre>
@@ -771,24 +771,24 @@ Computational engine: lm </code></pre>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>fit</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>== Workflow [trained] ==========================================================
+<pre><code>══ Workflow [trained] ══════════════════════════════════════════════════════════
 Preprocessor: Recipe
 Model: linear_reg()
 
--- Preprocessor ----------------------------------------------------------------
+── Preprocessor ────────────────────────────────────────────────────────────────
 2 Recipe Steps
 
-* step_rm()
-* step_naomit()
+• step_rm()
+• step_naomit()
 
--- Model -----------------------------------------------------------------------
+── Model ───────────────────────────────────────────────────────────────────────
 
 Call:
 stats::lm(formula = ..y ~ ., data = data)
 
 Coefficients:
     (Intercept)      site_idSUGG  air_temperature              doy  
-       5.231719        -0.739577         0.866535         0.003221  </code></pre>
+       5.161687        -0.763207         0.871271         0.003246  </code></pre>
 </div>
 </div>
 <p><em>Step 5: Predict Test Data</em></p>
@@ -800,7 +800,7 @@ Coefficients:
 <div class="cell">
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>predictions</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 932 x 1
+<pre><code># A tibble: 933 × 1
    .pred
    &lt;dbl&gt;
  1    NA
@@ -813,7 +813,7 @@ Coefficients:
  8    NA
  9    NA
 10    NA
-# i 922 more rows</code></pre>
+# ℹ 923 more rows</code></pre>
 </div>
 </div>
 <p>We need to combine the <code>.pred</code> column with the testing data using the <code>bind_cols</code> function</p>
@@ -824,7 +824,7 @@ Coefficients:
 <div class="cell">
 <div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>pred_test</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 932 x 6
+<pre><code># A tibble: 933 × 6
    datetime   site_id temperature air_temperature   doy .pred
    &lt;date&gt;     &lt;chr&gt;         &lt;dbl&gt;           &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
  1 2017-09-04 BARC           31.4              NA   247    NA
@@ -837,7 +837,7 @@ Coefficients:
  8 2017-10-11 BARC           29.6              NA   284    NA
  9 2017-10-14 BARC           28.5              NA   287    NA
 10 2017-10-25 BARC           25.9              NA   298    NA
-# i 922 more rows</code></pre>
+# ℹ 923 more rows</code></pre>
 </div>
 </div>
 <p><em>Step 6: Evaluate model</em></p>
@@ -852,11 +852,11 @@ Coefficients:
 <div class="cell">
 <div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>metric_table</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 2 x 3
+<pre><code># A tibble: 2 × 3
   .metric .estimator .estimate
   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
-1 rmse    standard       2.26 
-2 rsq     standard       0.834</code></pre>
+1 rmse    standard       2.30 
+2 rsq     standard       0.813</code></pre>
 </div>
 </div>
 <p><em>Step 7: Deploy model</em></p>
@@ -873,20 +873,20 @@ Coefficients:
 <div class="cell">
 <div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>targets_future</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 68 x 5
+<pre><code># A tibble: 68 × 5
    datetime   site_id air_temperature temperature   doy
    &lt;date&gt;     &lt;chr&gt;             &lt;dbl&gt; &lt;lgl&gt;       &lt;dbl&gt;
- 1 2024-05-06 BARC               25.0 NA            127
- 2 2024-05-07 BARC               25.3 NA            128
- 3 2024-05-08 BARC               26.8 NA            129
- 4 2024-05-09 BARC               27.7 NA            130
- 5 2024-05-10 BARC               27.4 NA            131
- 6 2024-05-11 BARC               25.0 NA            132
- 7 2024-05-12 BARC               21.5 NA            133
- 8 2024-05-13 BARC               22.4 NA            134
- 9 2024-05-14 BARC               19.8 NA            135
-10 2024-05-15 BARC               22.8 NA            136
-# i 58 more rows</code></pre>
+ 1 2024-05-07 BARC               25.8 NA            128
+ 2 2024-05-08 BARC               26.5 NA            129
+ 3 2024-05-09 BARC               27.1 NA            130
+ 4 2024-05-10 BARC               27.1 NA            131
+ 5 2024-05-11 BARC               26.0 NA            132
+ 6 2024-05-12 BARC               22.2 NA            133
+ 7 2024-05-13 BARC               20.6 NA            134
+ 8 2024-05-14 BARC               23.3 NA            135
+ 9 2024-05-15 BARC               23.9 NA            136
+10 2024-05-16 BARC               24.2 NA            137
+# ℹ 58 more rows</code></pre>
 </div>
 </div>
 <p>As in “Step 5: Predict Test Data”, use the model fitting on the training data (<code>fit</code>) to predict the new data.</p>
@@ -983,10 +983,10 @@ Coefficients:
 <span id="cb60-8"><a href="#cb60-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb60-9"><a href="#cb60-9" aria-hidden="true" tabindex="-1"></a>forecast_starts</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 1 x 2
+<pre><code># A tibble: 1 × 2
   start_date     h
   &lt;date&gt;     &lt;dbl&gt;
-1 2024-05-05    36</code></pre>
+1 2024-05-06    36</code></pre>
 </div>
 </div>
 <p>The targets have to be converted into a time-series tibble (called a <code>tsibble</code>). To make a <code>tsibble</code> you need to defined the grouping variables (<code>key</code>) and the common that defines the time-series (<code>index</code>). Many modeling approaches require the datetime to be continuous (no gaps) but allow na values for values in the gaps. The <code>fill_gaps()</code> function fills the gaps with <code>NA</code>s.</p>
