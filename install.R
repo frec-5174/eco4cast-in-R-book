@@ -10,6 +10,7 @@ remotes::install_github("eco4cast/neon4cast")
 install.packages("tidymodels")
 install.packages("tsibble")
 install.packages("fable")
+remotes::install_version("duckdb", "0.10.2")
 
 # packages that will be needed if someone is just workin' that regular
 # old rocker container (rocker/rstudio)
@@ -18,4 +19,3 @@ install.packages("lubridate")
 install.packages("tidyverse")
 install.packages("rmarkdown")
 install.packages("remotes")
-# where can the allodb package be found? it's not available for R 4.3.1
