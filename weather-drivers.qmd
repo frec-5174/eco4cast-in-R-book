@@ -4,11 +4,11 @@
 
 Our goal is to generate genuine forecasts of the future. Therefore we need to use weather forecasts as driver inputs into our model.
 
-This opens a critical issue when calibrating a model that is then used for forecasting. A model could be calibrated using observed weather from a weather station as inputs. As a result the parameters are tuned to the weather from the station. However, the bias and statistics of the observed weather may be different from the forecasted weather since weather forecasts are for a larger grid (e.g., the weather forecast may be consistently warmer by 2 degrees C). This offset in the meteorology used to calibrate and forecast could result in the forecast being biased. The issue can be fixed by either adjusting the weather forecast to be more consistent with the observed weather or calibrating the model using weather inputs from the weather forecast model. In this book we use the later.
+This opens a critical issue when calibrating a model that is then used for forecasting. A model could be calibrated using observed weather from a weather station as inputs. As a result, the parameters are tuned to the weather from the station. However, the bias and statistics of the observed weather may be different from the forecasted weather since weather forecasts are for a larger grid (e.g., the weather forecast may be consistently warmer by 2 degrees C). This offset in the meteorology used to calibrate the forecast could result in the forecast being biased. The issue can be fixed by either adjusting the weather forecast to be more consistent with the observed weather or calibrating the model using weather inputs from the weather forecast model. We use the latter in this book.
 
-The get_historical_met function gets the first day of all the weather forecasts generated since September 2020. The first day of each forecast is the closest to what was observed because it directly follows data assimilation. Combing the first days together gives a complete time series of weather until the present day.
+The get_historical_met function gets the first day of all the weather forecasts generated since September 2020. The first day of each forecast is the closest to what was observed because it directly follows data assimilation. Combining the first days together gives a complete time series of weather until the present day.
 
-The function is print out here so that you can modify if you want to add variables or process in a different way.
+The function is printed out here so that you can modify it if you want to add variables or process differently.
 
 ```{r}
 get_historical_met <- function(site, sim_dates, use_mean = TRUE){
@@ -46,9 +46,9 @@ get_historical_met <- function(site, sim_dates, use_mean = TRUE){
 
 ## Forecasts
 
-An individual forecast can be accessed using the `get_forecast_met` function. This provides the full horizon (35-days ahead) for a forecast that was generated on a specific day (`reference_datetime`).
+An individual forecast can be accessed using the `get_forecast_met` function. This provides the full horizon (35 days ahead) for a forecast that was generated on a specific day (`reference_datetime`).
 
-The function is print out here so that you can modify if you want to add variables or process in a different way.
+The function is printed out here so that you can modify it if you want to add variables or process differently.
 
 ```{r}
 get_forecast_met <- function(site, sim_dates, use_mean = TRUE){
