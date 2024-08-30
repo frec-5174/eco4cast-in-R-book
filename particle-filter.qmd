@@ -18,12 +18,12 @@ Choose new parameters based on previous parameters
 
 for(t in 1:length_of_time_series){
 
-Make predictions over full time series
+Make predictions over the complete time series
 
 }
 
-Calculate likelihood of data given model and current parameters
-Calculate probability of priors given current parameters
+Calculate the likelihood of data given model and current parameters
+Calculate the probability of priors given current parameters
 
 Accept or reject parameters
 
@@ -40,46 +40,46 @@ Weaknesses:\
 - Can be computationally slow\
 - Require re-fitting model if there is even a single new data point
 
-Alternatively, **sequential** methods only analyze data one time point as a time. Here is general code for a sequential method - notice that the for-loop order is reversed
+Alternatively, **sequential** methods only analyze data one time point at a time. Here is general code for a sequential method - notice that the for-loop order is reversed
 
 ```         
 
-Calculate prior distribution of parameters
+Calculate the prior distribution of parameters
 
 for(t in 1:length_of_time_series){
 
 for(i in 1:num_of_particles){
 
-Make predictions for each particle based on previous value for particle
+Make predictions for each particle based on the previous value for the particle
 
 }
 
 Compare particle to data (likelihood or other technique)
 
-Weight particles based on the comparsion to the data
+Weight particles based on the comparison to the data
 
 Adjust particles based on weights
 
 }
 ```
 
-In the sequential method we can restart at any time point, as long as we have the values for the states and parameters that are associated with each particle. When doing an iterative forecast, these values are what you would save to wait for new data to arrive.
+In the sequential method, we can restart at any time point, as long as we have the values for the states and parameters that are associated with each particle. When doing an iterative forecast, these values are what you would save to wait for new data to arrive.
 
 ## Introduction to Particle Filter
 
-There are many sequential data assimilation methods that make different assumptions about data and model distributions in order to simplify the analysis. Many of the methods emerged before the our massive computational resources or were developed for **HUGE** problems like assimilating terabytes of data into a global weather model that simulates the physics of the atmosphere at 25 km vertical resolution. Examples include the Kalman Filter, Extended Kalman Filter, Ensemble Kalman Filter, and 4D-var. These methods all heavily use matrix algebra which I have not introduced in this class. Since these methods commonly assume that the data and model errors are normally distributed, the numerical version (Ensemble Kalman Filter) can run fewer particles (in this case: ensemble members) because it doesn't take as many samples to estimate the mean and variance of a distribution than it does to estimate the full distribution
+Many sequential data assimilation methods make different assumptions about data and model distributions to simplify the analysis. Many of the methods emerged before our massive computational resources or were developed for **HUGE** problems like assimilating terabytes of data into a global weather model that simulates the physics of the atmosphere at 25 km vertical resolution. Examples include the Kalman Filter, Extended Kalman Filter, Ensemble Kalman Filter, and 4D-var. These methods all heavily use matrix algebra which I have not introduced in this class. Since these methods commonly assume that the data and model errors are normally distributed, the numerical version (Ensemble Kalman Filter) can run fewer particles (in this case: ensemble members) because it doesn't take as many samples to estimate the mean and variance of a distribution than it does to estimate the full distribution
 
-Here, I introduce the particle filter. The particle filter is a sequential method that will be more familiar to those that have learned the Bayesian methods that we have covered in the earlier chapters (@sec-bayes). It has the concept of a likelihood, of which you are well versed (@sec-likelihood). The particle filter does not assume a specific distribution of the data and model error so it requires more particles to estimate the full distributions. As a result, it is more appropriate for "smaller" problems like the ones we are tackling in this book
+Here, I introduce the particle filter. The particle filter is a sequential method that will be more familiar to those who have learned the Bayesian methods that we have covered in the earlier chapters (@sec-bayes). It has the concept of a likelihood, of which you are well versed (@sec-likelihood). The particle filter does not assume a specific distribution of the data and model error so it requires more particles to estimate the full distributions. As a result, it is more appropriate for "smaller" problems like the ones we are tackling in this book
 
 The particle filter is quite simple
 
-1.  Initialize a set of particles: Set the initial distribution of the states for each particle and, if estimating parameters, initial distribution of parameters that you want to estimate. Think of this as your initial priors.
+1.  Initialize a set of particles: Set the initial distribution of the states for each particle and, if estimating parameters, the initial distribution of parameters that you want to estimate. Think of this as your initial priors.
 2.  Predict the next time step using your process model for each particle. Add process uncertainty to each particle (i.e., `rnorm`)
-3.  If there are observations at the time-step, calculate the likelihood of the data given the particle just like we calculated the likelihood in the likelihood and Bayesian exercises. For example: `LL <- dnorm(obs, mean = pred, sd = sd_obs)`. You will typically use the uncertainty of the observations in the likelihood because you have already included the process uncertainty in #2. If observations are not available at the time step, then continue to the time step.
-4.  If there are observations at the time-step, resample the particles using the likelihood as the weights (don't forget to exponentiate the likelihood if you logged it in #3, the weights must be probabilities rather than log probabilities). The weighted sampling, with replacement, will randomly pick the more likely particles more often. You will keep the same number of particles but the values for each particle will change. Less likely particles will be replaced with more likely particles (though the less likelihood particles can still be selected). Be sure to resample all states together and, if also estimating parameters, the parameters as well. The key to resampling is the following:
+3.  If there are observations at the time step, calculate the likelihood of the data given the particle just like we calculated the likelihood in the likelihood and Bayesian exercises. For example: `LL <- dnorm(obs, mean = pred, sd = sd_obs)`. You will typically use the uncertainty of the observations in the likelihood because you have already included the process uncertainty in #2. If observations are not available at the time step, then continue to the time step.
+4.  If there are observations at the time step, resample the particles using the likelihood as the weights (don't forget to exponentiate the likelihood if you logged it in #3, the weights must be probabilities rather than log probabilities). The weighted sampling, with replacement, will randomly pick the more likely particles more often. You will keep the same number of particles but the values for each particle will change. Less likely particles will be replaced with more likely particles (though the less likely particles can still be selected). Be sure to resample all states together and, if also estimating parameters, the parameters as well. The key to resampling is the following:
 
 ```         
-## calculate likelihood (weight) for one state with an observation at that time-step
+## Calculate likelihood (weight) for one state with an observation at that time-step
 ## The dimensiosn of x
 wt <- dnorm(obs[t], mean = x[t, ], sd = sd_data)
 
@@ -95,15 +95,15 @@ resample_index <- sample(1:num_particles, num_particles, replace = TRUE, prob = 
 x[t, ] <- x[t, resample_index]
 ```
 
-4.  Continue to next time step.
+4.  Continue to the next time step.
 
 Fundamentally, the particle filter depends on two concepts that you have already been exposed to: likelihood and sampling from a set of particles (you sampled iterations from MCMC in previous exercises).
 
-Specifically we refer to the particle filter described above as a bootstrap particle filter.
+Specifically, we refer to the particle filter described above as a bootstrap particle filter.
 
 ## Example of Particle Filter
 
-Here is an example of the particle filter applied to canopy greenness data at a NEON site. Canopy greenness is the relative greenness of a photograph take by a camera located above the vegetation canopy (called a phenocam). Greenness is qualified using the 90% percentile of the daily GCC (GCC = green / (green + red + blue)), called the gcc_90. gcc_90 measures spring changes in vegetation.
+Here is an example of the particle filter applied to canopy greenness data at a NEON site. Canopy greenness is the relative greenness of a photograph taken by a camera located above the vegetation canopy (called a phenocam). Greenness is qualified using the 90% percentile of the daily GCC (GCC = green / (green + red + blue)), called the gcc_90. gcc_90 measures spring changes in vegetation.
 
 First load in data. We are only going to focus on the 13 weeks of the data at a single site (CPER).
 
@@ -129,11 +129,11 @@ ggplot(df, aes(x = datetime, y = observation)) +
 
 ### Particle Filter with no-observations
 
-First we are going to run the particle filter with all data missing. This is equal to the random walk.
+First, we are going to run the particle filter with all data missing. This is equal to the random walk.
 
 The `sd_add` is the model process uncertainty.
 
-The `sd_obs` is the observation uncertainty. It is also used to set the initial condition uncertainity since we start the particle filter on a day with an observation.
+The `sd_obs` is the observation uncertainty. It is also used to set the initial condition uncertainty since we start the particle filter on a day with an observation.
 
 The key decision is the `num_particles`. More is always better but it comes at a computational and computer memory cost.
 
@@ -174,7 +174,7 @@ for(t in 2:num_time_steps){
     
     wt_norm <- wt / sum(wt)
     
-    ## resample ensemble members in proportion to their weight
+    ## Resample ensemble members in proportion to their weight
     resample_index <- sample(1:num_particles, num_particles, replace = TRUE, prob = wt_norm) 
     
     x[t, ] <- x[t, resample_index]  ## update state
@@ -182,7 +182,7 @@ for(t in 2:num_time_steps){
 }
 ```
 
-@fig-parts-alone shows each individual particle.
+@fig-parts-alone shows each particle.
 
 ```{r}
 #| warning: false
@@ -199,7 +199,7 @@ tibble(time = df$datetime,
   theme_bw()
 ```
 
-Lets save the output as a different name so we can compare to a PF with observations.
+Let's save the output as a different name so we can compare to a PF with observations.
 
 ```{r}
 x_no_obs <- x
@@ -207,7 +207,7 @@ x_no_obs <- x
 
 ### PF with observations
 
-Now we can examine how the PF uses observations to update the model and modify the trajectory. The following is the same as above except that there are data at week 1, 5, and 10.
+Now we can examine how the PF uses observations to update the model and modify the trajectory. The following is the same as above except that there are data at weeks 1, 5, and 10.
 
 ```{r}
 obs[c(5, 10)] <- df$observation[c(5, 10)]
@@ -266,7 +266,7 @@ Save the output as a different object to compare to other PF simulations
 x_with_obs <- x
 ```
 
-Now we can compare the influence of data assimilation on the last 3 weeks of the time-series (think of this as a 3-week forecast)
+Now we can compare the influence of data assimilation on the last 3 weeks of the time series (think of this as a 3-week forecast)
 
 ```{r}
 #| warning: false
@@ -307,7 +307,7 @@ The particle filter is fundamentally a Bayesian analysis.
 -   Likelihood: the distribution of the data with uncertainty.
 -   Posterior: The ensemble and weights after data assimilation.
 
-The figure below illustrates these Bayesian concepts. In the figure, the ensemble predictions are converted to a smoothed histogram and the observations are converted normal distributions using the observation standard deviation. Data are assimilated at time step 5 and 10. The prior, likelihood, and posterior are shown on the days that data are assimilated. Only prior is show on the other days because no data are available to convert to a posterior.
+The figure below illustrates these Bayesian concepts. In the figure, the ensemble predictions are converted to a smoothed histogram and the observations are converted to normal distributions using the observation standard deviation. Data are assimilated at time steps 5 and 10. The prior, likelihood, and posterior are shown on the days that data are assimilated. Only prior is shown on the other days because no data are available to convert to a posterior.
 
 ```{r}
 #| echo: false
@@ -442,7 +442,7 @@ doy <- yday(df$datetime)
 
 Now run the PF with the model. You need to also carry through the values for `r`.
 
-Importantly, the distribution of `r` carries through from the previous time-step. When there is an observation, `r` is resampled using the same index that the states are resampled. This ensures that the parameters match the states from the same particle.
+Importantly, the distribution of `r` carries through from the previous time step. When there is an observation, `r` is resampled using the same index that the states are resampled. This ensures that the parameters match the states from the same particle.
 
 ```{r}
 for(t in 2:num_time_steps){
@@ -493,10 +493,10 @@ tibble(time = df$datetime,
   theme_bw()
 ```
 
-And visualize the time-evolution of the parameter (@fig-parameter-timeseries). There are two new concepts illustrated below:
+And visualize the time evolution of the parameter (@fig-parameter-timeseries). There are two new concepts illustrated below:
 
-1.  parameters distributions evolve through time. As a result the distribution of parameters is strongly influenced by the most recent observations. The distributions produced by a PF are not the same as the distributions produced by MCMC chain.\
-2.  particles can have degeneracy, whereby the values of the parameters collapse down to one or a few values. This occurs because the PF does not propose new parameter values, it only selects (through resampling) parameter values from the initial set that you started with. Over the time-step the PF weeds out bad parameters and only a few ones are left. This is a major issue with a PF. Degeneracy can also occur in the states but since we are adding process uncertainty (`sd_add`) the particles are able to separate through time. There are a couple of ways to solve degeneracy - increase the number of particles so you sample more initial parameter values or add random noise to each parameter between times-steps, similar to adding process noise to model states. It is important to find the right account of random noise to allow parameters to evolve through time but not too much where the spread becomes unreasonable if data is not available to assimilate and reduce the spread.
+1.  Parameter distributions evolve through time. As a result, the distribution of parameters is strongly influenced by the most recent observations. The distributions produced by a PF are not the same as the distributions produced by the MCMC chain.\
+2.  particles can have degeneracy, whereby the values of the parameters collapse down to one or a few values. This occurs because the PF does not propose new parameter values, it only selects (through resampling) parameter values from the initial set that you started with. Over the time-step, the PF weeds out bad parameters and only a few ones are left. This is a major issue with a PF. Degeneracy can also occur in the states but since we are adding process uncertainty (`sd_add`) the particles can separate through time. There are a couple of ways to solve degeneracy - increase the number of particles so you sample more initial parameter values or add random noise to each parameter between times-steps, similar to adding process noise to model states. It is important to find the right account of random noise to allow parameters to evolve through time but not too much where the spread becomes unreasonable if data is not available to assimilate and reduce the spread.
 
 ```{r}
 #| echo: false
@@ -513,7 +513,7 @@ tibble(time = df$datetime,
   theme_bw()
 ```
 
-### Sensitivity to number of particles
+### Sensitivity to the number of particles
 
 The number of particles is a key decision when using a PF. To explore the sensitivity of the PF to the number of particles, here is a function that can be reused with different numbers of particles. It is the same as the dynamic model above and returns the `r` and `r` for the particles in a list.
 
@@ -584,11 +584,11 @@ p1000 <- tibble(time = df$datetime,
 df$obs_in_fit <- obs
 ```
 
-And combine to a single plot (@fig-pf-num-sens). You see the width of the 95% confidence interval increases substantially from 10 to 1000 particles but then is similar from 1000 to 10000. This reflects what we learned from the very first exercise where you drew random samples from a distribution and found that between 1000 and 10000 random samples were required to approximate the distribution well.
+And combine into a single plot (@fig-pf-num-sens). You see the width of the 95% confidence interval increases substantially from 10 to 1000 particles but then is similar from 1000 to 10000. This reflects what we learned from the very first exercise where you drew random samples from a distribution and found that between 1000 and 10000 random samples were required to approximate the distribution well.
 
 ```{r}
 #| warning: false
-#| fig-cap: Sensitivity of predictions to different number of particles
+#| fig-cap: Sensitivity of predictions to different numbers of particles
 #| label: fig-pf-num-sens
 bind_rows(p10, p100, p1000) %>% 
   group_by(time, type) %>% 
@@ -607,7 +607,7 @@ bind_rows(p10, p100, p1000) %>%
 
 ### Sensitivity to observation uncertainty
 
-We can also explore the sensitivity of the PF to observation uncertainty. Intuitively, we should have stronger update (i.e., the particles are adjusted to be closer to the observation) when there is less uncertainty in the observations. The code below explores whether this intuition is correct.
+We can also explore the sensitivity of the PF to observation uncertainty. Intuitively, we should have a stronger update (i.e., the particles are adjusted to be closer to the observation) when there is less uncertainty in the observations. The code below explores whether this intuition is correct.
 
 ```{r}
 #| warning: false
@@ -660,4 +660,4 @@ As another way to view the balance of uncertainty, you are only able to use the 
 
 ## Problem set
 
-The problem set is located in `particle_filter_problem_set.qmd` in https://github.com/frec-5174/book-problem-sets. You can fork the repository or copy the [code](https://github.com/frec-5174/book-problem-sets/blob/main/particle_filter_problem_set.qmd) into your own quarto document
+The problem set is located in `particle_filter_problem_set.qmd` in https://github.com/frec-5174/book-problem-sets. You can fork the repository or copy the [code](https://github.com/frec-5174/book-problem-sets/blob/main/particle_filter_problem_set.qmd) into your quarto document
