@@ -10,11 +10,11 @@ library(arrow)
 
 ## Overview of model
 
-We use a simple representation of a forest ecosystem that simulates carbon using three pools (leaves, wood, and soil). The model in @fig-process-model is a 0-D model (no horizontal and vertical dimensions) that runs at a 1 day timestep. It models carbon using the units of MgC/ha.
+We use a simple representation of a forest ecosystem that simulates carbon using three pools (leaves, wood, and soil). The model in @fig-process-model is a 0-D model (no horizontal and vertical dimensions) that runs at a 1-day timestep. It models carbon using the units of MgC/ha.
 
 ![Conceptual diagram of the forest model](img/model_diagram.png){#fig-process-model fig-align="center"}
 
-Photosynthesis (gross primary productivity; `gpp`) is modeled using a light-use efficiency (LUE) approach. The goal an LUE model is to convert light energy into carbon. First, Photosynthetically Active Radiation (PAR) is converted to absorbed PAR. Since more PAR is absorbed when more leaves are present, the absorbed PAR increases with LAI. However, due to self-shading there is a diminishing return on PAR absorbed as LAI increasing. The function use looks like the following:
+Photosynthesis (gross primary productivity; `gpp`) is modeled using a light-use efficiency (LUE) approach. The goal of an LUE model is to convert light energy into carbon. First, Photosynthetically Active Radiation (PAR) is converted to absorbed PAR. Since more PAR is absorbed when more leaves are present, the absorbed PAR increases with LAI. However, due to self-shading, there is a diminishing return on PAR absorbed as LAI increases. The function used looks like the following:
 
 ```{r}
 #| echo: false
@@ -26,17 +26,17 @@ tibble(lai = seq(0,8, by = 0.1)) |>
   theme_bw()
 ```
 
-The absorbed PAR is multiplied by a light use efficiency parameter (`alpha`) that converts the absorbed PAR to carbon. LAI is determined by multiplying leaf carbon by the specific leaf area parameter (`SLA`).
+The absorbed PAR is multiplied by a light-use efficiency parameter (`alpha`) that converts the absorbed PAR to carbon. LAI is determined by multiplying leaf carbon by the specific leaf area parameter (`SLA`).
 
 Autotrophic respiration (`ra`) is modeled as a constant proportion of GPP using the `Ra_frac` parameter. Net primary productivity (`npp`) is the carbon that is not used for autotrophic respiration (`gpp - ra`).
 
 NPP is allocated to the two vegetation carbon states (`wood` and `leaves`) based on a constant proportion parameter. `leaf_frac` is the proportion that is allocated to leaves and `1-leaf_frac` is the allocation to wood.
 
-Litterfall occurs between a starting day-of-year (`litterfall_start`) and an ending day-of-year (`litterfall_start + litterfall_length`). The annual proportion of leaves (`litterfall_rate`) that are dropped is removed during this period.
+Litterfall occurs between the starting day of the year (`litterfall_start`) and the ending day of the year (`litterfall_start + litterfall_length`). The annual proportion of leaves (`litterfall_rate`) that are dropped is removed during this period.
 
 Tree mortality is modeled as a constant proportion of wood (`mortality`) that is lost each day.
 
-Heterotrophic respiration is modeled as a constant proportion of soil carbon (`Rbasal`) that is adjusted by the temperature using a Q10 function that is governed by a Q10 parameter (`Q10`). The Q10 function represents how much respiration increases per 10 degree C increase in temperature. A Q10 parameter (`Q10`) of 2 corresponds to a doubling of respiration per 10 degree C increase in temperature. The Q10 function requires a base temperature (here, 20 degree C) where the function evaluates to 1 and the represent rate equals the rate specified by `Rbasal`. The Q10 function looks like the following (using a `Q10` of 2):
+Heterotrophic respiration is modeled as a constant proportion of soil carbon (`Rbasal`) that is adjusted by the temperature using a Q10 function that is governed by a Q10 parameter (`Q10`). The Q10 function represents how much respiration increases per 10-degree C increase in temperature. A Q10 parameter (`Q10`) of 2 corresponds to a doubling of respiration per 10-degree C increase in temperature. The Q10 function requires a base temperature (here, 20 degrees C) where the function evaluates to 1 and the represent rate equals the rate specified by `Rbasal`. The Q10 function looks like the following (using a `Q10` of 2):
 
 ```{r}
 #| echo: false
@@ -50,7 +50,7 @@ tibble(temp = seq(10,40, by = 0.1)) |>
 
 The change in leaves at each time step is modeled as leaf allocation - litterfall. The change in wood in each timestep is modeled as wood allocation - mortality. The change in soil carbon in each timestep is modeled as litterfall + mortality - heterotrophic respiration.
 
-Finally, net ecosystem exchange (`nee`) is modeled as `ra + rh - gpp` with negative values corresponding to net gain in carbon by the ecosystem.
+Finally, net ecosystem exchange (`nee`) is modeled as `ra + rh - gpp` with negative values corresponding to a net gain in carbon by the ecosystem.
 
 The model requires inputs of photosynthetic active radiation (`PAR`), air temperature (`temp`), and day-of-year (`doy`).
 
@@ -64,11 +64,11 @@ Normally distributed random noise can be added to each state at each time step t
 rnorm(ens_members, states[, 1] , parms$sigma.leaf)
 ```
 
-where the mean of the normal distribution is the predicted value for the state at that time step and the standard deviation (e.g., `parms$sigma.leaf`) control how much noise is added. `parms$sigma.leaf`, `parms$sigma.wood`, and `parms$sigma.soil` are parameters that are set by the user or estimated from a model calibration. Setting the sigma parameters to 0 removes the random noise (as done below). See @sec-prop-unc for more details on how uncertainty is represented and propagated through time in the model.
+where the mean of the normal distribution is the predicted value for the state at that time step and the standard deviation (e.g., `parms$sigma.leaf`) controls how much noise is added. `parms$sigma.leaf`, `parms$sigma.wood`, and `parms$sigma.soil` are parameters that are set by the user or estimated from a model calibration. Setting the sigma parameters to 0 removes the random noise (as done below). See @sec-prop-unc for more details on how uncertainty is represented and propagated through time in the model.
 
 ## Solving the model
 
-At each time step, the processes that result in change in the model states are calculated (i.e., photosynthesis, mortality, respiration, etc.). The process rates are then combined to determine the net rate of change (i.e., the derivative) for each model state.
+At each time step, the processes that result in a change in the model states are calculated (i.e., photosynthesis, mortality, respiration, etc.). The process rates are then combined to determine the net rate of change (i.e., the derivative) for each model state.
 
 ```         
   dleaves_dt <- leaf_alloc  - litterfall
@@ -88,7 +88,7 @@ This process is repeated at each time step to create a time series of model outp
 
 ## Model as a function
 
-The code below describes the model as a R function. The function predicts one time step at a time. The same function is found in the `R/forecast_model.R` script in the book repository. The inputs to the function are:
+The code below describes the model as an R function. The function predicts one-time step at a time. The same function is found in the `R/forecast_model.R` script in the book repository. The inputs to the function are:
 
 -   `t`: the index of the current model time-step
 
@@ -118,7 +118,7 @@ forest_model <- function(t, states, parms, inputs){
   ## pmax ensures GPP never goes negative
   gpp <- pmax(0, k * parms$alpha * (1 - exp(-0.5 * lai)) * inputs_PAR)
 
-  ## autotropic respiration & allocation to leaves and wood
+  ## Autotropic respiration & allocation to leaves and wood
   ra <- gpp * parms$Ra_frac
   npp <- gpp - ra
   
@@ -134,7 +134,7 @@ forest_model <- function(t, states, parms, inputs){
 
   #calculate the daily rate of leaf drop
   litterfall <- states[ , 1] * (parms$litterfall_rate * (365/ (params$litterfall_length)))
-  #Not leaf drop if outside the day of year window
+  #Not leaf drop if outside the day of the year window
   litterfall[!(inputs_doy > params$litterfall_start & 
               inputs_doy[1] < (params$litterfall_start + params$litterfall_length))] <- 0.0
   
@@ -152,7 +152,7 @@ forest_model <- function(t, states, parms, inputs){
   states[, 3] <- states[, 3] + dSOM_dt
   
   ## Add normally distributed random noise to states
-  ## pmax ensures states never goes negative
+  ## pmax ensures states never go negative
   states[, 1] <- pmax(rnorm(ens_members, states[, 1], parms$sigma.leaf), 0)
   states[, 2] <- pmax(rnorm(ens_members, states[, 2], parms$sigma.wood), 0)
   states[, 3] <- pmax(rnorm(ens_members, states[, 3], parms$sigma.soil), 0)
@@ -178,7 +178,7 @@ forest_model <- function(t, states, parms, inputs){
 
 ## Set up model run
 
-### Time frame, site id, and number of ensembles
+### Time frame, site ID, and number of ensembles
 
 In this chapter, we are running a deterministic simulation (no uncertainty) so we only have one ensemble member. The simulation is for a single NEON site (Ordway-Swisher Biological Station; OSBS), which is a longleaf pine ecosystem located in Florida, USA. The simulation will run from `2020-09-30` to two days ago.
 
@@ -231,7 +231,7 @@ params <- as.data.frame(params)
 
 ### Set initial condition
 
-Next we set the starting point of the simulation. All three states need a starting point. To do this, we create a three-dimensional array to hold the model output, with the dimensions corresponding to: 1) the number of simulated time steps; 2) the number of ensemble members (which in our case is 1 because this simulation is deterministic); and 3) the number of output variables. We then populate the first time step in the output array with the initial condition for each state.
+Next, we set the starting point of the simulation. All three states need a starting point. To do this, we create a three-dimensional array to hold the model output, with the dimensions corresponding to 1) the number of simulated time steps; 2) the number of ensemble members (which in our case is 1 because this simulation is deterministic); and 3) the number of output variables. We then populate the first time step in the output array with the initial condition for each state.
 
 ```{r}
 output <- array(NA, dim = c(length(sim_dates), ens_members, 12)) 
@@ -243,7 +243,7 @@ output[1, , 3] <- 140 # day of year
 
 ## Run model
 
-Loop over the `sim_dates` vector that includes the dates of the simulation. The loop starts on index of 2 because index of 1 was set as the initial conditions above. The `forest_model` function is the process model above. At each time step, the output is saved to the output array.
+Loop over the `sim_dates` vector that includes the dates of the simulation. The loop starts on the index of 2 because the index of 1 was set as the initial conditions above. The `forest_model` function is the process model above. At each time step, the output is saved to the output array.
 
 ```{r}
 for(t in 2:length(sim_dates)){
@@ -281,7 +281,7 @@ output_df |>
 
 Use the visualization of the simulation above to answer the following questions:
 
-1.  Which carbon state is changing the most over the simulation (wood or som).
+1.  Which carbon state is changing the most over the simulation (wood or som)?
 2.  Why does wood carbon increase in the summer and decrease over the winter?
 3.  Is carbon stored or released by the ecosystem when NEE is negative? What time of year is NEE positive?
 4.  All models are simplifications of the system: What important ecosystem processes are missing from this forest ecosystem model?
