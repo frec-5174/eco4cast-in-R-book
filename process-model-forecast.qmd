@@ -12,9 +12,9 @@ library(lubridate)
 
 ## Step 1: Set initial conditions and parameter distributions
 
-We will start our forecast - analysis cycle by running the model with a particle filter over a period of time in the past. This is designed to spin-up the model and set the initial states and parameters for a forecast.
+We will start our forecast-analysis cycle by running the model with a particle filter over some time in the past. This is designed to spin up the model and set the initial states and parameters for a forecast.
 
-Now we are going to generate a forecast that started from our last forecast that was saved. First load the forecast into memory so that we can access the initial conditions and parameters in it.
+Now we are going to generate a forecast that started from our last forecast that was saved. First, load the forecast into memory so that we can access the initial conditions and parameters in it.
 
 ```{r}
 if(file.exists("data/PF_analysis_1.Rdata")){
@@ -27,7 +27,7 @@ ens_members <- dim(analysis$forecast)[2]
 
 ## Step 2: Get latest data
 
-The latest observation data is available by running [Chapter -@sec-neon] and reading in the csv. You will need to re-run the code in [Chapter -@sec-neon] if you want to update the observations outside the automatic build of this book.
+The latest observation data is available by running [Chapter -@sec-neon] and reading in the CSV. You will need to re-run the code in [Chapter -@sec-neon] if you want to update the observations outside the automatic build of this book.
 
 ```{r}
 obs <- read_csv("data/site_carbon_data.csv", show_col_types = FALSE)
@@ -35,9 +35,9 @@ obs <- read_csv("data/site_carbon_data.csv", show_col_types = FALSE)
 
 ## Step 3: Generate forecast
 
-This example introduces the concept of a "look back". This is stepping back in the past to restart the particle filter so that it can assimilate any data that has been make available since the last time that time period was run through the particle filter. The look back is important because many observations have delays before becoming available (called latency). NEON flux data can have a 5 day to 1.5 month latency. MODIS LAI is a 8 day average so has an 8-day latency.
+This example introduces the concept of a "look back". This is stepping back in the past to restart the particle filter so that it can assimilate any data that has been made available since the last time that period was run through the particle filter. The look back is important because many observations have delays before becoming available (called latency). NEON flux data can have a 5-day to 1.5-month latency. MODIS LAI is an 8-day average so has an 8-day latency.
 
-Here we use a look back of 30-days. Since our forecast horizon is 30-days in the future, the total days of the simulation is 30 + 30. Our `reference_datetime` is today.
+Here we use a look back of 30 days. Since our forecast horizon is 30 days in the future, the total days of the simulation are 30 + 30. Our `reference_datetime` is today.
 
 ```{r}
 site <- "OSBS"
@@ -47,13 +47,13 @@ reference_datetime <- Sys.Date()
 sim_dates <- seq(reference_datetime - look_back, length.out = look_back + horizon, by = "1 day")
 ```
 
-Since yesterday's forecast also had a 30-day look back, we can find the first day of our simulation (30 days ago) in the last saved analysis and use this for initial conditions.
+Since yesterday's forecast also had a 30-day look-back, we can find the first day of our simulation (30 days ago) in the last saved analysis and use this for initial conditions.
 
 ```{r}
 index <- which(analysis$sim_dates == sim_dates[1])
 ```
 
-The use of the look back requires combining the "historical" weather and future weather into a single input data frame.
+The use of the look-back requires combining the "historical" weather and future weather into a single input data frame.
 
 ```{r}
 inputs_past <- get_historical_met(site = site, sim_dates[1:(look_back-2)], use_mean = FALSE)
@@ -62,7 +62,7 @@ inputs <- bind_rows(inputs_past, inputs_future)
 inputs_ensemble <- assign_met_ensembles(inputs, ens_members)
 ```
 
-The combined weather drivers with the concept of the look back is shown in the figure below. The vertical line is where the look back period transitions to the future.
+The combined weather drivers with the concept of the look back are shown in the figure below. The vertical line is where the look-back period transitions to the future.
 
 ```{r}
 #| echo: false
@@ -74,7 +74,7 @@ The combined weather drivers with the concept of the look back is shown in the f
   theme_bw()
 ```
 
-The object with yesterday's forecast also has the parameters values. Load the fixed parameter values and initialize the parameters that are being fit by the particle filter with the values from the analysis.
+The object with yesterday's forecast also has the parameter values. Load the fixed parameter values and initialize the parameters that are being fit by the particle filter with the values from the analysis.
 
 ```{r}
 params <- analysis$params
@@ -98,7 +98,7 @@ wt <- array(1, dim = c(length(sim_dates), ens_members))
 wt[1, ] <- analysis$wt[index, ]
 ```
 
-Run the particle filter (over the look back days) that transitions to a forecast (which is the same as the particle filter without data)
+Run the particle filter (over the look-back days) that transitions to a forecast (which is the same as the particle filter without data)
 
 ```{r}
 for(t in 2:length(sim_dates)){
@@ -149,7 +149,7 @@ parameter_df <- parameters_to_df(params_weighted, sim_dates, sim_name = "simple_
 
 ```
 
-@fig-step4 is a visualization of the forecast. The vertical line is where the look back period transitions to the future.
+@fig-step4 is a visualization of the forecast. The vertical line is where the look-back period transitions to the future.
 
 ```{r}
 #| echo: false
@@ -197,7 +197,7 @@ efi_output <- output_df |>
   mutate(prediction = prediction  / 0.01) #Convert from MgC/ha/Day to gC/m2/day
 ```
 
-Write the forecast to a csv file
+Write the forecast to a CSV file
 
 ```{r}
 file_name <- paste0("data/terrestrial_daily-", reference_datetime, "-bookcast_forest.csv")
@@ -212,7 +212,7 @@ neon4cast::submit(file_name, ask = FALSE)
 
 ## Step 5: Repeat Steps 2 - 4
 
-Wait for a day to pass and then use yesterday's analysis today for initial conditions and parameter distributions. This particular forecast uses GitHub actions to automatically render the book each day and rendering this chapter results in generating, saving, and submitted the latest forecast.
+Wait for a day to pass and then use yesterday's analysis today for initial conditions and parameter distributions. This particular forecast uses GitHub actions to automatically render the book each day and rendering this chapter results in generating, saving, and submitting the latest forecast.
 
 ```{r}
 load("data/PF_analysis_1.Rdata")
