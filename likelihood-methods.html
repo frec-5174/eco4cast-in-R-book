@@ -470,8 +470,8 @@ Figure&nbsp;13.1: Normal distribution with mean = 0 and sd = 1
 </div>
 </div>
 </div>
-<p>For our random variable, if is is governed by the distribution above, a single sample (i.e., a measurement of X) will likely be close to 0 but sometimes it will be quite far away.</p>
-<p>Imagine that we are measuring the same thing with the same sensor but the sensor has error that is normally distributed. We think that the measurement should be zero (mean = 0) but with the sensor uncertainty (sd = 1).</p>
+<p>For our random variable, if it is governed by the distribution above, a single sample (i.e., a measurement of X) will likely be close to 0 but sometimes it will be quite far away.</p>
+<p>Imagine that we are measuring the same thing with the same sensor but the sensor has an error that is normally distributed. We think that the measurement should be zero (mean = 0) but with the sensor uncertainty (sd = 1).</p>
 <p>The question is “What is the probability that <code>X = y_i</code> given a normal distribution with mean = 0 and sd = 1?”. In <a href="#fig-simple-rnorm-obs" class="quarto-xref">Figure&nbsp;<span>13.2</span></a>, the red line is a hypothetical observation (y_i).</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">density</span>(<span class="fu">rnorm</span>(<span class="dv">10000</span>, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">1</span>)), <span class="at">xlab =</span> <span class="st">"y"</span>, <span class="at">main =</span> <span class="st">"mean = 0, sd = 1"</span>)</span>
@@ -521,12 +521,12 @@ Figure&nbsp;13.3: Normal distribution with mean = 2 and sd = 1. The red line is 
 <pre><code>[1] 0.03164526</code></pre>
 </div>
 </div>
-<p>Now, we can collect more data that represent more samples from the random variable with an unknown mean. Here are two data points.</p>
+<p>Now, we can collect more data that represents more samples from the random variable with an unknown mean. Here are two data points.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.2513233</span>, <span class="sc">-</span><span class="fl">2.662035</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>What is the probability of both events occurring given the mean = 0? They are independent so we can multiply them.</p>
-<p><strong>IMPORTANT:</strong> If two random events are independent, then the probability that they both occur is the multiplication of the two individual probabilities. For example the probability of getting two heads in two coin flips is 0.5 * 0.5 = 0.25. If the events are not independent then we can’t just multiply (we will get to this later).</p>
+<p><strong>IMPORTANT:</strong> If two random events are independent, then the probability that they both occur is the multiplication of the two individual probabilities. For example, the probability of getting two heads in two coin flips is 0.5 * 0.5 = 0.25. If the events are not independent then we can’t just multiply (we will get to this later).</p>
 <p>The two calls to the <code>dnorm</code> function are the evaluation of the two data points.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dnorm</span>(<span class="at">x =</span> y[<span class="dv">1</span>], <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">1</span>, <span class="at">log =</span> <span class="cn">FALSE</span>) <span class="sc">*</span> <span class="fu">dnorm</span>(<span class="at">x =</span> y[<span class="dv">2</span>], <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">1</span>, <span class="at">log =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -561,7 +561,7 @@ Figure&nbsp;13.3: Normal distribution with mean = 2 and sd = 1. The red line is 
 <pre><code>[1] -15.23939</code></pre>
 </div>
 </div>
-<p>This logically extends to three data points or more. We will get two log likelihood values because we are examining two “models” with three data points. In the code below, what are the two “models”?</p>
+<p>This logically extends to three data points or more. We will get two log-likelihood values because we are examining two “models” with three data points. In the code below, what are the two “models”?</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.2513233</span>, <span class="sc">-</span><span class="fl">2.662035</span>, <span class="fl">4.060981</span>)</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -609,8 +609,8 @@ Figure&nbsp;13.3: Normal distribution with mean = 2 and sd = 1. The red line is 
 <pre><code>[1] -18.28215</code></pre>
 </div>
 </div>
-<p>The data (i.e., the three values in y) are more likely for a PDF with a mean = 0 than a mean = 2. Clearly we can compare two different guesses for the mean (0 vs.&nbsp;2) but how do we find the most likely value for the mean?</p>
-<p>First, lets create a vector of different mean values we want to test</p>
+<p>The data (i.e., the three values in y) are more likely for a PDF with a mean = 0 than a mean = 2. Clearly, we can compare two different guesses for the mean (0 vs.&nbsp;2) but how do we find the most likely value for the mean?</p>
+<p>First, let’s create a vector of different mean values we want to test</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Values for mean that we are going to explore</span></span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>mean_values <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="sc">-</span><span class="dv">4</span>, <span class="at">to =</span> <span class="dv">7</span>, <span class="at">by =</span> <span class="fl">0.1</span>)</span>
@@ -626,7 +626,7 @@ Figure&nbsp;13.3: Normal distribution with mean = 2 and sd = 1. The red line is 
 [106]  6.5  6.6  6.7  6.8  6.9  7.0</code></pre>
 </div>
 </div>
-<p>Now we will calculate the log likelihood of the data for each potential value of the mean. The code below loops over the different values of the mean that we want to test.</p>
+<p>Now we will calculate the log-likelihood of the data for each potential value of the mean. The code below loops over the different values of the mean that we want to test.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>LL <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="fu">length</span>(mean_values))</span>
 <span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -654,7 +654,7 @@ Figure&nbsp;13.3: Normal distribution with mean = 2 and sd = 1. The red line is 
 </div>
 </div>
 <p>The relationship between the different mean values and the likelihood is a curve (<a href="#fig-ll1" class="quarto-xref">Figure&nbsp;<span>13.4</span></a>)</p>
-<p>IMPORTANT: This curve may look like a probability density function (PDF) but it is not! Why? Because the area under the curve does not sum to 1. As a result 1) we use the term likelihood rather than density and 2) while the curve gives us the most likely estimate for the parameter, it does <strong>not</strong> give us the PDF of the parameter (even if we really really want the PDF, Bayesian statistics are needed for that)</p>
+<p>IMPORTANT: This curve may look like a probability density function (PDF) but it is not! Why? Because the area under the curve does not sum to 1. As a result 1) we use the term likelihood rather than density and 2) while the curve gives us the most likely estimate for the parameter, it does <strong>not</strong> give us the PDF of the parameter (even if we want the PDF, Bayesian statistics are needed for that)</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> mean_values, <span class="at">y =</span> LL, <span class="at">type =</span> <span class="st">"o"</span>, <span class="at">xlab =</span> <span class="st">"mean"</span>, <span class="at">ylab =</span> <span class="st">"log(likelihood)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -686,7 +686,7 @@ Figure&nbsp;13.4: The likelihood curve over different values of the mean
 </div>
 </div>
 <p>We just calculated the <strong>likelihood of the data GIVEN our model</strong> where our model was that “the data are normally distributed with a specific mean”. We found the most likely value for a parameter in the model (the parameter being the mean of the PDF).</p>
-<p>For use in R where we want to find the minimum of a function, you can find the minimum of the negative log likelihood curve (<a href="#fig-ll2" class="quarto-xref">Figure&nbsp;<span>13.5</span></a>)</p>
+<p>For use in R where we want to find the minimum of a function, you can find the minimum of the negative log-likelihood curve (<a href="#fig-ll2" class="quarto-xref">Figure&nbsp;<span>13.5</span></a>)</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> mean_values, <span class="at">y =</span> <span class="sc">-</span>LL, <span class="at">type =</span> <span class="st">"o"</span>, <span class="at">xlab =</span> <span class="st">"mean"</span>, <span class="at">ylab =</span> <span class="st">"-1 * log(likelihood)"</span>) <span class="co">#Notice negative sign</span></span>
 <span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="fu">mean</span>(y), <span class="at">col =</span> <span class="st">"red"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -697,7 +697,7 @@ Figure&nbsp;13.4: The likelihood curve over different values of the mean
 <img src="likelihood-methods_files/figure-html/fig-ll2-1.png" class="img-fluid figure-img" width="672">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ll2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;13.5: The likelihood curve over different values of the mean with minimium shown
+Figure&nbsp;13.5: The likelihood curve over different values of the mean with minimum shown
 </figcaption>
 </figure>
 </div>
@@ -798,7 +798,7 @@ Figure&nbsp;13.6: The “fake” data used in the following analysis
 <span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a>  y <span class="ot">&lt;-</span> par[<span class="dv">1</span>] <span class="sc">+</span> par[<span class="dv">2</span>] <span class="sc">*</span> x</span>
 <span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Now our likelihood function uses the result of <code>pred_linear</code> as the mean of the PDF. This asks how likely each data point is given the parameters and inputs (x). Unlike our example above where mean is constant, the mean is allowed to be different for each data point because the value of the input (x) is different for each point.</p>
+<p>Now our likelihood function uses the result of <code>pred_linear</code> as the mean of the PDF. This asks how likely each data point is given the parameters and inputs (x). Unlike our example above where the mean is constant, the mean is allowed to be different for each data point because the value of the input (x) is different for each point.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>LL_fn <span class="ot">&lt;-</span> <span class="cf">function</span>(par, x, y){</span>
 <span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">#NEED NEGATIVE BECAUSE OPTIM MINIMIZES</span></span>
@@ -845,7 +845,7 @@ Figure&nbsp;13.6: The “fake” data used in the following analysis
 </section>
 <section id="key-steps-in-likelihood-analysis" class="level2" data-number="13.3">
 <h2 data-number="13.3" class="anchored" data-anchor-id="key-steps-in-likelihood-analysis"><span class="header-section-number">13.3</span> Key steps in Likelihood analysis</h2>
-<p>A key take home is that defining the likelihood function requires two steps</p>
+<p>A key takehome is that defining the likelihood function requires two steps</p>
 <ol type="1">
 <li>Write down your <em>process</em> model. This is a deterministic model (meaning that it doesn’t have any random component)</li>
 </ol>
@@ -867,7 +867,7 @@ Figure&nbsp;13.6: The “fake” data used in the following analysis
 </section>
 <section id="fitting-parameters-in-the-probability-model" class="level2" data-number="13.4">
 <h2 data-number="13.4" class="anchored" data-anchor-id="fitting-parameters-in-the-probability-model"><span class="header-section-number">13.4</span> Fitting parameters in the probability model</h2>
-<p>There is one more assumption in our likelihood calculation that we have not addressed: we are assuming the standard deviation in the data is known (sd = 1). In reality we don’t know what the sd is. This assumption is simple to fix. All we need to do is make the sd a parameter that we estimate.</p>
+<p>There is one more assumption in our likelihood calculation that we have not addressed: we are assuming the standard deviation in the data is known (sd = 1). In reality, we don’t know what the sd is. This assumption is simple to fix. All we need to do is make the sd a parameter that we estimate.</p>
 <p>Now there is a par[3] in in the likelihood function (but it isn’t in the process model function)</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb80"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Probability model</span></span>
@@ -875,12 +875,12 @@ Figure&nbsp;13.6: The “fake” data used in the following analysis
 <span id="cb80-3"><a href="#cb80-3" aria-hidden="true" tabindex="-1"></a>  <span class="sc">-</span><span class="fu">sum</span>(<span class="fu">dnorm</span>(y, <span class="at">mean =</span> <span class="fu">pred_linear</span>(x, par), <span class="at">sd =</span> par[<span class="dv">3</span>], <span class="at">log =</span> <span class="cn">TRUE</span>))</span>
 <span id="cb80-4"><a href="#cb80-4" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Fitting the sd is not necessarily clear. Think about it this way: if the sd is too low, there will be very low likelihood for data near the mean. In this case, you can increase the likelihood just by increasing the sd parameter (not changing other parameters).</p>
+<p>Fitting the sd is not necessarily clear. Think about it this way: if the sd is too low, there will be a very low likelihood for the data near the mean. In this case, you can increase the likelihood just by increasing the sd parameter (not changing other parameters).</p>
 <p>How we can estimate all three parameters</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb81"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">optim</span>(<span class="at">par =</span> <span class="fu">c</span>(<span class="fl">0.2</span>, <span class="fl">1.5</span>, <span class="dv">2</span>), <span class="at">fn =</span> LL_fn, <span class="at">method =</span> <span class="st">"BFGS"</span>, <span class="at">x =</span> x, <span class="at">y =</span> y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>How well to they compare to the true values used to generate the simulated data?</p>
+<p>How well do they compare to the true values used to generate the simulated data?</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb82"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="fu">message</span>(<span class="st">"From optim"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
@@ -925,8 +925,8 @@ F-statistic: 569.4 on 1 and 98 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div>
 <p>Notice how the “Residual standard error” is similar to our sd?</p>
-<p>But the power is that we are not restricted to the assumptions of a linear regression model. We can use more a complicated and non-linear “process” models (not restricted to y = mx + b) and we can use more complicated “data” models than the normal distribution with constant variance (i.e., single value for sd that is used for all data point)</p>
-<p>For example, we can simulate new data that assumes the standard deviation increases as the prediction increases (larger predictions have more variation). This might be due to sensor error increasing with the size of measurement. In this case we multiply y times a scalar (sd_scalar_true)</p>
+<p>However, the power is that we are not restricted to the assumptions of a linear regression model. We can use more complicated and non-linear “process” models (not restricted to y = mx + b) and we can use more complicated “data” models than the normal distribution with constant variance (i.e., a single value for sd that is used for all data point)</p>
+<p>For example, we can simulate new data that assumes the standard deviation increases as the prediction increases (larger predictions have more variation). This might be due to sensor error increasing with the size of the measurement. In this case, we multiply y times a scalar (sd_scalar_true)</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb92"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">100</span>)</span>
 <span id="cb92-2"><a href="#cb92-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="dv">100</span>, <span class="dv">3</span>, <span class="dv">10</span>)</span>
@@ -1064,7 +1064,7 @@ Figure&nbsp;13.9: the curve from the optimized parameters with the observations
 <img src="likelihood-methods_files/figure-html/fig-data-curve-gamma-1.png" class="img-fluid figure-img" width="672">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-data-curve-gamma-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;13.10: the curve from the optimized parameters with the observations for a gamma ditribution data model.
+Figure&nbsp;13.10: the curve from the optimized parameters with the observations for a gamma distribution data model.
 </figcaption>
 </figure>
 </div>
@@ -1116,15 +1116,15 @@ Figure&nbsp;13.10: the curve from the optimized parameters with the observations
 <img src="likelihood-methods_files/figure-html/fig-ll-unc-1.png" class="img-fluid figure-img" width="672">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ll-unc-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;13.11: Likilihood curve with the two-unit support intervals shown
+Figure&nbsp;13.11: Likelihood curve with the two-unit support intervals shown
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
 <ul>
-<li><p>Comparing different models to select for the best model (uses the likelihood of the different models + a penalty for having more parameters). AIC is a common way to compare models (https://en.wikipedia.org/wiki/Akaike_information_criterion). It is 2 * number of parameters - 2 * ln (likelihood). Increasing the likelihood by adding more parameters won’t necessarily result in lowest AIC (lower is better) because it includes a penalty for having more parameters.</p></li>
-<li><p>There are more complete packages for doing likelihood analysis that optimize parameters, calculate AIC, estimate uncertainty, etc. For example, the <code>likelihood</code> package and <code>mle</code> function in R do these calculations for you. Here is an example using the <code>mle</code> package (note that the <code>mle</code> package assumes that you have created the objects x and y and only has parameters in the function calls…see how pred_mm and LL_fn don’t have x and y as arguments)</p></li>
+<li><p>Comparing different models to select for the best model (uses the likelihood of the different models + a penalty for having more parameters). AIC is a common way to compare models (https://en.wikipedia.org/wiki/Akaike_information_criterion). It is 2 * number of parameters - 2 * ln (likelihood). Increasing the likelihood by adding more parameters won’t necessarily result in the lowest AIC (lower is better) because it includes a penalty for having more parameters.</p></li>
+<li><p>There are more complete packages for doing likelihood analysis that optimize parameters, calculate AIC, estimate uncertainty, etc. For example, the <code>likelihood</code> package and <code>mle</code> function in R do these calculations for you. Here is an example using the <code>mle</code> package (note that the <code>mle</code> package assumes that you have created the objects x and y and only have parameters in the function calls…see how pred_mm and LL_fn don’t have x and y as arguments)</p></li>
 </ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb110"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb110-1"><a href="#cb110-1" aria-hidden="true" tabindex="-1"></a>pred_mm <span class="ot">&lt;-</span> <span class="cf">function</span>(par1, par2){</span>
@@ -1174,7 +1174,7 @@ par3 0.08755983 0.1155966</code></pre>
 </section>
 <section id="key-point" class="level3" data-number="13.5.3">
 <h3 data-number="13.5.3" class="anchored" data-anchor-id="key-point"><span class="header-section-number">13.5.3</span> Key point</h3>
-<p>Likelihood approach shown here gives us the <em>likelihood of the particular set of data GIVEN the model</em>. It does <strong>not</strong> give us the probability of the model given the particular set of data (i.e., the probability distributions of the model parameters). Ultimately, we want the probability distributions of the model parameters so that we can turn it around to forecast the probability of yet to be collected data. For this we need to use Bayesian statistics in <a href="bayesian-methods-intro.html" class="quarto-xref"><span>Chapter 14</span></a>!</p>
+<p>The likelihood approach shown here gives us the <em>likelihood of the particular set of data GIVEN the model</em>. It does <strong>not</strong> give us the probability of the model given the particular set of data (i.e., the probability distributions of the model parameters). Ultimately, we want the probability distributions of the model parameters so that we can turn them around to forecast the probability of yet-to-be-collected data. For this, we need to use Bayesian statistics in <a href="bayesian-methods-intro.html" class="quarto-xref"><span>Chapter 14</span></a>!</p>
 </section>
 </section>
 <section id="reading" class="level2" data-number="13.6">

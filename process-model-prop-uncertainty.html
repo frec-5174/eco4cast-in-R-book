@@ -496,9 +496,9 @@ div.csl-indent {
 </section>
 <section id="sec-prop-unc-pars" class="level2" data-number="17.2">
 <h2 data-number="17.2" class="anchored" data-anchor-id="sec-prop-unc-pars"><span class="header-section-number">17.2</span> Parameter uncertainty</h2>
-<p>Our model has 13 parameters. Each of them requires a value that is likely not known with perfect certainty. Representing parameter uncertainty involves replacing the single value for each parameter with a distribution. The distribution can be from literature reviews, a best guess, or the outcome of a calibration exercise. If the calibration exercise is Bayesian (see <a href="bayesian-methods-intro.html" class="quarto-xref">Chapter&nbsp;<span>14</span></a>), the distribution of the parameter before calibration can be referred to as a prior, and after calibration as a posterior. Sampling from the parameter distribution provides values for the parameter that are assigned to each ensemble member.</p>
-<p>In many cases, a sensitivity analysis can be used to determine which parameters to focus on for uncertainty estimation. Briefly, a sensitivity analysis runs a model many times using different combinations of parameter values to identify the parameters for which changes in value lead to large changes in model predictions. If a model is not particularly sensitive to parameter (i.e., changes in that parameter value do not strongly affect model predictions), then the overall prediction uncertainty is less likely to be strongly influenced by the uncertainty in that parameter. In practice, the values for less sensitive parameters are often held at a single value to avoid unnecessary computation. Other parameters are so well known that they are also held at a single value (e.g., the gravitation constant).</p>
-<p>In this example, I focus only on propagating the uncertainty associated with one parameter (<code>alpha</code>) that represents the light use efficiency of photosynthesis. All other parameters are held at their baseline values.</p>
+<p>Our model has 13 parameters. Each of them requires a value that is likely not known with perfect certainty. Representing parameter uncertainty involves replacing the single value for each parameter with a distribution. The distribution can be from literature reviews, a best guess, or the outcome of a calibration exercise. If the calibration exercise is Bayesian (see <a href="bayesian-methods-intro.html" class="quarto-xref">Chapter&nbsp;<span>14</span></a>), the distribution of the parameter before calibration can be referred to as a prior, and after calibration as a posterior. Sampling from the parameter distribution provides values for the parameters that are assigned to each ensemble member.</p>
+<p>In many cases, a sensitivity analysis can be used to determine which parameters to focus on for uncertainty estimation. Briefly, a sensitivity analysis runs a model many times using different combinations of parameter values to identify the parameters for which changes in value lead to large changes in model predictions. If a model is not particularly sensitive to a parameter (i.e., changes in that parameter value do not strongly affect model predictions), then the overall prediction uncertainty is less likely to be strongly influenced by the uncertainty in that parameter. In practice, the values for less sensitive parameters are often held at a single value to avoid unnecessary computation. Other parameters are so well known that they are also held at a single value (e.g., the gravitation constant).</p>
+<p>In this example, I focus only on propagating the uncertainty associated with one parameter (<code>alpha</code>) that represents the light-use efficiency of photosynthesis. All other parameters are held at their baseline values.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>new_params <span class="ot">&lt;-</span> params</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>new_params<span class="sc">$</span>alpha <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(ens_members, params<span class="sc">$</span>alpha, <span class="at">sd =</span> <span class="fl">0.005</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -567,7 +567,7 @@ Figure&nbsp;17.2: Forecast with parameter uncertainty
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>new_params<span class="sc">$</span>sigma.wood <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">1</span>, ens_members) <span class="co">#0.01 ## wood biomass</span></span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>new_params<span class="sc">$</span>sigma.soil <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">1</span>, ens_members)<span class="co"># 0.01</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>As an example, <a href="#fig-process-unc" class="quarto-xref">Figure&nbsp;<span>17.3</span></a> shows the distribution in the noise that is added the leaf state at each time step.</p>
+<p>As an example, <a href="#fig-process-unc" class="quarto-xref">Figure&nbsp;<span>17.3</span></a> shows the distribution in the noise that is added to the leaf state at each time step.</p>
 <div class="cell">
 <div class="cell-output-display">
 <div id="fig-process-unc" class="quarto-figure quarto-figure-center quarto-float anchored">
@@ -639,7 +639,7 @@ Figure&nbsp;17.4: Forecast with process uncertainty
 <img src="process-model-prop-uncertainty_files/figure-html/fig-init-unc-1.png" class="img-fluid figure-img" width="672">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-init-unc-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;17.5: Distribution of intial condition uncertainty for leaf carbon (Mg/ha)
+Figure&nbsp;17.5: Distribution of initial condition uncertainty for leaf carbon (Mg/ha)
 </figcaption>
 </figure>
 </div>
@@ -686,7 +686,7 @@ Figure&nbsp;17.6: Forecast with initial conditions uncertainty
 </section>
 <section id="driver-uncertainty" class="level2" data-number="17.5">
 <h2 data-number="17.5" class="anchored" data-anchor-id="driver-uncertainty"><span class="header-section-number">17.5</span> Driver uncertainty</h2>
-<p>The uncertainty in the weather forecasts comes directly from the 31 ensemble members provided by the NOAA Global Ensemble Forecasting System (GEFS). The ensemble is generated by slightly changing (perturbing) the initial states in the weather model before starting the forecast. Due to the chaotic nature of the atmosphere, these small differences get amplified over time, resulting in spread that increases further in the future.</p>
+<p>The uncertainty in the weather forecasts comes directly from the 31 ensemble members provided by the NOAA Global Ensemble Forecasting System (GEFS). The ensemble is generated by slightly changing (perturbing) the initial states in the weather model before starting the forecast. Due to the chaotic nature of the atmosphere, these small differences get amplified over time, resulting in a spread that increases further in the future.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>new_inputs <span class="ot">&lt;-</span> <span class="fu">get_forecast_met</span>(<span class="at">site =</span> site, sim_dates, <span class="at">use_mean =</span> <span class="cn">FALSE</span>)</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>new_inputs_ensemble <span class="ot">&lt;-</span> <span class="fu">assign_met_ensembles</span>(new_inputs, ens_members)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -700,7 +700,7 @@ Figure&nbsp;17.6: Forecast with initial conditions uncertainty
 <img src="process-model-prop-uncertainty_files/figure-html/fig-driver-unc-1.png" class="img-fluid figure-img" width="672">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-driver-unc-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;17.7: 35-day ahead forecasts from NOAA GEFS of the two variables using by the process model.
+Figure&nbsp;17.7: 35-day ahead forecasts from NOAA GEFS of the two variables used by the process model.
 </figcaption>
 </figure>
 </div>
@@ -747,7 +747,7 @@ Figure&nbsp;17.8: Forecast with driver uncertainty
 </section>
 <section id="problem-set" class="level2" data-number="17.6">
 <h2 data-number="17.6" class="anchored" data-anchor-id="problem-set"><span class="header-section-number">17.6</span> Problem set</h2>
-<p>The problem set is located in <code>process-model-uncert.qmd</code> in https://github.com/frec-5174/book-problem-sets. You can fork the repository or copy the <a href="https://github.com/frec-5174/book-problem-sets/blob/main/process-model-uncert.qmd">code</a> into your own quarto document</p>
+<p>The problem set is located in <code>process-model-uncert.qmd</code> at https://github.com/frec-5174/book-problem-sets. You can fork the repository or copy the <a href="https://github.com/frec-5174/book-problem-sets/blob/main/process-model-uncert.qmd">code</a> into your quarto document</p>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
