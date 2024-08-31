@@ -8,19 +8,19 @@ You will be generating forecasts of water temperature at NEON aquatics sites.
 
 ## Key concepts
 
-GitHub Actions is used to execute the forecast each day in the "cloud". The "cloud" are small computers that are run somewhere in a Microsoft data center (Microsoft owns GitHub). You create a yaml file in the `.github/workflows` in your github repo that defines the time of day that your job is run, the environment (type of operating system and Docker container), and the steps in the job.
+GitHub Actions is used to execute the forecast each day in the "cloud". The "cloud" are small computers that are run somewhere in a Microsoft data center (Microsoft owns GitHub). You create a YAML file in the `.github/workflows` in your GitHub repo that defines the time of day that your job is run, the environment (type of operating system and Docker container), and the steps in the job.
 
-You will use Docker container (`eco4cast/neon4cast-rocker`) to ensure consistent computation environment each day. The Docker is based on a rocker container that already has R, Rstudio, and many common packages (e.g., tidyverse). It also contains packages that are specific to the NEON Forecasting Challenge.
+You will use Docker container (`eco4cast/neon4cast-rocker`) to ensure a consistent computation environment each day. The Docker is based on a rocker container that already has R, Rstudio, and many common packages (e.g., tidyverse). It also contains packages that are specific to the NEON Forecasting Challenge.
 
-Pulling data include the Docker container and export the results. Nothing persists in container after it finishes in GitHub Actions. You will use the `neon4cast::stage2` and `neon4cast::stage3` to read in the meteorology data. You will use read_csv and a weblink to read in the targets. You will export your forecasts using the `neon4cast::submit` function that uploads your forecast to the NEON Ecological Forecasting Challenge S3 submission bucket.
+Nothing persists in the container after it finishes in GitHub Actions. You will use the `neon4cast::stage2` and `neon4cast::stage3` to read the meteorology data. You will use read_csv and a weblink to read the targets. You will export your forecasts using the `neon4cast::submit` function that uploads your forecast to the NEON Ecological Forecasting Challenge S3 submission bucket.
 
 ## Docker Skills
 
-Docker is tool that the activities in the book use for improving the reproduciblity and automation of data analysis and forecasting workflows. Below are the instructions for setting up and interacting with a Docker container (instructions are from Freya Olsson's workshop)
+Docker is a tool that the activities in the book use for improving the reproducibility and automation of data analysis and forecasting workflows. Below are the instructions for setting up and interacting with a Docker container (instructions are from Freya Olsson's workshop)
 
-Go to <https://docs.docker.com/get-docker/> to install the relevant install for your platform (available for PC, Mac and Linux). Also see <https://docs.docker.com/desktop/>.
+Go to <https://docs.docker.com/get-docker/> to install the relevant install for your platform (available for PC, Mac, and Linux). Also see <https://docs.docker.com/desktop/>.
 
-NOTE: \* If you're running Windows, you will need WSL (Windows Subsystem for Linux) \* If you're running a Linux distribution, you may have to enable Viritualization on your computer (see [here](https://stackoverflow.com/questions/76646465/unable-to-launch-docker-desktop-on-ubuntu/76655270#76655270))
+NOTE: \* If you're running Windows, you will need WSL (Windows Subsystem for Linux) \* If you're running a Linux distribution, you may have to enable Virtualization on your computer (see [here](https://stackoverflow.com/questions/76646465/unable-to-launch-docker-desktop-on-ubuntu/76655270#76655270))
 
 ## Running a docker container
 
@@ -35,9 +35,9 @@ This can take a few minutes to download and install. It will be quicker the next
 
 3.  Open up a web browser and navigate to `http://localhost:8787/`
 4.  Enter the username: `rstudio` and password: `yourpassword`
-5.  You should see a R Studio interface with all the packages etc. pre-installed and ready to go.
+5.  You should see an R Studio interface with all the packages etc. pre-installed and ready to go.
 
-You can close this localhost window (and then come back to it) but if you close the container from Docker (turn off your computer etc.) any changes will be lost unless you push them to Github or exported to your local environment.
+You can close this localhost window (and then come back to it) but if you close the container from Docker (turn off your computer etc.) any changes will be lost unless you push them to Github or export to your local environment.
 
 ## Reading
 
@@ -50,7 +50,7 @@ Pre-assignment set up: Complete @sec-second-forecast
 1.  Convert your template markdown code to a .R script
 2.  Update your repository to include the GitHub Action files
 3.  Commit updated files to GitHub
-4.  Provide instructor with link to GitHub repository that demonstrates multiple successful automated execution of forecasting code.
+4.  Provide the instructor with a link to the GitHub repository that demonstrates multiple successful automated executions of forecasting code.
 
 ## Module reference
 
