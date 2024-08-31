@@ -358,7 +358,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./project2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Build your own process-based forecast</span></span></a>
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Build your process-based forecast</span></span></a>
   </div>
 </li>
       </ul>
@@ -419,10 +419,10 @@ window.Quarto = {
   <li><a href="#calculate-carbon-in-trees-on-the-ground-coarse-woody-debris" id="toc-calculate-carbon-in-trees-on-the-ground-coarse-woody-debris" class="nav-link" data-scroll-target="#calculate-carbon-in-trees-on-the-ground-coarse-woody-debris"><span class="header-section-number">18.5</span> Calculate carbon in trees on the ground (coarse woody debris)</a></li>
   <li><a href="#calculate-carbon-in-fine-roots" id="toc-calculate-carbon-in-fine-roots" class="nav-link" data-scroll-target="#calculate-carbon-in-fine-roots"><span class="header-section-number">18.6</span> Calculate carbon in fine roots</a></li>
   <li><a href="#calculate-carbon-in-soils" id="toc-calculate-carbon-in-soils" class="nav-link" data-scroll-target="#calculate-carbon-in-soils"><span class="header-section-number">18.7</span> Calculate carbon in soils</a></li>
-  <li><a href="#combine-together" id="toc-combine-together" class="nav-link" data-scroll-target="#combine-together"><span class="header-section-number">18.8</span> Combine together</a></li>
+  <li><a href="#combine" id="toc-combine" class="nav-link" data-scroll-target="#combine"><span class="header-section-number">18.8</span> Combine</a></li>
   <li><a href="#modis-lai" id="toc-modis-lai" class="nav-link" data-scroll-target="#modis-lai"><span class="header-section-number">18.9</span> MODIS LAI</a></li>
   <li><a href="#flux-data" id="toc-flux-data" class="nav-link" data-scroll-target="#flux-data"><span class="header-section-number">18.10</span> Flux data</a></li>
-  <li><a href="#combine-together-to-create-data-constraints" id="toc-combine-together-to-create-data-constraints" class="nav-link" data-scroll-target="#combine-together-to-create-data-constraints"><span class="header-section-number">18.11</span> Combine together to create data constraints</a></li>
+  <li><a href="#combine-to-create-data-constraints" id="toc-combine-to-create-data-constraints" class="nav-link" data-scroll-target="#combine-to-create-data-constraints"><span class="header-section-number">18.11</span> Combine to create data constraints</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/frec-5174/eco4cast-in-R-book/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li><li><a href="https://github.com/frec-5174/eco4cast-in-R-book/blob/main/neon-data.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li></ul></div></nav>
     </div>
@@ -455,8 +455,8 @@ window.Quarto = {
 <p>The goal of this chapter is to access and process data from the National Ecological Observatory Network (NEON) to calibrate parameters, estimate parameter uncertainty, assimilate data, and evaluate output from the forest carbon model in <a href="process-model.html" class="quarto-xref"><span>Chapter 16</span></a>. The data that is prepared for use in the forest carbon model is used in subsequent chapters.</p>
 <p>In this document, we will be calculating the carbon in tree wood, tree leaves, and soil for a NEON site (matching the model states in <a href="process-model.html" class="quarto-xref"><span>Chapter 16</span></a>).</p>
 <ul>
-<li><p>The carbon in wood is based on the conversion of tree diameter measurements to carbon in stems and coarse woody roots. Since our simple forest model does not have a specific representation of fine-roots, we lump fine roots with the wood stock.</p></li>
-<li><p>The carbon in tree leaves is represented by data measuring leaf area index (which is related to leave carbon through a mass-to-area conversion).</p></li>
+<li><p>The carbon in wood is based on the conversion of tree diameter measurements to carbon in stems and coarse woody roots. Since our simple forest model does not have a specific representation of fine roots, we lump fine roots with the wood stock.</p></li>
+<li><p>The carbon in tree leaves is represented by data measuring leaf area index (which is related to leaf carbon through a mass-to-area conversion).</p></li>
 <li><p>The carbon in soil represents all dead organic matter (both soil and vegetation) and lumps together standing dead trees, dead trees that have fallen (coarse woody debris), and soil organic matter measured using soil pits.</p></li>
 <li><p>Fluxes of carbon are represented by net ecosystem exchange (nee), as measured by eddy covariance towers.</p></li>
 </ul>
@@ -485,7 +485,7 @@ window.Quarto = {
 </section>
 <section id="wood-carbon" class="level2" data-number="18.4">
 <h2 data-number="18.4" class="anchored" data-anchor-id="wood-carbon"><span class="header-section-number">18.4</span> Wood carbon</h2>
-<p>In this section, we will be calculating carbon in live and dead trees at a NEON site. The carbon in live trees represents the wood carbon stock in <a href="process-model.html#fig-process-model" class="quarto-xref">Figure&nbsp;<span>16.1</span></a> and the dead trees represent a component of the soil organic matter stock in <a href="process-model.html#fig-process-model" class="quarto-xref">Figure&nbsp;<span>16.1</span></a>. At the end we will have a <em>site-level</em> mean carbon stock in <em>live trees</em> and <em>dead trees</em>for each year that was sampled from the plots that represent ecosystem under the flux tower (e.g., tower plots). We use the tower plots so that it corresponds to same ecosystem as the NEON <code>nee</code> data.</p>
+<p>In this section, we will be calculating carbon in live and dead trees at a NEON site. The carbon in live trees represents the wood carbon stock in <a href="process-model.html#fig-process-model" class="quarto-xref">Figure&nbsp;<span>16.1</span></a> and the dead trees represent a component of the soil organic matter stock in <a href="process-model.html#fig-process-model" class="quarto-xref">Figure&nbsp;<span>16.1</span></a>. In the end, we will have a <em>site-level</em> mean carbon stock in <em>live trees</em> and <em>dead trees</em> for each year that was sampled from the plots that represent the ecosystem under the flux tower (e.g., tower plots). We use the tower plots so that they correspond to the same ecosystem as the NEON <code>nee</code> data.</p>
 <p>We will select the key variables in each table (thus only downloading those variables).</p>
 <p>The code below reads the data directly from NEON’s cloud storage.</p>
 <div class="cell">
@@ -516,7 +516,7 @@ window.Quarto = {
 <span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(plotID, <span class="at">.keep_all =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> </span>
 <span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>The equations that convert diameter at breast height (DBH), where breast height is defined at 130 cm above the base of the tree, differ by species and location. Therefore the scientific name (both genus and species components) are needed. The species names in the mapping and tagging table need to be separated into the genus and species so that we can calculate the biomass using an R function that expects them to be separate.</p>
+<p>The equations that convert diameter at breast height (DBH), where breast height is defined at 130 cm above the base of the tree, differ by species and location. Therefore the scientific name (both genus and species components) is needed. The species names in the mapping and tagging table need to be separated into the genus and species so that we can calculate the biomass using an R function that expects them to be separate.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>genus_species <span class="ot">&lt;-</span> <span class="fu">unlist</span>(<span class="fu">str_split_fixed</span>(map_tag_table<span class="sc">$</span>scientificName, <span class="st">" "</span>, <span class="dv">3</span>))</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -538,7 +538,7 @@ window.Quarto = {
 </div>
 <section id="calculate-carbon-in-live-trees" class="level3" data-number="18.4.1">
 <h3 data-number="18.4.1" class="anchored" data-anchor-id="calculate-carbon-in-live-trees"><span class="header-section-number">18.4.1</span> Calculate carbon in live trees</h3>
-<p>Tidy up the individual tree data to include only live trees from the tower plots. Also create a variable that is the year of the sample date. We will filter the data based on measurement heights of 130 cm to only include data that had diameter at breast height (dbh) measurements.</p>
+<p>Tidy up the individual tree data to include only live trees from the tower plots. Also, create a variable that is the year of the sample date. We will filter the data based on measurement heights of 130 cm to only include data that had diameter at breast height (dbh) measurements.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>combined_table_live_tower <span class="ot">&lt;-</span> combined_table_dbh <span class="sc">|&gt;</span>  </span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">str_detect</span>(plantStatus,<span class="st">"Live"</span>),</span>
@@ -546,8 +546,8 @@ window.Quarto = {
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>         measurementHeight <span class="sc">==</span> <span class="dv">130</span>) <span class="sc">|&gt;</span> </span>
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">stemDiameter =</span> <span class="fu">as.numeric</span>(stemDiameter))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>To calculate the biomass of each tree in the table, we will use the <code>get_biomass</code> function from the <code>allodb</code> package (Gonzalex-Akre https://doi.org/10.1111/2041-210X.13756), which is a package that converts DBH measurements to tree biomass estimates. This function takes as arguments: <code>dbh</code>, <code>genus</code>, <code>species</code>, and <code>coords</code>. We have already extracted genus and species and filtered to dbh measurements. (note <code>allodb</code> is not on CRAN but can be downloaded using <code>remotes::install_github("ropensci/allodb")</code>)</p>
-<p>In this next section, as well as a future one where we calculate dead tree carbon, we are going to make a simplifying assumption. We will assume that the below ground biomass of a tree is some fixed proportion of its above ground biomass. In our analysis, we will assume this value is <span class="math inline">\(0.3\)</span> (<code>ag_bg_propr</code>), but it is a parameter that can be changed. We also assume that carbon is <span class="math inline">\(0.5\)</span> of biomass.</p>
+<p>To calculate the biomass of each tree in the table, we will use the <code>get_biomass</code> function from the <code>allodb</code> package (Gonzalex-Akre https://doi.org/10.1111/2041-210X.13756), which is a package that converts DBH measurements to tree biomass estimates. This function takes as arguments: <code>dbh</code>, <code>genus</code>, <code>species</code>, and <code>coords</code>. We have already extracted genera and species and filtered them to dbh measurements. (note <code>allodb</code> is not on CRAN but can be downloaded using <code>remotes::install_github("ropensci/allodb")</code>)</p>
+<p>In this next section, as well as a future one where we calculate dead tree carbon, we are going to make a simplifying assumption. We will assume that the below-ground biomass of a tree is some fixed proportion of its above-ground biomass. In our analysis, we will assume this value is <span class="math inline">\(0.3\)</span> (<code>ag_bg_propr</code>), but it is a parameter that can be changed. We also assume that carbon is <span class="math inline">\(0.5\)</span> of biomass.</p>
 <p>The <code>get_biomass</code> function is within the <code>allodb</code> package and returns the biomass of each tree in units of kg.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(allodb)</span>
@@ -606,7 +606,7 @@ Figure&nbsp;18.1: Plot level carbon in living trees for the focal NEON site
 <span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">mean_kgCperm2 =</span> <span class="fu">mean</span>(plot_kgCm2, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
 <span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>              <span class="at">sd_kgCperm2 =</span> <span class="fu">sd</span>(plot_kgCm2))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p><a href="#fig-site-live-carbon" class="quarto-xref">Figure&nbsp;<span>18.2</span></a> is the site level carbon calculated by taking the mean only of the plots that were measured each year.</p>
+<p><a href="#fig-site-live-carbon" class="quarto-xref">Figure&nbsp;<span>18.2</span></a> is the site-level carbon calculated by taking the mean only of the plots that were measured each year.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(site_live_carbon, <span class="fu">aes</span>(<span class="at">x =</span> measure_date, <span class="at">y =</span> mean_kgCperm2)) <span class="sc">+</span> </span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
@@ -685,7 +685,7 @@ Figure&nbsp;18.3: Plot level carbon in dead trees for the focal NEON site
 <span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">mean_kgCperm2 =</span> <span class="fu">mean</span>(plot_kgCm2, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
 <span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">sd_kgCperm2 =</span> <span class="fu">sd</span>(plot_kgCm2))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p><a href="#fig-site-dead-carbon" class="quarto-xref">Figure&nbsp;<span>18.4</span></a> is the site level carbon.</p>
+<p><a href="#fig-site-dead-carbon" class="quarto-xref">Figure&nbsp;<span>18.4</span></a> is the site-level carbon.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(site_dead_carbon, <span class="fu">aes</span>(<span class="at">x =</span> measure_date, <span class="at">y =</span> mean_kgCperm2)) <span class="sc">+</span> </span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
@@ -709,7 +709,7 @@ Figure&nbsp;18.4: Site level carbon in dead trees for the focal NEON site
 <section id="calculate-carbon-in-trees-on-the-ground-coarse-woody-debris" class="level2" data-number="18.5">
 <h2 data-number="18.5" class="anchored" data-anchor-id="calculate-carbon-in-trees-on-the-ground-coarse-woody-debris"><span class="header-section-number">18.5</span> Calculate carbon in trees on the ground (coarse woody debris)</h2>
 <p>While the code above calculates the carbon in standing dead trees, it misses the carbon in dead trees that are no longer standing (called coarse woody debris). The coarse woody debris is another component of SOM in our simple forest model.</p>
-<p>The data needed to calculate carbon in trees that are laying on the ground are in two NEON data products.</p>
+<p>The data needed to calculate carbon in trees that are lying on the ground are in two NEON data products.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>cdw_density <span class="ot">&lt;-</span> <span class="fu">neon_cloud</span>(<span class="st">"cdw_densitydisk"</span>,</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>                        <span class="at">product =</span> <span class="st">"DP1.10014.001"</span>,</span>
@@ -728,12 +728,12 @@ Figure&nbsp;18.4: Site level carbon in dead trees for the focal NEON site
 </div>
 <p>We will go through the same steps to calculate carbon in the coarse woody debris.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="do">## filter by tower plot for log table</span></span>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Filter by tower plot for log table</span></span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>log_table_filter <span class="ot">&lt;-</span> log_table <span class="sc">|&gt;</span> </span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(plotType <span class="sc">==</span> <span class="st">"tower"</span>,</span>
 <span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>         plotID <span class="sc">%in%</span> last_plots)</span>
 <span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="do">## filter by tower plot for cdw table</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="do">## Filter by tower plot for cdw table</span></span>
 <span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>cdw_tally <span class="ot">&lt;-</span> cdw_tally <span class="sc">|&gt;</span></span>
 <span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(plotType <span class="sc">==</span> <span class="st">'tower'</span>,</span>
 <span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>         plotID <span class="sc">%in%</span> last_plots)</span>
@@ -741,19 +741,19 @@ Figure&nbsp;18.4: Site level carbon in dead trees for the focal NEON site
 <span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a><span class="do">## create </span></span>
 <span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>log_table_filter<span class="sc">$</span>gcm3 <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="fu">nrow</span>(log_table_filter))</span>
 <span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a><span class="do">## set site specific volume factor</span></span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a><span class="do">## Set site specific volume factor</span></span>
 <span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>site_volume_factor <span class="ot">&lt;-</span> <span class="dv">8</span></span>
 <span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(log_table_filter)){</span>
-<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>  <span class="do">## match log table sampleID to cdw density table sample ID</span></span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Match log table sampleID to cdw density table sample ID</span></span>
 <span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>  ind <span class="ot">&lt;-</span> <span class="fu">which</span>(cdw_density<span class="sc">$</span>sampleID <span class="sc">==</span> log_table_filter<span class="sc">$</span>sampleID[i])</span>
-<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>  <span class="do">## produce g/cm^3 by multiplying bulk density of disk by site volume factor</span></span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Produce g/cm^3 by multiplying the bulk density of the disk by the site volume factor</span></span>
 <span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a>  log_table_filter<span class="sc">$</span>gcm3[i] <span class="ot">&lt;-</span> <span class="fu">mean</span>(cdw_density<span class="sc">$</span>bulkDensDisk[ind]) <span class="sc">*</span> site_volume_factor</span>
 <span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a>year_measurement <span class="ot">&lt;-</span> <span class="fu">min</span>(log_table_filter<span class="sc">$</span>yearBoutBegan)</span>
 <span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-26"><a href="#cb19-26" aria-hidden="true" tabindex="-1"></a><span class="do">## table of coarse wood</span></span>
+<span id="cb19-26"><a href="#cb19-26" aria-hidden="true" tabindex="-1"></a><span class="do">## Table of coarse wood</span></span>
 <span id="cb19-27"><a href="#cb19-27" aria-hidden="true" tabindex="-1"></a>site_cwd_carbon <span class="ot">&lt;-</span> log_table_filter <span class="sc">|&gt;</span></span>
 <span id="cb19-28"><a href="#cb19-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean_kgCperm2 =</span> .<span class="dv">5</span> <span class="sc">*</span> <span class="fu">sum</span>(gcm3, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">*</span> .<span class="dv">1</span>) <span class="sc">|&gt;</span> </span>
 <span id="cb19-29"><a href="#cb19-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">year =</span> year_measurement)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -761,7 +761,7 @@ Figure&nbsp;18.4: Site level carbon in dead trees for the focal NEON site
 </section>
 <section id="calculate-carbon-in-fine-roots" class="level2" data-number="18.6">
 <h2 data-number="18.6" class="anchored" data-anchor-id="calculate-carbon-in-fine-roots"><span class="header-section-number">18.6</span> Calculate carbon in fine roots</h2>
-<p>We lump fine root carbon into the wood stem stock in the simple forest model. Here we are going to calculate the carbon stored in fine roots using the root chemistry data product. We will calculate the carbon in both dead and alive roots. Though we are interested mostly in live roots, at the time of writing this, the 2021 NEON data for our site does not have <code>rootStatus</code> data available. Thus we will use historical data to compute an estimate of the ratio, so that we don’t have to throw away perfectly good information.</p>
+<p>We lump fine root carbon into the wood stem stock in the simple forest model. Here we are going to calculate the carbon stored in fine roots using the root chemistry data product. We will calculate the carbon in both dead and alive roots. Though we are interested mostly in live roots, at the time of writing this, the 2021 NEON data for our site does not have <code>rootStatus</code> data available. Thus we will use historical data to compute an estimate of the ratio so that we don’t have to throw away perfectly good information.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="do">## root chemistry data product</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>bbc_percore <span class="ot">&lt;-</span> <span class="fu">neon_cloud</span>(<span class="st">"bbc_percore"</span>,</span>
@@ -802,7 +802,7 @@ Figure&nbsp;18.4: Site level carbon in dead trees for the focal NEON site
 <span id="cb21-25"><a href="#cb21-25" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb21-26"><a href="#cb21-26" aria-hidden="true" tabindex="-1"></a><span class="do">##</span></span>
 <span id="cb21-27"><a href="#cb21-27" aria-hidden="true" tabindex="-1"></a>site_roots <span class="ot">&lt;-</span> rootmass <span class="sc">|&gt;</span></span>
-<span id="cb21-28"><a href="#cb21-28" aria-hidden="true" tabindex="-1"></a>  <span class="do">## filter plotID to only our plots of interest</span></span>
+<span id="cb21-28"><a href="#cb21-28" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Filter plotID to only our plots of interest</span></span>
 <span id="cb21-29"><a href="#cb21-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(plotID <span class="sc">%in%</span> last_plots) <span class="sc">|&gt;</span></span>
 <span id="cb21-30"><a href="#cb21-30" aria-hidden="true" tabindex="-1"></a>  <span class="do">## group by year</span></span>
 <span id="cb21-31"><a href="#cb21-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(year) <span class="sc">|&gt;</span></span>
@@ -821,11 +821,11 @@ Figure&nbsp;18.4: Site level carbon in dead trees for the focal NEON site
 <h2 data-number="18.7" class="anchored" data-anchor-id="calculate-carbon-in-soils"><span class="header-section-number">18.7</span> Calculate carbon in soils</h2>
 <p>The video below provides an introduction to the science of soil carbon and methods for measuring it.</p>
 <div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/khfIC5TpyPQ?si=f1ldTnTVpA8UWbb7" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
-<p>Soil carbon data in contained in two NEON data products: one that describes the physical characteristics of the soil (depth and density) and another the describes the carbon concentration of the soil. Ultimately multiplying the density by the carbon concentration gives the total carbon.</p>
+<p>Soil carbon data is contained in two NEON data products: one that describes the physical characteristics of the soil (depth and density) and another that describes the carbon concentration of the soil. Ultimately multiplying the density by the carbon concentration gives the total carbon.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Download bieogeochemistry soil data to get carbon concentration</span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="co">#data_product1 &lt;- "DP1.00097.001"</span></span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="co">#Download physical soil data to get bulk density</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="co">#Download physical soil data to get the bulk density</span></span>
 <span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>mgc_perbiogeosample <span class="ot">&lt;-</span> <span class="fu">neon_cloud</span>(<span class="st">"mgp_perbiogeosample"</span>,</span>
 <span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>                        <span class="at">product =</span> <span class="st">"DP1.00096.001"</span>,</span>
@@ -853,7 +853,7 @@ Figure&nbsp;18.4: Site level carbon in dead trees for the focal NEON site
 <p>The code below</p>
 <ul>
 <li><p>joins the bulk density table into the table with the carbon concentration</p></li>
-<li><p>Determines the height of the horizon (<code>biogeoBottomDepth - biogeoTopDepth</code>) and coverts to total mass of soil in the horizon using the bulk density.</p></li>
+<li><p>Determines the height of the horizon (<code>biogeoBottomDepth - biogeoTopDepth</code>) and converts to total mass of soil in the horizon using the bulk density.</p></li>
 <li><p>Multiply the carbon concentration (carbonTot) by the mass of soil (along with unit conversion) to get the soil carbon in kg C / m2.</p></li>
 </ul>
 <div class="cell">
@@ -899,9 +899,9 @@ Figure&nbsp;18.5: Soil carbon by depth for the site from the megapit.
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">soilC_gC_m2 =</span> <span class="fu">sum</span>(horizon_C_kg_per_m2))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="combine-together" class="level2" data-number="18.8">
-<h2 data-number="18.8" class="anchored" data-anchor-id="combine-together"><span class="header-section-number">18.8</span> Combine together</h2>
-<p>Next we will combine our estimates of carbon in each component for visualization and to aggregated into the wood and som stocks below.</p>
+<section id="combine" class="level2" data-number="18.8">
+<h2 data-number="18.8" class="anchored" data-anchor-id="combine"><span class="header-section-number">18.8</span> Combine</h2>
+<p>Next, we will combine our estimates of carbon in each component for visualization and to aggregate into the wood and som stocks below.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>site_live_carbon <span class="ot">&lt;-</span> site_live_carbon <span class="sc">|&gt;</span> </span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">variable =</span> <span class="st">"live_tree"</span>) <span class="sc">|&gt;</span> </span>
@@ -944,13 +944,13 @@ Figure&nbsp;18.5: Soil carbon by depth for the site from the megapit.
 <img src="neon-data_files/figure-html/fig-all-site-carbon-1.png" class="img-fluid figure-img" width="672">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-all-site-carbon-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;18.6: Site-leve carbon stocks at the focal NEON site
+Figure&nbsp;18.6: Site-level carbon stocks at the focal NEON site
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p>Combine pools of carbon together to match the stocks used in our simple process model. - wood = live trees (stem and coarse roots) + fine roots - som = dead trees + down wood + soil carbon</p>
+<p>Combine pools of carbon to match the stocks used in our simple process model. - wood = live trees (stem and coarse roots) + fine roots - som = dead trees + down wood + soil carbon</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>total_carbon_simple <span class="ot">&lt;-</span> total_carbon_components <span class="sc">|&gt;</span> </span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> variable, <span class="at">values_from =</span> mean_kgCperm2) <span class="sc">|&gt;</span> </span>
@@ -963,7 +963,7 @@ Figure&nbsp;18.6: Site-leve carbon stocks at the focal NEON site
 </section>
 <section id="modis-lai" class="level2" data-number="18.9">
 <h2 data-number="18.9" class="anchored" data-anchor-id="modis-lai"><span class="header-section-number">18.9</span> MODIS LAI</h2>
-<p>Leaf area index can be used a proxy for leaf carbon. The forest model convert leaf carbon into LAI using a leaf mass to area parameter. As a result, we can use leaf area index (LAI) from the MODIS satellite sensor to constrain and evaluate LAI predictions. MODIS LAI product is a 8-day mean for a 500m grid cell.</p>
+<p>The leaf area index can be used as a proxy for leaf carbon. The forest model converts leaf carbon into LAI using a leaf mass to area parameter. As a result, we can use the leaf area index (LAI) from the MODIS satellite sensor to constrain and evaluate LAI predictions. MODIS LAI product is an 8-day mean for a 500m grid cell.</p>
 <div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/n9t_ANefhjU?si=U4OYgoq83Uu2nu57" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
 <p>Download the leaf area index for the focal NEON site using the <code>MODISTools</code> package.</p>
 <div class="cell">
@@ -1003,7 +1003,7 @@ Figure&nbsp;18.6: Site-leve carbon stocks at the focal NEON site
 <img src="neon-data_files/figure-html/fig-modis-lai-1.png" class="img-fluid figure-img" width="672">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-modis-lai-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;18.7: MODIS LAI for the 500m grid-cell that includes the flux tower
+Figure&nbsp;18.7: MODIS LAI for the 500m grid cell that includes the flux tower
 </figcaption>
 </figure>
 </div>
@@ -1012,7 +1012,7 @@ Figure&nbsp;18.7: MODIS LAI for the 500m grid-cell that includes the flux tower
 </section>
 <section id="flux-data" class="level2" data-number="18.10">
 <h2 data-number="18.10" class="anchored" data-anchor-id="flux-data"><span class="header-section-number">18.10</span> Flux data</h2>
-<p>NEE flux data is used to help constrain the net of the photosynthesis and respiration in the simple forest model. It is already processed for used in the NEON Ecological Forecasting Challenge. Here we read in that data.</p>
+<p>NEE flux data is used to help constrain the net of photosynthesis and respiration in the simple forest model. It is already processed for use in the NEON Ecological Forecasting Challenge. Here we read in that data.</p>
 <p>Learn about flux data here:</p>
 <div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/CR4Anc8Mkas?si=45r0mDvamjYGWq1E" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
 <div class="cell">
@@ -1040,8 +1040,8 @@ Figure&nbsp;18.8: Daily mean NEE from the flux tower at the focal NEON site
 </div>
 </div>
 </section>
-<section id="combine-together-to-create-data-constraints" class="level2" data-number="18.11">
-<h2 data-number="18.11" class="anchored" data-anchor-id="combine-together-to-create-data-constraints"><span class="header-section-number">18.11</span> Combine together to create data constraints</h2>
+<section id="combine-to-create-data-constraints" class="level2" data-number="18.11">
+<h2 data-number="18.11" class="anchored" data-anchor-id="combine-to-create-data-constraints"><span class="header-section-number">18.11</span> Combine to create data constraints</h2>
 <p>The units of the carbon stocks and nee need to be converted to the units of the forest process model. The carbon stocks are converted from kgC/m2 to MgC/ha and nee is converted from gC/m2/day to MgC/ha/day.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>obs <span class="ot">&lt;-</span> total_carbon_simple <span class="sc">|&gt;</span> </span>
@@ -1065,13 +1065,13 @@ Figure&nbsp;18.8: Daily mean NEE from the flux tower at the focal NEON site
 <img src="neon-data_files/figure-html/fig-combined-all-1.png" class="img-fluid figure-img" width="672">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-combined-all-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;18.9: The data avialable to constrain the forest process model.
+Figure&nbsp;18.9: The data available to constrain the forest process model.
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p>Save the observations to a csv file.</p>
+<p>Save the observations to a CSV file.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(obs, <span class="st">"data/site_carbon_data.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>

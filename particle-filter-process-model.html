@@ -329,7 +329,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./project2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Build your own process-based forecast</span></span></a>
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Build your process-based forecast</span></span></a>
   </div>
 </li>
       </ul>
@@ -406,7 +406,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>In this chapter we apply the particle filter that was introduced in <a href="particle-filter.html" class="quarto-xref">Chapter&nbsp;<span>15</span></a> to the forest process model. We will use an ensemble of 100 particles and assimilate the last two years of data.</p>
+<p>In this chapter, we apply the particle filter that was introduced in <a href="particle-filter.html" class="quarto-xref">Chapter&nbsp;<span>15</span></a> to the forest process model. We will use an ensemble of 100 particles and assimilate the last two years of data.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>site <span class="ot">&lt;-</span> <span class="st">"OSBS"</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>ens_members <span class="ot">&lt;-</span> <span class="dv">100</span></span>
@@ -488,7 +488,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="run-the-particle-filter" class="level2" data-number="20.2">
 <h2 data-number="20.2" class="anchored" data-anchor-id="run-the-particle-filter"><span class="header-section-number">20.2</span> Run the particle filter</h2>
-<p>In the particle filter we perturb the parameter values slightly to prevent them from collapsing to a single value.</p>
+<p>In the particle filter, we perturb the parameter values slightly to prevent them from collapsing to a single value.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(t <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="fu">length</span>(sim_dates)){</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  </span>

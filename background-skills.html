@@ -295,7 +295,7 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./project2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Build your own process-based forecast</span></span></a>
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Build your process-based forecast</span></span></a>
   </div>
 </li>
       </ul>
@@ -377,14 +377,14 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>This chapter provides information about data science skills that are crucial completing the activities in the book (aka prerequisites).</p>
+<p>This chapter provides information about data science skills that are crucial to completing the activities in the book (aka prerequisites).</p>
 <section id="rrstudio-installation" class="level2" data-number="7.1">
 <h2 data-number="7.1" class="anchored" data-anchor-id="rrstudio-installation"><span class="header-section-number">7.1</span> R/Rstudio Installation</h2>
 <p>The R for Data Science book provides instructions for <a href="https://r4ds.hadley.nz/intro#prerequisites">installing R and Rstudio</a>.</p>
 </section>
 <section id="r-skills" class="level2" data-number="7.2">
 <h2 data-number="7.2" class="anchored" data-anchor-id="r-skills"><span class="header-section-number">7.2</span> R skills</h2>
-<p>The book uses R as the focal programming language and generate uses the Tidyverse approach when working with and visualizing data. The following functions are commonly used: <code>read_csv</code>, <code>write_csv</code>, <code>mutate</code>, <code>filter</code>, <code>group_by</code>, <code>summarize</code>, <code>ggplot</code>, <code>select</code>, pipes (<code>|&gt;</code> or <code>%&gt;</code>), <code>pivot_wider</code>, <code>pivot_longer</code>, <code>arrange</code>, <code>left_join</code>). If you are new R and Tidyverse there are many great materials on the internet. The Data Carpentry “Data Analysis and Visualization in R for Ecologists” is an excellent starting point for learning. The <a href="https://r4ds.hadley.nz">R for Data Science book</a> is an especially useful reference for learning the Tidyverse commands. Finally, I have created an <a href="https://github.com/frec3044/tidyvere-intro">introductory to tidyverse module</a> for my undergraduate Environmental Data Science class. You can use the module as a “test” of your Tidyverse skills</p>
+<p>The book uses R as the focal programming language and uses the Tidyverse approach when working with and visualizing data. The following functions are commonly used: <code>read_csv</code>, <code>write_csv</code>, <code>mutate</code>, <code>filter</code>, <code>group_by</code>, <code>summarize</code>, <code>ggplot</code>, <code>select</code>, pipes (<code>|&gt;</code> or <code>%&gt;</code>), <code>pivot_wider</code>, <code>pivot_longer</code>, <code>arrange</code>, <code>left_join</code>). If you are new to R and Tidyverse there are many great materials on the internet. The Data Carpentry “Data Analysis and Visualization in R for Ecologists” is an excellent starting point for learning. The <a href="https://r4ds.hadley.nz">R for Data Science book</a> is an especially useful reference for learning the Tidyverse commands. Finally, I have created an <a href="https://github.com/frec3044/tidyvere-intro">introductory to tidyverse module</a> for my undergraduate Environmental Data Science class. You can use the module as a “test” of your Tidyverse skills</p>
 </section>
 <section id="sec-github" class="level2" data-number="7.3">
 <h2 data-number="7.3" class="anchored" data-anchor-id="sec-github"><span class="header-section-number">7.3</span> Git Skills</h2>
@@ -413,23 +413,23 @@ use_git_config(user.name = "Jane Doe", user.email = "jane@example.org")</code></
 <ol type="1">
 <li><p>Go to <a href="https://github.com/frec3044/git-rmd-intro" class="uri">https://github.com/frec3044/git-rmd-intro</a>. Find the “fork” bottom near the top right. Click “Fork” and tell it to fork to your personal GitHub account.</p></li>
 <li><p>Go to the repo on your personal GitHub account. It will be something like <code>https://github.com/[your-user-name]/git-rmd-intro</code></p></li>
-<li><p>Under the green “Code” button, select the local tab, and copy the https link.</p></li>
-<li><p>Open Rstudio on your computer and create a new project. First, File -&gt; New Project -&gt; Version Control -&gt; Git. Paste the URL from you repo in the first box, hit tab to fill in the repo name in the second, and then use Browse to select where you want the project on your computer (I recommend having a directory on your computer where you keep all repositories we use in the class). If you don’t see a <code>Version Control</code> option then you may not have Git install on your computer (use the instructions <a href="https://happygitwithr.com/index.html">here</a> to install Git)</p></li>
+<li><p>Under the green “Code” button, select the local tab, and copy the URL link.</p></li>
+<li><p>Open Rstudio on your computer and create a new project. First, File -&gt; New Project -&gt; Version Control -&gt; Git. Paste the URL from you repo in the first box, hit tab to fill in the repo name in the second, and then use Browse to select where you want the project on your computer (I recommend having a directory on your computer where you keep all repositories we use in the class). If you don’t see a <code>Version Control</code> option then you may not have Git installed on your computer (use the instructions <a href="https://happygitwithr.com/index.html">here</a> to install Git)</p></li>
 <li><p>Your project will load. Then go to File -&gt; New -&gt; New File -&gt; Quarto Document</p></li>
 <li><p>In the prompt use Title = “Assignment 1” and Author = [Your name]</p></li>
 <li><p>Save file as “assignment1.qmd” in the <strong>assignment subdirectory</strong> of the Project.</p></li>
 <li><p>Commit your <code>assignment1.qmd</code> file using the Git tab at the top right pane using a useful commit message. You will need to check the box for the files that you want to commit. A useful message helps you broadly remember what you did to the files that are included in the commit. The Git tab may not be in the top right panel if you have moved the panels around. If you don’t have the Git tab on pane, then you may not have created a project from GitHub correctly or you do not have Git installed on your computer.</p></li>
 <li><p>Find the Sources / Visual buttons right above the document. Select Source (which is the code view).</p></li>
-<li><p>Copy the code chunk on lines 21-24 and paste at end of document. Change to <code>echo: TRUE</code>.</p></li>
+<li><p>Copy the code chunk on lines 21-24 and paste it at end of the document. Change to <code>echo: TRUE</code>.</p></li>
 <li><p>Find the following code at the top</p></li>
 </ol>
 <pre><code>format: html:</code></pre>
-<p>and change to so that all the necessary files are saved in a single html file.</p>
+<p>and change it so that all the necessary files are saved in a single html file.</p>
 <pre><code>format:   
   html:
     embed-resources: true</code></pre>
 <ol start="12" type="1">
-<li>Find the Render (found above the document) button and click it to render the document a to an html document. You will see a file named “assignment1.html” appear. The html is like webpage version of your code. If your have a directory called <code>assignment1_files</code> then you did not do step 15 correctly.</li>
+<li>Find the Render (found above the document) button and click it to render the document to an html document. You will see a file named “assignment1.html” appear. The html is like a webpage version of your code. If you have a directory called <code>assignment1_files</code> then you did not do step 15 correctly.</li>
 <li>Click on the “assignment1.html” in your “Files” pane and select “View in Web Browser”. Confirm that it looks as expected.</li>
 <li>Commit the updated <code>.qmd</code> and new <code>.html</code> files to git.</li>
 <li>Push to your repository on GitHub.</li>
