@@ -1,3 +1,3 @@
 # Iterative forecasting using empirical models
 
-This section builds on the forecasting introduction by providing a guided, hands-on activity focused on developing simple empirical forecasts of variables in the NEON Ecological Forecasting Challenge.  The final chapter of the section challenges you to transfer the concepts learned into a new forecasting models that is submitted to the NEON Challenge. 
+This section builds on the forecasting introduction by providing a guided, hands-on activity focused on developing simple empirical forecasts of variables in the NEON Ecological Forecasting Challenge.  The final chapter of the section challenges you to transfer the concepts learned into a new forecasting model that is submitted to the NEON Challenge. 
