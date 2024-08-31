@@ -1,6 +1,6 @@
 # Background skills
 
-This chapter provides information about data science skills that are crucial completing the activities in the book (aka prerequisites).
+This chapter provides information about data science skills that are crucial to completing the activities in the book (aka prerequisites).
 
 ## R/Rstudio Installation
 
@@ -8,7 +8,7 @@ The R for Data Science book provides instructions for [installing R and Rstudio]
 
 ## R skills
 
-The book uses R as the focal programming language and generate uses the Tidyverse approach when working with and visualizing data. The following functions are commonly used: `read_csv`, `write_csv`, `mutate`, `filter`, `group_by`, `summarize`, `ggplot`, `select`, pipes (`|>` or `%>`), `pivot_wider`, `pivot_longer`, `arrange`, `left_join`). If you are new R and Tidyverse there are many great materials on the internet. The Data Carpentry "Data Analysis and Visualization in R for Ecologists" is an excellent starting point for learning. The [R for Data Science book](https://r4ds.hadley.nz) is an especially useful reference for learning the Tidyverse commands. Finally, I have created an [introductory to tidyverse module](https://github.com/frec3044/tidyvere-intro) for my undergraduate Environmental Data Science class. You can use the module as a "test" of your Tidyverse skills
+The book uses R as the focal programming language and uses the Tidyverse approach when working with and visualizing data. The following functions are commonly used: `read_csv`, `write_csv`, `mutate`, `filter`, `group_by`, `summarize`, `ggplot`, `select`, pipes (`|>` or `%>`), `pivot_wider`, `pivot_longer`, `arrange`, `left_join`). If you are new to R and Tidyverse there are many great materials on the internet. The Data Carpentry "Data Analysis and Visualization in R for Ecologists" is an excellent starting point for learning. The [R for Data Science book](https://r4ds.hadley.nz) is an especially useful reference for learning the Tidyverse commands. Finally, I have created an [introductory to tidyverse module](https://github.com/frec3044/tidyvere-intro) for my undergraduate Environmental Data Science class. You can use the module as a "test" of your Tidyverse skills
 
 ## Git Skills {#sec-github}
 
@@ -45,9 +45,9 @@ This section provides instructions on working with Git and GitHub in Rstudio in 
 
 2.  Go to the repo on your personal GitHub account. It will be something like `https://github.com/[your-user-name]/git-rmd-intro`
 
-3.  Under the green "Code" button, select the local tab, and copy the https link.
+3.  Under the green "Code" button, select the local tab, and copy the URL link.
 
-4.  Open Rstudio on your computer and create a new project. First, File -\> New Project -\> Version Control -\> Git. Paste the URL from you repo in the first box, hit tab to fill in the repo name in the second, and then use Browse to select where you want the project on your computer (I recommend having a directory on your computer where you keep all repositories we use in the class). If you don't see a `Version Control` option then you may not have Git install on your computer (use the instructions [here](https://happygitwithr.com/index.html) to install Git)
+4.  Open Rstudio on your computer and create a new project. First, File -\> New Project -\> Version Control -\> Git. Paste the URL from you repo in the first box, hit tab to fill in the repo name in the second, and then use Browse to select where you want the project on your computer (I recommend having a directory on your computer where you keep all repositories we use in the class). If you don't see a `Version Control` option then you may not have Git installed on your computer (use the instructions [here](https://happygitwithr.com/index.html) to install Git)
 
 5.  Your project will load. Then go to File -\> New -\> New File -\> Quarto Document
 
@@ -59,7 +59,7 @@ This section provides instructions on working with Git and GitHub in Rstudio in 
 
 9.  Find the Sources / Visual buttons right above the document. Select Source (which is the code view).
 
-10. Copy the code chunk on lines 21-24 and paste at end of document. Change to `echo: TRUE`.
+10. Copy the code chunk on lines 21-24 and paste it at end of the document. Change to `echo: TRUE`.
 
 11. Find the following code at the top
 
@@ -67,7 +67,7 @@ This section provides instructions on working with Git and GitHub in Rstudio in 
 format: html:
 ```
 
-and change to so that all the necessary files are saved in a single html file.
+and change it so that all the necessary files are saved in a single html file.
 
 ```         
 format:   
@@ -75,7 +75,7 @@ format:
     embed-resources: true
 ```
 
-12. Find the Render (found above the document) button and click it to render the document a to an html document. You will see a file named "assignment1.html" appear. The html is like webpage version of your code. If your have a directory called `assignment1_files` then you did not do step 15 correctly.
+12. Find the Render (found above the document) button and click it to render the document to an html document. You will see a file named "assignment1.html" appear. The html is like a webpage version of your code. If you have a directory called `assignment1_files` then you did not do step 15 correctly.
 13. Click on the "assignment1.html" in your "Files" pane and select "View in Web Browser". Confirm that it looks as expected.
 14. Commit the updated `.qmd` and new `.html` files to git.
 15. Push to your repository on GitHub.
