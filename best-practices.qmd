@@ -1,6 +1,6 @@
 # Best Practices in Ecological Forecasting {#sec-best-practices}
 
-Ecological forecasting is an emerging field and a community of practice. A strong community of practice is associated with best practices that provide guidance to how to generate, analyze, and community forecasts that reflects the state-of-the-art knowledge. The term "best practices" is used because "better" practices will always developed by an active research field so the "best" are the best at that time.
+Ecological forecasting is an emerging field and a community of practice. A strong community of practice is associated with best practices that guide how to generate, analyze, and community forecasts that reflect state-of-the-art knowledge. The term "best practices" is used because "better" practices will always developed by an active research field so the "best" are the best at that time.
 
 Multiple papers have explored best practices in ecological forecasting (e.g., @harrisForecastingBiodiversityBreeding2018, @lewisIncreasedAdoptionBest2022), including best practices through an ethics lens (@hobdayEthicalConsiderationsUnanticipated2019).
 
@@ -24,10 +24,10 @@ The @hobdayEthicalConsiderationsUnanticipated2019 principles of ethical forecast
 -   Do not ignore uncertainty
 -   Plan for and manage stakeholder expectations regarding continued delivery.
 -   Work to improve the literacy of all stakeholders around forecast use and interpretation, particularly on skill and uncertainty.
--   Proactively explore the impact of loss of a predictor variable in a forecast system, and be able to explain what the loss of performance is when one variable is removed
--   Be vigilant for inequity in use of forecasts between users, and the creation of winners and losers arising from provision of information
+-   Proactively explore the impact of the loss of a predictor variable in a forecast system, and be able to explain what the loss of performance is when one variable is removed
+-   Be vigilant for inequity in the use of forecasts between users, and the creation of winners and losers arising from the provision of information
 -   Scope the system context widely, seek deep domain and system knowledge, and consider scenario testing, as happens for \[ecosystem\] management regulations now.
--   Consider the holistic outcome of forecast system—if it is not achieving the overall goals, suspend delivery and work on improving the interaction of the forecast and the context in which it operates.
+-   Consider the holistic outcome of the forecast system—if it is not achieving the overall goals, suspend delivery and work on improving the interaction of the forecast and the context in which it operates.
 
 ## Reading
 
