@@ -10,9 +10,9 @@ The goal of this chapter is to access and process data from the National Ecologi
 
 In this document, we will be calculating the carbon in tree wood, tree leaves, and soil for a NEON site (matching the model states in @sec-process-model).
 
--   The carbon in wood is based on the conversion of tree diameter measurements to carbon in stems and coarse woody roots. Since our simple forest model does not have a specific representation of fine-roots, we lump fine roots with the wood stock.
+-   The carbon in wood is based on the conversion of tree diameter measurements to carbon in stems and coarse woody roots. Since our simple forest model does not have a specific representation of fine roots, we lump fine roots with the wood stock.
 
--   The carbon in tree leaves is represented by data measuring leaf area index (which is related to leave carbon through a mass-to-area conversion).
+-   The carbon in tree leaves is represented by data measuring leaf area index (which is related to leaf carbon through a mass-to-area conversion).
 
 -   The carbon in soil represents all dead organic matter (both soil and vegetation) and lumps together standing dead trees, dead trees that have fallen (coarse woody debris), and soil organic matter measured using soil pits.
 
@@ -49,7 +49,7 @@ longitude <- -81.993431
 
 ## Wood carbon
 
-In this section, we will be calculating carbon in live and dead trees at a NEON site. The carbon in live trees represents the wood carbon stock in @fig-process-model and the dead trees represent a component of the soil organic matter stock in @fig-process-model. At the end we will have a *site-level* mean carbon stock in *live trees* and *dead trees*for each year that was sampled from the plots that represent ecosystem under the flux tower (e.g., tower plots). We use the tower plots so that it corresponds to same ecosystem as the NEON `nee` data.
+In this section, we will be calculating carbon in live and dead trees at a NEON site. The carbon in live trees represents the wood carbon stock in @fig-process-model and the dead trees represent a component of the soil organic matter stock in @fig-process-model. In the end, we will have a *site-level* mean carbon stock in *live trees* and *dead trees* for each year that was sampled from the plots that represent the ecosystem under the flux tower (e.g., tower plots). We use the tower plots so that they correspond to the same ecosystem as the NEON `nee` data.
 
 We will select the key variables in each table (thus only downloading those variables).
 
@@ -87,7 +87,7 @@ plot_table <- neon_cloud("perplotperyear",
 
 ```
 
-The equations that convert diameter at breast height (DBH), where breast height is defined at 130 cm above the base of the tree, differ by species and location. Therefore the scientific name (both genus and species components) are needed. The species names in the mapping and tagging table need to be separated into the genus and species so that we can calculate the biomass using an R function that expects them to be separate.
+The equations that convert diameter at breast height (DBH), where breast height is defined at 130 cm above the base of the tree, differ by species and location. Therefore the scientific name (both genus and species components) is needed. The species names in the mapping and tagging table need to be separated into the genus and species so that we can calculate the biomass using an R function that expects them to be separate.
 
 ```{r}
 genus_species <- unlist(str_split_fixed(map_tag_table$scientificName, " ", 3))
@@ -115,7 +115,7 @@ combined_table_dbh <- combined_table |>
 
 ### Calculate carbon in live trees
 
-Tidy up the individual tree data to include only live trees from the tower plots. Also create a variable that is the year of the sample date. We will filter the data based on measurement heights of 130 cm to only include data that had diameter at breast height (dbh) measurements.
+Tidy up the individual tree data to include only live trees from the tower plots. Also, create a variable that is the year of the sample date. We will filter the data based on measurement heights of 130 cm to only include data that had diameter at breast height (dbh) measurements.
 
 ```{r}
 combined_table_live_tower <- combined_table_dbh |>  
@@ -125,9 +125,9 @@ combined_table_live_tower <- combined_table_dbh |>
   mutate(stemDiameter = as.numeric(stemDiameter))
 ```
 
-To calculate the biomass of each tree in the table, we will use the `get_biomass` function from the `allodb` package (Gonzalex-Akre https://doi.org/10.1111/2041-210X.13756), which is a package that converts DBH measurements to tree biomass estimates. This function takes as arguments: `dbh`, `genus`, `species`, and `coords`. We have already extracted genus and species and filtered to dbh measurements. (note `allodb` is not on CRAN but can be downloaded using `remotes::install_github("ropensci/allodb")`)
+To calculate the biomass of each tree in the table, we will use the `get_biomass` function from the `allodb` package (Gonzalex-Akre https://doi.org/10.1111/2041-210X.13756), which is a package that converts DBH measurements to tree biomass estimates. This function takes as arguments: `dbh`, `genus`, `species`, and `coords`. We have already extracted genera and species and filtered them to dbh measurements. (note `allodb` is not on CRAN but can be downloaded using `remotes::install_github("ropensci/allodb")`)
 
-In this next section, as well as a future one where we calculate dead tree carbon, we are going to make a simplifying assumption. We will assume that the below ground biomass of a tree is some fixed proportion of its above ground biomass. In our analysis, we will assume this value is $0.3$ (`ag_bg_propr`), but it is a parameter that can be changed. We also assume that carbon is $0.5$ of biomass.
+In this next section, as well as a future one where we calculate dead tree carbon, we are going to make a simplifying assumption. We will assume that the below-ground biomass of a tree is some fixed proportion of its above-ground biomass. In our analysis, we will assume this value is $0.3$ (`ag_bg_propr`), but it is a parameter that can be changed. We also assume that carbon is $0.5$ of biomass.
 
 The `get_biomass` function is within the `allodb` package and returns the biomass of each tree in units of kg.
 
@@ -186,7 +186,7 @@ site_live_carbon <- plot_live_carbon |>
               sd_kgCperm2 = sd(plot_kgCm2))
 ```
 
-@fig-site-live-carbon is the site level carbon calculated by taking the mean only of the plots that were measured each year.
+@fig-site-live-carbon is the site-level carbon calculated by taking the mean only of the plots that were measured each year.
 
 ```{r}
 #| fig-cap: Site level carbon in living trees for the focal NEON site
@@ -257,7 +257,7 @@ Calculate site level carbon in dead trees from the plots measured each year.
               sd_kgCperm2 = sd(plot_kgCm2))
 ```
 
-@fig-site-dead-carbon is the site level carbon.
+@fig-site-dead-carbon is the site-level carbon.
 
 ```{r}
 #| fig-cap: Site level carbon in dead trees for the focal NEON site
@@ -272,7 +272,7 @@ ggplot(site_dead_carbon, aes(x = measure_date, y = mean_kgCperm2)) +
 
 While the code above calculates the carbon in standing dead trees, it misses the carbon in dead trees that are no longer standing (called coarse woody debris). The coarse woody debris is another component of SOM in our simple forest model.
 
-The data needed to calculate carbon in trees that are laying on the ground are in two NEON data products.
+The data needed to calculate carbon in trees that are lying on the ground are in two NEON data products.
 
 ```{r}
 #| message: false
@@ -297,12 +297,12 @@ cdw_tally <- neon_cloud("cdw_fieldtally",
 We will go through the same steps to calculate carbon in the coarse woody debris.
 
 ```{r}
-## filter by tower plot for log table
+## Filter by tower plot for log table
 log_table_filter <- log_table |> 
   filter(plotType == "tower",
          plotID %in% last_plots)
 
-## filter by tower plot for cdw table
+## Filter by tower plot for cdw table
 cdw_tally <- cdw_tally |>
   filter(plotType == 'tower',
          plotID %in% last_plots)
@@ -310,19 +310,19 @@ cdw_tally <- cdw_tally |>
 ## create 
 log_table_filter$gcm3 <- rep(NA, nrow(log_table_filter))
 
-## set site specific volume factor
+## Set site specific volume factor
 site_volume_factor <- 8
 
 for (i in 1:nrow(log_table_filter)){
-  ## match log table sampleID to cdw density table sample ID
+  ## Match log table sampleID to cdw density table sample ID
   ind <- which(cdw_density$sampleID == log_table_filter$sampleID[i])
-  ## produce g/cm^3 by multiplying bulk density of disk by site volume factor
+  ## Produce g/cm^3 by multiplying the bulk density of the disk by the site volume factor
   log_table_filter$gcm3[i] <- mean(cdw_density$bulkDensDisk[ind]) * site_volume_factor
 }
 
 year_measurement <- min(log_table_filter$yearBoutBegan)
 
-## table of coarse wood
+## Table of coarse wood
 site_cwd_carbon <- log_table_filter |>
   summarize(mean_kgCperm2 = .5 * sum(gcm3, na.rm = TRUE) * .1) |> 
   mutate(year = year_measurement)
@@ -330,7 +330,7 @@ site_cwd_carbon <- log_table_filter |>
 
 ## Calculate carbon in fine roots
 
-We lump fine root carbon into the wood stem stock in the simple forest model. Here we are going to calculate the carbon stored in fine roots using the root chemistry data product. We will calculate the carbon in both dead and alive roots. Though we are interested mostly in live roots, at the time of writing this, the 2021 NEON data for our site does not have `rootStatus` data available. Thus we will use historical data to compute an estimate of the ratio, so that we don't have to throw away perfectly good information.
+We lump fine root carbon into the wood stem stock in the simple forest model. Here we are going to calculate the carbon stored in fine roots using the root chemistry data product. We will calculate the carbon in both dead and alive roots. Though we are interested mostly in live roots, at the time of writing this, the 2021 NEON data for our site does not have `rootStatus` data available. Thus we will use historical data to compute an estimate of the ratio so that we don't have to throw away perfectly good information.
 
 ```{r}
 #| message: false
@@ -375,7 +375,7 @@ for (i in 1:nrow(rootmass)){
 
 ##
 site_roots <- rootmass |>
-  ## filter plotID to only our plots of interest
+  ## Filter plotID to only our plots of interest
   filter(plotID %in% last_plots) |>
   ## group by year
   group_by(year) |>
@@ -397,13 +397,13 @@ The video below provides an introduction to the science of soil carbon and metho
 
 {{< video https://www.youtube.com/embed/khfIC5TpyPQ?si=f1ldTnTVpA8UWbb7 >}}
 
-Soil carbon data in contained in two NEON data products: one that describes the physical characteristics of the soil (depth and density) and another the describes the carbon concentration of the soil. Ultimately multiplying the density by the carbon concentration gives the total carbon.
+Soil carbon data is contained in two NEON data products: one that describes the physical characteristics of the soil (depth and density) and another that describes the carbon concentration of the soil. Ultimately multiplying the density by the carbon concentration gives the total carbon.
 
 ```{r}
 #| message: false
 #Download bieogeochemistry soil data to get carbon concentration
 #data_product1 <- "DP1.00097.001"
-#Download physical soil data to get bulk density
+#Download physical soil data to get the bulk density
 
 mgc_perbiogeosample <- neon_cloud("mgp_perbiogeosample",
                         product = "DP1.00096.001",
@@ -435,7 +435,7 @@ The code below
 
 -   joins the bulk density table into the table with the carbon concentration
 
--   Determines the height of the horizon (`biogeoBottomDepth - biogeoTopDepth`) and coverts to total mass of soil in the horizon using the bulk density.
+-   Determines the height of the horizon (`biogeoBottomDepth - biogeoTopDepth`) and converts to total mass of soil in the horizon using the bulk density.
 
 -   Multiply the carbon concentration (carbonTot) by the mass of soil (along with unit conversion) to get the soil carbon in kg C / m2.
 
@@ -477,9 +477,9 @@ site_soil_carbon <- horizon_combined |>
     summarize(soilC_gC_m2 = sum(horizon_C_kg_per_m2))
 ```
 
-## Combine together
+## Combine
 
-Next we will combine our estimates of carbon in each component for visualization and to aggregated into the wood and som stocks below.
+Next, we will combine our estimates of carbon in each component for visualization and to aggregate into the wood and som stocks below.
 
 ```{r}
 site_live_carbon <- site_live_carbon |> 
@@ -515,7 +515,7 @@ The different pools of carbon can be plotted on the same figure to compare the m
 
 ```{r}
 #| warning: false
-#| fig-cap: Site-leve carbon stocks at the focal NEON site
+#| fig-cap: Site-level carbon stocks at the focal NEON site
 #| label: fig-all-site-carbon 
 total_carbon_components |> 
   ggplot(aes(x = datetime, y = mean_kgCperm2, color = variable)) + 
@@ -523,7 +523,9 @@ total_carbon_components |>
   theme_bw()
 ```
 
-Combine pools of carbon together to match the stocks used in our simple process model. - wood = live trees (stem and coarse roots) + fine roots - som = dead trees + down wood + soil carbon
+Combine pools of carbon to match the stocks used in our simple process model. 
+- wood = live trees (stem and coarse roots) + fine roots 
+- som = dead trees + down wood + soil carbon
 
 ```{r}
 total_carbon_simple <- total_carbon_components |> 
@@ -537,7 +539,7 @@ total_carbon_simple <- total_carbon_components |>
 
 ## MODIS LAI
 
-Leaf area index can be used a proxy for leaf carbon. The forest model convert leaf carbon into LAI using a leaf mass to area parameter. As a result, we can use leaf area index (LAI) from the MODIS satellite sensor to constrain and evaluate LAI predictions. MODIS LAI product is a 8-day mean for a 500m grid cell.
+The leaf area index can be used as a proxy for leaf carbon. The forest model converts leaf carbon into LAI using a leaf mass to area parameter. As a result, we can use the leaf area index (LAI) from the MODIS satellite sensor to constrain and evaluate LAI predictions. MODIS LAI product is an 8-day mean for a 500m grid cell.
 
 {{< video https://www.youtube.com/embed/n9t_ANefhjU?si=U4OYgoq83Uu2nu57 >}}
 
@@ -571,7 +573,7 @@ lai_cleaned <- lai |>
 
 ```{r}
 #| warning: false
-#| fig-cap: MODIS LAI for the 500m grid-cell that includes the flux tower
+#| fig-cap: MODIS LAI for the 500m grid cell that includes the flux tower
 #| label: fig-modis-lai
 lai_cleaned |> 
   ggplot(aes(x = datetime, y = observation)) +
@@ -582,7 +584,7 @@ lai_cleaned |>
 
 ## Flux data
 
-NEE flux data is used to help constrain the net of the photosynthesis and respiration in the simple forest model. It is already processed for used in the NEON Ecological Forecasting Challenge. Here we read in that data.
+NEE flux data is used to help constrain the net of photosynthesis and respiration in the simple forest model. It is already processed for use in the NEON Ecological Forecasting Challenge. Here we read in that data.
 
 Learn about flux data here:
 
@@ -610,7 +612,7 @@ ggplot(flux, aes(x = datetime, y = observation)) +
   theme_bw()
 ```
 
-## Combine together to create data constraints
+## Combine to create data constraints
 
 The units of the carbon stocks and nee need to be converted to the units of the forest process model. The carbon stocks are converted from kgC/m2 to MgC/ha and nee is converted from gC/m2/day to MgC/ha/day.
 
@@ -629,7 +631,7 @@ The combined data with the variable names converted to the names used in the for
 ```{r}
 #| warning: false
 #| label: fig-combined-all
-#| fig-cap: The data avialable to constrain the forest process model.
+#| fig-cap: The data available to constrain the forest process model.
 obs |> 
   ggplot(aes(x = datetime, y = observation)) + 
   geom_point() +
@@ -637,7 +639,7 @@ obs |>
   theme_bw()
 ```
 
-Save the observations to a csv file.
+Save the observations to a CSV file.
 
 ```{r}
 write_csv(obs, "data/site_carbon_data.csv")
