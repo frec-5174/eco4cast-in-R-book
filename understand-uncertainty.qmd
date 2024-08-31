@@ -1,6 +1,6 @@
 # Understanding Uncertainty in Ecological Forecasts {#sec-under-unc}
 
-Ecological forecasting is a tool that can be used for understanding and predicting changes in populations, communities, and ecosystems. Ecological forecasting is an emerging approach which provides an estimate of the future state of an ecological system with uncertainty, allowing society to prepare for changes in important ecosystem services. Forecast uncertainty is derived from multiple sources, including model parameters and driver data, among others. Knowing the uncertainty associated with a forecast enables forecast users to evaluate the forecast and make more informed decisions. Ecological forecasters develop and update forecasts using the iterative forecasting cycle, in which they make a hypothesis of how an ecological system works; embed their hypothesis in a model; and use the model to make a forecast of future conditions and quantify forecast uncertainty. There are a number of approaches that forecasters can use to reduce uncertainty, which will be explored in this module.
+Ecological forecasting is a tool that can be used for understanding and predicting changes in populations, communities, and ecosystems. Ecological forecasting is an emerging approach that provides an estimate of the future state of an ecological system with uncertainty, allowing society to prepare for changes in important ecosystem services. Forecast uncertainty is derived from multiple sources, including model parameters and driver data, among others. Knowing the uncertainty associated with a forecast enables forecast users to evaluate the forecast and make more informed decisions. Ecological forecasters develop and update forecasts using the iterative forecasting cycle, in which they make a hypothesis of how an ecological system works; embed their hypothesis in a model; and use the model to make a forecast of future conditions and quantify forecast uncertainty. There are several approaches that forecasters can use to reduce uncertainty, which will be explored in this module.
 
 [**Background presentation**](https://cdn.serc.carleton.edu/files/eddie/teaching_materials/modules/instructor_powerpoint_module6.pptx)
 
@@ -8,7 +8,7 @@ Ecological forecasting is a tool that can be used for understanding and predicti
 
 ## Option: code based assignment
 
-This chapter sets the foundation for @sec-second-forecast. In prep for @sec-second-forecast, there is code-based version of this chapter that provides example code and introduces key that will guide your work adding uncertainty to your forecast from @sec-first-forecast.
+This chapter sets the foundation for @sec-second-forecast. In prep for @sec-second-forecast, there is a code-based version of this chapter that provides example code and introduces key concepts that will guide your work adding uncertainty to your forecast from @sec-first-forecast.
 
 The code-based assignment will require you to create a GitHub repository with your completed code from the NEON Forecasting Challenge workshop @sec-first-forecast. You will build on this repository throughout the rest of section 1 of the book. You can learn more about setting up Git and GitHub in @sec-github.
 
@@ -21,7 +21,7 @@ Dietze, M. C., Fox, A., Beck-Johnson, L. M., Betancourt, J. L., Hooten, M. B., J
 1.  Fork [repository](https://github.com/MacrosystemsEDDIE/module6_R) for the assignment.
 2.  Complete activities A, B, and C (through question 16) in the [Rmarkdown document](https://github.com/MacrosystemsEDDIE/module6_R/blob/main/assignment/module6.Rmd). You will be modifying the Rmarkdown document with the answers to the questions (both text and code).
 3.  Knit the Rmarkdown Rmd to html.
-4.  Commit Rmarkdown and html to GitHub
+4.  Commit Rmarkdown and HTML file to GitHub
 
 ## Module Reference
 
