@@ -9,7 +9,7 @@ library(tidyverse)
 library(lubridate)
 ```
 
-In this chapter we apply the particle filter that was introduced in [Chapter -@sec-particle-filter] to the forest process model. We will use an ensemble of 100 particles and assimilate the last two years of data.
+In this chapter, we apply the particle filter that was introduced in [Chapter -@sec-particle-filter] to the forest process model. We will use an ensemble of 100 particles and assimilate the last two years of data.
 
 ```{r}
 site <- "OSBS"
@@ -103,7 +103,7 @@ params$litterfall_start <- mean(fit_params_table$litterfall_start, na.rm = TRUE)
 
 ## Run the particle filter
 
-In the particle filter we perturb the parameter values slightly to prevent them from collapsing to a single value.
+In the particle filter, we perturb the parameter values slightly to prevent them from collapsing to a single value.
 
 ```{r}
 for(t in 2:length(sim_dates)){
