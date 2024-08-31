@@ -194,7 +194,7 @@ p2 <- ggplot(parameter_MCMC, aes(x = value)) +
 p1 / p2
 ```
 
-## Examining the influence of the parameter optimization on model predictions
+## Examining the influence of parameter optimization on model predictions
 
 ### Simulation with prior parameter distributions
 
@@ -270,9 +270,9 @@ output_df_optim <- output_to_df(output, sim_dates, sim_name = "using posteriors"
 
 ```
 
-### Visualize influence of optimization
+### Visualize the influence of optimization
 
-@fig-sim-prior-post shows a simulation that use the prior distribution and a simulation that uses the posterior distribution. This highlights the constraint provided by the data on the model predictions.
+@fig-sim-prior-post shows a simulation that uses the prior distribution and a simulation that uses the posterior distribution. This highlights the constraint provided by the data on the model predictions.
 
 ```{r}
 #| warning: FALSE
