@@ -284,7 +284,8 @@ cdw_density <- neon_cloud("cdw_densitydisk",
 
 log_table <- neon_cloud("cdw_densitylog",
                         product = "DP1.10014.001",
-                        site = site) |> 
+                        site = site,
+                        unify_schemas = TRUE) |> 
   collect()
  
 cdw_tally <- neon_cloud("cdw_fieldtally",
