@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.555">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>A Practical Guide to Ecosystem Forecasting - 17&nbsp; Propagating uncertainty in the process model</title>
+<title>17&nbsp; Propagating uncertainty in the process model – A Practical Guide to Ecosystem Forecasting</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -33,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -132,13 +132,13 @@ div.csl-indent {
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./section-process-models.html">Iterative forecasting using process-models</a></li><li class="breadcrumb-item"><a href="./process-model-prop-uncertainty.html"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Propagating uncertainty in the process model</span></a></li></ol></nav>
-        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
-      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
@@ -182,7 +182,7 @@ div.csl-indent {
       <div class="sidebar-item-container"> 
             <a href="./section-introduction.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Introduction to forecasting</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -223,7 +223,7 @@ div.csl-indent {
       <div class="sidebar-item-container"> 
             <a href="./section-emprical-forecasting.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Iterative forecasting using empirical models</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -270,7 +270,7 @@ div.csl-indent {
       <div class="sidebar-item-container"> 
             <a href="./section-advanced.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Advanced forecasting techniques</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -299,7 +299,7 @@ div.csl-indent {
       <div class="sidebar-item-container"> 
             <a href="./section-process-models.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Iterative forecasting using process-models</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -362,9 +362,9 @@ div.csl-indent {
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
  <span class="menu-text">Appendix</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -506,7 +506,7 @@ div.csl-indent {
 <p>This results in <code>alpha</code> having the following distribution <a href="#fig-alpha" class="quarto-xref">Figure&nbsp;<span>17.1</span></a>:</p>
 <div class="cell">
 <div class="cell-output-display">
-<div id="fig-alpha" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-alpha" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-alpha-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="process-model-prop-uncertainty_files/figure-html/fig-alpha-1.png" class="img-fluid figure-img" width="672">
@@ -544,7 +544,7 @@ Figure&nbsp;17.1: Histogram showing the distribution of the parameter alpha
 <span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>variable, <span class="at">scale =</span> <span class="st">"free"</span>) <span class="sc">+</span></span>
 <span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-parameter-unc" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-parameter-unc" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-parameter-unc-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="process-model-prop-uncertainty_files/figure-html/fig-parameter-unc-1.png" class="img-fluid figure-img" width="672">
@@ -570,7 +570,7 @@ Figure&nbsp;17.2: Forecast with parameter uncertainty
 <p>As an example, <a href="#fig-process-unc" class="quarto-xref">Figure&nbsp;<span>17.3</span></a> shows the distribution in the noise that is added to the leaf state at each time step.</p>
 <div class="cell">
 <div class="cell-output-display">
-<div id="fig-process-unc" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-process-unc" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-process-unc-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="process-model-prop-uncertainty_files/figure-html/fig-process-unc-1.png" class="img-fluid figure-img" width="672">
@@ -607,7 +607,7 @@ Figure&nbsp;17.3: Histogram of the distribution of process uncertainty added to 
 <span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> median)) <span class="sc">+</span></span>
 <span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>variable, <span class="at">scale =</span> <span class="st">"free"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-process-unc2" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-process-unc2" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-process-unc2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="process-model-prop-uncertainty_files/figure-html/fig-process-unc2-1.png" class="img-fluid figure-img" width="672">
@@ -633,7 +633,7 @@ Figure&nbsp;17.4: Forecast with process uncertainty
 <p>As an example, <a href="#fig-init-unc" class="quarto-xref">Figure&nbsp;<span>17.5</span></a> shows the distribution in the noise that is added the initial leaf state.</p>
 <div class="cell">
 <div class="cell-output-display">
-<div id="fig-init-unc" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-init-unc" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-init-unc-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="process-model-prop-uncertainty_files/figure-html/fig-init-unc-1.png" class="img-fluid figure-img" width="672">
@@ -671,7 +671,7 @@ Figure&nbsp;17.5: Distribution of initial condition uncertainty for leaf carbon 
 <span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>variable, <span class="at">scale =</span> <span class="st">"free"</span>)  <span class="sc">+</span></span>
 <span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-init-unc2" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-init-unc2" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-init-unc2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="process-model-prop-uncertainty_files/figure-html/fig-init-unc2-1.png" class="img-fluid figure-img" width="672">
@@ -694,7 +694,7 @@ Figure&nbsp;17.6: Forecast with initial conditions uncertainty
 <p>As an example, <a href="#fig-driver-unc" class="quarto-xref">Figure&nbsp;<span>17.7</span></a> shows 31 ensemble members from a single 35-day forecast generated by NOAA GEFS.</p>
 <div class="cell">
 <div class="cell-output-display">
-<div id="fig-driver-unc" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-driver-unc" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-driver-unc-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="process-model-prop-uncertainty_files/figure-html/fig-driver-unc-1.png" class="img-fluid figure-img" width="672">
@@ -732,7 +732,7 @@ Figure&nbsp;17.7: 35-day ahead forecasts from NOAA GEFS of the two variables use
 <span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>variable, <span class="at">scale =</span> <span class="st">"free"</span>) <span class="sc">+</span></span>
 <span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-driver-unc2" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-driver-unc2" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-driver-unc2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="process-model-prop-uncertainty_files/figure-html/fig-driver-unc2-1.png" class="img-fluid figure-img" width="672">
@@ -793,18 +793,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -836,7 +825,29 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp('/' + window.location.host + '/');
@@ -844,7 +855,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {

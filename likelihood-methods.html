@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.555">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>A Practical Guide to Ecosystem Forecasting - 13&nbsp; Parameter calibration using likelihood methods</title>
+<title>13&nbsp; Parameter calibration using likelihood methods – A Practical Guide to Ecosystem Forecasting</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -33,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -103,7 +103,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
@@ -141,13 +141,13 @@ window.Quarto = {
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./section-advanced.html">Advanced forecasting techniques</a></li><li class="breadcrumb-item"><a href="./likelihood-methods.html"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Parameter calibration using likelihood methods</span></a></li></ol></nav>
-        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
-      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
@@ -191,7 +191,7 @@ window.Quarto = {
       <div class="sidebar-item-container"> 
             <a href="./section-introduction.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Introduction to forecasting</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -232,7 +232,7 @@ window.Quarto = {
       <div class="sidebar-item-container"> 
             <a href="./section-emprical-forecasting.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Iterative forecasting using empirical models</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -279,7 +279,7 @@ window.Quarto = {
       <div class="sidebar-item-container"> 
             <a href="./section-advanced.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Advanced forecasting techniques</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -308,7 +308,7 @@ window.Quarto = {
       <div class="sidebar-item-container"> 
             <a href="./section-process-models.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Iterative forecasting using process-models</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -371,9 +371,9 @@ window.Quarto = {
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
  <span class="menu-text">Appendix</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -458,7 +458,7 @@ window.Quarto = {
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">density</span>(<span class="fu">rnorm</span>(<span class="dv">10000</span>, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">1</span>)), <span class="at">xlab =</span> <span class="st">"y"</span>, <span class="at">main =</span> <span class="st">"mean = 0, sd = 1"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-simple-rnorm" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-simple-rnorm" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-simple-rnorm-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="likelihood-methods_files/figure-html/fig-simple-rnorm-1.png" class="img-fluid figure-img" width="672">
@@ -477,7 +477,7 @@ Figure&nbsp;13.1: Normal distribution with mean = 0 and sd = 1
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">density</span>(<span class="fu">rnorm</span>(<span class="dv">10000</span>, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">1</span>)), <span class="at">xlab =</span> <span class="st">"y"</span>, <span class="at">main =</span> <span class="st">"mean = 0, sd = 1"</span>)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> y_i, <span class="at">col =</span> <span class="st">"red"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-simple-rnorm-obs" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-simple-rnorm-obs" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-simple-rnorm-obs-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="likelihood-methods_files/figure-html/fig-simple-rnorm-obs-1.png" class="img-fluid figure-img" width="672">
@@ -494,7 +494,7 @@ Figure&nbsp;13.2: Normal distribution with mean = 0 and sd = 1. The red line is 
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">density</span>(<span class="fu">rnorm</span>(<span class="dv">10000</span>, <span class="at">mean =</span> <span class="dv">2</span>, <span class="at">sd =</span> <span class="dv">1</span>)), <span class="at">xlab =</span> <span class="st">"y"</span>, <span class="at">main =</span> <span class="st">"mean = 2, sd = 1"</span>)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> y_i, <span class="at">col =</span> <span class="st">"red"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-simple-rnorm-obs2" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-simple-rnorm-obs2" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-simple-rnorm-obs2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="likelihood-methods_files/figure-html/fig-simple-rnorm-obs2-1.png" class="img-fluid figure-img" width="672">
@@ -658,7 +658,7 @@ Figure&nbsp;13.3: Normal distribution with mean = 2 and sd = 1. The red line is 
 <div class="cell">
 <div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> mean_values, <span class="at">y =</span> LL, <span class="at">type =</span> <span class="st">"o"</span>, <span class="at">xlab =</span> <span class="st">"mean"</span>, <span class="at">ylab =</span> <span class="st">"log(likelihood)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-ll1" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-ll1" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-ll1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="likelihood-methods_files/figure-html/fig-ll1-1.png" class="img-fluid figure-img" width="672">
@@ -691,7 +691,7 @@ Figure&nbsp;13.4: The likelihood curve over different values of the mean
 <div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> mean_values, <span class="at">y =</span> <span class="sc">-</span>LL, <span class="at">type =</span> <span class="st">"o"</span>, <span class="at">xlab =</span> <span class="st">"mean"</span>, <span class="at">ylab =</span> <span class="st">"-1 * log(likelihood)"</span>) <span class="co">#Notice negative sign</span></span>
 <span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="fu">mean</span>(y), <span class="at">col =</span> <span class="st">"red"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-ll2" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-ll2" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-ll2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="likelihood-methods_files/figure-html/fig-ll2-1.png" class="img-fluid figure-img" width="672">
@@ -780,7 +780,7 @@ NULL</code></pre>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x, y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-fake-data1" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-fake-data1" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-fake-data1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="likelihood-methods_files/figure-html/fig-fake-data1-1.png" class="img-fluid figure-img" width="672">
@@ -939,7 +939,7 @@ F-statistic: 569.4 on 1 and 98 DF,  p-value: &lt; 2.2e-16</code></pre>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb93"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb93-1"><a href="#cb93-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x, y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-fake-data2" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-fake-data2" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-fake-data2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="likelihood-methods_files/figure-html/fig-fake-data2-1.png" class="img-fluid figure-img" width="672">
@@ -990,7 +990,7 @@ Figure&nbsp;13.7: The “fake” data used in the following analysis
 <div class="cell">
 <div class="sourceCode cell-code" id="cb99"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb99-1"><a href="#cb99-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x, y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-fake-data3" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-fake-data3" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-fake-data3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="likelihood-methods_files/figure-html/fig-fake-data3-1.png" class="img-fluid figure-img" width="672">
@@ -1036,7 +1036,7 @@ Figure&nbsp;13.8: The “fake” data used in the following analysis
 <div class="sourceCode cell-code" id="cb107"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb107-1"><a href="#cb107-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x, y)</span>
 <span id="cb107-2"><a href="#cb107-2" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">pred_mm</span>(x, <span class="at">par =</span> fit<span class="sc">$</span>par), <span class="at">from =</span> <span class="fl">0.1</span>, <span class="at">to =</span> <span class="dv">10</span>, <span class="at">add =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-data-curve" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-data-curve" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-data-curve-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="likelihood-methods_files/figure-html/fig-data-curve-1.png" class="img-fluid figure-img" width="672">
@@ -1058,7 +1058,7 @@ Figure&nbsp;13.9: the curve from the optimized parameters with the observations
 </div>
 <div class="cell">
 <div class="cell-output-display">
-<div id="fig-data-curve-gamma" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-data-curve-gamma" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-data-curve-gamma-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="likelihood-methods_files/figure-html/fig-data-curve-gamma-1.png" class="img-fluid figure-img" width="672">
@@ -1110,7 +1110,7 @@ Figure&nbsp;13.10: the curve from the optimized parameters with the observations
 </div>
 <div class="cell">
 <div class="cell-output-display">
-<div id="fig-ll-unc" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-ll-unc" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-ll-unc-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="likelihood-methods_files/figure-html/fig-ll-unc-1.png" class="img-fluid figure-img" width="672">
@@ -1223,18 +1223,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -1266,7 +1255,29 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp('/' + window.location.host + '/');
@@ -1274,7 +1285,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {
