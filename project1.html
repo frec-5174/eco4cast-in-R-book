@@ -884,16 +884,16 @@ Coefficients:
 <pre><code># A tibble: 68 × 5
    datetime   site_id air_temperature temperature   doy
    &lt;date&gt;     &lt;chr&gt;             &lt;dbl&gt; &lt;lgl&gt;       &lt;dbl&gt;
- 1 2024-11-22 BARC               10.0 NA            327
- 2 2024-11-23 BARC               10.8 NA            328
- 3 2024-11-24 BARC               13.1 NA            329
- 4 2024-11-25 BARC               15.5 NA            330
- 5 2024-11-26 BARC               18.1 NA            331
- 6 2024-11-27 BARC               20.0 NA            332
- 7 2024-11-28 BARC               20.0 NA            333
- 8 2024-11-29 BARC               19.4 NA            334
- 9 2024-11-30 BARC               14.2 NA            335
-10 2024-12-01 BARC               10.1 NA            336
+ 1 2024-11-23 BARC               10.0 NA            328
+ 2 2024-11-24 BARC               13.1 NA            329
+ 3 2024-11-25 BARC               16.2 NA            330
+ 4 2024-11-26 BARC               18.4 NA            331
+ 5 2024-11-27 BARC               20.1 NA            332
+ 6 2024-11-28 BARC               21.0 NA            333
+ 7 2024-11-29 BARC               18.2 NA            334
+ 8 2024-11-30 BARC               18.4 NA            335
+ 9 2024-12-01 BARC               18.9 NA            336
+10 2024-12-02 BARC               19.7 NA            337
 # ℹ 58 more rows</code></pre>
 </div>
 </div>
@@ -998,7 +998,7 @@ Coefficients:
 <pre><code># A tibble: 1 × 2
   start_date     h
   &lt;date&gt;     &lt;dbl&gt;
-1 2024-10-29    59</code></pre>
+1 2024-10-29    60</code></pre>
 </div>
 </div>
 <p>The targets have to be converted into a time-series tibble (called a <code>tsibble</code>). To make a <code>tsibble</code> you need to define the grouping variables (<code>key</code>) and the common that defines the time-series (<code>index</code>). Many modeling approaches require the datetime to be continuous (no gaps) but allow na values for values in the gaps. The <code>fill_gaps()</code> function fills the gaps with <code>NA</code>s.</p>
