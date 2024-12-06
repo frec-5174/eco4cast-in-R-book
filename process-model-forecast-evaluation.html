@@ -436,7 +436,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code># A tibble: 1 × 1
   mean_crps
       &lt;dbl&gt;
-1     0.941</code></pre>
+1     0.930</code></pre>
 </div>
 </div>
 </section>
@@ -593,17 +593,17 @@ Caused by warning in `mean.default()`:
   dplyr::filter(n &gt; 1L)</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: There were 594 warnings in `summarize()`.
+<pre><code>Warning: There were 750 warnings in `summarize()`.
 The first warning was:
 ℹ In argument: `mean_crps = mean(crps)`.
 ℹ In group 1: `model_id = "bookcast_forest"` and `reference_datetime =
   2024-05-16`.
 Caused by warning in `mean.default()`:
 ! argument is not numeric or logical: returning NA
-ℹ Run `dplyr::last_dplyr_warnings()` to see the 593 remaining warnings.</code></pre>
+ℹ Run `dplyr::last_dplyr_warnings()` to see the 749 remaining warnings.</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 594 rows containing missing values or values outside the scale range
+<pre><code>Warning: Removed 750 rows containing missing values or values outside the scale range
 (`geom_line()`).</code></pre>
 </div>
 <div class="cell-output-display">
