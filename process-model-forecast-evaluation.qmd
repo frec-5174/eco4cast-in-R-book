@@ -52,7 +52,7 @@ How do the forecasts look for a single `reference_datetime`
 ```{r}
 #| warnings: false
 df_with_baselines |> 
-  filter(as_date(reference_datetime) == as_date("2024-04-01")) |> 
+  filter(as_date(reference_datetime) == as_date("2024-10-01")) |> 
   ggplot(aes(x = datetime)) +
   geom_ribbon(aes(ymin = quantile02.5, ymax = quantile97.5, fill = model_id), alpha = 0.3) +
   geom_line(aes(y = median, color = model_id)) +
@@ -60,6 +60,7 @@ df_with_baselines |>
   labs(y = "forecast") +
   theme_bw()
 ```
+
 ## Aggregated scores
 
 We can first look at the aggregated scores (all reference_datetime and datetime combinations). Importantly, the code below uses `pivot_wider` and `pivot_longer` to ensure we only include `datetime` values where all three models provided forecasts. Otherwise, there would be different periods from the three models in the aggregated score.
@@ -67,12 +68,17 @@ We can first look at the aggregated scores (all reference_datetime and datetime 
 ```{r}
 df_with_baselines |> 
   select(model_id, crps, datetime, reference_datetime) |> 
+  group_by(model_id, datetime, reference_datetime) |> 
+  slice(1) |> 
+  ungroup() |>
   pivot_wider(names_from = model_id, values_from = crps) |> 
   na.omit() |> 
   pivot_longer(-c(datetime, reference_datetime), names_to = "model_id", values_to = "crps") |> 
   summarise(mean_crps = mean(crps), .by = c("model_id")) |> 
   ggplot(aes(x = model_id, y = mean_crps)) +
-  geom_bar(stat="identity")
+  geom_bar(stat="identity") +
+  labs(y = "mean CRPS") +
+  theme_bw()
 ```
 
 ## By horizon
@@ -81,6 +87,9 @@ How does forecast performance change as forecasts extend farther in the future (
 
 ```{r}
 df_with_baselines |> 
+  group_by(model_id, datetime, reference_datetime) |> 
+  slice(1) |> 
+  ungroup() |>
   mutate(horizon = as.numeric(datetime - reference_datetime) / 86400) |> 
   select(model_id, horizon, datetime, reference_datetime, crps) |> 
   pivot_wider(names_from = model_id, values_from = crps) |> 
@@ -88,7 +97,9 @@ df_with_baselines |>
   pivot_longer(-c(horizon, datetime, reference_datetime), names_to = "model_id", values_to = "crps") |> 
   summarize(mean_crps = mean(crps), .by = c("model_id", "horizon")) |> 
   ggplot(aes(x = horizon, y = mean_crps, color = model_id)) + 
-  geom_line()
+  geom_line() |> 
+  labs(y = "mean CRPS") +
+  theme_bw()
 
 ```
 
@@ -99,12 +110,17 @@ How does forecast performance vary across the dates that the forecasts are gener
 ```{r}
 df_with_baselines |> 
   select(model_id, datetime, reference_datetime, crps) |> 
+  group_by(model_id, datetime, reference_datetime) |> 
+  slice(1) |> 
+  ungroup() |>
   pivot_wider(names_from = model_id, values_from = crps) |> 
   na.omit() |> 
   pivot_longer(-c(datetime, reference_datetime), names_to = "model_id", values_to = "crps") |> 
   summarize(mean_crps = mean(crps), .by = c("model_id", "reference_datetime")) |> 
   ggplot(aes(x = reference_datetime, y = mean_crps, color = model_id)) + 
-  geom_line()
+  geom_line() +
+  labs(y = "mean CRPS") +
+  theme_bw()
 ```
 
 ## Additional comparisons
