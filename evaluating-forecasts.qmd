@@ -72,11 +72,8 @@ forecast_mean <- seq(4, 12, 0.05)
 forecast_sd <- seq(0.1, 10, 0.05)
 ```
 
-Second, set our observed value to 8 for simplicity
+Second, use the same value for `observed` as above (`{r} observed`)
 
-```{r}
-observted <- 8
-```
 
 Now calculate the CRPS at each combination of forest mean and SD. We used `crps_norm` because we know the forecast is normally distributed
 
