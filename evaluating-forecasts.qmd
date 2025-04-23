@@ -168,9 +168,9 @@ You can compare differ forecasts using the cdf to see how the areas differ
 
 ```{r}
 #| echo: false
-forecast1 <- rnorm(100, mean = observed, sd = 2)
-forecast2 <- rnorm(100, mean = 6, sd = 2)
-forecast3<- rnorm(100, mean = observed, sd = 5)
+forecast1 <- rnorm(1000, mean = observed, sd = 2)
+forecast2 <- rnorm(1000, mean = 6, sd = 2)
+forecast3<- rnorm(1000, mean = observed, sd = 5)
 dy <- 0.0001
 values_evaluated <- seq(observed - 10, observed + 10, dy)
 
@@ -182,23 +182,22 @@ df <- tibble(y1 = c(values_evaluated,values_evaluated,values_evaluated),
              cdf = c(forecast1_cdf_function(values_evaluated), 
                      forecast2_cdf_function(values_evaluated),
                      forecast3_cdf_function(values_evaluated)),
-             variable = c(rep(paste0("mean = 8, sd = 2, CRPS: ",scoringRules::crps_sample(observed, forecast1)), length(values_evaluated)),
-                          rep(paste0("mean = 6, sd = 2 CRPS: ",scoringRules::crps_sample(observed, forecast2)), length(values_evaluated)), 
-                          rep(paste0("mean = 8, sd = 5 CRPS: ",scoringRules::crps_sample(observed, forecast3)), length(values_evaluated))))
+             variable = c(rep(paste0("mean = 8, sd = 2, CRPS: ",round(scoringRules::crps_sample(observed, forecast1), 2)), length(values_evaluated)),
+                          rep(paste0("mean = 6, sd = 2 CRPS: ",round(scoringRules::crps_sample(observed, forecast2), 2)), length(values_evaluated)), 
+                          rep(paste0("mean = 8, sd = 5 CRPS: ",round(scoringRules::crps_sample(observed, forecast3), 2)), length(values_evaluated))))
 
 df <- bind_rows(df, 
                 tibble(y1 = c(values_evaluated, observed),
            cdf = c(as.numeric((values_evaluated > observed)), 0),
            variable = "observation"))
 
-ggplot(df, aes(x = y1, y = cdf, color = variable)) + geom_line()
+ggplot(df, aes(x = y1, y = cdf, color = variable)) + 
+  geom_line() +
+  theme_bw() +
+  labs(x = "forecasted or observed value", y = "cumulative density function")
 ```
 
-```{r}
 
-```
-
-```
 ## Dynamics
 
 Add discussion of shadow time and correlation.
