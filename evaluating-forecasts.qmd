@@ -45,7 +45,7 @@ This section aims to provide an intuition for the CRPS metric.
 First, create a random sample from a probability distribution. This is the "forecast" for a particular point in time. For simplicity, we will use a normal distribution with a mean of 8 and a standard deviation of 1
 
 ```{r}
-forecast <- rnorm(1000, mean = 8, sd = 1.0)
+forecast <- rnorm(1000, mean = 8, sd = 2.0)
 ```
 
 Second, we have our data point (i.e., the target) that we set to 8 as well.
@@ -68,8 +68,8 @@ Now lets see how the CRPS changes as the mean and standard deviation of the fore
 First, set vectors for the different mean and SD values we want to explore
 
 ```{r}
-forecast_mean <- seq(4, 12, 0.05)
-forecast_sd <- seq(0.1, 10, 0.05)
+forecast_mean <- seq(5, 11, 0.05)
+forecast_sd <- seq(0.1,6, 0.05)
 ```
 
 Second, use the same value for `observed` as above (`{r} observed`)
@@ -86,29 +86,25 @@ for(i in 1:length(forecast_mean)){
 }
 ```
 
-Finally, visualize the scoring surface with the observed value represented by the red line
+Finally, the contour surface highlights the trade-off between the mean and standard deviation. Each isocline is the same CRPS score. Holding the mean constant at the observed value but increases the uncertainty (increasing SD) results in a higher (worse) score (compare the green to orange dot). Holding the sd constant but adding bias results in a higher (worse) score (compare the green to red dot). 
 
 ```{r}
-contour(x = forecast_mean, y = forecast_sd, z = as.matrix(combined),nlevels = 20, xlab = "Forecast mean", ylab = "forecast SD", main = "CPRS score at different forecasted mean and sd\nThe observation is at 8")
-abline(v = observed, col = "red")
-abline(v = 6, col = "darkgreen")
+contour(x = forecast_mean, y = forecast_sd, z = as.matrix(combined),nlevels = 20, xlab = "Forecast mean", ylab = "forecast standard deviation", main = "CPRS score at different forecasted mean and sd\nThe observation is at 8")
+points(x = observed, y = 2, col = "green")
+points(x = 6, y = 2, col = "red")
+points(x = observed, y = 5, col = "orange")
 ```
 
-The contour surface highlights the trade-off between the mean and standard deviation. Each isocline is the same CRPS score. Holding the mean constant at the observed value (vertical red line at 8) but increases the uncertainty (increasing SD) results in a higher (worse) score. However, a mean of 6 (green line) with an SD of 2 has a similar score to a mean of 8 and a standard deviation of 1. The following figure capture this idea. The two lines are the distribution of the mean = 8, sd = 4 and mean = 6, sd = 2 forecasts. The red line is the observation of 8. The forecast distribution with the mean of 6 actually has more density at x = 8 (the observation) and scores slightly better.
-
-```{r}
-plot(density(rnorm(10000, mean = 8, sd = 4)), ylim = c(0, 0.2), main = "", xlab = "forecasted value")
-lines(density(rnorm(10000, mean = 6, sd = 2)), col = "darkgreen")
-abline(v = observed, col = "red")
-```
 
 ### Calculating CRPS manually
 
-First, we are going set the range of values (forecast or observation) that we are going to include the calculate.  In this case, we go 4 above and below the observed value.  We will set dy to be 0.1 so we have values every 0.1.
+The manual calculation of CRPS helps provide intutition for what the metric represents.
+
+First, we are going set the range of values (forecast or observation) that we are going to include in the calculation.  In this case, we go 5 above and below the observed value.  We will set `dy` to be 0.1 so we have values every 0.1.
 
 ```{r}
 dy <- 0.1
-values_evaluated <- seq(observed - 4, observed + 4, dy)
+values_evaluated <- seq(observed - 5, observed + 5, dy)
 ```
 
 We are going to convert our forecast to a [cumulative density function](https://en.wikipedia.org/wiki/Cumulative_distribution_function) using the `ecdf` function and then calculate the value of the cdf at each value we are exploring.  
@@ -141,6 +137,8 @@ ggplot(df, aes(x = y, y = cdf, color = variable)) +
   labs(x = "forecasted or observed value", y = "cumulative density function") #+
   #annotate("text", x = 8.5, y = 0.80, label = "Forecast says value did not occur but it did occur")
 ```
+At high level, CRPS is the area between the red and blue lines in the figure above.  The area to the left of the observation is the error associated with the forecast saying the observed value will be less than the actual observation.  The area to the right of the observation is the error associated with forecast saying that the observed value is larger than the observed value.  
+
 By substracting the observed cdf from the forecast cdf we can calculate the difference between the two curves (square it to get squared error). 
 
 ```{r}
@@ -166,6 +164,41 @@ which is very similar to answer from `scoringRules` package.  The difference is 
 scoringRules::crps_sample(y = observed, dat = forecast)
 ```
 
+You can compare differ forecasts using the cdf to see how the areas differ
+
+```{r}
+#| echo: false
+forecast1 <- rnorm(100, mean = observed, sd = 2)
+forecast2 <- rnorm(100, mean = 6, sd = 2)
+forecast3<- rnorm(100, mean = observed, sd = 5)
+dy <- 0.0001
+values_evaluated <- seq(observed - 10, observed + 10, dy)
+
+forecast1_cdf_function <- ecdf(forecast1)
+forecast2_cdf_function <- ecdf(forecast2)
+forecast3_cdf_function <- ecdf(forecast3)
+
+df <- tibble(y1 = c(values_evaluated,values_evaluated,values_evaluated),
+             cdf = c(forecast1_cdf_function(values_evaluated), 
+                     forecast2_cdf_function(values_evaluated),
+                     forecast3_cdf_function(values_evaluated)),
+             variable = c(rep(paste0("mean = 8, sd = 2, CRPS: ",scoringRules::crps_sample(observed, forecast1)), length(values_evaluated)),
+                          rep(paste0("mean = 6, sd = 2 CRPS: ",scoringRules::crps_sample(observed, forecast2)), length(values_evaluated)), 
+                          rep(paste0("mean = 8, sd = 5 CRPS: ",scoringRules::crps_sample(observed, forecast3)), length(values_evaluated))))
+
+df <- bind_rows(df, 
+                tibble(y1 = c(values_evaluated, observed),
+           cdf = c(as.numeric((values_evaluated > observed)), 0),
+           variable = "observation"))
+
+ggplot(df, aes(x = y1, y = cdf, color = variable)) + geom_line()
+```
+
+```{r}
+
+```
+
+```
 ## Dynamics
 
 Add discussion of shadow time and correlation.
