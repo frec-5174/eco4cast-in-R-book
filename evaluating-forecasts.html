@@ -406,6 +406,7 @@ div.csl-indent {
   <li><a href="#continuous-ranked-probability-score" id="toc-continuous-ranked-probability-score" class="nav-link" data-scroll-target="#continuous-ranked-probability-score"><span class="header-section-number">11.3.1</span> Continuous Ranked Probability Score</a></li>
   <li><a href="#example-of-a-crps-calculation-from-an-ensemble-forecast" id="toc-example-of-a-crps-calculation-from-an-ensemble-forecast" class="nav-link" data-scroll-target="#example-of-a-crps-calculation-from-an-ensemble-forecast"><span class="header-section-number">11.3.2</span> Example of a CRPS calculation from an ensemble forecast</a></li>
   <li><a href="#exploring-the-scoring-surface" id="toc-exploring-the-scoring-surface" class="nav-link" data-scroll-target="#exploring-the-scoring-surface"><span class="header-section-number">11.3.3</span> Exploring the scoring surface</a></li>
+  <li><a href="#calculating-crps-manually" id="toc-calculating-crps-manually" class="nav-link" data-scroll-target="#calculating-crps-manually"><span class="header-section-number">11.3.4</span> Calculating CRPS manually</a></li>
   </ul></li>
   <li><a href="#dynamics" id="toc-dynamics" class="nav-link" data-scroll-target="#dynamics"><span class="header-section-number">11.4</span> Dynamics</a></li>
   <li><a href="#skill-scores" id="toc-skill-scores" class="nav-link" data-scroll-target="#skill-scores"><span class="header-section-number">11.5</span> Skill scores</a>
@@ -446,8 +447,9 @@ div.csl-indent {
 <p>This chapter provides a description of metrics for evaluating forecasts, including the comparison to simple baseline forecast models.</p>
 <section id="scoring-metrics" class="level2" data-number="11.1">
 <h2 data-number="11.1" class="anchored" data-anchor-id="scoring-metrics"><span class="header-section-number">11.1</span> Scoring metrics</h2>
-<p>A scoring metric is a value that can be used to evaluate how well a forecast compares to observations. Scores can then be compared among forecast models to evaluate relative performance. Typically lower scores are better. Scoring metrics are also called “costs”. ## Accuracy</p>
-<p>The most basic score would be the difference between the forecast mean and observation. However, there are a couple of issues with that score. First, forecasts below the observation will receive negative values and forecasts above will receive positive values, thus the lowest value is not the best. Second, it does not use any information from the forecast uncertainty in the evaluation. Metrics like absolute error (absolute value of the difference between the forecast mean and observation) and root-mean-squared error (RMSE) address the first issue but still do not consider the uncertainty.</p>
+<p>A scoring metric is a value that can be used to evaluate how well a forecast compares to observations. Scores can then be compared among forecast models to evaluate relative performance. Typically, lower scores are better. Scoring metrics are also called “costs”.</p>
+<p>## Accuracy</p>
+<p>The most basic score would be the difference between the forecast mean and the observation. However, there are a couple of issues with that score. First, forecasts below the observation will receive negative values and forecasts above will receive positive values, thus the lowest value is not the best. Second, it does not use any information from the forecast uncertainty in the evaluation. Metrics like absolute error (absolute value of the difference between the forecast mean and observation) and root-mean-squared error (RMSE) address the first issue but still do not consider the uncertainty.</p>
 </section>
 <section id="precision" class="level2" data-number="11.2">
 <h2 data-number="11.2" class="anchored" data-anchor-id="precision"><span class="header-section-number">11.2</span> Precision</h2>
@@ -472,18 +474,18 @@ div.csl-indent {
 <p>This section aims to provide an intuition for the CRPS metric.</p>
 <p>First, create a random sample from a probability distribution. This is the “forecast” for a particular point in time. For simplicity, we will use a normal distribution with a mean of 8 and a standard deviation of 1</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">1000</span>, <span class="at">mean =</span> <span class="dv">8</span>, <span class="at">sd =</span> <span class="fl">1.0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>forecast <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">1000</span>, <span class="at">mean =</span> <span class="dv">8</span>, <span class="at">sd =</span> <span class="fl">1.0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Second, we have our data point (i.e., the target) that we set to 8 as well.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="dv">8</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>observed <span class="ot">&lt;-</span> <span class="dv">8</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now calculate using the <code>crps_sample()</code> function in the <code>scoringRules</code> package</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(scoringRules)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">crps_sample</span>(<span class="at">y =</span> y, <span class="at">dat =</span> x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">crps_sample</span>(<span class="at">y =</span> observed, <span class="at">dat =</span> forecast)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.2326173</code></pre>
+<pre><code>[1] 0.2423744</code></pre>
 </div>
 </div>
 </section>
@@ -497,21 +499,21 @@ div.csl-indent {
 </div>
 <p>Second, set our observed value to 8 for simplicity</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="dv">8</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>observted <span class="ot">&lt;-</span> <span class="dv">8</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now calculate the CRPS at each combination of forest mean and SD. We used <code>crps_norm</code> because we know the forecast is normally distributed</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>combined <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="cn">NA</span>, <span class="at">dim =</span> <span class="fu">c</span>(<span class="fu">length</span>(forecast_mean), <span class="fu">length</span>(forecast_sd)))</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(forecast_mean)){</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(forecast_sd)){</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    combined[i, j] <span class="ot">&lt;-</span> <span class="fu">crps_norm</span>(<span class="at">y =</span> y, <span class="at">mean =</span> forecast_mean[i], forecast_sd[j])</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    combined[i, j] <span class="ot">&lt;-</span> <span class="fu">crps_norm</span>(<span class="at">y =</span> observed, <span class="at">mean =</span> forecast_mean[i], forecast_sd[j])</span>
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  }</span>
 <span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Finally, visualize the scoring surface with the observed value represented by the red line</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">contour</span>(<span class="at">x =</span> forecast_mean, <span class="at">y =</span> forecast_sd, <span class="at">z =</span> <span class="fu">as.matrix</span>(combined),<span class="at">nlevels =</span> <span class="dv">20</span>, <span class="at">xlab =</span> <span class="st">"Forecast mean"</span>, <span class="at">ylab =</span> <span class="st">"forecast SD"</span>, <span class="at">main =</span> <span class="st">"CPRS score at different forecasted mean and sd</span><span class="sc">\n</span><span class="st">The observation is at 8"</span>)</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> y, <span class="at">col =</span> <span class="st">"red"</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> observed, <span class="at">col =</span> <span class="st">"red"</span>)</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="dv">6</span>, <span class="at">col =</span> <span class="st">"darkgreen"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
@@ -525,13 +527,63 @@ div.csl-indent {
 <div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">density</span>(<span class="fu">rnorm</span>(<span class="dv">10000</span>, <span class="at">mean =</span> <span class="dv">8</span>, <span class="at">sd =</span> <span class="dv">4</span>)), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.2</span>), <span class="at">main =</span> <span class="st">""</span>, <span class="at">xlab =</span> <span class="st">"forecasted value"</span>)</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">density</span>(<span class="fu">rnorm</span>(<span class="dv">10000</span>, <span class="at">mean =</span> <span class="dv">6</span>, <span class="at">sd =</span> <span class="dv">2</span>)), <span class="at">col =</span> <span class="st">"darkgreen"</span>)</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="dv">8</span>, <span class="at">col =</span> <span class="st">"red"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> observed, <span class="at">col =</span> <span class="st">"red"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
 <p><img src="evaluating-forecasts_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
+</div>
+</div>
+</section>
+<section id="calculating-crps-manually" class="level3" data-number="11.3.4">
+<h3 data-number="11.3.4" class="anchored" data-anchor-id="calculating-crps-manually"><span class="header-section-number">11.3.4</span> Calculating CRPS manually</h3>
+<p>First, we are going set the range of values (forecast or observation) that we are going to include the calculate. In this case, we go 4 above and below the observed value. We will set dy to be 0.1 so we have values every 0.1.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>dy <span class="ot">&lt;-</span> <span class="fl">0.1</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>values_evaluated <span class="ot">&lt;-</span> <span class="fu">seq</span>(observed <span class="sc">-</span> <span class="dv">4</span>, observed <span class="sc">+</span> <span class="dv">4</span>, dy)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We are going to convert our forecast to a <a href="https://en.wikipedia.org/wiki/Cumulative_distribution_function">cumulative density function</a> using the <code>ecdf</code> function and then calculate the value of the cdf at each value we are exploring.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>forecast_cdf_function <span class="ot">&lt;-</span> <span class="fu">ecdf</span>(forecast)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>forecast_cdf <span class="ot">&lt;-</span> <span class="fu">forecast_cdf_function</span>(values_evaluated)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Next calculate the cdf for the observation where it is 0 if less than the observed value and 1 if above.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>obs_cdf <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>((values_evaluated <span class="sc">&gt;</span> observed))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Plot the two cdfs on the same plot</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="evaluating-forecasts_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>By substracting the observed cdf from the forecast cdf we can calculate the difference between the two curves (square it to get squared error).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>error <span class="ot">&lt;-</span> (forecast_cdf <span class="sc">-</span> obs_cdf)<span class="sc">^</span><span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Multiply by the squared difference (height) by dy (width) to get the area of each error bin.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>cdf_diff_area <span class="ot">&lt;-</span> error <span class="sc">*</span> dy</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The sum of the areas in each bin is the crps</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>crps <span class="ot">&lt;-</span> <span class="fu">sum</span>(cdf_diff_area)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>crps</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.2414324</code></pre>
+</div>
+</div>
+<p>which is very similar to answer from <code>scoringRules</code> package. The difference is due the size of dy. Smaller values of dy will yield values closer the calculation from <code>scoringRules</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>scoringRules<span class="sc">::</span><span class="fu">crps_sample</span>(<span class="at">y =</span> observed, <span class="at">dat =</span> forecast)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.2423744</code></pre>
 </div>
 </div>
 </section>
@@ -551,44 +603,44 @@ div.csl-indent {
 <h3 data-number="11.5.1" class="anchored" data-anchor-id="example-baseline-models"><span class="header-section-number">11.5.1</span> Example baseline models</h3>
 <p>Persistence forecasts that tomorrow will be the same as today, thus capturing the inertia of the system. Uncertainty is added to a persistence forecast by simulating it as a random walk where each ensemble member has a random trajectory without any direction (so the mean of the forecast is still previous days mean value). Persistence models perform well in systems with real-time observations because you actually know the current value and in systems with high inertia (like the water temperatures in the bottom of a large lake).</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>persistence <span class="ot">&lt;-</span> arrow<span class="sc">::</span><span class="fu">open_dataset</span>(<span class="st">"s3://anonymous@bio230014-bucket01/challenges/forecasts/bundled-summaries/project_id=neon4cast/duration=P1D/variable=temperature/model_id=persistenceRW?endpoint_override=sdsc.osn.xsede.org"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(site_id <span class="sc">==</span> <span class="st">"BARC"</span>,</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>         reference_date <span class="sc">==</span> <span class="st">"2024-01-10"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>persistence <span class="ot">&lt;-</span> arrow<span class="sc">::</span><span class="fu">open_dataset</span>(<span class="st">"s3://anonymous@bio230014-bucket01/challenges/forecasts/bundled-summaries/project_id=neon4cast/duration=P1D/variable=temperature/model_id=persistenceRW?endpoint_override=sdsc.osn.xsede.org"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(site_id <span class="sc">==</span> <span class="st">"BARC"</span>,</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>         reference_date <span class="sc">==</span> <span class="fu">as_date</span>(<span class="st">"2024-10-10"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>persistence <span class="sc">|&gt;</span> </span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> datetime)) <span class="sc">+</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> quantile10, <span class="at">ymax =</span> quantile90), <span class="at">color =</span> <span class="st">"lightblue"</span>, <span class="at">fill =</span> <span class="st">"lightblue"</span>, <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> median)) <span class="sc">+</span></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">"water temperature"</span>, <span class="at">x =</span> <span class="st">"datetime"</span>, <span class="at">title =</span> <span class="st">"NEON site: BARC"</span>) <span class="sc">+</span></span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>persistence <span class="sc">|&gt;</span> </span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> datetime)) <span class="sc">+</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> quantile10, <span class="at">ymax =</span> quantile90), <span class="at">color =</span> <span class="st">"lightblue"</span>, <span class="at">fill =</span> <span class="st">"lightblue"</span>, <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> median)) <span class="sc">+</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">"water temperature"</span>, <span class="at">x =</span> <span class="st">"datetime"</span>, <span class="at">title =</span> <span class="st">"NEON site: BARC"</span>) <span class="sc">+</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="evaluating-forecasts_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="evaluating-forecasts_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
 <p>“Climatology” is the historical distribution of observations for the forecast days. In a seasonal system, we often represent this using the mean and standard deviation of historical data from the same day-of-year in the past. Less seasonal systems may represent it as the historical mean and standard deviation. I used climatology in quotes because the meteorological definition of climatology is 30 years but most ecological systems don’t have 30-years of observations. We use the term “day-of-year mean” instead of climatology when forecasting systems with limited historical data. Climatology forecasts the capacity of the long-term behavior of the system to capture seasonal patterns.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>climatology <span class="ot">&lt;-</span> arrow<span class="sc">::</span><span class="fu">open_dataset</span>(<span class="st">"s3://anonymous@bio230014-bucket01/challenges/forecasts/bundled-summaries/project_id=neon4cast/duration=P1D/variable=temperature/model_id=climatology?endpoint_override=sdsc.osn.xsede.org"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(site_id <span class="sc">==</span> <span class="st">"BARC"</span>,</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>         reference_date <span class="sc">==</span> <span class="st">"2024-01-10"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>climatology <span class="ot">&lt;-</span> arrow<span class="sc">::</span><span class="fu">open_dataset</span>(<span class="st">"s3://anonymous@bio230014-bucket01/challenges/forecasts/bundled-summaries/project_id=neon4cast/duration=P1D/variable=temperature/model_id=climatology?endpoint_override=sdsc.osn.xsede.org"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(site_id <span class="sc">==</span> <span class="st">"BARC"</span>,</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>         reference_date <span class="sc">==</span> <span class="st">"2024-10-10"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>climatology <span class="sc">|&gt;</span> </span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> datetime)) <span class="sc">+</span></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> quantile10, <span class="at">ymax =</span> quantile90), <span class="at">color =</span> <span class="st">"lightblue"</span>, <span class="at">fill =</span> <span class="st">"lightblue"</span>, <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> median)) <span class="sc">+</span></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">"water temperature"</span>, <span class="at">x =</span> <span class="st">"datetime"</span>, <span class="at">title =</span> <span class="st">"NEON site: BARC"</span>) <span class="sc">+</span></span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>climatology <span class="sc">|&gt;</span> </span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> datetime)) <span class="sc">+</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> quantile10, <span class="at">ymax =</span> quantile90), <span class="at">color =</span> <span class="st">"lightblue"</span>, <span class="at">fill =</span> <span class="st">"lightblue"</span>, <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> median)) <span class="sc">+</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">"water temperature"</span>, <span class="at">x =</span> <span class="st">"datetime"</span>, <span class="at">title =</span> <span class="st">"NEON site: BARC"</span>) <span class="sc">+</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="evaluating-forecasts_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="evaluating-forecasts_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -599,26 +651,27 @@ div.csl-indent {
 <h3 data-number="11.5.2" class="anchored" data-anchor-id="example-skill-score-calculation"><span class="header-section-number">11.5.2</span> Example skill score calculation</h3>
 <p>This example compares the skill of the climatology forecast to the persistence baseline</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>baseline_models <span class="ot">&lt;-</span> arrow<span class="sc">::</span><span class="fu">open_dataset</span>(<span class="st">"s3://anonymous@bio230014-bucket01/challenges/scores/bundled-parquet/project_id=neon4cast/duration=P1D/variable=temperature?endpoint_override=sdsc.osn.xsede.org"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(site_id <span class="sc">==</span> <span class="st">"BARC"</span>,</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>         reference_datetime <span class="sc">&gt;</span> lubridate<span class="sc">::</span><span class="fu">as_datetime</span>(<span class="st">"2024-01-10"</span>) <span class="sc">&amp;</span> reference_datetime <span class="sc">&lt;</span> lubridate<span class="sc">::</span><span class="fu">as_datetime</span>(<span class="st">"2024-03-10"</span>),</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>         model_id <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"climatology"</span>, <span class="st">"persistenceRW"</span>)) <span class="sc">|&gt;</span> </span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect</span>() </span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>skill_score <span class="ot">&lt;-</span> baseline_models <span class="sc">|&gt;</span> </span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">horizon =</span> <span class="fu">as.numeric</span>(datetime <span class="sc">-</span> reference_datetime)) <span class="sc">|&gt;</span> </span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean_crps =</span> <span class="fu">mean</span>(crps, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">.by =</span> <span class="fu">c</span>(<span class="st">"model_id"</span>, <span class="st">"horizon"</span>)) <span class="sc">|&gt;</span> </span>
-<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> model_id, <span class="at">values_from =</span> mean_crps) <span class="sc">|&gt;</span> </span>
-<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">skill_score =</span> <span class="dv">1</span> <span class="sc">-</span> (climatology<span class="sc">/</span>persistenceRW))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>baseline_models <span class="ot">&lt;-</span> arrow<span class="sc">::</span><span class="fu">open_dataset</span>(<span class="st">"s3://anonymous@bio230014-bucket01/challenges/scores/bundled-parquet/project_id=neon4cast/duration=P1D/variable=temperature?endpoint_override=sdsc.osn.xsede.org"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(site_id <span class="sc">==</span> <span class="st">"BARC"</span>,</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>         reference_datetime <span class="sc">&gt;</span> lubridate<span class="sc">::</span><span class="fu">as_datetime</span>(<span class="st">"2024-09-01"</span>),</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>         reference_datetime <span class="sc">&lt;</span> lubridate<span class="sc">::</span><span class="fu">as_datetime</span>(<span class="st">"2024-10-31"</span>),</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>         model_id <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"climatology"</span>, <span class="st">"persistenceRW"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect</span>() </span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>skill_score <span class="ot">&lt;-</span> baseline_models <span class="sc">|&gt;</span> </span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">horizon =</span> <span class="fu">as.numeric</span>(datetime <span class="sc">-</span> reference_datetime)) <span class="sc">|&gt;</span> </span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean_crps =</span> <span class="fu">mean</span>(crps, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">.by =</span> <span class="fu">c</span>(<span class="st">"model_id"</span>, <span class="st">"horizon"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> model_id, <span class="at">values_from =</span> mean_crps) <span class="sc">|&gt;</span> </span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">skill_score =</span> <span class="dv">1</span> <span class="sc">-</span> (climatology<span class="sc">/</span>persistenceRW))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(skill_score, <span class="fu">aes</span>(<span class="at">x =</span> horizon, <span class="at">y =</span> skill_score)) <span class="sc">+</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="fu">aes</span>(<span class="at">yintercept =</span> <span class="dv">0</span>)) <span class="sc">+</span></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Horizon (days in future)"</span>, <span class="at">y =</span> <span class="st">"Skill score"</span>) <span class="sc">+</span></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">label =</span> <span class="st">"climatology is better"</span>, <span class="at">x =</span> <span class="dv">15</span>, <span class="at">y =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">label =</span> <span class="st">"baseline (persistence) is better"</span>, <span class="at">x =</span> <span class="dv">15</span>, <span class="at">y =</span> <span class="sc">-</span><span class="fl">0.2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(skill_score, <span class="fu">aes</span>(<span class="at">x =</span> horizon, <span class="at">y =</span> skill_score)) <span class="sc">+</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="fu">aes</span>(<span class="at">yintercept =</span> <span class="dv">0</span>)) <span class="sc">+</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Horizon (days in future)"</span>, <span class="at">y =</span> <span class="st">"Skill score"</span>) <span class="sc">+</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">label =</span> <span class="st">"climatology is better"</span>, <span class="at">x =</span> <span class="dv">15</span>, <span class="at">y =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">label =</span> <span class="st">"baseline (persistence) is better"</span>, <span class="at">x =</span> <span class="dv">15</span>, <span class="at">y =</span> <span class="sc">-</span><span class="fl">0.2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: Removed 1 row containing missing values or values outside the scale range
 (`geom_line()`).</code></pre>
@@ -626,7 +679,7 @@ div.csl-indent {
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="evaluating-forecasts_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="evaluating-forecasts_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
