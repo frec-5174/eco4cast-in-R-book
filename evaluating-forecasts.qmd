@@ -8,9 +8,11 @@ This chapter provides a description of metrics for evaluating forecasts, includi
 
 ## Scoring metrics
 
-A scoring metric is a value that can be used to evaluate how well a forecast compares to observations. Scores can then be compared among forecast models to evaluate relative performance. Typically lower scores are better. Scoring metrics are also called "costs". \## Accuracy
+A scoring metric is a value that can be used to evaluate how well a forecast compares to observations. Scores can then be compared among forecast models to evaluate relative performance. Typically, lower scores are better. Scoring metrics are also called "costs".
 
-The most basic score would be the difference between the forecast mean and observation. However, there are a couple of issues with that score. First, forecasts below the observation will receive negative values and forecasts above will receive positive values, thus the lowest value is not the best. Second, it does not use any information from the forecast uncertainty in the evaluation. Metrics like absolute error (absolute value of the difference between the forecast mean and observation) and root-mean-squared error (RMSE) address the first issue but still do not consider the uncertainty.
+\## Accuracy
+
+The most basic score would be the difference between the forecast mean and the observation. However, there are a couple of issues with that score. First, forecasts below the observation will receive negative values and forecasts above will receive positive values, thus the lowest value is not the best. Second, it does not use any information from the forecast uncertainty in the evaluation. Metrics like absolute error (absolute value of the difference between the forecast mean and observation) and root-mean-squared error (RMSE) address the first issue but still do not consider the uncertainty.
 
 ## Precision
 
@@ -43,20 +45,20 @@ This section aims to provide an intuition for the CRPS metric.
 First, create a random sample from a probability distribution. This is the "forecast" for a particular point in time. For simplicity, we will use a normal distribution with a mean of 8 and a standard deviation of 1
 
 ```{r}
-x <- rnorm(1000, mean = 8, sd = 1.0)
+forecast <- rnorm(1000, mean = 8, sd = 1.0)
 ```
 
 Second, we have our data point (i.e., the target) that we set to 8 as well.
 
 ```{r}
-y <- 8
+observed <- 8
 ```
 
 Now calculate using the `crps_sample()` function in the `scoringRules` package
 
 ```{r}
 library(scoringRules)
-crps_sample(y = y, dat = x)
+crps_sample(y = observed, dat = forecast)
 ```
 
 ### Exploring the scoring surface
@@ -73,7 +75,7 @@ forecast_sd <- seq(0.1, 10, 0.05)
 Second, set our observed value to 8 for simplicity
 
 ```{r}
-y <- 8
+observted <- 8
 ```
 
 Now calculate the CRPS at each combination of forest mean and SD. We used `crps_norm` because we know the forecast is normally distributed
@@ -82,7 +84,7 @@ Now calculate the CRPS at each combination of forest mean and SD. We used `crps_
 combined <- array(NA, dim = c(length(forecast_mean), length(forecast_sd)))
 for(i in 1:length(forecast_mean)){
   for(j in 1:length(forecast_sd)){
-    combined[i, j] <- crps_norm(y = y, mean = forecast_mean[i], forecast_sd[j])
+    combined[i, j] <- crps_norm(y = observed, mean = forecast_mean[i], forecast_sd[j])
   }
 }
 ```
@@ -91,7 +93,7 @@ Finally, visualize the scoring surface with the observed value represented by th
 
 ```{r}
 contour(x = forecast_mean, y = forecast_sd, z = as.matrix(combined),nlevels = 20, xlab = "Forecast mean", ylab = "forecast SD", main = "CPRS score at different forecasted mean and sd\nThe observation is at 8")
-abline(v = y, col = "red")
+abline(v = observed, col = "red")
 abline(v = 6, col = "darkgreen")
 ```
 
@@ -100,7 +102,71 @@ The contour surface highlights the trade-off between the mean and standard devia
 ```{r}
 plot(density(rnorm(10000, mean = 8, sd = 4)), ylim = c(0, 0.2), main = "", xlab = "forecasted value")
 lines(density(rnorm(10000, mean = 6, sd = 2)), col = "darkgreen")
-abline(v = 8, col = "red")
+abline(v = observed, col = "red")
+```
+
+### Calculating CRPS manually
+
+First, we are going set the range of values (forecast or observation) that we are going to include the calculate.  In this case, we go 4 above and below the observed value.  We will set dy to be 0.1 so we have values every 0.1.
+
+```{r}
+dy <- 0.1
+values_evaluated <- seq(observed - 4, observed + 4, dy)
+```
+
+We are going to convert our forecast to a [cumulative density function](https://en.wikipedia.org/wiki/Cumulative_distribution_function) using the `ecdf` function and then calculate the value of the cdf at each value we are exploring.  
+
+```{r}
+forecast_cdf_function <- ecdf(forecast)
+forecast_cdf <- forecast_cdf_function(values_evaluated)
+```
+
+Next calculate the cdf for the observation where it is 0 if less than the observed value and 1 if above.
+
+```{r}
+obs_cdf <- as.numeric((values_evaluated > observed))
+```
+
+Plot the two cdfs on the same plot
+
+```{r}
+#| echo: false
+df <- tibble(y = values_evaluated,
+             cdf = forecast_cdf,
+             variable = "forecast") |> 
+  bind_rows(tibble(y = c(values_evaluated, observed),
+                   cdf = c(obs_cdf, 1),
+                   variable = "observation"))
+
+ggplot(df, aes(x = y, y = cdf, color = variable)) + 
+  geom_line() +
+  theme_bw() +
+  labs(x = "forecasted or observed value", y = "cumulative density function") #+
+  #annotate("text", x = 8.5, y = 0.80, label = "Forecast says value did not occur but it did occur")
+```
+By substracting the observed cdf from the forecast cdf we can calculate the difference between the two curves (square it to get squared error). 
+
+```{r}
+error <- (forecast_cdf - obs_cdf)^2
+```
+
+Multiply by the squared difference (height) by dy (width) to get the area of each error bin.
+
+```{r}
+cdf_diff_area <- error * dy
+```
+
+The sum of the areas in each bin is the crps
+
+```{r}
+crps <- sum(cdf_diff_area)
+crps
+```
+
+which is very similar to answer from `scoringRules` package.  The difference is due the size of dy.  Smaller values of dy will yield values closer the calculation from `scoringRules`.
+
+```{r}
+scoringRules::crps_sample(y = observed, dat = forecast)
 ```
 
 ## Dynamics
@@ -126,7 +192,7 @@ Persistence forecasts that tomorrow will be the same as today, thus capturing th
 ```{r}
 persistence <- arrow::open_dataset("s3://anonymous@bio230014-bucket01/challenges/forecasts/bundled-summaries/project_id=neon4cast/duration=P1D/variable=temperature/model_id=persistenceRW?endpoint_override=sdsc.osn.xsede.org") |> 
   filter(site_id == "BARC",
-         reference_date == "2024-01-10") |> 
+         reference_date == as_date("2024-10-10")) |> 
   collect()
 ```
 
@@ -144,7 +210,7 @@ persistence |>
 ```{r}
 climatology <- arrow::open_dataset("s3://anonymous@bio230014-bucket01/challenges/forecasts/bundled-summaries/project_id=neon4cast/duration=P1D/variable=temperature/model_id=climatology?endpoint_override=sdsc.osn.xsede.org") |> 
   filter(site_id == "BARC",
-         reference_date == "2024-01-10") |> 
+         reference_date == "2024-10-10") |> 
   collect()
 ```
 
@@ -166,7 +232,8 @@ This example compares the skill of the climatology forecast to the persistence b
 ```{r}
 baseline_models <- arrow::open_dataset("s3://anonymous@bio230014-bucket01/challenges/scores/bundled-parquet/project_id=neon4cast/duration=P1D/variable=temperature?endpoint_override=sdsc.osn.xsede.org") |> 
   filter(site_id == "BARC",
-         reference_datetime > lubridate::as_datetime("2024-01-10") & reference_datetime < lubridate::as_datetime("2024-03-10"),
+         reference_datetime > lubridate::as_datetime("2024-09-01"),
+         reference_datetime < lubridate::as_datetime("2024-10-31"),
          model_id %in% c("climatology", "persistenceRW")) |> 
   collect() 
 

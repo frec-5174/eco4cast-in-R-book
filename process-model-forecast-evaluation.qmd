@@ -97,7 +97,7 @@ df_with_baselines |>
   pivot_longer(-c(horizon, datetime, reference_datetime), names_to = "model_id", values_to = "crps") |> 
   summarize(mean_crps = mean(crps), .by = c("model_id", "horizon")) |> 
   ggplot(aes(x = horizon, y = mean_crps, color = model_id)) + 
-  geom_line() |> 
+  geom_line() + 
   labs(y = "mean CRPS") +
   theme_bw()
 
@@ -118,7 +118,7 @@ df_with_baselines |>
   pivot_longer(-c(datetime, reference_datetime), names_to = "model_id", values_to = "crps") |> 
   summarize(mean_crps = mean(crps), .by = c("model_id", "reference_datetime")) |> 
   ggplot(aes(x = reference_datetime, y = mean_crps, color = model_id)) + 
-  geom_line() +
+  geom_point() +
   labs(y = "mean CRPS") +
   theme_bw()
 ```

@@ -524,9 +524,7 @@ total_carbon_components |>
   theme_bw()
 ```
 
-Combine pools of carbon to match the stocks used in our simple process model. 
-- wood = live trees (stem and coarse roots) + fine roots 
-- som = dead trees + down wood + soil carbon
+Combine pools of carbon to match the stocks used in our simple process model. - wood = live trees (stem and coarse roots) + fine roots - som = dead trees + down wood + soil carbon
 
 ```{r}
 total_carbon_simple <- total_carbon_components |> 
