@@ -884,16 +884,16 @@ Coefficients:
 <pre><code># A tibble: 68 × 5
    datetime   site_id air_temperature temperature   doy
    &lt;date&gt;     &lt;chr&gt;             &lt;dbl&gt; &lt;lgl&gt;       &lt;dbl&gt;
- 1 2025-06-06 BARC               27.5 NA            157
- 2 2025-06-07 BARC               28.8 NA            158
- 3 2025-06-08 BARC               28.6 NA            159
- 4 2025-06-09 BARC               28.3 NA            160
- 5 2025-06-10 BARC               29.1 NA            161
- 6 2025-06-11 BARC               30.2 NA            162
- 7 2025-06-12 BARC               29.7 NA            163
- 8 2025-06-13 BARC               27.9 NA            164
- 9 2025-06-14 BARC               26.8 NA            165
-10 2025-06-15 BARC               27.0 NA            166
+ 1 2025-06-07 SUGG               28.4 NA            158
+ 2 2025-06-08 SUGG               28.8 NA            159
+ 3 2025-06-09 SUGG               28.8 NA            160
+ 4 2025-06-10 SUGG               29.4 NA            161
+ 5 2025-06-11 SUGG               29.5 NA            162
+ 6 2025-06-12 SUGG               29.4 NA            163
+ 7 2025-06-13 SUGG               29.7 NA            164
+ 8 2025-06-14 SUGG               29.4 NA            165
+ 9 2025-06-15 SUGG               29.3 NA            166
+10 2025-06-16 SUGG               27.5 NA            167
 # ℹ 58 more rows</code></pre>
 </div>
 </div>
@@ -998,7 +998,7 @@ Coefficients:
 <pre><code># A tibble: 1 × 2
   start_date     h
   &lt;date&gt;     &lt;dbl&gt;
-1 2025-06-03    38</code></pre>
+1 2025-06-03    39</code></pre>
 </div>
 </div>
 <p>The targets have to be converted into a time-series tibble (called a <code>tsibble</code>). To make a <code>tsibble</code> you need to define the grouping variables (<code>key</code>) and the common that defines the time-series (<code>index</code>). Many modeling approaches require the datetime to be continuous (no gaps) but allow na values for values in the gaps. The <code>fill_gaps()</code> function fills the gaps with <code>NA</code>s.</p>
