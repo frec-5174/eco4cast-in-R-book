@@ -74,7 +74,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-06b0691bd984990739149ee116792695.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-7918254181c282d67373f339c27a15a8.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -641,7 +641,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>split</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;Training/Testing/Total&gt;
-&lt;4391/1099/5490&gt;</code></pre>
+&lt;4393/1099/5492&gt;</code></pre>
 </div>
 </div>
 <p>To get the training and testing data we need to apply the <code>training()</code> and <code>testing()</code> functions to the split.</p>
@@ -653,7 +653,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>train_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 4,391 × 5
+<pre><code># A tibble: 4,393 × 5
    datetime   site_id temperature air_temperature   doy
    &lt;date&gt;     &lt;chr&gt;         &lt;dbl&gt;           &lt;dbl&gt; &lt;dbl&gt;
  1 2017-08-27 BARC           31.5              NA   239
@@ -666,7 +666,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  8 2017-09-03 BARC           31.1              NA   246
  9 2017-09-05 BARC           31.0              NA   248
 10 2017-09-06 BARC           30.8              NA   249
-# ℹ 4,381 more rows</code></pre>
+# ℹ 4,383 more rows</code></pre>
 </div>
 </div>
 <p><em>Feature engineering using a recipe</em></p>
@@ -796,7 +796,7 @@ stats::lm(formula = ..y ~ ., data = data)
 
 Coefficients:
     (Intercept)      site_idSUGG  air_temperature              doy  
-        5.03689         -0.74289          0.88343          0.00259  </code></pre>
+       5.056512        -0.739930         0.882610         0.002606  </code></pre>
 </div>
 </div>
 <p><em>Step 5: Predict Test Data</em></p>
@@ -863,8 +863,8 @@ Coefficients:
 <pre><code># A tibble: 2 × 3
   .metric .estimator .estimate
   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
-1 rmse    standard       2.40 
-2 rsq     standard       0.810</code></pre>
+1 rmse    standard       2.39 
+2 rsq     standard       0.813</code></pre>
 </div>
 </div>
 <p><em>Step 7: Deploy model</em></p>
@@ -884,16 +884,16 @@ Coefficients:
 <pre><code># A tibble: 68 × 5
    datetime   site_id air_temperature temperature   doy
    &lt;date&gt;     &lt;chr&gt;             &lt;dbl&gt; &lt;lgl&gt;       &lt;dbl&gt;
- 1 2025-06-26 SUGG               27.5 NA            177
- 2 2025-06-27 SUGG               27.6 NA            178
- 3 2025-06-28 SUGG               27.8 NA            179
- 4 2025-06-29 SUGG               28.6 NA            180
- 5 2025-06-30 SUGG               27.6 NA            181
- 6 2025-07-01 SUGG               26.0 NA            182
- 7 2025-07-02 SUGG               25.6 NA            183
- 8 2025-07-03 SUGG               27.3 NA            184
- 9 2025-07-04 SUGG               27.4 NA            185
-10 2025-07-05 SUGG               26.4 NA            186
+ 1 2025-06-27 SUGG               26.6 NA            178
+ 2 2025-06-28 SUGG               27.9 NA            179
+ 3 2025-06-29 SUGG               27.7 NA            180
+ 4 2025-06-30 SUGG               28.5 NA            181
+ 5 2025-07-01 SUGG               29.0 NA            182
+ 6 2025-07-02 SUGG               29.4 NA            183
+ 7 2025-07-03 SUGG               29.4 NA            184
+ 8 2025-07-04 SUGG               28.9 NA            185
+ 9 2025-07-05 SUGG               30.0 NA            186
+10 2025-07-06 SUGG               29.4 NA            187
 # ℹ 58 more rows</code></pre>
 </div>
 </div>
@@ -998,7 +998,7 @@ Coefficients:
 <pre><code># A tibble: 1 × 2
   start_date     h
   &lt;date&gt;     &lt;dbl&gt;
-1 2025-06-25    36</code></pre>
+1 2025-06-26    36</code></pre>
 </div>
 </div>
 <p>The targets have to be converted into a time-series tibble (called a <code>tsibble</code>). To make a <code>tsibble</code> you need to define the grouping variables (<code>key</code>) and the common that defines the time-series (<code>index</code>). Many modeling approaches require the datetime to be continuous (no gaps) but allow na values for values in the gaps. The <code>fill_gaps()</code> function fills the gaps with <code>NA</code>s.</p>
