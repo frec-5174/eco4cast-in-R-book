@@ -76,7 +76,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-23102fe0f0b5b1a9f09cc09ebcc8fe5b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-a09d93a99c1538995f3a9d35f4edf9e6.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -886,16 +886,16 @@ Coefficients:
 <pre><code># A tibble: 68 × 5
    datetime   site_id air_temperature temperature   doy
    &lt;date&gt;     &lt;chr&gt;             &lt;dbl&gt; &lt;lgl&gt;       &lt;dbl&gt;
- 1 2025-09-24 BARC               28.1 NA            267
- 2 2025-09-25 BARC               27.5 NA            268
- 3 2025-09-26 BARC               26.7 NA            269
- 4 2025-09-27 BARC               27.4 NA            270
- 5 2025-09-28 BARC               27.6 NA            271
- 6 2025-09-29 BARC               27.3 NA            272
- 7 2025-09-30 BARC               25.5 NA            273
- 8 2025-10-01 BARC               24.6 NA            274
- 9 2025-10-02 BARC               26.1 NA            275
-10 2025-10-03 BARC               26.0 NA            276
+ 1 2025-09-25 BARC               27.6 NA            268
+ 2 2025-09-26 BARC               27.1 NA            269
+ 3 2025-09-27 BARC               26.9 NA            270
+ 4 2025-09-28 BARC               26.8 NA            271
+ 5 2025-09-29 BARC               26.6 NA            272
+ 6 2025-09-30 BARC               26.0 NA            273
+ 7 2025-10-01 BARC               24.5 NA            274
+ 8 2025-10-02 BARC               24.0 NA            275
+ 9 2025-10-03 BARC               23.1 NA            276
+10 2025-10-04 BARC               23.3 NA            277
 # ℹ 58 more rows</code></pre>
 </div>
 </div>
@@ -1000,7 +1000,7 @@ Coefficients:
 <pre><code># A tibble: 1 × 2
   start_date     h
   &lt;date&gt;     &lt;dbl&gt;
-1 2025-07-13   108</code></pre>
+1 2025-07-13   109</code></pre>
 </div>
 </div>
 <p>The targets have to be converted into a time-series tibble (called a <code>tsibble</code>). To make a <code>tsibble</code> you need to define the grouping variables (<code>key</code>) and the common that defines the time-series (<code>index</code>). Many modeling approaches require the datetime to be continuous (no gaps) but allow na values for values in the gaps. The <code>fill_gaps()</code> function fills the gaps with <code>NA</code>s.</p>
