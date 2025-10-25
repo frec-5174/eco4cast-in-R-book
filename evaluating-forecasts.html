@@ -486,7 +486,7 @@ div.csl-indent {
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(scoringRules)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">crps_sample</span>(<span class="at">y =</span> observed, <span class="at">dat =</span> forecast)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.4809777</code></pre>
+<pre><code>[1] 0.4639435</code></pre>
 </div>
 </div>
 </section>
@@ -564,14 +564,14 @@ div.csl-indent {
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>crps <span class="ot">&lt;-</span> <span class="fu">sum</span>(cdf_diff_area)</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>crps</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.4828156</code></pre>
+<pre><code>[1] 0.4651474</code></pre>
 </div>
 </div>
 <p>which is very similar to answer from <code>scoringRules</code> package. The difference is due the size of dy. Smaller values of dy will yield values closer the calculation from <code>scoringRules</code>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>scoringRules<span class="sc">::</span><span class="fu">crps_sample</span>(<span class="at">y =</span> observed, <span class="at">dat =</span> forecast)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.4809777</code></pre>
+<pre><code>[1] 0.4639435</code></pre>
 </div>
 </div>
 <p>You can compare differ forecasts using the cdf to see how the areas differ</p>
