@@ -9,3 +9,5 @@
 
 data/neon_raw
 data/terrestrial_daily*
+
+**/*.quarto_ipynb
