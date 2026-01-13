@@ -37,4 +37,6 @@ Lewis, A. S. L., Woelmer, W. M., Wander, H. L., Howard, D. W., Smith, J. W., McC
 
 ## Assignment
 
-Read the two papers above and discuss how the forecasts developed as part of this book address the best practices and principles described in the papers.
+1.  Read the two papers above
+2.  Find a documented example of an "operational" ecological forecast, either in the literature or website. An operational one means that it generated for applications beyond scientific literature, though ideally journal articles describe the forecasting approach and performance. However, many operational forecasts, like those produced by NOAA, are not clearly documented in the literature so website documentation is adequate for this assignment.
+3.  Describe the forecasted variable, forecasting approach, how it is iteratively updated through time, and how it addressed the best practices in the two papers above.

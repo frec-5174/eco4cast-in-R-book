@@ -43,7 +43,8 @@ Here we use a look back of 30 days. Since our forecast horizon is 30 days in the
 site <- "OSBS"
 look_back <- 30
 horizon <- 30
-reference_datetime <- Sys.Date()
+#reference_datetime <- Sys.Date()
+reference_datetime <- as_date("2025-12-15")
 sim_dates <- seq(reference_datetime - look_back, length.out = look_back + horizon, by = "1 day")
 ```
 

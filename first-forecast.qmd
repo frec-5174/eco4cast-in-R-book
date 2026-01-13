@@ -6,7 +6,7 @@ The assignment will require you to create a GitHub repository with your complete
 
 This tutorial was developed by Olsson, F., C. Boettiger, C.C. Carey, M.E. Lofton, and R.Q. Thomas
 
-[**Tutorial**](https://github.com/OlssonF/NEON-forecast-challenge-workshop)
+[**Tutorial**](https://github.com/eco4cast/NEON-forecast-challenge-workshop)
 
 You will be generating forecasts of water temperature at NEON aquatics sites.
 
@@ -27,4 +27,4 @@ Pre-assignment set up: Follow the [instructions for setting up R and the code re
 
 ## Module reference
 
-Olsson, F., C. Boettiger, C.C. Carey, M.E. Lofton, and R.Q. Thomas. Can you predict the future? A tutorial for the National Ecological Observatory Network Ecological Forecasting Challenge. In review at *Journal of Open Source Education*.
+Olsson F, C. Boettiger, C.C. Carey, M. Lofton and R.Q. Thomas. 2024. Can you predict the future? A tutorial for the National Ecological Observatory Network Ecological Forecasting Challenge. *Journal of Open Source Education*7: 259. <https://doi.org/10.21105/jose.00259>

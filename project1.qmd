@@ -150,9 +150,10 @@ lake_sites <- c("BARC", "SUGG")
 ```
 
 ```{r}
-targets <- read_csv('https://data.ecoforecast.org/neon4cast-targets/aquatics/aquatics-targets.csv.gz',
+targets <- read_csv('https://sdsc.osn.xsede.org/bio230014-bucket01/challenges/targets/project_id=neon4cast/duration=P1D/aquatics-targets.csv.gz',
                     show_col_types = FALSE) |> 
-  filter(site_id %in% lake_sites)
+  filter(site_id %in% lake_sites) |> 
+  select(-project_id, -duration)
 ```
 
 ```{r}
@@ -219,7 +220,8 @@ targets_df <- targets |>
   pivot_wider(names_from = 'variable', values_from = 'observation') |> 
   left_join(noaa_past_mean, 
             by = c("datetime","site_id")) |> 
-  mutate(doy = yday(datetime))
+  mutate(doy = yday(datetime)) |> 
+  na.omit()
 ```
 
 #### Step 2: Pre-process data
@@ -272,7 +274,7 @@ Here is our recipe:
 ```{r}
 our_recipe <- train_data |> 
   recipe(temperature ~ . ) |> 
-  step_rm(datetime) |>
+  step_rm(datetime, site_id) |>
   step_naomit(air_temperature, temperature)
 ```
 
@@ -470,7 +472,7 @@ library(fable)
 ### Step 1: Set up targets
 
 ```{r}
-targets <- read_csv('https://data.ecoforecast.org/neon4cast-targets/aquatics/aquatics-targets.csv.gz',
+targets <- read_csv('https://sdsc.osn.xsede.org/bio230014-bucket01/challenges/targets/project_id=neon4cast/duration=P1D/aquatics-targets.csv.gz',
                     show_col_types = FALSE)
 ```
 
@@ -484,6 +486,7 @@ We want to collect when to start our forecast. If we have observations from toda
 
 ```{r}
 forecast_starts <- targets |> 
+  dplyr::mutate(datetime = as_date(datetime)) |> 
   dplyr::filter(!is.na(observation) & site_id == site & variable == var) |> 
   # Start the day after the most recent non-NA value
   dplyr::summarise(start_date = max(datetime) + lubridate::days(1)) |>  # Date
@@ -498,6 +501,7 @@ The targets have to be converted into a time-series tibble (called a `tsibble`).
 
 ```{r}
 targets_use <- targets |> 
+  dplyr::mutate(datetime = as_date(datetime)) |> 
   dplyr::filter(site_id == site,
                 variable == var) %>%
   tsibble::as_tsibble(key = c('variable', 'site_id'), index = 'datetime') |> 
