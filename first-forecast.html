@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.32">
+<meta name="generator" content="quarto-1.8.25">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -54,14 +54,15 @@ div.csl-indent {
 <link href="./background-skills.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-a09d93a99c1538995f3a9d35f4edf9e6.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-0dd2bd5de344125cf763a379ddc3eb04.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -117,7 +118,8 @@ div.csl-indent {
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
       <a href="./index.html" class="sidebar-logo-link">
-      <img src="./img/VT-CEF.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
+      <img src="./img/VT-CEF.png" alt="" class="sidebar-logo light-content py-0 d-lg-inline d-none">
+      <img src="./img/VT-CEF.png" alt="" class="sidebar-logo dark-content py-0 d-lg-inline d-none">
       </a>
     <div class="sidebar-title mb-0 py-0">
       <a href="./">A Practical Guide to Ecosystem Forecasting</a> 
@@ -397,7 +399,7 @@ div.csl-indent {
 <p>This chapter, and the associated tutorial material, introduce participants to key concepts in ecological forecasting and provide hands-on materials for submitting forecasts to the Ecological Forecasting Initiative (EFI) - National Ecological Observatory Network (NEON) Forecasting Challenge (hereafter, Challenge). You can learn more about the Challenge in <span class="citation" data-cites="thomasNEONEcologicalForecasting2023">Thomas et al. (<a href="references.html#ref-thomasNEONEcologicalForecasting2023" role="doc-biblioref">2023</a>)</span>. The tutorial has been developed and used with more than 300 participants in both classrooms and workshops and provides the ecological understanding, workflows, and tools to enable ecologists with minimal forecasting experience to participate in the Challenge via a hands-on code-based tutorial. This R-based tutorial introduces participants to a near-term, iterative forecasting workflow that includes obtaining observations from NEON, developing a simple forecasting model, generating a forecast, and submitting the forecast to the Challenge, as well as analyzing forecast performance once new observations become available for evaluation. The overarching aim of this tutorial is to lower the barrier to ecological forecasting and empower participants to continue to innovate and develop their own ecological forecasts for the Challenge into the future.</p>
 <p>The assignment will require you to create a GitHub repository with your completed code from the NEON Forecasting Challenge workshop. You will build on this repository throughout the rest of section 1 of the book. You can learn more about setting up Git and GitHub in <a href="background-skills.html#sec-github" class="quarto-xref"><span>Section 7.3</span></a>.</p>
 <p>This tutorial was developed by Olsson, F., C. Boettiger, C.C. Carey, M.E. Lofton, and R.Q. Thomas</p>
-<p><a href="https://github.com/OlssonF/NEON-forecast-challenge-workshop"><strong>Tutorial</strong></a></p>
+<p><a href="https://github.com/eco4cast/NEON-forecast-challenge-workshop"><strong>Tutorial</strong></a></p>
 <p>You will be generating forecasts of water temperature at NEON aquatics sites.</p>
 <section id="reading" class="level2" data-number="8.1">
 <h2 data-number="8.1" class="anchored" data-anchor-id="reading"><span class="header-section-number">8.1</span> Reading</h2>
@@ -417,7 +419,7 @@ div.csl-indent {
 </section>
 <section id="module-reference" class="level2" data-number="8.3">
 <h2 data-number="8.3" class="anchored" data-anchor-id="module-reference"><span class="header-section-number">8.3</span> Module reference</h2>
-<p>Olsson, F., C. Boettiger, C.C. Carey, M.E. Lofton, and R.Q. Thomas. Can you predict the future? A tutorial for the National Ecological Observatory Network Ecological Forecasting Challenge. In review at <em>Journal of Open Source Education</em>.</p>
+<p>Olsson F, C. Boettiger, C.C. Carey, M. Lofton and R.Q. Thomas. 2024. Can you predict the future? A tutorial for the National Ecological Observatory Network Ecological Forecasting Challenge.&nbsp;<em>Journal of Open Source Education</em>7: 259.&nbsp;<a href="https://doi.org/10.21105/jose.00259" class="uri">https://doi.org/10.21105/jose.00259</a></p>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
@@ -479,13 +481,14 @@ Thomas, R Quinn, Carl Boettiger, Cayelan C Carey, Michael C Dietze, Leah R Johns
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy
