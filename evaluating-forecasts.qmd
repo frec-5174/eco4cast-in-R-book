@@ -8,9 +8,11 @@ This chapter provides a description of metrics for evaluating forecasts, includi
 
 ## Scoring metrics
 
-A scoring metric is a value that can be used to evaluate how well a forecast compares to observations. Scores can then be compared among forecast models to evaluate relative performance. Typically lower scores are better. Scoring metrics are also called "costs". \## Accuracy
+A scoring metric is a value that can be used to evaluate how well a forecast compares to observations. Scores can then be compared among forecast models to evaluate relative performance. Typically, lower scores are better. Scoring metrics are also called "costs".
 
-The most basic score would be the difference between the forecast mean and observation. However, there are a couple of issues with that score. First, forecasts below the observation will receive negative values and forecasts above will receive positive values, thus the lowest value is not the best. Second, it does not use any information from the forecast uncertainty in the evaluation. Metrics like absolute error (absolute value of the difference between the forecast mean and observation) and root-mean-squared error (RMSE) address the first issue but still do not consider the uncertainty.
+## Accuracy
+
+The most basic score would be the difference between the forecast mean and the observation. However, there are a couple of issues with that score. First, forecasts below the observation will receive negative values and forecasts above will receive positive values, thus the lowest value is not the best. Second, it does not use any information from the forecast uncertainty in the evaluation. Metrics like absolute error (absolute value of the difference between the forecast mean and observation) and root-mean-squared error (RMSE) address the first issue but still do not consider the uncertainty.
 
 ## Precision
 
@@ -20,7 +22,7 @@ Is the variance in the forecast larger than an acceptable value? For example, if
 
 It is important to consider uncertainty because intuitively a forecast that has the correct mean but a large uncertainty (so it puts very little confidence on the observed value) should have a lower score than a forecast with a mean that is slightly off but with lower uncertainty (so it puts more confidence on the observed value). The Continuous Ranked Probability Score (CRPS) is one metric that evaluates the forecast distribution. Another is the ignorance score (also called the Good or the log score). The CRPS is described below.
 
-Add the concept of proper and local?
+<!--Add the concept of proper and local? -->
 
 ### Continuous Ranked Probability Score
 
@@ -36,45 +38,41 @@ library(scoringRules)
 library(tidyverse)
 ```
 
-### Example of a CRPS calculation from an ensemble forecast
+#### Example of a CRPS calculation from an ensemble forecast
 
 This section aims to provide an intuition for the CRPS metric.
 
 First, create a random sample from a probability distribution. This is the "forecast" for a particular point in time. For simplicity, we will use a normal distribution with a mean of 8 and a standard deviation of 1
 
 ```{r}
-x <- rnorm(1000, mean = 8, sd = 1.0)
+forecast <- rnorm(1000, mean = 8, sd = 2.0)
 ```
 
 Second, we have our data point (i.e., the target) that we set to 8 as well.
 
 ```{r}
-y <- 8
+observed <- 8
 ```
 
 Now calculate using the `crps_sample()` function in the `scoringRules` package
 
 ```{r}
 library(scoringRules)
-crps_sample(y = y, dat = x)
+crps_sample(y = observed, dat = forecast)
 ```
 
-### Exploring the scoring surface
+#### Exploring the scoring surface
 
 Now lets see how the CRPS changes as the mean and standard deviation of the forecasted distribution change
 
 First, set vectors for the different mean and SD values we want to explore
 
 ```{r}
-forecast_mean <- seq(4, 12, 0.05)
-forecast_sd <- seq(0.1, 10, 0.05)
+forecast_mean <- seq(5, 11, 0.05)
+forecast_sd <- seq(0.1,6, 0.05)
 ```
 
-Second, set our observed value to 8 for simplicity
-
-```{r}
-y <- 8
-```
+Second, use the same value for `observed` as above (`{r} observed`)
 
 Now calculate the CRPS at each combination of forest mean and SD. We used `crps_norm` because we know the forecast is normally distributed
 
@@ -82,26 +80,123 @@ Now calculate the CRPS at each combination of forest mean and SD. We used `crps_
 combined <- array(NA, dim = c(length(forecast_mean), length(forecast_sd)))
 for(i in 1:length(forecast_mean)){
   for(j in 1:length(forecast_sd)){
-    combined[i, j] <- crps_norm(y = y, mean = forecast_mean[i], forecast_sd[j])
+    combined[i, j] <- crps_norm(y = observed, mean = forecast_mean[i], forecast_sd[j])
   }
 }
 ```
 
-Finally, visualize the scoring surface with the observed value represented by the red line
+Finally, the contour surface highlights the trade-off between the mean and standard deviation. Each isocline is the same CRPS score. Holding the mean constant at the observed value but increases the uncertainty (increasing SD) results in a higher (worse) score (compare the green to orange dot). Holding the sd constant but adding bias results in a higher (worse) score (compare the green to red dot).
 
 ```{r}
-contour(x = forecast_mean, y = forecast_sd, z = as.matrix(combined),nlevels = 20, xlab = "Forecast mean", ylab = "forecast SD", main = "CPRS score at different forecasted mean and sd\nThe observation is at 8")
-abline(v = y, col = "red")
-abline(v = 6, col = "darkgreen")
+contour(x = forecast_mean, y = forecast_sd, z = as.matrix(combined),nlevels = 20, xlab = "Forecast mean", ylab = "forecast standard deviation", main = "CPRS score at different forecasted mean and sd\nThe observation is at 8")
+points(x = observed, y = 2, col = "green")
+points(x = 6, y = 2, col = "red")
+points(x = observed, y = 5, col = "orange")
 ```
 
-The contour surface highlights the trade-off between the mean and standard deviation. Each isocline is the same CRPS score. Holding the mean constant at the observed value (vertical red line at 8) but increases the uncertainty (increasing SD) results in a higher (worse) score. However, a mean of 6 (green line) with an SD of 2 has a similar score to a mean of 8 and a standard deviation of 1. The following figure capture this idea. The two lines are the distribution of the mean = 8, sd = 4 and mean = 6, sd = 2 forecasts. The red line is the observation of 8. The forecast distribution with the mean of 6 actually has more density at x = 8 (the observation) and scores slightly better.
+#### Calculating CRPS manually
+
+The manual calculation of CRPS helps provide intutition for what the metric represents.
+
+First, we are going set the range of values (forecast or observation) that we are going to include in the calculation. In this case, we go 5 above and below the observed value. We will set `dy` to be 0.1 so we have values every 0.1.
 
 ```{r}
-plot(density(rnorm(10000, mean = 8, sd = 4)), ylim = c(0, 0.2), main = "", xlab = "forecasted value")
-lines(density(rnorm(10000, mean = 6, sd = 2)), col = "darkgreen")
-abline(v = 8, col = "red")
+dy <- 0.1
+values_evaluated <- seq(observed - 5, observed + 5, dy)
 ```
+
+We are going to convert our forecast to a [cumulative density function](https://en.wikipedia.org/wiki/Cumulative_distribution_function) using the `ecdf` function and then calculate the value of the cdf at each value we are exploring.
+
+```{r}
+forecast_cdf_function <- ecdf(forecast)
+forecast_cdf <- forecast_cdf_function(values_evaluated)
+```
+
+Next calculate the cdf for the observation where it is 0 if less than the observed value and 1 if above.
+
+```{r}
+obs_cdf <- as.numeric((values_evaluated > observed))
+```
+
+Plot the two cdfs on the same plot
+
+```{r}
+#| echo: false
+df <- tibble(y = values_evaluated,
+             cdf = forecast_cdf,
+             variable = "forecast") |> 
+  bind_rows(tibble(y = c(values_evaluated, observed),
+                   cdf = c(obs_cdf, 1),
+                   variable = "observation"))
+
+ggplot(df, aes(x = y, y = cdf, color = variable)) + 
+  geom_line() +
+  theme_bw() +
+  labs(x = "forecasted or observed value", y = "cumulative density function") #+
+  #annotate("text", x = 8.5, y = 0.80, label = "Forecast says value did not occur but it did occur")
+```
+
+At high level, CRPS is the area between the red and blue lines in the figure above. The area to the left of the observation is the error associated with the forecast saying the observed value will be less than the actual observation. The area to the right of the observation is the error associated with forecast saying that the observed value is larger than the observed value.
+
+By substracting the observed cdf from the forecast cdf we can calculate the difference between the two curves (square it to get squared error).
+
+```{r}
+error <- (forecast_cdf - obs_cdf)^2
+```
+
+Multiply by the squared difference (height) by dy (width) to get the area of each error bin.
+
+```{r}
+cdf_diff_area <- error * dy
+```
+
+The sum of the areas in each bin is the crps
+
+```{r}
+crps <- sum(cdf_diff_area)
+crps
+```
+
+which is very similar to answer from `scoringRules` package. The difference is due the size of dy. Smaller values of dy will yield values closer the calculation from `scoringRules`.
+
+```{r}
+scoringRules::crps_sample(y = observed, dat = forecast)
+```
+
+You can compare differ forecasts using the cdf to see how the areas differ
+
+```{r}
+#| echo: false
+forecast1 <- rnorm(1000, mean = observed, sd = 2)
+forecast2 <- rnorm(1000, mean = 6, sd = 2)
+forecast3<- rnorm(1000, mean = observed, sd = 5)
+dy <- 0.0001
+values_evaluated <- seq(observed - 10, observed + 10, dy)
+
+forecast1_cdf_function <- ecdf(forecast1)
+forecast2_cdf_function <- ecdf(forecast2)
+forecast3_cdf_function <- ecdf(forecast3)
+
+df <- tibble(y1 = c(values_evaluated,values_evaluated,values_evaluated),
+             cdf = c(forecast1_cdf_function(values_evaluated), 
+                     forecast2_cdf_function(values_evaluated),
+                     forecast3_cdf_function(values_evaluated)),
+             variable = c(rep(paste0("mean = 8, sd = 2, CRPS: ",round(scoringRules::crps_sample(observed, forecast1), 2)), length(values_evaluated)),
+                          rep(paste0("mean = 6, sd = 2 CRPS: ",round(scoringRules::crps_sample(observed, forecast2), 2)), length(values_evaluated)), 
+                          rep(paste0("mean = 8, sd = 5 CRPS: ",round(scoringRules::crps_sample(observed, forecast3), 2)), length(values_evaluated))))
+
+df <- bind_rows(df, 
+                tibble(y1 = c(values_evaluated, observed),
+           cdf = c(as.numeric((values_evaluated > observed)), 0),
+           variable = "observation"))
+
+ggplot(df, aes(x = y1, y = cdf, color = variable)) + 
+  geom_line() +
+  theme_bw() +
+  labs(x = "forecasted or observed value", y = "cumulative density function")
+```
+
+<!--Add the concept log score? -->
 
 ## Dynamics
 
@@ -126,7 +221,7 @@ Persistence forecasts that tomorrow will be the same as today, thus capturing th
 ```{r}
 persistence <- arrow::open_dataset("s3://anonymous@bio230014-bucket01/challenges/forecasts/bundled-summaries/project_id=neon4cast/duration=P1D/variable=temperature/model_id=persistenceRW?endpoint_override=sdsc.osn.xsede.org") |> 
   filter(site_id == "BARC",
-         reference_date == "2024-01-10") |> 
+         reference_date == as_date("2024-10-10")) |> 
   collect()
 ```
 
@@ -144,7 +239,7 @@ persistence |>
 ```{r}
 climatology <- arrow::open_dataset("s3://anonymous@bio230014-bucket01/challenges/forecasts/bundled-summaries/project_id=neon4cast/duration=P1D/variable=temperature/model_id=climatology?endpoint_override=sdsc.osn.xsede.org") |> 
   filter(site_id == "BARC",
-         reference_date == "2024-01-10") |> 
+         reference_date == "2024-10-10") |> 
   collect()
 ```
 
@@ -166,7 +261,8 @@ This example compares the skill of the climatology forecast to the persistence b
 ```{r}
 baseline_models <- arrow::open_dataset("s3://anonymous@bio230014-bucket01/challenges/scores/bundled-parquet/project_id=neon4cast/duration=P1D/variable=temperature?endpoint_override=sdsc.osn.xsede.org") |> 
   filter(site_id == "BARC",
-         reference_datetime > lubridate::as_datetime("2024-01-10") & reference_datetime < lubridate::as_datetime("2024-03-10"),
+         reference_datetime > lubridate::as_datetime("2024-09-01"),
+         reference_datetime < lubridate::as_datetime("2024-10-31"),
          model_id %in% c("climatology", "persistenceRW")) |> 
   collect() 
 
@@ -208,4 +304,4 @@ Create a new Rmarkdown document that you use to answer the questions below with 
 5.  Calculate the mean CRPS for climatology, persistence, and your model for all reference datetimes and horizons. Which model has the lower score when you consider all submissions?
 6.  Do you think you have enough important from the mean CRPS score to determine the "best" model? If not, what is needed to better characterize the best-performing model?
 
-Commit your Rmd and knitted HTML to your GitHub repository that you used in @sec-third-forecast.
+Commit your qmd and render HTML to your GitHub repository that you used in @sec-third-forecast.
