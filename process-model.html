@@ -584,8 +584,8 @@ Figure&nbsp;16.1: Conceptual diagram of the forest model
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>site <span class="ot">&lt;-</span> <span class="st">"OSBS"</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>ens_members <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co">#sim_dates &lt;- seq(as_date("2020-09-30"), Sys.Date() - lubridate::days(2), by = "1 day")</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>sim_dates <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fu">as_date</span>(<span class="st">"2020-09-30"</span>), <span class="fu">as_date</span>(<span class="st">"2025-12-15"</span>) <span class="sc">-</span> lubridate<span class="sc">::</span><span class="fu">days</span>(<span class="dv">2</span>), <span class="at">by =</span> <span class="st">"1 day"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>sim_dates <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fu">as_date</span>(<span class="st">"2020-09-30"</span>), <span class="fu">Sys.Date</span>() <span class="sc">-</span> lubridate<span class="sc">::</span><span class="fu">days</span>(<span class="dv">2</span>), <span class="at">by =</span> <span class="st">"1 day"</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co">#sim_dates &lt;- seq(as_date("2020-09-30"), as_date("2025-12-15") - lubridate::days(2), by = "1 day")</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="set-drivers" class="level3" data-number="16.5.2">
