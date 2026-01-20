@@ -205,7 +205,8 @@ We will now use the `allodb` package to extract the carbon in dead trees. This i
 
 ```{r}
 combined_table_dead_tower <- combined_table_dbh |> 
-  filter(str_detect("Standing dead",plantStatus),
+  filter(!is.na(plantStatus)) |>
+  dplyr::filter(str_detect(string = "Standing dead", pattern = plantStatus),
          plotType == "tower") |> 
   mutate(stemDiameter = as.numeric(stemDiameter))
 ```
