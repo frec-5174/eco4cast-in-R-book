@@ -353,7 +353,7 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#sec-github" id="toc-sec-github" class="nav-link" data-scroll-target="#sec-github"><span class="header-section-number">7.3</span> Git Skills</a>
   <ul class="collapse">
   <li><a href="#setting-up-git-and-github" id="toc-setting-up-git-and-github" class="nav-link" data-scroll-target="#setting-up-git-and-github"><span class="header-section-number">7.3.1</span> Setting up Git and GitHub</a></li>
-  <li><a href="#working-with-github-a-quarto-example" id="toc-working-with-github-a-quarto-example" class="nav-link" data-scroll-target="#working-with-github-a-quarto-example"><span class="header-section-number">7.3.2</span> Working with GitHub: a quarto example</a></li>
+  <li><a href="#working-with-github-a-quarto-example" id="toc-working-with-github-a-quarto-example" class="nav-link" data-scroll-target="#working-with-github-a-quarto-example"><span class="header-section-number">7.3.2</span> Working with GitHub: a Quarto example</a></li>
   </ul></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/frec-5174/eco4cast-in-R-book/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li><li><a href="https://github.com/frec-5174/eco4cast-in-R-book/blob/main/background-skills.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li></ul></div></nav>
@@ -380,52 +380,52 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>This chapter provides information about data science skills that are crucial to completing the activities in the book (aka prerequisites).</p>
+<p>This chapter provides information on data science skills crucial to completing the book’s activities (aka prerequisites).</p>
 <section id="rrstudio-installation" class="level2" data-number="7.1">
 <h2 data-number="7.1" class="anchored" data-anchor-id="rrstudio-installation"><span class="header-section-number">7.1</span> R/Rstudio Installation</h2>
-<p>The R for Data Science book provides instructions for <a href="https://r4ds.hadley.nz/intro#prerequisites">installing R and Rstudio</a>.</p>
-<p>Once setting up Rstudio: - Go to the Tools -&gt; Global Options.. -&gt; General and uncheck “Restore .Rdata into workspace at startup and set Save workspace to .Rdata on exit” to “Never”.<br>
-- In the Global Options window go to “Code” and check “Use native pipe operator, |&gt; (Requires R 4.1+)” - Click “Accept” and “Ok”</p>
+<p>The R for Data Science book provides instructions for installing R and RStudio: <a href="https://r4ds.hadley.nz/intro#prerequisites">https://r4ds.hadley.nz/intro#prerequisites</a>.</p>
+<p>Once setting up RStudio: 1. Go to the Tools -&gt; Global Options.. -&gt; General and uncheck “Restore .Rdata into workspace at startup and set Save workspace to .Rdata on exit” to “Never”.<br>
+2. In the Global Options window, go to “Code” and check “Use native pipe operator, |&gt; (Requires R 4.1+)” 3. Click “Accept” and “Ok”</p>
 </section>
 <section id="r-skills" class="level2" data-number="7.2">
 <h2 data-number="7.2" class="anchored" data-anchor-id="r-skills"><span class="header-section-number">7.2</span> R skills</h2>
-<p>The book uses R as the focal programming language and uses the Tidyverse approach when working with and visualizing data. The following functions are commonly used: <code>read_csv</code>, <code>write_csv</code>, <code>mutate</code>, <code>filter</code>, <code>group_by</code>, <code>summarize</code>, <code>ggplot</code>, <code>select</code>, pipes (<code>|&gt;</code> or <code>%&gt;</code>), <code>pivot_wider</code>, <code>pivot_longer</code>, <code>arrange</code>, <code>left_join</code>). If you are new to R and Tidyverse there are many great materials on the internet. The Data Carpentry “Data Analysis and Visualization in R for Ecologists” is an excellent starting point for learning. The <a href="https://r4ds.hadley.nz">R for Data Science book</a> is an especially useful reference for learning the Tidyverse commands. Finally, I have created an <a href="https://github.com/frec3044/tidyvere-intro">introductory to tidyverse module</a> for my undergraduate Environmental Data Science class. You can use the module as a “test” of your Tidyverse skills</p>
+<p>The book uses R as the focal programming language and uses the Tidyverse approach when working with and visualizing data. The following functions are commonly used: <code>read_csv</code>, <code>write_csv</code>, <code>mutate</code>, <code>filter</code>, <code>group_by</code>, <code>summarize</code>, <code>ggplot</code>, <code>select</code>, pipes (<code>|&gt;</code> or <code>%&gt;</code>), <code>pivot_wider</code>, <code>pivot_longer</code>, <code>arrange</code>, <code>left_join</code>). If you are new to R and Tidyverse, there are many great materials on the internet. The Data Carpentry “Data Analysis and Visualization in R for Ecologists” is an excellent starting point for learning. The <a href="https://r4ds.hadley.nz">R for Data Science book</a> is an especially useful reference for learning the Tidyverse commands. Finally, I have created an <a href="https://github.com/frec3044/tidyvere-intro">introductory module to the tidyverse</a> for my undergraduate Environmental Data Science class. You can use the module as a “test” of your Tidyverse skills</p>
 </section>
 <section id="sec-github" class="level2" data-number="7.3">
 <h2 data-number="7.3" class="anchored" data-anchor-id="sec-github"><span class="header-section-number">7.3</span> Git Skills</h2>
-<p>You will be required to use Git and GitHub to complete the assignments in the book. In particular, Git and GitHub are uses for the generation and submission of forecasts to the NEON Ecological Forecasting Challenge. Below are instructions for setting up Git and GitHub on your computer.</p>
+<p>You will be required to use Git and GitHub to complete the assignments in the book. In particular, Git and GitHub are used to generate and submit forecasts to the NEON Ecological Forecasting Challenge. Below are instructions for setting up Git and GitHub on your computer.</p>
 <section id="setting-up-git-and-github" class="level3" data-number="7.3.1">
 <h3 data-number="7.3.1" class="anchored" data-anchor-id="setting-up-git-and-github"><span class="header-section-number">7.3.1</span> Setting up Git and GitHub</h3>
 <ol type="1">
-<li><p>Create a GitHub user account at <a href="https://github.com" class="uri">https://github.com</a>, if you don’t already have one. <a href="https://happygitwithr.com/github-acct.html#username-advice">Here is advice about choosing a user name</a>, because choosing a good user name is critical.</p></li>
-<li><p>Go to Rstudio and install the <code>usethis</code> package.</p></li>
+<li><p>Create a GitHub user account at <a href="https://github.com" class="uri">https://github.com</a> if you don’t already have one. <a href="https://happygitwithr.com/github-acct.html#username-advice">Here is advice about choosing a user name</a>, because choosing a good user name is critical.</p></li>
+<li><p>Go to RStudio and install the <code>usethis</code> package.</p></li>
 </ol>
 <pre><code>install.packages("usethis")</code></pre>
 <ol start="3" type="1">
-<li>Run the following command where you replace the user.email and user.name with the email used for GitHub and your GitHub user name. You can learn more about the command <a href="https://happygitwithr.com/hello-git.html#hello-git">here</a></li>
+<li>Run the following command, where you replace the user.email and user.name with the email used for GitHub and your GitHub user name. You can learn more about the command <a href="https://happygitwithr.com/hello-git.html#hello-git">here</a></li>
 </ol>
 <pre><code>library(usethis)
 use_git_config(user.name = "Jane Doe", user.email = "jane@example.org")</code></pre>
-<p>If you get an error at this step it is likely due to your computer not having Git. Follow the instructions <a href="https://happygitwithr.com/install-git.html">here</a> about installing Git</p>
+<p>If you get an error at this step, it is likely because your computer doesn’t have Git installed. Follow the instructions <a href="https://happygitwithr.com/install-git.html">here</a> about installing Git</p>
 <ol start="4" type="1">
-<li>Set up your GitHub credentials on your computer. Follow the instructions <a href="https://happygitwithr.com/https-pat.html#tldr">here</a> about using <code>usethis::create_github_token()</code> and <code>gitcreds::gitcreds_set()</code> functions. Also, save your GitHub PAT to a password manager so that you can find it in the future (in case you need to interact with GitHub from a different computer).</li>
+<li>Set up your GitHub credentials on your computer. Follow the instructions <a href="https://happygitwithr.com/https-pat.html#tldr">here</a> about using <code>usethis::create_github_token()</code> and <code>gitcreds::gitcreds_set()</code> functions. Also, save your GitHub PAT in a password manager so you can find it later (in case you need to interact with GitHub from a different computer).</li>
 </ol>
-<p>If you are having issues (i.e., your computer does not seem to have Git installed), <a href="https://happygitwithr.com/index.html">here</a> is an excellent resource to help you debug your git + Rstudio issues.</p>
+<p>If you are having issues (i.e., your computer does not seem to have Git installed), <a href="https://happygitwithr.com/index.html">here</a> is an excellent resource to help you debug your git + RStudio issues.</p>
 </section>
 <section id="working-with-github-a-quarto-example" class="level3" data-number="7.3.2">
-<h3 data-number="7.3.2" class="anchored" data-anchor-id="working-with-github-a-quarto-example"><span class="header-section-number">7.3.2</span> Working with GitHub: a quarto example</h3>
-<p>This section provides instructions on working with Git and GitHub in Rstudio in the context of creating, modifying, and rendering a Quarto document.</p>
+<h3 data-number="7.3.2" class="anchored" data-anchor-id="working-with-github-a-quarto-example"><span class="header-section-number">7.3.2</span> Working with GitHub: a Quarto example</h3>
+<p>This section provides instructions for working with Git and GitHub in RStudio to create, modify, and render a Quarto document.</p>
 <ol type="1">
-<li><p>Go to <a href="https://github.com/frec3044/git-rmd-intro" class="uri">https://github.com/frec3044/git-rmd-intro</a>. Find the “fork” bottom near the top right. Click “Fork” and tell it to fork to your personal GitHub account.</p></li>
+<li><p>Go to <a href="https://github.com/frec3044/git-rmd-intro" class="uri">https://github.com/frec3044/git-rmd-intro</a>. Find the “fork” bottom near the top right. Click “Fork,” then select your personal GitHub account.</p></li>
 <li><p>Go to the repo on your personal GitHub account. It will be something like <code>https://github.com/[your-user-name]/git-rmd-intro</code></p></li>
 <li><p>Under the green “Code” button, select the local tab, and copy the URL link.</p></li>
-<li><p>Open Rstudio on your computer and create a new project. First, File -&gt; New Project -&gt; Version Control -&gt; Git. Paste the URL from you repo in the first box, hit tab to fill in the repo name in the second, and then use Browse to select where you want the project on your computer (I recommend having a directory on your computer where you keep all repositories we use in the class). If you don’t see a <code>Version Control</code> option then you may not have Git installed on your computer (use the instructions <a href="https://happygitwithr.com/index.html">here</a> to install Git)</p></li>
+<li><p>Open RStudio on your computer and create a new project. First, File -&gt; New Project -&gt; Version Control -&gt; Git. Paste the URL from you repo in the first box, hit tab to fill in the repo name in the second, and then use Browse to select where you want the project on your computer (I recommend having a directory on your computer where you keep all repositories we use in the class). If you don’t see a <code>Version Control</code> option, then you may not have Git installed on your computer (use the instructions <a href="https://happygitwithr.com/index.html">here</a> to install Git)</p></li>
 <li><p>Your project will load. Then go to File -&gt; New -&gt; New File -&gt; Quarto Document</p></li>
 <li><p>In the prompt use Title = “Assignment 1” and Author = [Your name]</p></li>
 <li><p>Save file as “assignment1.qmd” in the <strong>assignment subdirectory</strong> of the Project.</p></li>
-<li><p>Commit your <code>assignment1.qmd</code> file using the Git tab at the top right pane using a useful commit message. You will need to check the box for the files that you want to commit. A useful message helps you broadly remember what you did to the files that are included in the commit. The Git tab may not be in the top right panel if you have moved the panels around. If you don’t have the Git tab on pane, then you may not have created a project from GitHub correctly or you do not have Git installed on your computer.</p></li>
+<li><p>Commit your <code>assignment1.qmd</code> file using the Git tab at the top right pane using a useful commit message. You will need to check the box for the files that you want to commit. A useful message helps you remember what you did to the files included in the commit. The Git tab may not appear in the top-right panel if you have moved the panels around. If you don’t have the Git tab in the pane, you may not have created a GitHub project correctly, or you may not have Git installed on your computer.</p></li>
 <li><p>Find the Sources / Visual buttons right above the document. Select Source (which is the code view).</p></li>
-<li><p>Copy the code chunk on lines 21-24 and paste it at end of the document. Change to <code>echo: TRUE</code>.</p></li>
+<li><p>Copy the code chunk on lines 21-24 and paste it at the end of the document. Change to <code>echo: TRUE</code>.</p></li>
 <li><p>Find the following code at the top</p></li>
 </ol>
 <pre><code>format: html:</code></pre>
@@ -434,11 +434,11 @@ use_git_config(user.name = "Jane Doe", user.email = "jane@example.org")</code></
   html:
     embed-resources: true</code></pre>
 <ol start="12" type="1">
-<li>Find the Render (found above the document) button and click it to render the document to an html document. You will see a file named “assignment1.html” appear. The html is like a webpage version of your code. If you have a directory called <code>assignment1_files</code> then you did not do step 15 correctly.</li>
+<li>Find the Render (found above the document) button and click it to render the document to an html document. You will see a file named “assignment1.html” appear. The HTML is like a webpage version of your code. If you have a directory called <code>assignment1_files</code>, then you did not do step 15 correctly.</li>
 <li>Click on the “assignment1.html” in your “Files” pane and select “View in Web Browser”. Confirm that it looks as expected.</li>
 <li>Commit the updated <code>.qmd</code> and new <code>.html</code> files to git.</li>
 <li>Push to your repository on GitHub.</li>
-<li>Go to <code>https://github.com/[your-user-name]/git-rmd-intro</code> You should also see your two most recent commits.</li>
+<li>Go to <code>https://github.com/[your-user-name]/git-rmd-intro</code>. You should also see your two most recent commits.</li>
 </ol>
 
 
