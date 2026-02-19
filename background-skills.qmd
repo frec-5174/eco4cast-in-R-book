@@ -6,6 +6,11 @@ This chapter provides information about data science skills that are crucial to 
 
 The R for Data Science book provides instructions for [installing R and Rstudio](https://r4ds.hadley.nz/intro#prerequisites).
 
+Once setting up Rstudio:
+- Go to the Tools -> Global Options.. -> General and uncheck "Restore .Rdata into workspace at startup and set Save workspace to .Rdata on exit" to "Never".  
+- In the Global Options window go to "Code" and check "Use native pipe operator, |> (Requires R 4.1+)"
+- Click "Accept" and "Ok"
+
 ## R skills
 
 The book uses R as the focal programming language and uses the Tidyverse approach when working with and visualizing data. The following functions are commonly used: `read_csv`, `write_csv`, `mutate`, `filter`, `group_by`, `summarize`, `ggplot`, `select`, pipes (`|>` or `%>`), `pivot_wider`, `pivot_longer`, `arrange`, `left_join`). If you are new to R and Tidyverse there are many great materials on the internet. The Data Carpentry "Data Analysis and Visualization in R for Ecologists" is an excellent starting point for learning. The [R for Data Science book](https://r4ds.hadley.nz) is an especially useful reference for learning the Tidyverse commands. Finally, I have created an [introductory to tidyverse module](https://github.com/frec3044/tidyvere-intro) for my undergraduate Environmental Data Science class. You can use the module as a "test" of your Tidyverse skills
