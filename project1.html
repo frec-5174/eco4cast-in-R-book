@@ -77,7 +77,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-00ccf60c28c3bdf2d57f5131fbf16f11.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-0dd2bd5de344125cf763a379ddc3eb04.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -890,16 +890,16 @@ Coefficients:
 <pre><code># A tibble: 68 × 5
    datetime   site_id air_temperature temperature   doy
    &lt;date&gt;     &lt;chr&gt;             &lt;dbl&gt; &lt;lgl&gt;       &lt;dbl&gt;
- 1 2026-02-19 BARC              19.6  NA             50
- 2 2026-02-20 BARC              21.2  NA             51
- 3 2026-02-21 BARC              22.0  NA             52
- 4 2026-02-22 BARC              21.1  NA             53
- 5 2026-02-23 BARC              10.6  NA             54
- 6 2026-02-24 BARC               7.76 NA             55
- 7 2026-02-25 BARC              10.5  NA             56
- 8 2026-02-26 BARC              15.7  NA             57
- 9 2026-02-27 BARC              16.7  NA             58
-10 2026-02-28 BARC              10.8  NA             59
+ 1 2026-02-20 SUGG              20.9  NA             51
+ 2 2026-02-21 SUGG              21.4  NA             52
+ 3 2026-02-22 SUGG              18.7  NA             53
+ 4 2026-02-23 SUGG              11.0  NA             54
+ 5 2026-02-24 SUGG               7.47 NA             55
+ 6 2026-02-25 SUGG               7.33 NA             56
+ 7 2026-02-26 SUGG              14.1  NA             57
+ 8 2026-02-27 SUGG              17.9  NA             58
+ 9 2026-02-28 SUGG              18.4  NA             59
+10 2026-03-01 SUGG              20.3  NA             60
 # ℹ 58 more rows</code></pre>
 </div>
 </div>
@@ -1005,7 +1005,7 @@ Coefficients:
 <pre><code># A tibble: 1 × 2
   start_date     h
   &lt;date&gt;     &lt;dbl&gt;
-1 2026-02-01    53</code></pre>
+1 2026-02-01    54</code></pre>
 </div>
 </div>
 <p>The targets have to be converted into a time-series tibble (called a <code>tsibble</code>). To make a <code>tsibble</code> you need to define the grouping variables (<code>key</code>) and the common that defines the time-series (<code>index</code>). Many modeling approaches require the datetime to be continuous (no gaps) but allow na values for values in the gaps. The <code>fill_gaps()</code> function fills the gaps with <code>NA</code>s.</p>
