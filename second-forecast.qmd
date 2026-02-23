@@ -2,9 +2,9 @@
 
 The forecast you generated in @sec-first-forecast included uncertainty due to future weather. As you learned in @sec-under-unc, many other sources of uncertainty could be included in your forecast. Your task is to apply the techniques in @sec-under-unc to generate additional sources of uncertainty in the forecast model from @sec-first-forecast. When you are finished, your model from @sec-first-forecast should have driver, parameter, and process uncertainty. You will submit the assignment as an updated GitHub repository with the code and plot of your forecast with all uncertainty sources included.
 
-You will be generating forecasts of water temperature at NEON Aquatics sites.
+You will generate forecasts of water temperature at NEON Aquatics sites, with estimated uncertainty.
 
-A [version of the template](https://github.com/frec-5174/book-problem-sets/blob/main/forecast_code_template_mod6.Rmd) from @sec-first-forecast is provided that recodes the template to match the approach in @sec-under-unc. You should add your model from @sec-first-forecast to this template before adding the uncertainty sources from @sec-under-unc.
+A [version of the template](https://github.com/frec-5174/book-problem-sets/blob/main/forecast_code_template_mod6.R) from @sec-first-forecast is provided that recodes the template to match the approach in @sec-under-unc. You should add your model from @sec-first-forecast to this template before adding the uncertainty sources from @sec-under-unc.  In the updated template, you will notice two new "for-loops" that iterate over the forecast dates and ensemble members.  These loops, while less efficient than the original code in `forecast_code_template.R`, are designed to be more explicit about the individual calculations for each ensemble member. Refactoring code this way makes it easier to transition to process-based models and models with lagged variables. 
 
 ## Reading
 
@@ -15,12 +15,14 @@ Thomas, R. Q., Boettiger, C., Carey, C. C., Dietze, M. C., Johnson, L. R., Kenne
 Pre-assignment set up: Complete @sec-first-forecast and the RShiny version of @sec-under-unc
 
 1. Complete the code-based version of @sec-under-unc.
-2. Modify your "forecast_code_template.R" to include the additional sources of uncertainty
-3. Run the "forecast_code_template.R" to generate a forecast, submit the forecast, and generate the plot of the forecast.
-4. Update your model description at the top of "forecast_code_template.R" to describe the new sources of uncertainty.
-6. Commit the updated "forecast_code_template.R" to GitHub.
-7. Upload to your new plot and a link to your GitHub repository to Canvas (or other learning management system).
+2. Copy the code from [version of the template](https://github.com/frec-5174/book-problem-sets/blob/main/forecast_code_template_mod6.R) into a new R script in your GitHub repo called "forecast_code_template_mod6.R".
+3. Add your model from "forecast_code_template.R" to "forecast_code_template_mod6.R".
+4. Modify your "forecast_code_template.R" to include the additional sources of uncertainty
+5. Run the "forecast_code_template_mod6.R" to generate a forecast, submit the forecast, and generate the plot of the forecast.
+6. Update your model description at the top of "forecast_code_template_mod6.R" to describe the new sources of uncertainty.
+7. Commit the updated "forecast_code_template_mod6.R" to GitHub.
+8. Upload to your new plot and a link to your GitHub repository to Canvas (or other learning management system).
 
 ## Module reference
 
-Olsson, F., C. Boettiger, C.C. Carey, M.E. Lofton, and R.Q. Thomas. Can you predict the future? A tutorial for the National Ecological Observatory Network Ecological Forecasting Challenge. In review at *Journal of Open Source Education*.
+Olsson F, C. Boettiger, C.C. Carey, M. Lofton and R.Q. Thomas. 2024. Can you predict the future? A tutorial for the National Ecological Observatory Network Ecological Forecasting Challenge. Journal of Open Source Education 7: 259. https://doi.org/10.21105/jose.00259
