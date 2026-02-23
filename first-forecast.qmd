@@ -22,7 +22,7 @@ Pre-assignment set up: Follow the [instructions for setting up R and the code re
 2.  Work through the [`Submit_forecast/NEON_forecast_challenge_workshop_aquatics.Rmd`](https://github.com/eco4cast/NEON-forecast-challenge-workshop/blob/main/Submit_forecast/NEON_forecast_challenge_workshop_aquatics.Rmd) into TASKS sections
 3.  Modify the simple model in the [`Submit_forecast/forecast_code_template.R`](https://github.com/eco4cast/NEON-forecast-challenge-workshop/blob/main/Submit_forecast/forecast_code_template.R) in some way (see TASKS for ideas).  Create a new my_model_id that includes the word "example", since you are still developing your forecast approach.
 4.  Add a brief description of what you changed to the top of the "forecast_code_template.R" as a comment (comment lines start with `#`).  Your description text is required to provide an overview of your modeling approach and how you represent uncertainty in your forecast.
-5.  Run the "forecast_code_template.R" to generate a forecast, submit the forecast, and 
+5.  Run the "forecast_code_template.R" to generate a forecast, submit the forecast, and generate the plot of the forecast.
 6.  Commit the "forecast_code_template.R" to GitHub.
 7.  Upload to your plot and a link to your GitHub repository to Canvas (or other learning management system).
 
