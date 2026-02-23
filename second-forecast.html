@@ -377,8 +377,8 @@ ul.task-list li input[type="checkbox"] {
 
 
 <p>The forecast you generated in <a href="first-forecast.html" class="quarto-xref"><span>Chapter 8</span></a> included uncertainty due to future weather. As you learned in <a href="understand-uncertainty.html" class="quarto-xref"><span>Chapter 3</span></a>, many other sources of uncertainty could be included in your forecast. Your task is to apply the techniques in <a href="understand-uncertainty.html" class="quarto-xref"><span>Chapter 3</span></a> to generate additional sources of uncertainty in the forecast model from <a href="first-forecast.html" class="quarto-xref"><span>Chapter 8</span></a>. When you are finished, your model from <a href="first-forecast.html" class="quarto-xref"><span>Chapter 8</span></a> should have driver, parameter, and process uncertainty. You will submit the assignment as an updated GitHub repository with the code and plot of your forecast with all uncertainty sources included.</p>
-<p>You will be generating forecasts of water temperature at NEON Aquatics sites.</p>
-<p>A <a href="https://github.com/frec-5174/book-problem-sets/blob/main/forecast_code_template_mod6.Rmd">version of the template</a> from <a href="first-forecast.html" class="quarto-xref"><span>Chapter 8</span></a> is provided that recodes the template to match the approach in <a href="understand-uncertainty.html" class="quarto-xref"><span>Chapter 3</span></a>. You should add your model from <a href="first-forecast.html" class="quarto-xref"><span>Chapter 8</span></a> to this template before adding the uncertainty sources from <a href="understand-uncertainty.html" class="quarto-xref"><span>Chapter 3</span></a>.</p>
+<p>You will generate forecasts of water temperature at NEON Aquatics sites, with estimated uncertainty.</p>
+<p>A <a href="https://github.com/frec-5174/book-problem-sets/blob/main/forecast_code_template_mod6.R">version of the template</a> from <a href="first-forecast.html" class="quarto-xref"><span>Chapter 8</span></a> is provided that recodes the template to match the approach in <a href="understand-uncertainty.html" class="quarto-xref"><span>Chapter 3</span></a>. You should add your model from <a href="first-forecast.html" class="quarto-xref"><span>Chapter 8</span></a> to this template before adding the uncertainty sources from <a href="understand-uncertainty.html" class="quarto-xref"><span>Chapter 3</span></a>. In the updated template, you will notice two new “for-loops” that iterate over the forecast dates and ensemble members. These loops, while less efficient than the original code in <code>forecast_code_template.R</code>, are designed to be more explicit about the individual calculations for each ensemble member. Refactoring code this way makes it easier to transition to process-based models and models with lagged variables.</p>
 <section id="reading" class="level2" data-number="9.1">
 <h2 data-number="9.1" class="anchored" data-anchor-id="reading"><span class="header-section-number">9.1</span> Reading</h2>
 <p>Thomas, R. Q., Boettiger, C., Carey, C. C., Dietze, M. C., Johnson, L. R., Kenney, M. A., et al.&nbsp;(2023). The NEON Ecological Forecasting Challenge. Frontiers in Ecology and the Environment, 21(3), 112–113. <a href="https://doi.org/10.1002/fee.2616" class="uri">https://doi.org/10.1002/fee.2616</a></p>
@@ -388,16 +388,18 @@ ul.task-list li input[type="checkbox"] {
 <p>Pre-assignment set up: Complete <a href="first-forecast.html" class="quarto-xref"><span>Chapter 8</span></a> and the RShiny version of <a href="understand-uncertainty.html" class="quarto-xref"><span>Chapter 3</span></a></p>
 <ol type="1">
 <li>Complete the code-based version of <a href="understand-uncertainty.html" class="quarto-xref"><span>Chapter 3</span></a>.</li>
+<li>Copy the code from <a href="https://github.com/frec-5174/book-problem-sets/blob/main/forecast_code_template_mod6.R">version of the template</a> into a new R script in your GitHub repo called “forecast_code_template_mod6.R”.</li>
+<li>Add your model from “forecast_code_template.R” to “forecast_code_template_mod6.R”.</li>
 <li>Modify your “forecast_code_template.R” to include the additional sources of uncertainty</li>
-<li>Run the “forecast_code_template.R” to generate a forecast, submit the forecast, and generate the plot of the forecast.</li>
-<li>Update your model description at the top of “forecast_code_template.R” to describe the new sources of uncertainty.</li>
-<li>Commit the updated “forecast_code_template.R” to GitHub.</li>
+<li>Run the “forecast_code_template_mod6.R” to generate a forecast, submit the forecast, and generate the plot of the forecast.</li>
+<li>Update your model description at the top of “forecast_code_template_mod6.R” to describe the new sources of uncertainty.</li>
+<li>Commit the updated “forecast_code_template_mod6.R” to GitHub.</li>
 <li>Upload to your new plot and a link to your GitHub repository to Canvas (or other learning management system).</li>
 </ol>
 </section>
 <section id="module-reference" class="level2" data-number="9.3">
 <h2 data-number="9.3" class="anchored" data-anchor-id="module-reference"><span class="header-section-number">9.3</span> Module reference</h2>
-<p>Olsson, F., C. Boettiger, C.C. Carey, M.E. Lofton, and R.Q. Thomas. Can you predict the future? A tutorial for the National Ecological Observatory Network Ecological Forecasting Challenge. In review at <em>Journal of Open Source Education</em>.</p>
+<p>Olsson F, C. Boettiger, C.C. Carey, M. Lofton and R.Q. Thomas. 2024. Can you predict the future? A tutorial for the National Ecological Observatory Network Ecological Forecasting Challenge. Journal of Open Source Education 7: 259. https://doi.org/10.21105/jose.00259</p>
 
 
 </section>
