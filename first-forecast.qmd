@@ -1,6 +1,6 @@
 # Introduction to NEON Ecological Forecasting Challenge {#sec-first-forecast}
 
-This chapter, and the associated tutorial material, introduce participants to key concepts in ecological forecasting and provide hands-on materials for submitting forecasts to the Ecological Forecasting Initiative (EFI) - National Ecological Observatory Network (NEON) Forecasting Challenge (hereafter, Challenge). You can learn more about the Challenge in @thomasNEONEcologicalForecasting2023. The tutorial has been developed and used with more than 300 participants in both classrooms and workshops and provides the ecological understanding, workflows, and tools to enable ecologists with minimal forecasting experience to participate in the Challenge via a hands-on code-based tutorial. This R-based tutorial introduces participants to a near-term, iterative forecasting workflow that includes obtaining observations from NEON, developing a simple forecasting model, generating a forecast, and submitting the forecast to the Challenge, as well as analyzing forecast performance once new observations become available for evaluation. The overarching aim of this tutorial is to lower the barrier to ecological forecasting and empower participants to continue to innovate and develop their own ecological forecasts for the Challenge into the future.
+This chapter and the associated tutorial material introduce participants to key concepts in ecological forecasting and provide hands-on guidance for submitting forecasts to the Ecological Forecasting Initiative (EFI) - National Ecological Observatory Network (NEON) Forecasting Challenge (hereafter, Challenge). You can learn more about the Challenge in @thomasNEONEcologicalForecasting2023. The tutorial has been developed and used with more than 300 participants in both classrooms and workshops and provides the ecological understanding, workflows, and tools to enable ecologists with minimal forecasting experience to participate in the Challenge through a hands-on, code-based tutorial. This R-based tutorial introduces participants to a near-term, iterative forecasting workflow that includes obtaining observations from NEON, developing a simple forecasting model, generating a forecast, submitting the forecast to the Challenge, and analyzing forecast performance once new observations become available for evaluation. The overarching aim of this tutorial is to lower the barrier to ecological forecasting and empower participants to continue innovating and developing their own ecological forecasts for the Challenge in the future.
 
 The assignment will require you to create a GitHub repository with your completed code from the NEON Forecasting Challenge workshop. You will build on this repository throughout the rest of section 1 of the book. You can learn more about setting up Git and GitHub in @sec-github.
 
@@ -8,7 +8,7 @@ This tutorial was developed by Olsson, F., C. Boettiger, C.C. Carey, M.E. Lofton
 
 [**Tutorial**](https://github.com/eco4cast/NEON-forecast-challenge-workshop)
 
-You will be generating forecasts of water temperature at NEON aquatics sites.
+You will be generating forecasts of water temperature at NEON Aquatics sites.
 
 ## Reading
 
@@ -16,14 +16,15 @@ Thomas, R. Q., Boettiger, C., Carey, C. C., Dietze, M. C., Johnson, L. R., Kenne
 
 ## Assignment
 
-Pre-assignment set up: Follow the [instructions for setting up R and the code repository](https://github.com/OlssonF/NEON-forecast-challenge-workshop#neon-forecast-challenge-workshop-pre-workshop-instructions)
+Pre-assignment set up: Follow the [instructions for setting up R and the code repository](https://github.com/eco4cast/NEON-forecast-challenge-workshop#neon-forecast-challenge-workshop-pre-workshop-instructions)
 
 1.  Create a GitHub repository with the module
-2.  Work through the [`Submit_forecast/NEON_forecast_challenge_workshop_aquatics.Rmd`](https://github.com/OlssonF/NEON-forecast-challenge-workshop/blob/main/Submit_forecast/NEON_forecast_challenge_workshop_aquatics.Rmd) into TASKS sections
-3.  Modify the simple model in the [`Submit_forecast/forecast_code_template.Rmd`](https://github.com/OlssonF/NEON-forecast-challenge-workshop/blob/main/Submit_forecast/forecast_code_template.Rmd) in some way (see TASKS for ideas).
-4.  Add a brief description of what you changed to the beginning of the template.
-5.  Knit the template Rmd to html.
-6.  Commit template Rmd and html to GitHub
+2.  Work through the [`Submit_forecast/NEON_forecast_challenge_workshop_aquatics.Rmd`](https://github.com/eco4cast/NEON-forecast-challenge-workshop/blob/main/Submit_forecast/NEON_forecast_challenge_workshop_aquatics.Rmd) into TASKS sections
+3.  Modify the simple model in the [`Submit_forecast/forecast_code_template.R`](https://github.com/eco4cast/NEON-forecast-challenge-workshop/blob/main/Submit_forecast/forecast_code_template.R) in some way (see TASKS for ideas).  Create a new my_model_id that includes the word "example", since you are still developing your forecast approach.
+4.  Add a brief description of what you changed to the top of the "forecast_code_template.R" as a comment (comment lines start with `#`).  Your description text is required to provide an overview of your modeling approach and how you represent uncertainty in your forecast.
+5.  Run the "forecast_code_template.R" to generate a forecast, submit the forecast, and 
+6.  Commit the "forecast_code_template.R" to GitHub.
+7.  Upload to your plot and a link to your GitHub repository to Canvas (or other learning management system).
 
 ## Module reference
 
