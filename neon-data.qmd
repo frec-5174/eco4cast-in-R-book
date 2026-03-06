@@ -57,6 +57,7 @@ The code below reads the data directly from NEON's cloud storage.
 
 ```{r}
 #| message: false
+#| echo: false
 
 ## Mapping and tagging table
 
@@ -90,6 +91,7 @@ plot_table <- neon_cloud("perplotperyear",
 The equations that convert diameter at breast height (DBH), where breast height is defined at 130 cm above the base of the tree, differ by species and location. Therefore, the scientific name (both genus and species components) is needed. The species names in the mapping and tagging table need to be separated into genus and species so we can calculate biomass using an R function that expects them to be separate.
 
 ```{r}
+#| echo: false
 genus_species <- unlist(str_split_fixed(map_tag_table$scientificName, " ", 3))
 
 map_tag_table <- map_tag_table |> 
@@ -100,7 +102,7 @@ map_tag_table <- map_tag_table |>
 Now we will join the tables by the key variables to build our dataset for the site.
 
 ```{r}
-
+#| echo: false
 combined_table <- left_join(ind_table, map_tag_table, by = "individualID") |> 
   arrange(plotID,individualID)
 
@@ -118,6 +120,7 @@ combined_table_dbh <- combined_table |>
 Tidy up the individual tree data to include only live trees from the tower plots. Also, create a variable that is the year of the sample date. We will filter the data to only include records with diameter at breast height (dbh) measurements, using a measurement height of 130 cm.
 
 ```{r}
+#| echo: false
 combined_table_live_tower <- combined_table_dbh |>  
   filter(str_detect(plantStatus,"Live"),
          plotType == "tower",
@@ -132,6 +135,7 @@ In this next section, as well as in a future one where we calculate dead-tree ca
 The `get_biomass` function is within the `allodb` package and returns the biomass of each tree in units of kg.
 
 ```{r}
+#| echo: false
 library(allodb)
 
 ag_bg_prop <- 0.3
@@ -148,7 +152,7 @@ tree_live_carbon <- combined_table_live_tower |>
 Calculate the plot-level biomass by summing up the tree biomass in a plot and dividing by the area of the plot.
 
 ```{r}
-
+#| echo: false
 measurement_dates <- tree_live_carbon |> 
   summarise(measure_date = max(date), .by = eventID)
 
@@ -172,6 +176,7 @@ ggplot(plot_live_carbon, aes(x = measure_date, y = plot_kgCm2, color = plotID)) 
 Only a subset of plots is measured each year, and we only want the plots that have annual measurements. This code determines the set of plots measured each year (a subset of n = 5), while all the other plots are measured every 5 years.
 
 ```{r}
+#| echo: false
 last_plots <- plot_live_carbon |> 
   filter(measure_date == max(measure_date)) |> 
   pull(plotID)
@@ -204,6 +209,7 @@ ggplot(site_live_carbon, aes(x = measure_date, y = mean_kgCperm2)) +
 We will now use the `allodb` package to extract the carbon in dead trees. This is exactly like the steps above, except for using the trees with a dead status.
 
 ```{r}
+#| echo: false
 combined_table_dead_tower <- combined_table_dbh |> 
   filter(!is.na(plantStatus)) |>
   dplyr::filter(str_detect(string = "Standing dead", pattern = plantStatus),
@@ -214,6 +220,7 @@ combined_table_dead_tower <- combined_table_dbh |>
 Calculate the biomass of each tree in the table. This assumes that standing dead trees have the same carbon content as live trees (which is incorrect).
 
 ```{r}
+#| echo: false
 tree_dead_carbon <- combined_table_dead_tower |>
     mutate(ag_tree_kg = get_biomass(
           dbh = combined_table_dead_tower$stemDiameter,
@@ -228,6 +235,7 @@ tree_dead_carbon <- combined_table_dead_tower |>
 Calculate the plot-level carbon.
 
 ```{r}
+#| echo: false
 measurement_dates <- tree_dead_carbon |> 
   summarise(measure_date = max(date), .by = eventID)
 
@@ -251,6 +259,7 @@ ggplot(plot_dead_carbon, aes(x = measure_date, y = plot_kgCm2, color = plotID)) 
 Calculate site-level carbon in dead trees from the plots measured each year.
 
 ```{r}
+#| echo: false
  site_dead_carbon <- plot_dead_carbon |>
     filter(plotID %in% last_plots) |> 
     group_by(measure_date) |>
