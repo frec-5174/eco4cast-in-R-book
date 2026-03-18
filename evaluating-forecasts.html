@@ -419,6 +419,8 @@ div.csl-indent {
   <li><a href="#take-homes" id="toc-take-homes" class="nav-link" data-scroll-target="#take-homes"><span class="header-section-number">11.7</span> Take homes</a></li>
   <li><a href="#reading" id="toc-reading" class="nav-link" data-scroll-target="#reading"><span class="header-section-number">11.8</span> Reading</a></li>
   <li><a href="#problem-set" id="toc-problem-set" class="nav-link" data-scroll-target="#problem-set"><span class="header-section-number">11.9</span> Problem Set</a></li>
+  <li><a href="#part-1-a-single-forecast" id="toc-part-1-a-single-forecast" class="nav-link" data-scroll-target="#part-1-a-single-forecast"><span class="header-section-number">11.10</span> Part 1: a single forecast</a></li>
+  <li><a href="#part-2-multiple-forecasts" id="toc-part-2-multiple-forecasts" class="nav-link" data-scroll-target="#part-2-multiple-forecasts"><span class="header-section-number">11.11</span> Part 2: multiple forecasts</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/frec-5174/eco4cast-in-R-book/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li><li><a href="https://github.com/frec-5174/eco4cast-in-R-book/blob/main/evaluating-forecasts.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li></ul></div></nav>
     </div>
@@ -444,30 +446,30 @@ div.csl-indent {
 </header>
 
 
-<p>The fourth forecast generation assignment will challenge you to analyze the automated forecasts that you submitted as part of <a href="third-forecast.html" class="quarto-xref"><span>Chapter 10</span></a>. The assignment uses the module in Freya Olsson’s tutorial that provides code to access the automatically scored forecasts. You will add code to your repository that generates plots.</p>
-<p><a href="https://github.com/OlssonF/NEON-forecast-challenge-workshop/blob/main/Analyse_scores/Get_scores_tutorial.Rmd"><strong>Tutorial Rmarkdown</strong></a></p>
-<p>This chapter provides a description of metrics for evaluating forecasts, including the comparison to simple baseline forecast models.</p>
+<p>The fourth forecast-generation assignment will challenge you to analyze the automated forecasts you submitted as part of <a href="third-forecast.html" class="quarto-xref"><span>Chapter 10</span></a>. The assignment uses the module in Freya Olsson’s tutorial that provides code to access the automatically scored forecasts. You will add code to your repository that generates plots.</p>
+<p><a href="https://github.com/OlssonF/Forecast-evaluation-EFI25/blob/main/tutorial/forecast-evaluation-tutorial.Rmd"><strong>Tutorial Rmarkdown</strong></a></p>
+<p>This chapter describes metrics for evaluating forecasts, including comparisons with simple baseline forecast models.</p>
 <section id="scoring-metrics" class="level2" data-number="11.1">
 <h2 data-number="11.1" class="anchored" data-anchor-id="scoring-metrics"><span class="header-section-number">11.1</span> Scoring metrics</h2>
-<p>A scoring metric is a value that can be used to evaluate how well a forecast compares to observations. Scores can then be compared among forecast models to evaluate relative performance. Typically, lower scores are better. Scoring metrics are also called “costs”.</p>
+<p>A scoring metric is a value used to evaluate how well a forecast compares with observations. Scores can then be compared among forecast models to evaluate relative performance. Typically, lower scores are better. Scoring metrics are also called “costs”.</p>
 </section>
 <section id="accuracy" class="level2" data-number="11.2">
 <h2 data-number="11.2" class="anchored" data-anchor-id="accuracy"><span class="header-section-number">11.2</span> Accuracy</h2>
-<p>The most basic score would be the difference between the forecast mean and the observation. However, there are a couple of issues with that score. First, forecasts below the observation will receive negative values and forecasts above will receive positive values, thus the lowest value is not the best. Second, it does not use any information from the forecast uncertainty in the evaluation. Metrics like absolute error (absolute value of the difference between the forecast mean and observation) and root-mean-squared error (RMSE) address the first issue but still do not consider the uncertainty.</p>
+<p>The most basic score would be the difference between the forecast mean and the observation. However, there are a couple of issues with that score. First, forecasts below the observation will receive negative values and forecasts above will receive positive values, thus the lowest value is not the best. Second, it does not use any information from the forecast uncertainty in the evaluation. Metrics like absolute error (the absolute value of the difference between the forecast mean and the observation) and root-mean-squared error (RMSE) address the first issue but still do not account for uncertainty.</p>
 </section>
 <section id="precision" class="level2" data-number="11.3">
 <h2 data-number="11.3" class="anchored" data-anchor-id="precision"><span class="header-section-number">11.3</span> Precision</h2>
-<p>Is the variance in the forecast larger than an acceptable value? For example, if the uncertainty in a rain forecast ranges from downpour to sunny then the variance is too large to be useful since one can not make a specific decision based on the forecast (e.g., do you cancel the soccer game ahead of time). One can also compare the variance in a forecast to a baseline variable from a simple model to see if the spread is less, and therefore a more informative forecast.</p>
+<p>Is the variance in the forecast larger than an acceptable value? For example, if the uncertainty in a rain forecast ranges from a downpour to sunny, then the variance is too large to be useful, since one cannot make a specific decision based on the forecast (e.g., do you cancel the soccer game ahead of time?). One can also compare the variance of a forecast to that of a baseline variable from a simple model to see whether the spread is smaller, indicating a more informative forecast.</p>
 </section>
 <section id="accuracy-precision" class="level2" data-number="11.4">
 <h2 data-number="11.4" class="anchored" data-anchor-id="accuracy-precision"><span class="header-section-number">11.4</span> Accuracy + Precision</h2>
-<p>It is important to consider uncertainty because intuitively a forecast that has the correct mean but a large uncertainty (so it puts very little confidence on the observed value) should have a lower score than a forecast with a mean that is slightly off but with lower uncertainty (so it puts more confidence on the observed value). The Continuous Ranked Probability Score (CRPS) is one metric that evaluates the forecast distribution. Another is the ignorance score (also called the Good or the log score). The CRPS is described below.</p>
+<p>It is important to consider uncertainty because, intuitively, a forecast that has the correct mean but a large uncertainty (so it puts very little confidence on the observed value) should have a lower score than a forecast with a mean that is slightly off but with lower uncertainty (so it puts more confidence on the observed value). The Continuous Ranked Probability Score (CRPS) is one metric that evaluates the forecast distribution. Another is the ignorance score (also called the Good or the log score). The CRPS is described below.</p>
 <!--Add the concept of proper and local? -->
 <section id="continuous-ranked-probability-score" class="level3" data-number="11.4.1">
 <h3 data-number="11.4.1" class="anchored" data-anchor-id="continuous-ranked-probability-score"><span class="header-section-number">11.4.1</span> Continuous Ranked Probability Score</h3>
-<p>Forecasts can scored using the continuous ranked probability score (CRPS), a proper scoring rule for evaluating forecasts presented as distributions or ensembles (<span class="citation" data-cites="gneitingStrictlyProperScoring2007">Gneiting and Raftery (<a href="references.html#ref-gneitingStrictlyProperScoring2007" role="doc-biblioref">2007</a>)</span>). The CRPS compares the forecast probability distribution to that of the validation observation and assigns a score based on both the accuracy and precision of the forecast. We will use the ‘crps_sample’ function from the <code>scoringRules</code> package in R to calculate the CRPS for each forecast.</p>
+<p>Forecasts can be scored using the continuous ranked probability score (CRPS), a proper scoring rule for evaluating forecasts presented as distributions or ensembles (<span class="citation" data-cites="gneitingStrictlyProperScoring2007">Gneiting and Raftery (<a href="references.html#ref-gneitingStrictlyProperScoring2007" role="doc-biblioref">2007</a>)</span>). The CRPS compares the forecast probability distribution to that of the validation observation and assigns a score based on both the accuracy and precision of the forecast. We will use the ‘crps_sample’ function from the <code>scoringRules</code> package in R to calculate the CRPS for each forecast.</p>
 <p>CRPS is a calculation for each forecast-observation pair (e.g., a single datetime from a reference_datetime). CRPS can then be aggregated across all sites and forecast horizons to understand the aggregate performance.</p>
-<p>Importantly, we use the convention for CRPS where zero is the lowest and best possible score, therefore forecasts want to achieve the lowest score. CPRS can also be expressed as a negative number with zero as the highest and best possible score (<span class="citation" data-cites="gneitingStrictlyProperScoring2007">Gneiting and Raftery (<a href="references.html#ref-gneitingStrictlyProperScoring2007" role="doc-biblioref">2007</a>)</span>). The <code>scoringRules</code> package we use follows the 0 or greater convention.</p>
+<p>Importantly, we use the CRPS convention, where zero is the lowest and best possible score; forecasts aim to achieve the lowest score. CPRS can also be expressed as a negative number with zero as the highest and best possible score (<span class="citation" data-cites="gneitingStrictlyProperScoring2007">Gneiting and Raftery (<a href="references.html#ref-gneitingStrictlyProperScoring2007" role="doc-biblioref">2007</a>)</span>). The <code>scoringRules</code> package we use follows the 0 or greater convention.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(scoringRules)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -488,7 +490,7 @@ div.csl-indent {
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(scoringRules)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">crps_sample</span>(<span class="at">y =</span> observed, <span class="at">dat =</span> forecast)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.4924698</code></pre>
+<pre><code>[1] 0.4914815</code></pre>
 </div>
 </div>
 </section>
@@ -510,7 +512,7 @@ div.csl-indent {
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  }</span>
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>Finally, the contour surface highlights the trade-off between the mean and standard deviation. Each isocline is the same CRPS score. Holding the mean constant at the observed value but increases the uncertainty (increasing SD) results in a higher (worse) score (compare the green to orange dot). Holding the sd constant but adding bias results in a higher (worse) score (compare the green to red dot).</p>
+<p>Finally, the contour surface highlights the trade-off between the mean and standard deviation. Each isocline is the same CRPS score. Holding the mean constant at the observed value but increasing the uncertainty (increasing SD) results in a higher (worse) score (compare the green to the orange dot). Holding the SD constant but adding bias results in a higher (worse) score (compare the green to red dot).</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">contour</span>(<span class="at">x =</span> forecast_mean, <span class="at">y =</span> forecast_sd, <span class="at">z =</span> <span class="fu">as.matrix</span>(combined),<span class="at">nlevels =</span> <span class="dv">20</span>, <span class="at">xlab =</span> <span class="st">"Forecast mean"</span>, <span class="at">ylab =</span> <span class="st">"forecast standard deviation"</span>, <span class="at">main =</span> <span class="st">"CPRS score at different forecasted mean and sd</span><span class="sc">\n</span><span class="st">The observation is at 8"</span>)</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(<span class="at">x =</span> observed, <span class="at">y =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">"green"</span>)</span>
@@ -527,8 +529,8 @@ div.csl-indent {
 </section>
 <section id="calculating-crps-manually" class="level4" data-number="11.4.1.3">
 <h4 data-number="11.4.1.3" class="anchored" data-anchor-id="calculating-crps-manually"><span class="header-section-number">11.4.1.3</span> Calculating CRPS manually</h4>
-<p>The manual calculation of CRPS helps provide intutition for what the metric represents.</p>
-<p>First, we are going set the range of values (forecast or observation) that we are going to include in the calculation. In this case, we go 5 above and below the observed value. We will set <code>dy</code> to be 0.1 so we have values every 0.1.</p>
+<p>The manual calculation of CRPS helps provide intuition for what the metric represents.</p>
+<p>First, we are going to set the range of values (forecast or observation) to include in the calculation. In this case, we go 5 above and below the observed value. We will set <code>dy</code> to be 0.1 so we have values every 0.1.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>dy <span class="ot">&lt;-</span> <span class="fl">0.1</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>values_evaluated <span class="ot">&lt;-</span> <span class="fu">seq</span>(observed <span class="sc">-</span> <span class="dv">5</span>, observed <span class="sc">+</span> <span class="dv">5</span>, dy)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -538,7 +540,7 @@ div.csl-indent {
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>forecast_cdf_function <span class="ot">&lt;-</span> <span class="fu">ecdf</span>(forecast)</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>forecast_cdf <span class="ot">&lt;-</span> <span class="fu">forecast_cdf_function</span>(values_evaluated)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>Next calculate the cdf for the observation where it is 0 if less than the observed value and 1 if above.</p>
+<p>Next, calculate the cdf for the observation, where it is 0 if the observation is less than the observed value and 1 if it is greater.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>obs_cdf <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>((values_evaluated <span class="sc">&gt;</span> observed))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -552,8 +554,8 @@ div.csl-indent {
 </div>
 </div>
 </div>
-<p>At high level, CRPS is the area between the red and blue lines in the figure above. The area to the left of the observation is the error associated with the forecast saying the observed value will be less than the actual observation. The area to the right of the observation is the error associated with forecast saying that the observed value is larger than the observed value.</p>
-<p>By substracting the observed cdf from the forecast cdf we can calculate the difference between the two curves (square it to get squared error).</p>
+<p>At a high level, CRPS is the area between the red and blue lines in the figure above. The area to the left of the observation is the error associated with the forecast, saying the observed value will be less than the actual observation. The area to the right of the observation is the error associated with the forecast, saying that the observed value is larger than the forecasted value.</p>
+<p>By subtracting the observed cdf from the forecast cdf, we can calculate the difference between the two curves (square it to get the squared error).</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>error <span class="ot">&lt;-</span> (forecast_cdf <span class="sc">-</span> obs_cdf)<span class="sc">^</span><span class="dv">2</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -566,17 +568,17 @@ div.csl-indent {
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>crps <span class="ot">&lt;-</span> <span class="fu">sum</span>(cdf_diff_area)</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>crps</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.4923734</code></pre>
+<pre><code>[1] 0.4903193</code></pre>
 </div>
 </div>
-<p>which is very similar to answer from <code>scoringRules</code> package. The difference is due the size of dy. Smaller values of dy will yield values closer the calculation from <code>scoringRules</code>.</p>
+<p>which is very similar to the answer from the <code>scoringRules</code> package. The difference is due to the size of dy. Smaller values of dy will yield results closer to those from <code>scoringRules</code>.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>scoringRules<span class="sc">::</span><span class="fu">crps_sample</span>(<span class="at">y =</span> observed, <span class="at">dat =</span> forecast)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.4924698</code></pre>
+<pre><code>[1] 0.4914815</code></pre>
 </div>
 </div>
-<p>You can compare differ forecasts using the cdf to see how the areas differ</p>
+<p>You can compare different forecasts using the CDF to see how the areas differ</p>
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -596,14 +598,14 @@ div.csl-indent {
 </section>
 <section id="skill-scores" class="level2" data-number="11.6">
 <h2 data-number="11.6" class="anchored" data-anchor-id="skill-scores"><span class="header-section-number">11.6</span> Skill scores</h2>
-<p>It is a best practice in forecasting to compare forecasts generated by more complex models to thus generated by simple “naive” models so that we can understand whether the additional complexity provides any gain in forecast capacity. Two common naive models are persistence and “climatology”.</p>
+<p>It is a best practice in forecasting to compare forecasts from more complex models with those from simple “naive” models to assess whether the additional complexity provides any gain in forecast capacity. Two common naive models are persistence and “climatology”.</p>
 <p>The skill score compared a forecast model to a baseline model using the following equation</p>
 <p><code>skill_score &lt;- 1 - (mean_metric_baseline - mean_metric_forecast)/mean_metric_baseline</code></p>
-<p>The mean_metric_baseline is the mean score for the baseline model. It can be RMSE, MAE, CPRS, etc. The mean_metric_forecast is the same metric for the forecast that is being evaluated.</p>
-<p>The skill score ranges from -Inf - 1 where values from -Inf to 0 are forecast models that perform worse than the baseline. Values from 0 to 1 are forecast models that improve on the baseline. A value of 1 means that the forecast model is perfect.</p>
+<p>The mean_metric_baseline is the mean score for the baseline model. It can be RMSE, MAE, CPRS, etc. mean_metric_forecast is the same metric used to evaluate the forecast.</p>
+<p>The skill score ranges from -Inf to 1, where values from -Inf to 0 are forecast models that perform worse than the baseline. Values from 0 to 1 are forecast models that improve on the baseline. A value of 1 means that the forecast model is perfect.</p>
 <section id="example-baseline-models" class="level3" data-number="11.6.1">
 <h3 data-number="11.6.1" class="anchored" data-anchor-id="example-baseline-models"><span class="header-section-number">11.6.1</span> Example baseline models</h3>
-<p>Persistence forecasts that tomorrow will be the same as today, thus capturing the inertia of the system. Uncertainty is added to a persistence forecast by simulating it as a random walk where each ensemble member has a random trajectory without any direction (so the mean of the forecast is still previous days mean value). Persistence models perform well in systems with real-time observations because you actually know the current value and in systems with high inertia (like the water temperatures in the bottom of a large lake).</p>
+<p>Persistence forecasts that tomorrow will be the same as today, thereby capturing the system’s inertia. Uncertainty is added to a persistence forecast by simulating it as a random walk where each ensemble member has a random trajectory without any direction (so the mean of the forecast is still the previous day’s mean value). Persistence models perform well in systems with real-time observations because you know the current value, and in systems with high inertia (such as water temperatures at the bottom of a large lake).</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>persistence <span class="ot">&lt;-</span> arrow<span class="sc">::</span><span class="fu">open_dataset</span>(<span class="st">"s3://anonymous@bio230014-bucket01/challenges/forecasts/bundled-summaries/project_id=neon4cast/duration=P1D/variable=temperature/model_id=persistenceRW?endpoint_override=sdsc.osn.xsede.org"</span>) <span class="sc">|&gt;</span> </span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(site_id <span class="sc">==</span> <span class="st">"BARC"</span>,</span>
@@ -625,7 +627,7 @@ div.csl-indent {
 </div>
 </div>
 </div>
-<p>“Climatology” is the historical distribution of observations for the forecast days. In a seasonal system, we often represent this using the mean and standard deviation of historical data from the same day-of-year in the past. Less seasonal systems may represent it as the historical mean and standard deviation. I used climatology in quotes because the meteorological definition of climatology is 30 years but most ecological systems don’t have 30-years of observations. We use the term “day-of-year mean” instead of climatology when forecasting systems with limited historical data. Climatology forecasts the capacity of the long-term behavior of the system to capture seasonal patterns.</p>
+<p>“Climatology” is the historical distribution of observations for the forecast days. In a seasonal system, we often represent this using the mean and standard deviation of historical data from the same day-of-year in the past. Less seasonal systems may represent it as the historical mean and standard deviation. I used climatology in quotes because the meteorological definition of climatology is 30 years, but most ecological systems don’t have 30 years of observations. We use the term “day-of-year mean” instead of climatology when forecasting systems with limited historical data. Climatology forecasts the system’s long-term behavior and its capacity to capture seasonal patterns.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>climatology <span class="ot">&lt;-</span> arrow<span class="sc">::</span><span class="fu">open_dataset</span>(<span class="st">"s3://anonymous@bio230014-bucket01/challenges/forecasts/bundled-summaries/project_id=neon4cast/duration=P1D/variable=temperature/model_id=climatology?endpoint_override=sdsc.osn.xsede.org"</span>) <span class="sc">|&gt;</span> </span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(site_id <span class="sc">==</span> <span class="st">"BARC"</span>,</span>
@@ -690,7 +692,7 @@ div.csl-indent {
 </section>
 <section id="take-homes" class="level2" data-number="11.7">
 <h2 data-number="11.7" class="anchored" data-anchor-id="take-homes"><span class="header-section-number">11.7</span> Take homes</h2>
-<p>Different metrics evaluate different components of the forecast. Be sure to match your evaluation metric to evaluate the aspects of the forecast that match the needs of the forecast user.</p>
+<p>Different metrics evaluate different components of the forecast. Be sure to match your evaluation metric to the aspects of the forecast that meet the forecast user’s needs.</p>
 </section>
 <section id="reading" class="level2" data-number="11.8">
 <h2 data-number="11.8" class="anchored" data-anchor-id="reading"><span class="header-section-number">11.8</span> Reading</h2>
@@ -698,17 +700,30 @@ div.csl-indent {
 </section>
 <section id="problem-set" class="level2" data-number="11.9">
 <h2 data-number="11.9" class="anchored" data-anchor-id="problem-set"><span class="header-section-number">11.9</span> Problem Set</h2>
-<p>If you have forecast submissions the scores from your submitted forecasts and the climatology and persistence forecasts. If you do not have submitted forecasts, use the <code>model_id = XXXX</code> to answer the questions</p>
-<p>Create a new Rmarkdown document that you use to answer the questions below with a mix of code and text.</p>
+<p>If you have forecast submissions the scores from your submitted forecasts and the climatology and persistence forecasts. If you have not submitted forecasts, select a model from the catalog to answer the questions</p>
+<p>Create a new Quarto document to answer the questions below, using a mix of code and text.</p>
+</section>
+<section id="part-1-a-single-forecast" class="level2" data-number="11.10">
+<h2 data-number="11.10" class="anchored" data-anchor-id="part-1-a-single-forecast"><span class="header-section-number">11.10</span> Part 1: a single forecast</h2>
 <ol type="1">
-<li>Plot climatology, persistence, and your model for a single forecast day on the same plot</li>
-<li>Based on visual inspection of your plot, how do the medians model each forecast differ in capacity to represent the observations?</li>
-<li>Based on visual inspection of your plot, how does the uncertainty of each model forecast differ in capacity to represent the observations?</li>
-<li>Calculate the mean CRPS for the single-day forecast (averaged across all horizons). Which model has the lower score?</li>
-<li>Calculate the mean CRPS for climatology, persistence, and your model for all reference datetimes and horizons. Which model has the lower score when you consider all submissions?</li>
-<li>Do you think you have enough important from the mean CRPS score to determine the “best” model? If not, what is needed to better characterize the best-performing model?</li>
+<li>Access climatology, persistence, and a model of your choice from the NEON forecast STAC catalog for a specific reference_datetime where all three models are available (<a href="https://radiantearth.github.io/stac-browser/#/external/raw.githubusercontent.com/eco4cast/neon4cast-catalog/main/forecasts/collection.json" class="uri">https://radiantearth.github.io/stac-browser/#/external/raw.githubusercontent.com/eco4cast/neon4cast-catalog/main/forecasts/collection.json</a>). If you have been iteratively submitting your own model, you are welcome to use that model.</li>
+<li>Access the observations that are associated with your selected target variable (see &lt;www.neon4cast.org&gt;).</li>
+<li>Plot the three forecasts using a ribbon plot on the same graph. Add the observations. The x-axis should be <code>datetime</code> and the y-axis the forecasted value.</li>
+<li>Based on visual inspection of your plot, how does each model differ in capacity to represent the observations?</li>
+<li>Based on visual inspection of your plot, how does the uncertainty of each model forecast differ in its capacity to capture the observations?</li>
+<li>Using the scoringRules package, calculate the CRPS for each model and forecasted datetime.</li>
+<li>Plot how CRPS vs.&nbsp;datetime for each model on the same plot and compare the results to your visual inspections in questions 4 and 5.</li>
 </ol>
-<p>Commit your qmd and render HTML to your GitHub repository that you used in <a href="third-forecast.html" class="quarto-xref"><span>Chapter 10</span></a>.</p>
+</section>
+<section id="part-2-multiple-forecasts" class="level2" data-number="11.11">
+<h2 data-number="11.11" class="anchored" data-anchor-id="part-2-multiple-forecasts"><span class="header-section-number">11.11</span> Part 2: multiple forecasts</h2>
+<ol start="8" type="1">
+<li>Download all the forecasts generated by climatology, persistence, and your chosen model (your will have multiple reference_datetimes).<br>
+</li>
+<li>Calculate the mean CRPS for climatology, persistence, and your model for all reference datetimes and horizons. Which model has the lower score when you consider all submissions?</li>
+<li>Do you think you have enough information from the mean CRPS score to determine the “best” model? If not, what is needed to better characterize the best-performing model?</li>
+</ol>
+<p>Commit your QMD and render HTML to your GitHub repository that you used in <a href="third-forecast.html" class="quarto-xref"><span>Chapter 10</span></a>.</p>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
