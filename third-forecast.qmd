@@ -1,6 +1,6 @@
 # Automated, iterative forecasting {#sec-third-forecast}
 
-In the third forecast generation assignment, you will be automating the submission of your forecast. By running your forecast code each day, you will be updating your model with the latest data, which is a simple form of data assimilation.
+In the third forecast generation assignment, you will automate the submission of your forecast. By running your forecast code each day, you will update your model with the latest data, which is a simple form of data assimilation.
 
 [**Automation tutorial**](https://github.com/OlssonF/NEON-forecast-challenge-workshop/blob/main/Automate_forecasts/automation_tutorial.Rmd)
 
@@ -10,7 +10,7 @@ You will be generating forecasts of water temperature at NEON aquatics sites.
 
 GitHub Actions is used to execute the forecast each day in the "cloud". The "cloud" are small computers that are run somewhere in a Microsoft data center (Microsoft owns GitHub). You create a YAML file in the `.github/workflows` in your GitHub repo that defines the time of day that your job is run, the environment (type of operating system and Docker container), and the steps in the job.
 
-You will use Docker container (`eco4cast/neon4cast-rocker`) to ensure a consistent computation environment each day. The Docker is based on a rocker container that already has R, Rstudio, and many common packages (e.g., tidyverse). It also contains packages that are specific to the NEON Forecasting Challenge.
+You will use Docker container (`eco4cast/neon4cast-rocker`) to ensure a consistent computation environment each day. Docker is based on a rocker container that already has R, RStudio, and many common packages (e.g., tidyverse). It also contains packages that are specific to the NEON Forecasting Challenge.
 
 Nothing persists in the container after it finishes in GitHub Actions. You will use the `neon4cast::stage2` and `neon4cast::stage3` to read the meteorology data. You will use read_csv and a weblink to read the targets. You will export your forecasts using the `neon4cast::submit` function that uploads your forecast to the NEON Ecological Forecasting Challenge S3 submission bucket.
 
@@ -18,14 +18,14 @@ Nothing persists in the container after it finishes in GitHub Actions. You will 
 
 Docker is a tool that the activities in the book use for improving the reproducibility and automation of data analysis and forecasting workflows. Below are the instructions for setting up and interacting with a Docker container (instructions are from Freya Olsson's workshop)
 
-Go to <https://docs.docker.com/get-docker/> to install the relevant install for your platform (available for PC, Mac, and Linux). Also see <https://docs.docker.com/desktop/>.
+Go to <https://docs.docker.com/get-docker/> to install the relevant version for your platform (available for PC, Mac, and Linux). Also see <https://docs.docker.com/desktop/>.
 
 NOTE: \* If you're running Windows, you will need WSL (Windows Subsystem for Linux) \* If you're running a Linux distribution, you may have to enable Virtualization on your computer (see [here](https://stackoverflow.com/questions/76646465/unable-to-launch-docker-desktop-on-ubuntu/76655270#76655270))
 
-## Running a docker container
+## Running a Docker container
 
 1.  Launch Docker Desktop (either from the Command Line or by starting the GUI)
-2.  At the command line run the following command which tells docker to `run` the container with the name `eco4cast/rocker-neon4cast` that has all the packages and libraries installed already. The `PASSWORD=yourpassword` sets a simple password that you will use to open the container. The `-ti` option starts both a terminal and an interactive session.
+2. At the command line, run the following command, which tells Docker to `run` the container with the name `eco4cast/rocker-neon4cast` that has all the packages and libraries installed already. The `PASSWORD=yourpassword` sets a simple password that you will use to open the container. The `-ti` option starts both a terminal and an interactive session.
 
 ```         
 docker run --rm -ti -e PASSWORD=yourpassword -p 8787:8787 eco4cast/rocker-neon4cast
@@ -47,11 +47,11 @@ Thomas, R. Q., Boettiger, C., Carey, C. C., Dietze, M. C., Johnson, L. R., Kenne
 
 Pre-assignment set up: Complete @sec-second-forecast
 
-1.  Convert your template markdown code to a .R script
-2.  Update your repository to include the GitHub Action files
-3.  Commit updated files to GitHub
+1.  Update your repository to include the GitHub Action file provided in the Automation tutorial listed above.  Save it at `.github/workflows/run_forecast.yaml`.
+2.  Change the file at the end of the GitHub Action file to be `forecast_code_template_mod6.R` rather than `forecast_code_template.R`
+3.  Commit and push updated files to GitHub
 4.  Provide the instructor with a link to the GitHub repository that demonstrates multiple successful automated executions of forecasting code.
 
 ## Module reference
 
-Olsson, F., C. Boettiger, C.C. Carey, M.E. Lofton, and R.Q. Thomas. Can you predict the future? A tutorial for the National Ecological Observatory Network Ecological Forecasting Challenge. In review at *Journal of Open Source Education*.
+Olsson F, C. Boettiger, C.C. Carey, M. Lofton and R.Q. Thomas. 2024. Can you predict the future? A tutorial for the National Ecological Observatory Network Ecological Forecasting Challenge. *Journal of Open Source Education* 7: 259. <https://doi.org/10.21105/jose.00259>.
