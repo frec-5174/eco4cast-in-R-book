@@ -2,7 +2,7 @@
 
 The fourth forecast-generation assignment will challenge you to analyze the automated forecasts you submitted as part of @sec-third-forecast. The assignment uses the module in Freya Olsson's tutorial that provides code to access the automatically scored forecasts. You will add code to your repository that generates plots.
 
-[**Tutorial Rmarkdown**](https://github.com/OlssonF/NEON-forecast-challenge-workshop/blob/main/Analyse_scores/Get_scores_tutorial.Rmd)
+[**Tutorial Rmarkdown**](https://github.com/OlssonF/Forecast-evaluation-EFI25/blob/main/tutorial/forecast-evaluation-tutorial.Rmd)
 
 This chapter describes metrics for evaluating forecasts, including comparisons with simple baseline forecast models.
 
