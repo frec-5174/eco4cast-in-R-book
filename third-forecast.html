@@ -350,9 +350,9 @@ ul.task-list li input[type="checkbox"] {
   <ul>
   <li><a href="#key-concepts" id="toc-key-concepts" class="nav-link active" data-scroll-target="#key-concepts"><span class="header-section-number">10.1</span> Key concepts</a></li>
   <li><a href="#docker-skills" id="toc-docker-skills" class="nav-link" data-scroll-target="#docker-skills"><span class="header-section-number">10.2</span> Docker Skills</a></li>
-  <li><a href="#running-a-docker-container" id="toc-running-a-docker-container" class="nav-link" data-scroll-target="#running-a-docker-container"><span class="header-section-number">10.3</span> Running a docker container</a></li>
-  <li><a href="#reading" id="toc-reading" class="nav-link" data-scroll-target="#reading"><span class="header-section-number">10.4</span> Reading</a></li>
-  <li><a href="#assignment" id="toc-assignment" class="nav-link" data-scroll-target="#assignment"><span class="header-section-number">10.5</span> Assignment</a></li>
+  <li><a href="#running-a-docker-container" id="toc-running-a-docker-container" class="nav-link" data-scroll-target="#running-a-docker-container"><span class="header-section-number">10.3</span> Running a Docker container</a></li>
+  <li><a href="#assignment" id="toc-assignment" class="nav-link" data-scroll-target="#assignment"><span class="header-section-number">10.4</span> Assignment</a></li>
+  <li><a href="#optional-reading" id="toc-optional-reading" class="nav-link" data-scroll-target="#optional-reading"><span class="header-section-number">10.5</span> Optional Reading</a></li>
   <li><a href="#module-reference" id="toc-module-reference" class="nav-link" data-scroll-target="#module-reference"><span class="header-section-number">10.6</span> Module reference</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/frec-5174/eco4cast-in-R-book/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li><li><a href="https://github.com/frec-5174/eco4cast-in-R-book/blob/main/third-forecast.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li></ul></div></nav>
@@ -379,53 +379,53 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>In the third forecast generation assignment, you will be automating the submission of your forecast. By running your forecast code each day, you will be updating your model with the latest data, which is a simple form of data assimilation.</p>
+<p>In the third forecast generation assignment, you will automate the submission of your forecast. By running your forecast code each day, you will update your model with the latest data, which is a simple form of data assimilation.</p>
 <p><a href="https://github.com/OlssonF/NEON-forecast-challenge-workshop/blob/main/Automate_forecasts/automation_tutorial.Rmd"><strong>Automation tutorial</strong></a></p>
-<p>You will be generating forecasts of water temperature at NEON aquatics sites.</p>
+<p>You will be generating forecasts of water temperature at NEON lake sites.</p>
 <section id="key-concepts" class="level2" data-number="10.1">
 <h2 data-number="10.1" class="anchored" data-anchor-id="key-concepts"><span class="header-section-number">10.1</span> Key concepts</h2>
 <p>GitHub Actions is used to execute the forecast each day in the “cloud”. The “cloud” are small computers that are run somewhere in a Microsoft data center (Microsoft owns GitHub). You create a YAML file in the <code>.github/workflows</code> in your GitHub repo that defines the time of day that your job is run, the environment (type of operating system and Docker container), and the steps in the job.</p>
-<p>You will use Docker container (<code>eco4cast/neon4cast-rocker</code>) to ensure a consistent computation environment each day. The Docker is based on a rocker container that already has R, Rstudio, and many common packages (e.g., tidyverse). It also contains packages that are specific to the NEON Forecasting Challenge.</p>
+<p>You will use a Docker container (<code>eco4cast/neon4cast-rocker</code>) to ensure a consistent computation environment each day. Docker is based on a rocker container that already has R, RStudio, and many common packages (e.g., tidyverse). It also contains packages that are specific to the NEON Forecasting Challenge.</p>
 <p>Nothing persists in the container after it finishes in GitHub Actions. You will use the <code>neon4cast::stage2</code> and <code>neon4cast::stage3</code> to read the meteorology data. You will use read_csv and a weblink to read the targets. You will export your forecasts using the <code>neon4cast::submit</code> function that uploads your forecast to the NEON Ecological Forecasting Challenge S3 submission bucket.</p>
 </section>
 <section id="docker-skills" class="level2" data-number="10.2">
 <h2 data-number="10.2" class="anchored" data-anchor-id="docker-skills"><span class="header-section-number">10.2</span> Docker Skills</h2>
 <p>Docker is a tool that the activities in the book use for improving the reproducibility and automation of data analysis and forecasting workflows. Below are the instructions for setting up and interacting with a Docker container (instructions are from Freya Olsson’s workshop)</p>
-<p>Go to <a href="https://docs.docker.com/get-docker/" class="uri">https://docs.docker.com/get-docker/</a> to install the relevant install for your platform (available for PC, Mac, and Linux). Also see <a href="https://docs.docker.com/desktop/" class="uri">https://docs.docker.com/desktop/</a>.</p>
+<p>Go to <a href="https://docs.docker.com/get-docker/" class="uri">https://docs.docker.com/get-docker/</a> to install the relevant version for your platform (available for PC, Mac, and Linux). Also see <a href="https://docs.docker.com/desktop/" class="uri">https://docs.docker.com/desktop/</a>.</p>
 <p>NOTE: * If you’re running Windows, you will need WSL (Windows Subsystem for Linux) * If you’re running a Linux distribution, you may have to enable Virtualization on your computer (see <a href="https://stackoverflow.com/questions/76646465/unable-to-launch-docker-desktop-on-ubuntu/76655270#76655270">here</a>)</p>
 </section>
 <section id="running-a-docker-container" class="level2" data-number="10.3">
-<h2 data-number="10.3" class="anchored" data-anchor-id="running-a-docker-container"><span class="header-section-number">10.3</span> Running a docker container</h2>
+<h2 data-number="10.3" class="anchored" data-anchor-id="running-a-docker-container"><span class="header-section-number">10.3</span> Running a Docker container</h2>
 <ol type="1">
 <li>Launch Docker Desktop (either from the Command Line or by starting the GUI)</li>
-<li>At the command line run the following command which tells docker to <code>run</code> the container with the name <code>eco4cast/rocker-neon4cast</code> that has all the packages and libraries installed already. The <code>PASSWORD=yourpassword</code> sets a simple password that you will use to open the container. The <code>-ti</code> option starts both a terminal and an interactive session.</li>
+<li>At the command line, run the following command, which tells Docker to <code>run</code> the container with the name <code>eco4cast/rocker-neon4cast</code> that has all the packages and libraries installed already. The <code>PASSWORD=yourpassword</code> sets a simple password that you will use to open the container. The <code>-ti</code> option starts both a terminal and an interactive session.</li>
 </ol>
 <pre><code>docker run --rm -ti -e PASSWORD=yourpassword -p 8787:8787 eco4cast/rocker-neon4cast</code></pre>
 <p>This can take a few minutes to download and install. It will be quicker the next time you launch it.</p>
 <ol start="3" type="1">
 <li>Open up a web browser and navigate to <code>http://localhost:8787/</code></li>
 <li>Enter the username: <code>rstudio</code> and password: <code>yourpassword</code></li>
-<li>You should see an R Studio interface with all the packages etc. pre-installed and ready to go.</li>
+<li>You should see an R Studio interface with all the packages pre-installed and ready to go.</li>
 </ol>
 <p>You can close this localhost window (and then come back to it) but if you close the container from Docker (turn off your computer etc.) any changes will be lost unless you push them to Github or export to your local environment.</p>
 </section>
-<section id="reading" class="level2" data-number="10.4">
-<h2 data-number="10.4" class="anchored" data-anchor-id="reading"><span class="header-section-number">10.4</span> Reading</h2>
-<p>Thomas, R. Q., Boettiger, C., Carey, C. C., Dietze, M. C., Johnson, L. R., Kenney, M. A., et al.&nbsp;(2023). The NEON Ecological Forecasting Challenge. Frontiers in Ecology and the Environment, 21(3), 112–113. <a href="https://doi.org/10.1002/fee.2616" class="uri">https://doi.org/10.1002/fee.2616</a></p>
-</section>
-<section id="assignment" class="level2" data-number="10.5">
-<h2 data-number="10.5" class="anchored" data-anchor-id="assignment"><span class="header-section-number">10.5</span> Assignment</h2>
+<section id="assignment" class="level2" data-number="10.4">
+<h2 data-number="10.4" class="anchored" data-anchor-id="assignment"><span class="header-section-number">10.4</span> Assignment</h2>
 <p>Pre-assignment set up: Complete <a href="second-forecast.html" class="quarto-xref"><span>Chapter 9</span></a></p>
 <ol type="1">
-<li>Convert your template markdown code to a .R script</li>
-<li>Update your repository to include the GitHub Action files</li>
-<li>Commit updated files to GitHub</li>
+<li>Update your repository to include the GitHub Action file provided in the Automation tutorial listed above. Save it at <code>.github/workflows/run_forecast.yaml</code>.</li>
+<li>Change the file at the end of the GitHub Action file to be <code>forecast_code_template_mod6.R</code> rather than <code>forecast_code_template.R</code></li>
+<li>Commit and push updated files to GitHub</li>
 <li>Provide the instructor with a link to the GitHub repository that demonstrates multiple successful automated executions of forecasting code.</li>
 </ol>
 </section>
+<section id="optional-reading" class="level2" data-number="10.5">
+<h2 data-number="10.5" class="anchored" data-anchor-id="optional-reading"><span class="header-section-number">10.5</span> Optional Reading</h2>
+<p>Thomas, R.Q. and C. Boettiger. 2026. Cyberinfrastructure to Support Ecological Forecasting Challenges. Accepted at <em>Ecosphere</em>. Pre-print available at ESS Open Archive. <a href="http://doi.org/10.22541/essoar.175917344.44115142/v2" class="uri">http://doi.org/10.22541/essoar.175917344.44115142/v2</a>.</p>
+</section>
 <section id="module-reference" class="level2" data-number="10.6">
 <h2 data-number="10.6" class="anchored" data-anchor-id="module-reference"><span class="header-section-number">10.6</span> Module reference</h2>
-<p>Olsson, F., C. Boettiger, C.C. Carey, M.E. Lofton, and R.Q. Thomas. Can you predict the future? A tutorial for the National Ecological Observatory Network Ecological Forecasting Challenge. In review at <em>Journal of Open Source Education</em>.</p>
+<p>Olsson F, C. Boettiger, C.C. Carey, M. Lofton and R.Q. Thomas. 2024. Can you predict the future? A tutorial for the National Ecological Observatory Network Ecological Forecasting Challenge. <em>Journal of Open Source Education</em> 7: 259. <a href="https://doi.org/10.21105/jose.00259" class="uri">https://doi.org/10.21105/jose.00259</a>.</p>
 
 
 </section>
