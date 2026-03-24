@@ -490,7 +490,7 @@ div.csl-indent {
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(scoringRules)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">crps_sample</span>(<span class="at">y =</span> observed, <span class="at">dat =</span> forecast)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.4852603</code></pre>
+<pre><code>[1] 0.4759062</code></pre>
 </div>
 </div>
 </section>
@@ -568,14 +568,14 @@ div.csl-indent {
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>crps <span class="ot">&lt;-</span> <span class="fu">sum</span>(cdf_diff_area)</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>crps</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.4883585</code></pre>
+<pre><code>[1] 0.4749968</code></pre>
 </div>
 </div>
 <p>which is very similar to the answer from the <code>scoringRules</code> package. The difference is due to the size of dy. Smaller values of dy will yield results closer to those from <code>scoringRules</code>.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>scoringRules<span class="sc">::</span><span class="fu">crps_sample</span>(<span class="at">y =</span> observed, <span class="at">dat =</span> forecast)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.4852603</code></pre>
+<pre><code>[1] 0.4759062</code></pre>
 </div>
 </div>
 <p>You can compare different forecasts using the CDF to see how the areas differ</p>
@@ -707,9 +707,13 @@ div.csl-indent {
 <h2 data-number="11.10" class="anchored" data-anchor-id="part-1-a-single-forecast"><span class="header-section-number">11.10</span> Part 1: a single forecast</h2>
 <ol type="1">
 <li>Access climatology, persistence, and a model of your choice from the NEON forecast STAC catalog for a specific reference_datetime where all three models are available (<a href="https://radiantearth.github.io/stac-browser/#/external/raw.githubusercontent.com/eco4cast/neon4cast-catalog/main/forecasts/collection.json" class="uri">https://radiantearth.github.io/stac-browser/#/external/raw.githubusercontent.com/eco4cast/neon4cast-catalog/main/forecasts/collection.json</a>). If you have been iteratively submitting your own model, you are welcome to use that model.</li>
-<li>Access the observations that are associated with your selected target variable (see &lt;www.neon4cast.org&gt;).</li>
+</ol>
+<p>You may need to replace the example code in the STAC catalog with the following to avoid errors:</p>
+<pre><code>all_results &lt;- duckdbfs::open_dataset("s3://bio230014-bucket01/challenges/forecasts/bundled-parquet/project_id=neon4cast/duration=P1D/variable=temperature", s3_endpoint="sdsc.osn.xsede.org", anonymous=TRUE)</code></pre>
+<ol start="2" type="1">
+<li>Access the observations that are associated with your selected target variable (see <a href="https://www.neon4cast.org" class="uri">https://www.neon4cast.org</a>).</li>
 <li>Plot the three forecasts using a ribbon plot on the same graph. Add the observations. The x-axis should be <code>datetime</code> and the y-axis the forecasted value.</li>
-<li>Based on visual inspection of your plot, how does each model differ in capacity to represent the observations?</li>
+<li>Based on visual inspection of your plot for the one forecast period, how does each model differ in capacity to represent the observations?</li>
 <li>Based on visual inspection of your plot, how does the uncertainty of each model forecast differ in its capacity to capture the observations?</li>
 <li>Using the scoringRules package, calculate the CRPS for each model and forecasted datetime.</li>
 <li>Plot how CRPS vs.&nbsp;datetime for each model on the same plot and compare the results to your visual inspections in questions 4 and 5.</li>
