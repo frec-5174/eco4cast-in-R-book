@@ -802,7 +802,7 @@ stats::lm(formula = ..y ~ ., data = data)
 
 Coefficients:
     (Intercept)  air_temperature              doy  
-       4.581343         0.885112         0.002554  </code></pre>
+       4.581339         0.885112         0.002554  </code></pre>
 </div>
 </div>
 <p><em>Step 5: Predict Test Data</em></p>
@@ -890,16 +890,16 @@ Coefficients:
 <pre><code># A tibble: 68 × 5
    datetime   site_id air_temperature temperature   doy
    &lt;date&gt;     &lt;chr&gt;             &lt;dbl&gt; &lt;lgl&gt;       &lt;dbl&gt;
- 1 2026-03-24 SUGG               18.4 NA             83
- 2 2026-03-25 SUGG               19.3 NA             84
- 3 2026-03-26 SUGG               21.5 NA             85
- 4 2026-03-27 SUGG               23.6 NA             86
- 5 2026-03-28 SUGG               16.0 NA             87
- 6 2026-03-29 SUGG               15.1 NA             88
- 7 2026-03-30 SUGG               16.7 NA             89
- 8 2026-03-31 SUGG               18.7 NA             90
- 9 2026-04-01 SUGG               20.0 NA             91
-10 2026-04-02 SUGG               20.3 NA             92
+ 1 2026-03-25 SUGG               19.9 NA             84
+ 2 2026-03-26 SUGG               20.5 NA             85
+ 3 2026-03-27 SUGG               21.9 NA             86
+ 4 2026-03-28 SUGG               19.9 NA             87
+ 5 2026-03-29 SUGG               17.5 NA             88
+ 6 2026-03-30 SUGG               16.7 NA             89
+ 7 2026-03-31 SUGG               16.4 NA             90
+ 8 2026-04-01 SUGG               15.8 NA             91
+ 9 2026-04-02 SUGG               18.2 NA             92
+10 2026-04-03 SUGG               20.6 NA             93
 # ℹ 58 more rows</code></pre>
 </div>
 </div>
@@ -1005,7 +1005,7 @@ Coefficients:
 <pre><code># A tibble: 1 × 2
   start_date     h
   &lt;date&gt;     &lt;dbl&gt;
-1 2026-03-01    58</code></pre>
+1 2026-03-01    59</code></pre>
 </div>
 </div>
 <p>The targets have to be converted into a time-series tibble (called a <code>tsibble</code>). To make a <code>tsibble</code> you need to define the grouping variables (<code>key</code>) and the common that defines the time-series (<code>index</code>). Many modeling approaches require the datetime to be continuous (no gaps) but allow na values for values in the gaps. The <code>fill_gaps()</code> function fills the gaps with <code>NA</code>s.</p>
