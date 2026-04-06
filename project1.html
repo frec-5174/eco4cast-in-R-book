@@ -890,16 +890,16 @@ Coefficients:
 <pre><code># A tibble: 68 × 5
    datetime   site_id air_temperature temperature   doy
    &lt;date&gt;     &lt;chr&gt;             &lt;dbl&gt; &lt;lgl&gt;       &lt;dbl&gt;
- 1 2026-03-27 SUGG               22.6 NA             86
- 2 2026-03-28 SUGG               20.7 NA             87
- 3 2026-03-29 SUGG               17.7 NA             88
- 4 2026-03-30 SUGG               18.9 NA             89
- 5 2026-03-31 SUGG               20.0 NA             90
- 6 2026-04-01 SUGG               20.6 NA             91
- 7 2026-04-02 SUGG               21.6 NA             92
- 8 2026-04-03 SUGG               23.9 NA             93
- 9 2026-04-04 SUGG               24.2 NA             94
-10 2026-04-05 SUGG               22.6 NA             95
+ 1 2026-04-06 BARC               21.5 NA             96
+ 2 2026-04-07 BARC               17.3 NA             97
+ 3 2026-04-08 BARC               18.1 NA             98
+ 4 2026-04-09 BARC               19.5 NA             99
+ 5 2026-04-10 BARC               21.4 NA            100
+ 6 2026-04-11 BARC               21.2 NA            101
+ 7 2026-04-12 BARC               21.2 NA            102
+ 8 2026-04-13 BARC               21.3 NA            103
+ 9 2026-04-14 BARC               23.6 NA            104
+10 2026-04-15 BARC               25.7 NA            105
 # ℹ 58 more rows</code></pre>
 </div>
 </div>
@@ -1005,7 +1005,7 @@ Coefficients:
 <pre><code># A tibble: 1 × 2
   start_date     h
   &lt;date&gt;     &lt;dbl&gt;
-1 2026-03-01    61</code></pre>
+1 2026-03-01    71</code></pre>
 </div>
 </div>
 <p>The targets have to be converted into a time-series tibble (called a <code>tsibble</code>). To make a <code>tsibble</code> you need to define the grouping variables (<code>key</code>) and the common that defines the time-series (<code>index</code>). Many modeling approaches require the datetime to be continuous (no gaps) but allow na values for values in the gaps. The <code>fill_gaps()</code> function fills the gaps with <code>NA</code>s.</p>
